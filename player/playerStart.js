@@ -4,13 +4,11 @@ const { EmbedBuilder } = require("discord.js");
 module.exports = {
     name: "playerStart",
     execute: async (client, queue, track) => {
-        const embed = new EmbedBuilder()
-            .setDescription(`Đang phát: ${track.title}`)
-            .setColor("Random")
-            .setFooter({ text: `Đã thêm bởi: ${queue.metadata.requestedBy.username}`, iconURL: queue.metadata.requestedBy.displayAvatarURL({ size: 1024 }) })
-            .setTimestamp()
-            .setImage(track.thumbnail)
+        const player = client.functions.get("player");
 
-        return queue.metadata.channel.send({ embeds: [embed] })
+        if (!player) return;
+        const res = await player.execute(client, queue, track)
+        if (queue.metadata.mess)
+            return queue.metadata.mess.edit(res)
     }
 }
