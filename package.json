@@ -1,0 +1,28 @@
+{
+  "name": "ziji-bot-discord",
+  "version": "0.0.1",
+  "description": "Ziji bot discord",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "deploy": "node ./deploy.js"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/zijipia/Ziji-bot-discord.git"
+  },
+  "keywords": [
+    "ziji",
+    "ziji-bot-discord"
+  ],
+  "author": "Ziji",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/zijipia/Ziji-bot-discord/issues"
+  },
+  "homepage": "https://github.com/zijipia/Ziji-bot-discord#readme",
+  "dependencies": {
+    "discord.js": "^14.15.3",
+    "dotenv": "^16.4.5"
+  }
+}
