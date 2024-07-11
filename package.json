@@ -22,7 +22,13 @@
   },
   "homepage": "https://github.com/zijipia/Ziji-bot-discord#readme",
   "dependencies": {
+    "@discord-player/extractor": "^4.4.7",
+    "@distube/ytdl-core": "^4.13.5",
+    "discord-player": "^6.6.10",
     "discord.js": "^14.15.3",
-    "dotenv": "^16.4.5"
+    "dotenv": "^16.4.5",
+    "ffmpeg-static": "^5.2.0",
+    "mediaplex": "^0.0.9",
+    "opusscript": "^0.0.8"
   }
 }
