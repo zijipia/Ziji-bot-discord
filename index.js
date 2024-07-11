@@ -25,15 +25,16 @@ player.extractors.loadDefault();
 //     console.log(`Ready! Logged in as ${readyClient.user.tag}`);
 // });
 client.commands = new Collection();
+client.functions = new Collection()
 
-const foldersPath = path.join(__dirname, 'commands');
-const commandFolders = fs.readdirSync(foldersPath);
+const commandsPath = path.join(__dirname, 'commands');
+const commandFolders = fs.readdirSync(commandsPath);
 
 for (const folder of commandFolders) {
-    const commandsPath = path.join(foldersPath, folder);
-    const commandFiles = fs.readdirSync(commandsPath).filter(file => file.endsWith('.js'));
+    const commandsfilePath = path.join(commandsPath, folder);
+    const commandFiles = fs.readdirSync(commandsfilePath).filter(file => file.endsWith('.js'));
     for (const file of commandFiles) {
-        const filePath = path.join(commandsPath, file);
+        const filePath = path.join(commandsfilePath, file);
         const command = require(filePath);
         // Set a new item in the Collection with the key as the command name and the value as the exported module
         if ('data' in command && 'execute' in command) {
@@ -41,6 +42,24 @@ for (const folder of commandFolders) {
             client.commands.set(command.data.name, command);
         } else {
             console.log(`[WARNING] The command at ${filePath} is missing a required "data" or "execute" property.`);
+        }
+    }
+}
+const functionsPath = path.join(__dirname, 'functions');
+const functionsFolders = fs.readdirSync(functionsPath);
+
+for (const folder of functionsFolders) {
+    const functionsfilePath = path.join(functionsPath, folder);
+    const functionsFiles = fs.readdirSync(functionsfilePath).filter(file => file.endsWith('.js'));
+    for (const file of functionsFiles) {
+        const filePath = path.join(functionsfilePath, file);
+        const command = require(filePath);
+        // Set a new item in the Collection with the key as the functions name and the value as the exported module
+        if ('data' in command && 'execute' in command) {
+            console.log("Loaded functions:", command.data.name)
+            client.functions.set(command.data.name, command);
+        } else {
+            console.log(`[WARNING] The functions at ${filePath} is missing a required "data" or "execute" property.`);
         }
     }
 }
