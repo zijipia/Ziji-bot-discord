@@ -1,5 +1,4 @@
 const { useMainPlayer, useQueue } = require("discord-player")
-const player = useMainPlayer();
 module.exports.data = {
     name: "player_pause",
     type: "button",
@@ -11,7 +10,10 @@ module.exports.execute = async (interaction) => {
     if (!queue) return;
     queue.node.setPaused(queue.isPlaying())
 
-    const player = client.functions.get("player");
-    queue.metadata.mess.edit(player)
+    const player = interaction.client.functions.get("player");
+
+    if (!player) return;
+    const res = await player.execute(interaction.client, queue)
+    queue.metadata.mess.edit(res)
 
 }

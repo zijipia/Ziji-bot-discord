@@ -23,7 +23,8 @@ module.exports = {
         const process = queue.node.createProgressBar({
         })
         const embed = new EmbedBuilder()
-            .setDescription(`Đang phát: ${track.title}`)
+            .setDescription(`Đang phát: **[${track.title}](${track.url})**
+                Volume: **${queue.node.volume}** % `)
             .setColor("Random")
             .setFooter({ text: `Đã thêm bởi: ${requestedBy.username}`, iconURL: requestedBy.displayAvatarURL({ size: 1024 }) })
             .setTimestamp()

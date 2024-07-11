@@ -8,6 +8,7 @@ module.exports.data = {
 }
 
 module.exports.execute = async (interaction) => {
-    const command = interaction.client.commands.get("play");
-    await command.execute(interaction);
+    const query = interaction.targetMessage.content;
+    const command = interaction.client.functions.get("Search");
+    await command.execute(interaction, query);
 }

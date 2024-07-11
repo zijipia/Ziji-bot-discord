@@ -19,31 +19,9 @@ module.exports.data = {
 }
 
 module.exports.execute = async (interaction) => {
-    const query = interaction.options?.getString("query") || interaction.targetMessage.content;
-    const voiceChannel = interaction.member.voice.channel;
-    if (!voiceChannel) return interaction.reply({ content: "Bạn chưa tham gia vào kênh thoại" });
-    const voiceMe = interaction.guild.members.cache.get(interaction.client.user.id).voice.channel;
-    if (voiceMe && voiceMe.id !== voiceChannel.id) return interaction.reply({ content: "Bot đã tham gia một kênh thoại khác" });
-    await interaction.deferReply({ fetchReply: true })
-    const queue = useQueue(interaction.guild.id)
-    const res = await player.play(voiceChannel, query, {
-        nodeOptions: {
-            selfDeaf: true,
-            volume: 100,
-            leaveOnEmpty: true,
-            leaveOnEmptyCooldown: 5000,
-            leaveOnEnd: true,
-            leaveOnEndCooldown: 500000,
-            metadata: queue?.metadata || {
-                channel: interaction.channel,
-                requestedBy: interaction.user,
-                mess: await interaction.fetchReply()
-            }
-        }
-    })
-    if (queue?.metadata) return interaction.deleteReply().catch(e => { })
-    interaction.editReply(`Đã thêm bài hát: ${res.track.title}`)
-
+    const query = interaction.options?.getString("query")
+    const command = interaction.client.functions.get("Search");
+    await command.execute(interaction, query);
 
 
 }

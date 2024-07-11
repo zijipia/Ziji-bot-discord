@@ -20,6 +20,9 @@ module.exports.execute = async (interaction) => {
     else if (queue.repeatMode === 3) {
         queue.setRepeatMode(0);
     }
-    const player = client.functions.get("player");
-    queue.metadata.mess.edit(player)
+    const player = interaction.client.functions.get("player");
+
+    if (!player) return;
+    const res = await player.execute(interaction.client, queue)
+    queue.metadata.mess.edit(res)
 }
