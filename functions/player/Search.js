@@ -1,4 +1,4 @@
-const { EmbedBuilder, ActionRowBuilder, ButtonBuilder } = require("discord.js");
+const { EmbedBuilder, ActionRowBuilder, ButtonBuilder, BaseInteraction } = require("discord.js");
 const { useMainPlayer, useQueue, Util } = require("discord-player");
 const { ButtonStyle, StringSelectMenuOptionBuilder, StringSelectMenuBuilder } = require("discord.js");
 const player = useMainPlayer()
@@ -13,7 +13,10 @@ function validURL(str) {
     return !!pattern.test(str);
 }
 //====================================================================//
-
+/**
+* @param { BaseInteraction } interaction
+* @param { string } query
+*/
 module.exports.execute = async (interaction, query) => {
     const voiceChannel = interaction.member.voice.channel;
     if (!voiceChannel) return interaction.reply({ content: "Bạn chưa tham gia vào kênh thoại" });
@@ -30,7 +33,7 @@ module.exports.execute = async (interaction, query) => {
                 leaveOnEmptyCooldown: 5000,
                 leaveOnEnd: true,
                 leaveOnEndCooldown: 500000,
-                metadata: queue?.metadata || {
+                metadata: queue?.metadata ?? {
                     channel: interaction.channel,
                     requestedBy: interaction.user,
                     mess: await interaction.fetchReply()
