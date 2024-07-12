@@ -3,6 +3,7 @@ const { EmbedBuilder } = require("discord.js");
 
 module.exports = {
     name: "playerStart",
+    type: "Player",
     execute: async (client, queue, track) => {
         const player = client.functions.get("player");
 

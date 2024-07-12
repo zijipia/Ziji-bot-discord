@@ -4,6 +4,7 @@ const deploy = require("../deploy");
 
 module.exports = {
     name: Events.ClientReady,
+    type: "events",
     execute: async (client) => {
         if (config.deploy) {
             await deploy(client)

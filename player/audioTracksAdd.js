@@ -3,6 +3,7 @@ const config = require("../config");
 
 module.exports = {
     name: "audioTracksAdd",
+    type: "Player",
     execute: async (client, queue, track) => {
         const embed = new EmbedBuilder()
             .setDescription(`Đã thêm bài hát: ${track.title}`)
