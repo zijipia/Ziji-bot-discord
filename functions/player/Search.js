@@ -2,6 +2,7 @@ const { EmbedBuilder, ActionRowBuilder, ButtonBuilder, BaseInteraction } = requi
 const { useMainPlayer, useQueue, Util } = require("discord-player");
 const { ButtonStyle, StringSelectMenuOptionBuilder, StringSelectMenuBuilder } = require("discord.js");
 const player = useMainPlayer()
+const ZiIcons = require("./../../utility/icon");
 //====================================================================//
 function validURL(str) {
     var pattern = new RegExp('^(https?:\\/\\/)?' + // protocol
@@ -68,7 +69,7 @@ module.exports.execute = async (interaction, query) => {
             .setLabel(`${i + 1}: ${track.title}`.slice(0, 99))
             .setDescription(`Duration: ${(track.duration)} source: ${(track.queryType)}`)
             .setValue(`${track.url}`)
-            .setEmoji("<:Playbutton:1230129096160182322>")
+            .setEmoji(`${ZiIcons.Playbutton}`)
     })
     const row = new ActionRowBuilder().addComponents(
         new StringSelectMenuBuilder()
