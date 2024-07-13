@@ -1,4 +1,4 @@
-const { useMainPlayer, GuildQueue } = require("discord-player");
+const { useMainPlayer, GuildQueue, QueryType } = require("discord-player");
 const player = useMainPlayer();
 const {
     EmbedBuilder,
@@ -25,7 +25,7 @@ const CreateButton = ({ id = null, style = ButtonStyle.Secondary, label = null, 
 // Helper function to get related tracks
 const getRelatedTracks = async (track, history) => {
     try {
-        let tracks = (await track.extractor?.getRelatedTracks(track, history))?.tracks || (await player.extractors.run(async (ext) => {
+        let tracks = (await track?.extractor?.getRelatedTracks(track, history))?.tracks || (await player.extractors.run(async (ext) => {
             const res = await ext.getRelatedTracks(track, history);
             if (!res.tracks.length) {
                 return false;
@@ -51,7 +51,7 @@ const getRelatedTracks = async (track, history) => {
 };
 
 
-const repeatMode = ["OFF", "TRACK", "QUEUE", "AUTOPLAY"];
+const repeatMode = ["OFF", `${ZiIcons.loop1} Track`, `${ZiIcons.loopQ} Queue`, `${ZiIcons.loopA} AutoPlay`];
 
 module.exports = {
     data: { name: "player", type: "player" },
@@ -64,16 +64,39 @@ module.exports = {
     execute: async (client, queue, tracks) => {
         const track = tracks ?? queue.currentTrack;
         const requestedBy = track?.requestedBy ?? queue.metadata.requestedBy;
+        let queryTypeIcon = ZiIcons.AttachmentIconURL;
+        switch (track.queryType) {
+            case QueryType.YOUTUBE:
+            case QueryType.YOUTUBE_PLAYLIST:
+            case QueryType.YOUTUBE_SEARCH:
+            case QueryType.YOUTUBE_VIDEO:
+                queryTypeIcon = ZiIcons.youtubeIconURL;
+                break;
+            case QueryType.SPOTIFY_ALBUM:
+            case QueryType.SPOTIFY_PLAYLIST:
+            case QueryType.SPOTIFY_SONG:
+            case QueryType.SPOTIFY_SEARCH:
+                queryTypeIcon = ZiIcons.spotifyIconURL;
+                break;
+            case QueryType.SOUNDCLOUD:
+            case QueryType.SOUNDCLOUD_TRACK:
+            case QueryType.SOUNDCLOUD_PLAYLIST:
+            case QueryType.SOUNDCLOUD_SEARCH:
+                queryTypeIcon = ZiIcons.soundcloudIconURL;
+                break;
+        }
         const embed = new EmbedBuilder()
-            .setDescription(`Đang phát: **[${track.title}](${track.url})**
-                Volume: **${queue.node.volume}** %`)
+            .setAuthor({
+                name: `${track?.title}`, iconURL: `${queryTypeIcon}`, url: track?.url
+            })
+            .setDescription(`Volume: **${queue.node.volume}** %`)
             .setColor("Random")
             .setFooter({
                 text: `Đã thêm bởi: ${requestedBy.username}`,
                 iconURL: requestedBy.displayAvatarURL({ size: 1024 })
             })
             .setTimestamp()
-            .setImage(track.thumbnail)
+            .setImage(track?.thumbnail)
             .addFields({ name: " ", value: `${queue.node.createProgressBar({ leftChar: "﹏", rightChar: "﹏", indicator: "𓊝" })}` });
 
         if (queue.repeatMode !== 0) {
@@ -122,11 +145,11 @@ module.exports = {
             ];
 
             const filteredFunctions = functions.filter(f => {
-                if (queue.isEmpty()) {
-                    return !(f.Label === "Shuffle" || f.Label === "Loop" || f.Label === "Queue");
-                }
+                if (queue.isEmpty() && (f.Label === "Shuffle" || f.Label === "Queue")) return false;
                 if (queue.node.volume > 99 && f.Value === "volinc") return false;
                 if (queue.node.volume < 1 && f.Value === "voldec") return false;
+                if (queue.node.volume == 0 && f.Value === "Mute") return false;
+
                 return true;
             });
 

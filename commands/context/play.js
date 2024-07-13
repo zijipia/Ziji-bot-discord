@@ -8,7 +8,18 @@ module.exports.data = {
 }
 
 module.exports.execute = async (interaction) => {
-    const query = interaction.targetMessage.content;
+    let query = interaction.targetMessage.content;
+    if (!query) {
+        const embed = interaction.targetMessage.embeds?.at(0).data;
+        if (embed) {
+            const Fields = embed.fields?.at(0)
+            if (Fields && Fields.value.includes("﹏"))
+                query = embed?.author?.url
+            if (!query) {
+                query = embed?.description
+            }
+        }
+    }
     const command = interaction.client.functions.get("Search");
     await command.execute(interaction, query);
 }
