@@ -10,6 +10,9 @@ module.exports = {
             .setThumbnail(track?.thumbnail)
             .setColor("Random")
             .setTimestamp()
-        return queue.metadata?.channel?.send({ embeds: [embed] }).catch(e => { });
+        const replied = await queue.metadata?.channel?.send({ embeds: [embed], fetchReply: true }).catch(e => { });
+        setTimeout(function () {
+            replied.delete().catch(e => { })
+        }, 5000)
     }
 }

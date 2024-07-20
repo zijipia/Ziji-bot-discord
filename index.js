@@ -19,6 +19,7 @@ player.extractors.loadDefault();
 
 client.commands = new Collection();
 client.functions = new Collection();
+client.cooldowns = new Collection();
 
 const loadFiles = (directory, collection) => {
     const folders = fs.readdirSync(directory);

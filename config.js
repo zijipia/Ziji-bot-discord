@@ -1,5 +1,6 @@
 module.exports = {
     deploy: true,
     ActivityName: "Ziji bot",
-    Status: "idle"
+    Status: "idle",
+    defaultCooldownDuration: 5,
 }
