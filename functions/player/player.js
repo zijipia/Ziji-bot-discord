@@ -49,7 +49,28 @@ const getRelatedTracks = async (track, history) => {
         return [];
     }
 };
-
+// Helper function to get query Type Icon
+const getQueryTypeIcon = (type) => {
+    switch (type) {
+        case QueryType.YOUTUBE:
+        case QueryType.YOUTUBE_PLAYLIST:
+        case QueryType.YOUTUBE_SEARCH:
+        case QueryType.YOUTUBE_VIDEO:
+            return ZiIcons.youtubeIconURL;
+        case QueryType.SPOTIFY_ALBUM:
+        case QueryType.SPOTIFY_PLAYLIST:
+        case QueryType.SPOTIFY_SONG:
+        case QueryType.SPOTIFY_SEARCH:
+            return ZiIcons.spotifyIconURL;
+        case QueryType.SOUNDCLOUD:
+        case QueryType.SOUNDCLOUD_TRACK:
+        case QueryType.SOUNDCLOUD_PLAYLIST:
+        case QueryType.SOUNDCLOUD_SEARCH:
+            return ZiIcons.soundcloudIconURL;
+        default:
+            return ZiIcons.AttachmentIconURL;
+    }
+}
 
 const repeatMode = ["OFF", `${ZiIcons.loop1} Track`, `${ZiIcons.loopQ} Queue`, `${ZiIcons.loopA} AutoPlay`];
 
@@ -62,29 +83,9 @@ module.exports = {
      * @returns 
      */
     execute: async (client, queue, tracks) => {
-        const track = tracks ?? queue.currentTrack;
+        const track = tracks ?? queue?.currentTrack ?? queue?.history?.previousTrack();
         const requestedBy = track?.requestedBy ?? queue.metadata.requestedBy;
-        let queryTypeIcon = ZiIcons.AttachmentIconURL;
-        switch (track.queryType) {
-            case QueryType.YOUTUBE:
-            case QueryType.YOUTUBE_PLAYLIST:
-            case QueryType.YOUTUBE_SEARCH:
-            case QueryType.YOUTUBE_VIDEO:
-                queryTypeIcon = ZiIcons.youtubeIconURL;
-                break;
-            case QueryType.SPOTIFY_ALBUM:
-            case QueryType.SPOTIFY_PLAYLIST:
-            case QueryType.SPOTIFY_SONG:
-            case QueryType.SPOTIFY_SEARCH:
-                queryTypeIcon = ZiIcons.spotifyIconURL;
-                break;
-            case QueryType.SOUNDCLOUD:
-            case QueryType.SOUNDCLOUD_TRACK:
-            case QueryType.SOUNDCLOUD_PLAYLIST:
-            case QueryType.SOUNDCLOUD_SEARCH:
-                queryTypeIcon = ZiIcons.soundcloudIconURL;
-                break;
-        }
+        const queryTypeIcon = getQueryTypeIcon(track.queryType);
         const embed = new EmbedBuilder()
             .setAuthor({
                 name: `${track?.title}`, iconURL: `${queryTypeIcon}`, url: track?.url
@@ -107,29 +108,29 @@ module.exports = {
             });
         }
 
-        const code = { embeds: [embed] };
+        const code = {};
+        const relatedTracks = await getRelatedTracks(track, queue.history);
+        const filteredTracks = relatedTracks.filter(t => t.url.length < 100).slice(0, 20);
+
+        const trackOptions = filteredTracks.map((track, i) => {
+            return new StringSelectMenuOptionBuilder()
+                .setLabel(`${i + 1}: ${track.title}`.slice(0, 99))
+                .setDescription(`Duration: ${track.duration} source: ${track.queryType}`)
+                .setValue(`${track.url}`)
+                .setEmoji(`${ZiIcons.Playbutton}`);
+        });
+
+        const relatedTracksRow = new ActionRowBuilder().addComponents(
+            new StringSelectMenuBuilder()
+                .setCustomId("player_SelectionTrack")
+                .setPlaceholder("▶ | Chọn một bài hát để thêm vào hàng đợi")
+                .addOptions(trackOptions)
+                .setMaxValues(1)
+                .setMinValues(1)
+                .setDisabled(!trackOptions.length)
+        );
 
         if (queue.node.isPlaying() || !queue.isEmpty()) {
-            const relatedTracks = await getRelatedTracks(track, queue.history);
-            const filteredTracks = relatedTracks.filter(t => t.url.length < 100).slice(0, 20);
-
-            const trackOptions = filteredTracks.map((track, i) => {
-                return new StringSelectMenuOptionBuilder()
-                    .setLabel(`${i + 1}: ${track.title}`.slice(0, 99))
-                    .setDescription(`Duration: ${track.duration} source: ${track.queryType}`)
-                    .setValue(`${track.url}`)
-                    .setEmoji(`${ZiIcons.Playbutton}`);
-            });
-
-            const relatedTracksRow = new ActionRowBuilder().addComponents(
-                new StringSelectMenuBuilder()
-                    .setCustomId("player_SelectionTrack")
-                    .setPlaceholder("▶ | Chọn một bài hát để thêm vào hàng đợi")
-                    .addOptions(trackOptions)
-                    .setMaxValues(1)
-                    .setMinValues(1)
-                    .setDisabled(!trackOptions.length)
-            );
 
             const functions = [
                 { Label: "Search Tracks", Description: "Tìm kiếm bài hát", Value: "Search", Emoji: ZiIcons.search },
@@ -179,7 +180,21 @@ module.exports = {
             );
 
             code.components = [relatedTracksRow, functionRow, buttonRow];
+        } else {
+            embed
+                .setDescription(`❌ | Hàng đợi trống\n✅ | Bạn có thể thêm 1 số bài hát`)
+                .setColor("Red")
+            const buttonRow = new ActionRowBuilder().addComponents(
+                CreateButton({ id: "refresh", emoji: `${ZiIcons.refesh}`, disable: false }),
+                CreateButton({ id: "previous", emoji: `${ZiIcons.prev}`, disable: !queue?.history?.previousTrack }),
+                CreateButton({ id: "stop", emoji: `${ZiIcons.stop}`, disable: false }),
+                CreateButton({ id: "search", emoji: `${ZiIcons.search}`, disable: false })
+
+            );
+            code.components = [relatedTracksRow, buttonRow];
+
         }
+        code.embeds = [embed]
 
         return code;
     }

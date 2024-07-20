@@ -6,12 +6,10 @@ module.exports = {
     type: "Player",
     execute: async (queue, track) => {
         const embed = new EmbedBuilder()
-            .setDescription(`Đã thêm bài hát: ${track.title}`)
+            .setDescription(`Đã thêm danh sách phát: [${track[0]?.playlist?.title}](${track[0]?.playlist?.url})`)
+            .setThumbnail(track?.thumbnail)
             .setColor("Random")
-            .setFooter({ text: `Đã thêm bởi: ${queue.metadata.requestedBy.username}`, iconURL: queue.metadata.requestedBy.displayAvatarURL({ size: 1024 }) })
             .setTimestamp()
-            .setThumbnail(track.thumbnail)
-
-        return queue.metadata.channel.send({ embeds: [embed] })
+        return queue.metadata.channel.send({ embeds: [embed] }).catch(e => { })
     }
 }
