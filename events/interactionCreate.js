@@ -1,4 +1,4 @@
-const { Events, BaseInteraction } = require("discord.js");
+const { Events, CommandInteraction } = require("discord.js");
 
 module.exports = {
     name: Events.InteractionCreate,
@@ -6,7 +6,7 @@ module.exports = {
 }
 
 /**
- * @param { BaseInteraction } interaction
+ * @param { CommandInteraction } interaction
  */
 module.exports.execute = async (interaction) => {
     let command;

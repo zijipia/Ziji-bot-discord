@@ -1,3 +1,4 @@
+const { CommandInteraction } = require("discord.js");
 
 
 
@@ -9,7 +10,10 @@ module.exports.data = {
     integration_types: [0, 1],
     contexts: [0, 1, 2],
 }
-
+/**
+ * 
+ * @param { CommandInteraction } interaction 
+ */
 module.exports.execute = async (interaction) => {
     const ping = interaction.client.ws.ping;
     interaction.reply(`Ping: ${ping}`);

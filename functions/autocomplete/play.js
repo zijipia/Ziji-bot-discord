@@ -1,10 +1,16 @@
-const { useMainPlayer } = require("discord-player")
+const { useMainPlayer } = require("discord-player");
+const { AutocompleteInteraction } = require("discord.js");
 const player = useMainPlayer();
+
 module.exports.data = {
     name: "play",
     type: "autocomplete",
 }
-
+/**
+ * 
+ * @param { AutocompleteInteraction } interaction 
+ * @returns 
+ */
 module.exports.execute = async (interaction) => {
     try {
         const query = interaction.options.getString('query', true);

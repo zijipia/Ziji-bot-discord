@@ -1,10 +1,14 @@
-const { Events } = require("discord.js");
+const { Events, Client } = require("discord.js");
 const config = require("../config");
 const deploy = require("../deploy");
 
 module.exports = {
     name: Events.ClientReady,
     type: "events",
+    /**
+     * 
+     * @param {Client} client 
+     */
     execute: async (client) => {
         if (config.deploy) {
             await deploy(client)

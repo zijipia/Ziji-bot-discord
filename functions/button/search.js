@@ -1,11 +1,15 @@
 const { useMainPlayer, useQueue } = require("discord-player");
-const { ModalBuilder, TextInputBuilder, TextInputStyle } = require("discord.js");
+const { ModalBuilder, TextInputBuilder, TextInputStyle, ButtonInteraction } = require("discord.js");
 const player = useMainPlayer();
 module.exports.data = {
     name: "player_search",
     type: "button",
 }
-
+/**
+ * 
+ * @param { ButtonInteraction } interaction 
+ * @returns 
+ */
 module.exports.execute = async (interaction) => {
     const queue = useQueue(interaction.guild.id);
     if (!queue) return;

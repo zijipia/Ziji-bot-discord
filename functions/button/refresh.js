@@ -1,9 +1,14 @@
-const { useMainPlayer, useQueue } = require("discord-player")
+const { useMainPlayer, useQueue } = require("discord-player");
+const { ButtonInteraction } = require("discord.js");
 module.exports.data = {
     name: "player_refresh",
     type: "button",
 }
-
+/**
+ * 
+ * @param { ButtonInteraction } interaction 
+ * @returns 
+ */
 module.exports.execute = async (interaction) => {
     interaction.deferUpdate();
     const queue = useQueue(interaction.guild.id);

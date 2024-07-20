@@ -1,3 +1,5 @@
+const { CommandInteraction } = require("discord.js");
+
 module.exports.data = {
     name: "volume",
     description: "Chỉnh sửa âm lượng nhạc",
@@ -13,7 +15,10 @@ module.exports.data = {
     integration_types: [0],
     contexts: [0],
 }
-
+/**
+ * 
+ * @param { CommandInteraction } interaction 
+ */
 module.exports.execute = async (interaction) => {
     await interaction.deferReply({ fetchReply: true })
     const volume = interaction.options.getInteger("query");

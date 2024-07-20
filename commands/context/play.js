@@ -1,3 +1,4 @@
+const { MessageContextMenuCommandInteraction } = require("discord.js");
 
 module.exports.data = {
     name: "Play / Add music",
@@ -6,7 +7,10 @@ module.exports.data = {
     integration_types: [0],
     contexts: [0],
 }
-
+/**
+ * 
+ * @param { MessageContextMenuCommandInteraction } interaction 
+ */
 module.exports.execute = async (interaction) => {
     let query = interaction.targetMessage.content;
     if (!query) {

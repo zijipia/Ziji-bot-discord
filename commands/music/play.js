@@ -1,4 +1,5 @@
 const { useMainPlayer, useQueue } = require("discord-player");
+const { CommandInteraction } = require("discord.js");
 const player = useMainPlayer()
 
 
@@ -17,7 +18,10 @@ module.exports.data = {
     integration_types: [0],
     contexts: [0],
 }
-
+/**
+ * 
+ * @param { CommandInteraction } interaction 
+ */
 module.exports.execute = async (interaction) => {
     const query = interaction.options?.getString("query")
     const command = interaction.client.functions.get("Search");
