@@ -25,7 +25,7 @@ npm install
 3. Set up your environment variables (e.g., TOKEN, MONGO), config:
 .env:
 ```bash
-TOKEN = "  Your Bot Token"
+TOKEN = "Your Bot Token"
 ```
 .config: in file
 
