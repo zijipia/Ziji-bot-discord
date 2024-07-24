@@ -7,7 +7,7 @@ module.exports = {
     type: "events",
     /**
      * 
-     * @param {Client} client 
+     * @param { Client } client 
      */
     execute: async (client) => {
         if (config.deploy) {
