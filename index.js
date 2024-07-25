@@ -2,6 +2,7 @@ const fs = require('node:fs');
 const path = require('node:path');
 const { Client, Collection, Events, GatewayIntentBits } = require('discord.js');
 require("dotenv").config();
+const { Player } = require("discord-player");
 
 const client = new Client({
     intents: [
@@ -9,6 +10,12 @@ const client = new Client({
         GatewayIntentBits.GuildVoiceStates
     ]
 });
+
+const player = new Player(client, {
+    skipFFmpeg: false
+});
+player.setMaxListeners(100);
+player.extractors.loadDefault();
 
 client.commands = new Collection();
 client.functions = new Collection();
@@ -50,5 +57,6 @@ const loadEvents = (directory, target) => {
 };
 
 loadEvents(path.join(__dirname, 'events'), client);
+loadEvents(path.join(__dirname, 'player'), player.events);
 
 client.login(process.env.TOKEN);
