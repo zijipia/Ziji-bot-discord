@@ -23,11 +23,12 @@ cd Zibot
 npm install
 ```
 3. Set up your environment variables (e.g., TOKEN, MONGO), config:
+
 .env:
 ```bash
 TOKEN = "Your Bot Token"
 ```
-.config: in file
+config.js: In file
 
 4. Start the bot:
 
@@ -36,7 +37,10 @@ node .
 ```
 
 ## Contributing
-Contributions are welcome! Please fork the repository and create a pull request.
+Contributions are welcome!
+
+If you made some changes that you think should make it into the project, send a Pull Request on GitHub
+
 
 ## License
 This project is licensed under the MIT License. See the [LICENSE](./blob/main/LICENSE) file for details.
