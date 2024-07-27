@@ -12,9 +12,9 @@ module.exports.data = {
  */
 module.exports.execute = async (interaction) => {
     interaction.deferUpdate();
-    interaction.message.edit({ components: [] }).catch(e => { })
     const queue = useQueue(interaction.guild.id);
-    if (!queue) return;
+    if (!queue) return interaction.message.edit({ components: [] }).catch(e => { });
+    if (queue.metadata.LockStatus && queue.metadata.requestedBy?.id !== interaction.user?.id) return;
+    interaction.message.edit({ components: [] }).catch(e => { })
     queue.delete();
-
 }

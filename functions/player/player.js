@@ -83,9 +83,9 @@ module.exports = {
      * @returns 
      */
     execute: async (client, queue, tracks) => {
-        const track = tracks ?? queue?.currentTrack ?? queue?.history?.previousTrack();
+        const track = tracks ?? queue?.currentTrack ?? queue?.history?.previousTrack;
         const requestedBy = track?.requestedBy ?? queue.metadata.requestedBy;
-        const queryTypeIcon = getQueryTypeIcon(track.queryType);
+        const queryTypeIcon = getQueryTypeIcon(track?.queryType);
         const embed = new EmbedBuilder()
             .setAuthor({
                 name: `${track?.title}`, iconURL: `${queryTypeIcon}`, url: track?.url
@@ -98,7 +98,6 @@ module.exports = {
             })
             .setTimestamp()
             .setImage(track?.thumbnail)
-            .addFields({ name: " ", value: `${queue.node.createProgressBar({ leftChar: "﹏", rightChar: "﹏", indicator: "𓊝" })}` });
 
         if (queue.repeatMode !== 0) {
             embed.addFields({
@@ -108,7 +107,7 @@ module.exports = {
             });
         }
 
-        const code = {};
+        const code = { content: "" };
         const relatedTracks = await getRelatedTracks(track, queue.history);
         const filteredTracks = relatedTracks.filter(t => t.url.length < 100).slice(0, 20);
 
@@ -131,10 +130,10 @@ module.exports = {
         );
 
         if (queue.node.isPlaying() || !queue.isEmpty()) {
-
+            embed.addFields({ name: " ", value: `${queue.node.createProgressBar({ leftChar: "﹏", rightChar: "﹏", indicator: "𓊝" })}` });
             const functions = [
                 { Label: "Search Tracks", Description: "Tìm kiếm bài hát", Value: "Search", Emoji: ZiIcons.search },
-                { Label: "Lock", Description: "Khoá truy cập player", Value: "Lock", Emoji: ZiIcons.Lock },
+                { Label: !queue.metadata.LockStatus ? "Lock" : "Un Lock", Description: !queue.metadata.LockStatus ? "Khoá truy cập player" : "Mở khoá truy cập player", Value: "Lock", Emoji: !queue.metadata.LockStatus ? ZiIcons.Lock : ZiIcons.UnLock },
                 { Label: "Loop", Description: "Lặp Lại", Value: "Loop", Emoji: ZiIcons.loop },
                 { Label: "AutoPlay", Description: "Tự động phát", Value: "AutoPlay", Emoji: ZiIcons.loopA },
                 { Label: "Queue", Description: "Hàng đợi", Value: "Queue", Emoji: ZiIcons.queue },
@@ -184,12 +183,13 @@ module.exports = {
             embed
                 .setDescription(`❌ | Hàng đợi trống\n✅ | Bạn có thể thêm 1 số bài hát`)
                 .setColor("Red")
+                .addFields({ name: " ", value: `𓊝 ┃ ﹏﹏﹏﹏﹏﹏﹏﹏﹏﹏﹏﹏﹏﹏﹏ ┃ 𓊝` });
+
             const buttonRow = new ActionRowBuilder().addComponents(
                 CreateButton({ id: "refresh", emoji: `${ZiIcons.refesh}`, disable: false }),
                 CreateButton({ id: "previous", emoji: `${ZiIcons.prev}`, disable: !queue?.history?.previousTrack }),
-                CreateButton({ id: "stop", emoji: `${ZiIcons.stop}`, disable: false }),
-                CreateButton({ id: "search", emoji: `${ZiIcons.search}`, disable: false })
-
+                CreateButton({ id: "search", emoji: `${ZiIcons.search}`, disable: false }),
+                CreateButton({ id: "stop", emoji: `${ZiIcons.stop}`, disable: false })
             );
             code.components = [relatedTracksRow, buttonRow];
 

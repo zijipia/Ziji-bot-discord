@@ -13,12 +13,13 @@ module.exports.execute = async (interaction) => {
     interaction.deferUpdate();
     const queue = useQueue(interaction.guild.id);
     if (!queue) return;
+    if (queue.metadata.LockStatus && queue.metadata.requestedBy?.id !== interaction.user?.id) return;
     queue.node.setPaused(queue.isPlaying())
 
     const player = interaction.client.functions.get("player");
 
     if (!player) return;
     const res = await player.execute(interaction.client, queue)
-    queue.metadata.mess.edit(res)
+    queue.metadata.mess.edit(res);
 
 }
