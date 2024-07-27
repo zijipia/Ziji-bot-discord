@@ -14,5 +14,6 @@ module.exports.execute = async (interaction) => {
     interaction.deferUpdate();
     const queue = useQueue(interaction.guild.id);
     if (!queue) return;
+    if (queue.metadata.LockStatus && queue.metadata.requestedBy?.id !== interaction.user?.id) return;
     queue.node.skip();
 }

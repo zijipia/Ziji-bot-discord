@@ -26,6 +26,7 @@ module.exports.execute = async (interaction, query) => {
     await interaction.deferReply({ fetchReply: true })
     const queue = useQueue(interaction.guild.id)
     if (validURL(query)) {
+        if (!queue?.metadata) await interaction.editReply({ content: "Đang phát nhạc" })
         await player.play(voiceChannel, query, {
             nodeOptions: {
                 selfDeaf: true,
@@ -37,7 +38,8 @@ module.exports.execute = async (interaction, query) => {
                 metadata: queue?.metadata ?? {
                     channel: interaction.channel,
                     requestedBy: interaction.user,
-                    mess: await interaction.fetchReply()
+                    LockStatus: false,
+                    mess: await interaction.fetchReply(),
                 }
             }
         })

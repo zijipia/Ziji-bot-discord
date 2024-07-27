@@ -1,9 +1,15 @@
 const config = require("../config");
+const { useMainPlayer } = require("discord-player");
+const players = useMainPlayer();
 
 module.exports = {
-    name: "emptyChannel",
+    name: "emptyQueue",
     type: "Player",
     execute: async (queue) => {
-
+        const player = players.client.functions.get("player");
+        if (!player) return;
+        const res = await player.execute(players.client, queue)
+        if (queue.metadata.mess)
+            return queue.metadata.mess.edit(res)
     }
 }

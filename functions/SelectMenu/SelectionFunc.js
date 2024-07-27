@@ -40,8 +40,12 @@ module.exports.execute = async (interaction) => {
     }
     interaction.deferUpdate().catch(e => console.error);
     if (!queue) return;
+    if (queue.metadata.LockStatus && queue.metadata.requestedBy?.id !== interaction.user?.id) return;
     switch (query) {
         case "Lock": {
+            const EditMetadata = client.functions.get("EditMetadata");
+            EditMetadata.execute(guild, { LockStatus: !queue.metadata.LockStatus });
+            await Update_Player(client, queue);
             return;
         }
         case "Loop": {
