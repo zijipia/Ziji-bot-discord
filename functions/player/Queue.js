@@ -47,15 +47,15 @@ module.exports.execute = async (interaction, queue, Nextpage = true) => {
             }`)
     const queueFund = new ActionRowBuilder().addComponents(
         new ButtonBuilder()
-            .setCustomId("queue:clear")
+            .setCustomId("queue_clear")
             .setLabel("Clear All")
             .setStyle(ButtonStyle.Secondary),
         new ButtonBuilder()
-            .setCustomId("queue:del")
+            .setCustomId("queue_del")
             .setEmoji("🗑️")
             .setStyle(ButtonStyle.Secondary),
         new ButtonBuilder()
-            .setCustomId("queue:Shuffle")
+            .setCustomId("queue_Shuffle")
             .setEmoji(ZiIcons.shuffle)
             .setStyle(ButtonStyle.Secondary),
         new ButtonBuilder()
@@ -66,16 +66,16 @@ module.exports.execute = async (interaction, queue, Nextpage = true) => {
     )
     const row = new ActionRowBuilder().addComponents(
         new ButtonBuilder()
-            .setCustomId("queue:Page")
+            .setCustomId("queue_Page")
             .setLabel("Page:")
             .setStyle(ButtonStyle.Secondary)
             .setDisabled(true),
         new ButtonBuilder()
-            .setCustomId("queue:prev")
+            .setCustomId("queue_prev")
             .setStyle(ButtonStyle.Secondary)
             .setLabel("◀"),
         new ButtonBuilder()
-            .setCustomId("queue:next")
+            .setCustomId("queue_next")
             .setStyle(ButtonStyle.Secondary)
             .setLabel("▶")
     )
