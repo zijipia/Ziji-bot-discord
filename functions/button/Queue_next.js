@@ -2,7 +2,7 @@ const { useMainPlayer, useQueue } = require("discord-player");
 const { ButtonInteraction } = require("discord.js");
 const player = useMainPlayer();
 module.exports.data = {
-    name: "queue:next",
+    name: "queue_next",
     type: "button",
 }
 /**
