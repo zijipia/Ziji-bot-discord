@@ -19,10 +19,11 @@ player.setMaxListeners(100);
 player.extractors.register(ZiExtractor, {});
 player.extractors.loadDefault((ext) => ext !== 'YouTubeExtractor');
 
+player.on("debug", console.log)
 client.commands = new Collection();
 client.functions = new Collection();
 client.cooldowns = new Collection();
-// "as".split("s").last()
+
 const loadFiles = (directory, collection) => {
     const folders = fs.readdirSync(directory);
     console.log(`========== Load ${directory.split("\\").slice(-1)?.at(0)} ==========`);

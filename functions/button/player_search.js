@@ -15,7 +15,7 @@ module.exports.execute = async (interaction) => {
     if (!queue) return;
     const modal = new ModalBuilder()
         .setTitle("Search")
-        .setCustomId("search-modal")
+        .setCustomId("player_search")
         .addComponents(
             new TextInputBuilder()
                 .setCustomId("search-input")
