@@ -99,14 +99,6 @@ module.exports = {
             .setTimestamp()
             .setImage(track?.thumbnail)
 
-        if (queue.repeatMode !== 0) {
-            embed.addFields({
-                name: `Lặp lại: ${repeatMode[queue.repeatMode]}`,
-                value: " ",
-                inline: false
-            });
-        }
-
         const code = { content: "" };
         const relatedTracks = await getRelatedTracks(track, queue.history);
         const filteredTracks = relatedTracks.filter(t => t.url.length < 100).slice(0, 20);
@@ -141,7 +133,8 @@ module.exports = {
                 { Label: "Vol +", Description: "Tăng âm lượng", Value: "volinc", Emoji: ZiIcons.volinc },
                 { Label: "Vol -", Description: "Giảm âm lượng", Value: "voldec", Emoji: ZiIcons.voldec },
                 { Label: "Lyrics", Description: "Lời bài hát", Value: "Lyrics", Emoji: ZiIcons.lyrics },
-                { Label: "Shuffle", Description: "Trộn bài", Value: "Shuffle", Emoji: ZiIcons.shuffle }
+                { Label: "Shuffle", Description: "Trộn bài", Value: "Shuffle", Emoji: ZiIcons.shuffle },
+                { Label: "Fillter", Description: "Hiệu Ứng", Value: "Fillter", Emoji: ZiIcons.fillter }
             ];
 
             const filteredFunctions = functions.filter(f => {
@@ -193,6 +186,19 @@ module.exports = {
             );
             code.components = [relatedTracksRow, buttonRow];
 
+        }
+
+        if (queue.repeatMode !== 0) {
+            embed.addFields({
+                name: `Lặp lại: ${repeatMode[queue.repeatMode]}`,
+                value: " ",
+                inline: false
+            });
+        }
+        if (!!queue?.filters?.ffmpeg?.toArray().length) {
+            embed.addFields(
+                { name: ` `, value: `**Filter: ${queue?.filters?.ffmpeg?.getFiltersEnabled()}**`.slice(0, 1020), inline: false }
+            );
         }
         code.embeds = [embed]
 
