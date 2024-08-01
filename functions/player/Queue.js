@@ -43,7 +43,7 @@ module.exports.execute = async (interaction, queue, Nextpage = true) => {
         .setTitle(`${ZiIcons.queue} Queue of ${interaction.guild.name}`)
         .setColor("Random")
         .addFields({ name: `Page: ${page} / ${toltalPage}`, value: " " })
-        .setDescription(`${currentTrack.map((track) => `${++now} | **${track.title}** - [${track.duration}](${track.url})`).join("\n")
+        .setDescription(`${currentTrack.map((track) => `${++now} | **${`${track?.title}`.slice(0, 25)}** - [${track.duration}](${track.url})`).join("\n")
             }`)
     const queueFund = new ActionRowBuilder().addComponents(
         new ButtonBuilder()
@@ -67,13 +67,17 @@ module.exports.execute = async (interaction, queue, Nextpage = true) => {
     const row = new ActionRowBuilder().addComponents(
         new ButtonBuilder()
             .setCustomId("queue_Page")
-            .setLabel("Page:")
+            .setLabel(`Page: ${page}`)
             .setStyle(ButtonStyle.Secondary)
             .setDisabled(true),
         new ButtonBuilder()
             .setCustomId("queue_prev")
             .setStyle(ButtonStyle.Secondary)
             .setLabel("◀"),
+        new ButtonBuilder()
+            .setCustomId("queue_refresh")
+            .setStyle(ButtonStyle.Secondary)
+            .setEmoji(ZiIcons.refesh),
         new ButtonBuilder()
             .setCustomId("queue_next")
             .setStyle(ButtonStyle.Secondary)

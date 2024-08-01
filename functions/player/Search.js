@@ -1,8 +1,10 @@
-const { EmbedBuilder, ActionRowBuilder, ButtonBuilder, BaseInteraction } = require("discord.js");
+const { EmbedBuilder, ActionRowBuilder, ButtonBuilder, BaseInteraction, AttachmentBuilder } = require("discord.js");
 const { useMainPlayer, useQueue, Util } = require("discord-player");
 const { ButtonStyle, StringSelectMenuOptionBuilder, StringSelectMenuBuilder } = require("discord.js");
 const player = useMainPlayer()
 const ZiIcons = require("./../../utility/icon");
+const { MusicSearchCard } = require("../../utility/MusicSearchCard");
+
 //====================================================================//
 function validURL(str) {
     var pattern = new RegExp('^(https?:\\/\\/)?' + // protocol
@@ -39,11 +41,11 @@ module.exports.execute = async (interaction, query) => {
                     channel: interaction.channel,
                     requestedBy: interaction.user,
                     LockStatus: false,
-                    mess: await interaction.fetchReply(),
+                    mess: interaction?.customId !== "player_SelectionTrack" ? await interaction.fetchReply() : interaction.message,
                 }
             }
         })
-        if (queue?.metadata) return interaction.deleteReply().catch(e => { })
+        if (queue?.metadata || interaction?.customId === "player_SelectionTrack") return interaction.deleteReply().catch(e => { })
         return;
     }
     const results = await player.search(query, {
@@ -81,16 +83,29 @@ module.exports.execute = async (interaction, query) => {
             .setMaxValues(1)
             .setMinValues(1)
     )
-    const embed = new EmbedBuilder()
-        .setTitle("Tìm kiếm kết quả:")
-        .setDescription(`${query}`)
-        .setColor("Random")
-        .addFields(tracks.map((track, i) => ({
-            name: `${i + 1}: ${track.title.slice(0, 50)} \`[${(track.duration)}]\``.slice(0, 99),
-            value: ` `,
-            inline: false
-        })))
-    return interaction.editReply({ embeds: [embed], components: [row] })
+    const searchPlayer = tracks.map((track, i) => ({
+        index: i + 1,
+        avatar: track.thumbnail ?? "https://i.imgur.com/vhcoFZo_d.webp",
+        displayName: track.title.slice(0, 35),
+        time: track.duration,
+    }))
+
+    const card = new MusicSearchCard()
+        .setPlayers(searchPlayer)
+    const buffer = await card.build({ format: "png" });
+    const attachment = new AttachmentBuilder(buffer, { name: "search.png" })
+
+    // const embed = new EmbedBuilder()
+    //     .setTitle("Tìm kiếm kết quả:")
+    //     .setDescription(`${query}`)
+    //     .setColor("Random")
+    //     .setImage(image)
+    // .addFields(tracks.map((track, i) => ({
+    //     name: `${i + 1}: ${track.title.slice(0, 50)} \`[${(track.duration)}]\``.slice(0, 99),
+    //     value: ` `,
+    //     inline: false
+    // })))
+    return interaction.editReply({ embeds: [], components: [row], files: [attachment], })
 }
 //====================================================================//
 module.exports.data = {
