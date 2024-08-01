@@ -24,6 +24,7 @@
   "dependencies": {
     "@discord-player/extractor": "^4.4.7",
     "@distube/ytdl-core": "^4.13.5",
+    "canvacord": "^6.0.2",
     "discord-player": "^6.6.10",
     "discord.js": "^14.15.3",
     "dotenv": "^16.4.5",

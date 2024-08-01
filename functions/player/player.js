@@ -200,7 +200,8 @@ module.exports = {
                 { name: ` `, value: `**Filter: ${queue?.filters?.ffmpeg?.getFiltersEnabled()}**`.slice(0, 1020), inline: false }
             );
         }
-        code.embeds = [embed]
+        code.embeds = [embed];
+        code.files = [];
 
         return code;
     }
