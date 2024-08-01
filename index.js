@@ -16,7 +16,7 @@ client.cooldowns = new Collection();
 
 const loadFiles = (directory, collection) => {
     const folders = fs.readdirSync(directory);
-    console.log(`======= Load ${folders} =======`);
+    console.log(`========== Load ${directory.split("\\").slice(-1)?.at(0)} ==========`);
     for (const folder of folders) {
         const folderPath = path.join(directory, folder);
         const files = fs.readdirSync(folderPath).filter(file => file.endsWith('.js'));
@@ -40,7 +40,7 @@ loadFiles(path.join(__dirname, 'functions'), client.functions);
 
 const loadEvents = (directory, target) => {
     const files = fs.readdirSync(directory).filter(file => file.endsWith('.js'));
-    console.log(`======= Load events =======`);
+    console.log(`========== Load ${directory.split("\\").slice(-1)?.at(0)} ==========`);
     for (const file of files) {
         const filePath = path.join(directory, file);
         const event = require(filePath);
