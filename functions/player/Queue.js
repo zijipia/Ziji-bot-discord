@@ -1,8 +1,10 @@
-const { EmbedBuilder, ActionRowBuilder, ButtonBuilder, ButtonInteraction } = require("discord.js");
+const { EmbedBuilder, ActionRowBuilder, ButtonBuilder, ButtonInteraction, AttachmentBuilder } = require("discord.js");
 const { useMainPlayer, useQueue, Util, GuildQueue } = require("discord-player");
 const { ButtonStyle, StringSelectMenuOptionBuilder, StringSelectMenuBuilder } = require("discord.js");
 const player = useMainPlayer()
 const ZiIcons = require("./../../utility/icon");
+const config = require("../../config");
+const { MusicSearchCard } = require("../../utility/MusicSearchCard");
 /**
 * @param { ButtonInteraction } interaction
 * @param {GuildQueue} queue
@@ -10,20 +12,25 @@ const ZiIcons = require("./../../utility/icon");
 module.exports.execute = async (interaction, queue, Nextpage = true) => {
     if (!queue) return interaction.reply({ content: "There is no music playing in this server" });
     await interaction.deferReply();
-    const fieldName = interaction?.message?.embeds?.at(0).data?.fields?.at(0)
-    const mainRequire = fieldName.value.includes("﹏");
-    const pageData = fieldName.name.replace("Page:", " ").trim().split("/")
+    const fieldName = interaction?.message?.embeds?.at(0)?.data?.fields?.at(0)
+    const mainRequire = fieldName?.value?.includes("﹏");
+    const pageData = fieldName?.name?.replace("Page:", " ").trim().split("/")
     const queuetrack = [];
+    let code = { content: "" }
     queue.tracks.map(async (track, i) => {
         queuetrack.push({
             title: track?.title,
             url: track?.url,
+            duration: track?.duration,
+            thumbnail: track?.thumbnail,
             duration: track?.duration
         })
     })
     if (!queuetrack.length) {
-        if (!mainRequire)
+        if (!mainRequire) {
+            await interaction?.deleteReply().catch(e => console.log);
             return interaction.message.delete().catch(e => console.log);
+        }
         return interaction.editReply({ content: "There is no music playing in this server" });
     }
     let page = eval(pageData?.at(0) || 1);
@@ -39,12 +46,39 @@ module.exports.execute = async (interaction, queue, Nextpage = true) => {
     let now = page * 20 - 20
     const currentTrack = queuetrack.slice(currentIndex, currentIndex + 20);
     if (!currentTrack && !currentTrack.length) return;
-    const embed = new EmbedBuilder()
-        .setTitle(`${ZiIcons.queue} Queue of ${interaction.guild.name}`)
-        .setColor("Random")
-        .addFields({ name: `Page: ${page} / ${toltalPage}`, value: " " })
-        .setDescription(`${currentTrack.map((track) => `${++now} | **${`${track?.title}`.slice(0, 25)}** - [${track.duration}](${track.url})`).join("\n")
-            }`)
+    /*=================== embed / image =====================*/
+
+    if (config?.ImageSearch) {
+        const searchPlayer = currentTrack.map((track, i) => ({
+            index: ++now,
+            avatar: track?.thumbnail ?? "https://i.imgur.com/vhcoFZo_d.webp",
+            displayName: track.title.slice(0, currentTrack.length > 1 ? 30 : 80),
+            time: track.duration,
+        }))
+
+        const card = new MusicSearchCard()
+            .setPlayers(searchPlayer)
+            .setTitle(`Queue of ${interaction.guild.name}`)
+        const buffer = await card.build({ format: "png" });
+        const attachment = new AttachmentBuilder(buffer, { name: "queue.png" })
+        const embed = new EmbedBuilder()
+            .setTitle(`${ZiIcons.queue} Queue of ${interaction.guild.name}`)
+            .setColor("Random")
+            .addFields({ name: `Page: ${page} / ${toltalPage}`, value: " " })
+            .setImage("attachment://queue.png")
+
+        code.embeds = [embed];
+        code.files = [attachment];
+    } else {
+        const embed = new EmbedBuilder()
+            .setTitle(`${ZiIcons.queue} Queue of ${interaction.guild.name}`)
+            .setColor("Random")
+            .addFields({ name: `Page: ${page} / ${toltalPage}`, value: " " })
+            .setDescription(`${currentTrack.map((track) => `${++now} | **${`${track?.title}`.slice(0, 25)}** - [${track.duration}](${track.url})`).join("\n")
+                }`)
+        code.embeds = [embed]
+    }
+    /*=================== components =====================*/
     const queueFund = new ActionRowBuilder().addComponents(
         new ButtonBuilder()
             .setCustomId("queue_clear")
@@ -83,10 +117,12 @@ module.exports.execute = async (interaction, queue, Nextpage = true) => {
             .setStyle(ButtonStyle.Secondary)
             .setLabel("▶")
     )
+    code.components = [queueFund, row];
+    /*=================== send file =====================*/
     if (mainRequire)
-        return interaction.editReply({ content: "", embeds: [embed], components: [queueFund, row] });
+        return interaction.editReply(code);
     interaction.deleteReply().catch(e => { });
-    interaction.message.edit({ content: "", embeds: [embed], components: [queueFund, row] });
+    interaction.message.edit(code);
     return
 
 }

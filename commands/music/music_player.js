@@ -27,6 +27,17 @@ module.exports.execute = async (interaction) => {
     const player = client.functions.get("player_func");
     if (!player) return;
     const res = await player.execute(client, queue)
-    interaction.editReply(res)
+    await interaction.editReply(res)
+    const entry = queue.tasksQueue.acquire();
+    await entry.getTask();
+    try {
+        // if player node was not previously playing, play a song
+        if (!queue.isPlaying()) await queue.node.play();
+    } finally {
+        // release the task we acquired to let other tasks to be executed
+        // make sure you are releasing your entry, otherwise your bot won't
+        // accept new play requests
+        queue.tasksQueue.release();
+    }
 
 }

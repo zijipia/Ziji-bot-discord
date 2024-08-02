@@ -4,6 +4,7 @@ const { ButtonStyle, StringSelectMenuOptionBuilder, StringSelectMenuBuilder } = 
 const player = useMainPlayer()
 const ZiIcons = require("./../../utility/icon");
 const { MusicSearchCard } = require("../../utility/MusicSearchCard");
+const config = require("../../config");
 
 //====================================================================//
 function validURL(str) {
@@ -83,29 +84,35 @@ module.exports.execute = async (interaction, query) => {
             .setMaxValues(1)
             .setMinValues(1)
     )
-    const searchPlayer = tracks.map((track, i) => ({
-        index: i + 1,
-        avatar: track.thumbnail ?? "https://i.imgur.com/vhcoFZo_d.webp",
-        displayName: track.title.slice(0, 35),
-        time: track.duration,
-    }))
+    if (config?.ImageSearch) {
+        const searchPlayer = tracks.map((track, i) => ({
+            index: i + 1,
+            avatar: track?.thumbnail ?? "https://i.imgur.com/vhcoFZo_d.webp",
+            displayName: track.title.slice(0, tracks.length > 1 ? 30 : 80),
+            time: track.duration,
+        }))
 
-    const card = new MusicSearchCard()
-        .setPlayers(searchPlayer)
-    const buffer = await card.build({ format: "png" });
-    const attachment = new AttachmentBuilder(buffer, { name: "search.png" })
+        const card = new MusicSearchCard()
+            .setPlayers(searchPlayer)
+            .setTitle(query)
+        const buffer = await card.build({ format: "png" });
+        const attachment = new AttachmentBuilder(buffer, { name: "search.png" })
 
-    // const embed = new EmbedBuilder()
-    //     .setTitle("Tìm kiếm kết quả:")
-    //     .setDescription(`${query}`)
-    //     .setColor("Random")
-    //     .setImage(image)
-    // .addFields(tracks.map((track, i) => ({
-    //     name: `${i + 1}: ${track.title.slice(0, 50)} \`[${(track.duration)}]\``.slice(0, 99),
-    //     value: ` `,
-    //     inline: false
-    // })))
-    return interaction.editReply({ embeds: [], components: [row], files: [attachment], })
+
+        return interaction.editReply({ embeds: [], components: [row], files: [attachment], })
+    } else {
+        const embed = new EmbedBuilder()
+            .setTitle("Tìm kiếm kết quả:")
+            .setDescription(`${query}`)
+            .setColor("Random")
+            .setImage(image)
+            .addFields(tracks.map((track, i) => ({
+                name: `${i + 1}: ${track.title.slice(0, 50)} \`[${(track.duration)}]\``.slice(0, 99),
+                value: ` `,
+                inline: false
+            })))
+        return interaction.editReply({ embeds: [embed], components: [row] })
+    }
 }
 //====================================================================//
 module.exports.data = {
