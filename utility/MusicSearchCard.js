@@ -1,4 +1,4 @@
-const { JSX, Builder, loadImage, Font, FontFactory, adjustCanvas } = require("canvacord");
+const { JSX, Builder, loadImage, Font, FontFactory } = require("canvacord");
 
 const chunkArrayInGroups = (arr, size) => {
     const result = [];
@@ -83,10 +83,10 @@ class MusicSearchCard extends Builder {
     async render() {
         const { title, players } = this.options.getOptions();
         this.width = 1000;
-        this.height = 80 * Math.ceil(players.length / 2);
+        this.height = 30 + (players.length > 10 ? 80 : 100) * Math.ceil(players.length / 2);
         this.adjustCanvas();
 
-        const playerGroupChunks = chunkArrayInGroups(players, 10);
+        const playerGroupChunks = chunkArrayInGroups(players, Math.ceil(players.length / 2));
         const processedPlayerGroups = await Promise.all(
             playerGroupChunks.map(async (playerGroup) => {
                 const renderedPlayers = await Promise.all(playerGroup.map((player) => this.renderDefaultPlayer(player)));
@@ -95,18 +95,29 @@ class MusicSearchCard extends Builder {
         );
         return JSX.createElement(
             "div",
-            { className: "flex relative w-full flex-col" },
+            {
+                className: "flex relative w-full flex-col",
+                style: {
+                    background: "linear-gradient(to top, #120C17, #010424, #53049c)",
+                    borderRadius: "0.5rem",
+                    height: "100%",
+                    width: "100%",
+                },
+            },
+
             JSX.createElement(
                 "div",
                 { className: "flex justify-center w-full m-0 my-5" },
-
-
-                JSX.createElement(
+                title && JSX.createElement(
                     "div",
-                    { className: "flex flex-col items-center justify-center" },
+                    { className: "flex flex-col items-center justify-center ml-3" },
+                    JSX.createElement(
+                        "div",
+                        { className: "text-white font-semibold text-2xl flex" },
+                        title
+                    ),
 
                 ),
-
             ),
             JSX.createElement(
                 "div",
@@ -119,10 +130,6 @@ class MusicSearchCard extends Builder {
             ),
 
         )
-
-
-
-
     }
 }
 

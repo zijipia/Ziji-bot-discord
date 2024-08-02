@@ -1,13 +1,13 @@
 const { useMainPlayer, GuildQueue, QueryType } = require("discord-player");
 const player = useMainPlayer();
 const {
+    Client,
+    ButtonStyle,
     EmbedBuilder,
     ButtonBuilder,
-    ButtonStyle,
     ActionRowBuilder,
     StringSelectMenuBuilder,
     StringSelectMenuOptionBuilder,
-    Client
 } = require("discord.js");
 const ZiIcons = require("../../utility/icon");
 
@@ -86,11 +86,18 @@ module.exports = {
         const track = tracks ?? queue?.currentTrack ?? queue?.history?.previousTrack;
         const requestedBy = track?.requestedBy ?? queue.metadata.requestedBy;
         const queryTypeIcon = getQueryTypeIcon(track?.queryType);
+
+        const timestamps = queue?.node.getTimestamp();
+        const trackDurationSymbol = timestamps?.progress === "Infinity" ? "" : "%";
+        const trackDuration = timestamps?.progress === "Infinity" ? "∞" : timestamps?.progress;
+
         const embed = new EmbedBuilder()
             .setAuthor({
                 name: `${track?.title}`, iconURL: `${queryTypeIcon}`, url: track?.url
             })
-            .setDescription(`Volume: **${queue.node.volume}** %`)
+            .setDescription(
+                `Volume: **${queue.node.volume}** % - Playing:  **${trackDuration}**${trackDurationSymbol} <a:_:${ZiIcons.animatedIcons[Math.floor(Math.random() * ZiIcons.animatedIcons.length)]}>`
+            )
             .setColor("Random")
             .setFooter({
                 text: `Đã thêm bởi: ${requestedBy.username}`,

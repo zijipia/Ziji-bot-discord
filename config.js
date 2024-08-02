@@ -3,4 +3,5 @@ module.exports = {
     ActivityName: "Ziji bot",
     Status: "idle",
     defaultCooldownDuration: 5,
+    ImageSearch: true,
 }

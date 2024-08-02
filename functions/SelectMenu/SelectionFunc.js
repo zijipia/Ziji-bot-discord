@@ -1,5 +1,5 @@
 const { useQueue } = require("discord-player");
-const { StringSelectMenuInteraction, ModalBuilder, TextInputBuilder, TextInputStyle } = require("discord.js");
+const { StringSelectMenuInteraction, ModalBuilder, TextInputBuilder, TextInputStyle, ActionRowBuilder } = require("discord.js");
 
 module.exports.data = {
     name: "player_SelectionFunc",
@@ -20,15 +20,18 @@ module.exports.execute = async (interaction) => {
     const queue = useQueue(guild.id);
     switch (query) {
         case "Search": {
+
             const modal = new ModalBuilder()
                 .setTitle("Search")
                 .setCustomId("player_search")
                 .addComponents(
-                    new TextInputBuilder()
-                        .setCustomId("search-input")
-                        .setLabel("Search for a song")
-                        .setStyle(TextInputStyle.Short)
-                )
+                    new ActionRowBuilder().addComponents(
+                        new TextInputBuilder()
+                            .setCustomId("search-input")
+                            .setLabel("Search for a song")
+                            .setPlaceholder("Search or Url")
+                            .setStyle(TextInputStyle.Short)
+                    ))
             await interaction.showModal(modal);
             return;
         }
