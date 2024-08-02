@@ -68,7 +68,8 @@ class MusicSearchCard extends Builder {
                     JSX.createElement(
                         "div",
                         { className: "text-xl font-semibold -mb-1 flex" },
-                        displayName
+                        displayName,
+                        displayName.length == 30 ? "..." : "."
                     ),
                     JSX.createElement(
                         "div",

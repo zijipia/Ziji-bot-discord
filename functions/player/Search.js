@@ -3,8 +3,8 @@ const { useMainPlayer, useQueue, Util } = require("discord-player");
 const { ButtonStyle, StringSelectMenuOptionBuilder, StringSelectMenuBuilder } = require("discord.js");
 const player = useMainPlayer()
 const ZiIcons = require("./../../utility/icon");
-const { MusicSearchCard } = require("../../utility/MusicSearchCard");
 const config = require("../../config");
+const { Worker } = require('worker_threads');
 
 //====================================================================//
 function validURL(str) {
@@ -16,6 +16,36 @@ function validURL(str) {
         '(\\#[-a-z\\d_]*)?$', 'i'); // fragment locator
     return !!pattern.test(str);
 }
+
+async function buildImageInWorker(searchPlayer, query) {
+    return new Promise((resolve, reject) => {
+        const worker = new Worker('./utility/worker.js', {
+            workerData: { searchPlayer, query }
+        });
+
+        worker.on('message', (arrayBuffer) => {
+            // Convert ArrayBuffer to Buffer
+            const buffer = Buffer.from(arrayBuffer);
+
+            if (!Buffer.isBuffer(buffer)) {
+                console.error('Type of received data:', typeof buffer);
+                reject(new Error('Received data is not a buffer'));
+            } else {
+                const attachment = new AttachmentBuilder(buffer, { name: 'search.png' });
+                resolve(attachment);
+            }
+        });
+
+        worker.on('error', reject);
+
+        worker.on('exit', (code) => {
+            if (code !== 0) {
+                reject(new Error(`Worker stopped with exit code ${code}`));
+            }
+        });
+    });
+}
+
 //====================================================================//
 /**
 * @param { BaseInteraction } interaction
@@ -90,16 +120,16 @@ module.exports.execute = async (interaction, query) => {
             avatar: track?.thumbnail ?? "https://i.imgur.com/vhcoFZo_d.webp",
             displayName: track.title.slice(0, tracks.length > 1 ? 30 : 80),
             time: track.duration,
-        }))
+        }));
 
-        const card = new MusicSearchCard()
-            .setPlayers(searchPlayer)
-            .setTitle(query)
-        const buffer = await card.build({ format: "png" });
-        const attachment = new AttachmentBuilder(buffer, { name: "search.png" })
+        try {
+            const attachment = await buildImageInWorker(searchPlayer, query);
+            return interaction.editReply({ embeds: [], components: [row], files: [attachment] });
+        } catch (error) {
+            console.error('Error building image:', error);
+            return interaction.editReply({ content: 'Failed to build image.', embeds: [], components: [] });
+        }
 
-
-        return interaction.editReply({ embeds: [], components: [row], files: [attachment], })
     } else {
         const embed = new EmbedBuilder()
             .setTitle("Tìm kiếm kết quả:")
