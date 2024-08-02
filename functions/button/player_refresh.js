@@ -13,7 +13,7 @@ module.exports.execute = async (interaction) => {
     interaction.deferUpdate();
     const queue = useQueue(interaction.guild.id);
     if (!queue) return;
-    const player = interaction.client.functions.get("player");
+    const player = interaction.client.functions.get("player_func");
 
     if (!player) return;
     const res = await player.execute(interaction.client, queue)

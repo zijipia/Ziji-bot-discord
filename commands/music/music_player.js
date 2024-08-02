@@ -7,7 +7,7 @@ const player = useMainPlayer()
 module.exports.data = {
     name: "player",
     description: "Gọi Player",
-    type: 1,
+    type: 1, // slash commad
     options: [],
     integration_types: [0],
     contexts: [0],
@@ -24,7 +24,7 @@ module.exports.execute = async (interaction) => {
     queue.metadata.mess.edit({ components: [] })
     const EditMetadata = client.functions.get("EditMetadata");
     await EditMetadata.execute(guild, { mess: await interaction.fetchReply() });
-    const player = client.functions.get("player");
+    const player = client.functions.get("player_func");
     if (!player) return;
     const res = await player.execute(client, queue)
     interaction.editReply(res)

@@ -3,7 +3,7 @@ const { CommandInteraction } = require("discord.js");
 module.exports.data = {
     name: "volume",
     description: "Chỉnh sửa âm lượng nhạc",
-    type: 1,
+    type: 1, // slash commad
     options: [{
         name: "vol",
         description: "Nhập âm lượng",

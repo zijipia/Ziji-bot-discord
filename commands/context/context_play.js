@@ -2,7 +2,7 @@ const { MessageContextMenuCommandInteraction } = require("discord.js");
 
 module.exports.data = {
     name: "Play / Add music",
-    type: 3,
+    type: 3, // context
     options: [],
     integration_types: [0],
     contexts: [0],
