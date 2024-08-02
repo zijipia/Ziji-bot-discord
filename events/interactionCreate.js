@@ -35,34 +35,36 @@ module.exports.execute = async (interaction) => {
         console.error(`No ${commandType} matching ${interaction.commandName || interaction.customId} was found.`);
         return;
     }
-    // Destructure userDB to extract values with default assignments
-    const { xp = 1, level = 1, coin = 1 } = await client.db.ZiUser.findOne({ userID: interaction.user.id }) || {};
+    if (client?.db) {
+        // Destructure userDB to extract values with default assignments
+        const { xp = 1, level = 1, coin = 1 } = await client.db.ZiUser.findOne({ userID: interaction.user.id }) || {};
 
-    // Calculate new xp
-    let newXp = xp + 1;
-    let newLevel = level;
-    let newCoin = coin;
+        // Calculate new xp
+        let newXp = xp + 1;
+        let newLevel = level;
+        let newCoin = coin;
 
-    // Level up if the new xp exceeds the threshold
-    const xpThreshold = newLevel * 50 + 1;
-    if (newXp > xpThreshold) {
-        newLevel += 1;
-        newXp = 1;
-        newCoin += newLevel * 100;
+        // Level up if the new xp exceeds the threshold
+        const xpThreshold = newLevel * 50 + 1;
+        if (newXp > xpThreshold) {
+            newLevel += 1;
+            newXp = 1;
+            newCoin += newLevel * 100;
+        }
+
+        // Update the user in the database
+        await client.db.ZiUser.updateOne(
+            { userID: interaction.user.id },
+            {
+                $set: {
+                    xp: newXp,
+                    level: newLevel,
+                    coin: newCoin
+                }
+            },
+            { upsert: true }
+        );
     }
-
-    // Update the user in the database
-    await client.db.ZiUser.updateOne(
-        { userID: interaction.user.id },
-        {
-            $set: {
-                xp: newXp,
-                level: newLevel,
-                coin: newCoin
-            }
-        },
-        { upsert: true }
-    );
 
     try {
         await command.execute(interaction);

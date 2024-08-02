@@ -17,10 +17,9 @@ module.exports = {
         if (process.env.MONGO) {
             await mongoose.connect(process.env.MONGO)
                 .then(() => {
-                    console.log('Connected!');
+                    console.log('Connected to MongoDB!');
                     client.db = require("./../utility/mongoDB");
-                }
-                );
+                });
         }
 
         console.log(`Ready! Logged in as ${client.user.tag}`);
