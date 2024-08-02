@@ -2,6 +2,8 @@ const fs = require('node:fs');
 const path = require('node:path');
 const { Client, Collection, Events, GatewayIntentBits } = require('discord.js');
 require("dotenv").config();
+const { Player } = require("discord-player");
+const { ZiExtractor } = require("ziextractor");
 
 const client = new Client({
     intents: [
@@ -9,6 +11,15 @@ const client = new Client({
         GatewayIntentBits.GuildVoiceStates
     ]
 });
+
+const player = new Player(client, {
+    skipFFmpeg: false
+});
+player.setMaxListeners(100);
+player.extractors.register(ZiExtractor, {});
+player.extractors.loadDefault((ext) => ext !== 'YouTubeExtractor');
+
+// player.on("debug", console.log)
 
 client.commands = new Collection();
 client.functions = new Collection();
@@ -34,7 +45,6 @@ const loadFiles = (directory, collection) => {
         }
     }
 };
-
 loadFiles(path.join(__dirname, 'commands'), client.commands);
 loadFiles(path.join(__dirname, 'functions'), client.functions);
 
@@ -50,5 +60,6 @@ const loadEvents = (directory, target) => {
 };
 
 loadEvents(path.join(__dirname, 'events'), client);
+loadEvents(path.join(__dirname, 'player'), player.events);
 
 client.login(process.env.TOKEN);
