@@ -4,7 +4,38 @@ const { ButtonStyle, StringSelectMenuOptionBuilder, StringSelectMenuBuilder } = 
 const player = useMainPlayer()
 const ZiIcons = require("./../../utility/icon");
 const config = require("../../config");
-const { MusicSearchCard } = require("../../utility/MusicSearchCard");
+
+const { Worker } = require('worker_threads');
+
+async function buildImageInWorker(searchPlayer, query) {
+    return new Promise((resolve, reject) => {
+        const worker = new Worker('./utility/worker.js', {
+            workerData: { searchPlayer, query }
+        });
+
+        worker.on('message', (arrayBuffer) => {
+            // Convert ArrayBuffer to Buffer
+            const buffer = Buffer.from(arrayBuffer);
+
+            if (!Buffer.isBuffer(buffer)) {
+                console.error('Type of received data:', typeof buffer);
+                reject(new Error('Received data is not a buffer'));
+            } else {
+                const attachment = new AttachmentBuilder(buffer, { name: 'queue.png' });
+                resolve(attachment);
+            }
+        });
+
+        worker.on('error', reject);
+
+        worker.on('exit', (code) => {
+            if (code !== 0) {
+                reject(new Error(`Worker stopped with exit code ${code}`));
+            }
+        });
+    });
+}
+
 /**
 * @param { ButtonInteraction } interaction
 * @param {GuildQueue} queue
@@ -56,19 +87,25 @@ module.exports.execute = async (interaction, queue, Nextpage = true) => {
             time: track.duration,
         }))
 
-        const card = new MusicSearchCard()
-            .setPlayers(searchPlayer)
-            .setTitle(`Queue of ${interaction.guild.name}`)
-        const buffer = await card.build({ format: "png" });
-        const attachment = new AttachmentBuilder(buffer, { name: "queue.png" })
-        const embed = new EmbedBuilder()
-            .setTitle(`${ZiIcons.queue} Queue of ${interaction.guild.name}`)
-            .setColor("Random")
-            .addFields({ name: `Page: ${page} / ${toltalPage}`, value: " " })
-            .setImage("attachment://queue.png")
-
-        code.embeds = [embed];
-        code.files = [attachment];
+        try {
+            const attachment = await buildImageInWorker(searchPlayer, `Queue of ${interaction.guild.name}`);
+            const embed = new EmbedBuilder()
+                .setTitle(`${ZiIcons.queue} Queue of ${interaction.guild.name}`)
+                .setColor("Random")
+                .addFields({ name: `Page: ${page} / ${toltalPage}`, value: " " })
+                .setImage("attachment://queue.png")
+            code.embeds = [embed];
+            code.files = [attachment];
+        } catch (error) {
+            console.error('Error building image:', error);
+            const embed = new EmbedBuilder()
+                .setTitle(`${ZiIcons.queue} Queue of ${interaction.guild.name}`)
+                .setColor("Random")
+                .addFields({ name: `Page: ${page} / ${toltalPage}`, value: " " })
+                .setDescription(`${currentTrack.map((track) => `${++now} | **${`${track?.title}`.slice(0, 25)}** - [${track.duration}](${track.url})`).join("\n")
+                    }`)
+            code.embeds = [embed]
+        }
     } else {
         const embed = new EmbedBuilder()
             .setTitle(`${ZiIcons.queue} Queue of ${interaction.guild.name}`)
