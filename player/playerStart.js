@@ -6,7 +6,7 @@ module.exports = {
     name: "playerStart",
     type: "Player",
     execute: async (queue, track) => {
-        const player = players.client.functions.get("player");
+        const player = players.client.functions.get("player_func");
 
         if (!player) return;
         const res = await player.execute(players.client, queue, track)

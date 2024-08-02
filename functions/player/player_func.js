@@ -9,7 +9,7 @@ const {
     StringSelectMenuOptionBuilder,
     Client
 } = require("discord.js");
-const ZiIcons = require("./../../utility/icon");
+const ZiIcons = require("../../utility/icon");
 
 // Helper function to create a button
 const CreateButton = ({ id = null, style = ButtonStyle.Secondary, label = null, emoji = null, disable = true }) => {
@@ -75,7 +75,7 @@ const getQueryTypeIcon = (type) => {
 const repeatMode = ["OFF", `${ZiIcons.loop1} Track`, `${ZiIcons.loopQ} Queue`, `${ZiIcons.loopA} AutoPlay`];
 
 module.exports = {
-    data: { name: "player", type: "player" },
+    data: { name: "player_func", type: "player" },
     /**
      * 
      * @param {Client} client 

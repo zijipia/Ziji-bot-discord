@@ -16,7 +16,7 @@ module.exports.execute = async (interaction) => {
     if (queue.metadata.LockStatus && queue.metadata.requestedBy?.id !== interaction.user?.id) return;
     queue.node.setPaused(queue.isPlaying())
 
-    const player = interaction.client.functions.get("player");
+    const player = interaction.client.functions.get("player_func");
 
     if (!player) return;
     const res = await player.execute(interaction.client, queue)

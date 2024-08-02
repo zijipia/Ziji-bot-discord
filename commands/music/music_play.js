@@ -7,11 +7,11 @@ const player = useMainPlayer()
 module.exports.data = {
     name: "play",
     description: "Phát nhạc",
-    type: 1,
+    type: 1, // slash commmand
     options: [{
         name: "next",
         description: "Thêm nhạc và tiếp theo",
-        type: 1,
+        type: 1, // sub command
         options: [{
             name: "query",
             description: "Tên bài hát",
@@ -22,7 +22,7 @@ module.exports.data = {
     }, {
         name: "music",
         description: "Phát nhạc",
-        type: 1,
+        type: 1, // sub command
         options: [{
             name: "query",
             description: "Tên bài hát",

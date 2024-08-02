@@ -5,7 +5,7 @@ const { CommandInteraction } = require("discord.js");
 module.exports.data = {
     name: "avatar",
     description: "Xem ảnh đại diện của ai đó",
-    type: 1,
+    type: 1,// slash command
     options: [{
         name: "user",
         description: "Chọn người dùng để xem avatar",

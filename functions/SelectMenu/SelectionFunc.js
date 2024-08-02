@@ -6,7 +6,7 @@ module.exports.data = {
     type: "SelectMenu",
 }
 async function Update_Player(client, queue) {
-    const player = client.functions.get("player");
+    const player = client.functions.get("player_func");
     if (!player) return;
     const res = await player.execute(client, queue)
     queue.metadata.mess.edit(res)
