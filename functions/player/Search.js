@@ -76,7 +76,12 @@ module.exports.execute = async (interaction, query) => {
                 }
             }
         })
-        if (queue?.metadata || interaction?.customId === "player_SelectionTrack") return interaction.deleteReply().catch(e => { })
+
+        if (queue?.metadata) {
+            if (interaction?.customId === "player_SelectionTrack")
+                await interaction.message.delete().catch(e => { })
+            await interaction.deleteReply().catch(e => { })
+        }
         return;
     }
     const results = await player.search(query, {
@@ -106,11 +111,17 @@ module.exports.execute = async (interaction, query) => {
             .setValue(`${track.url}`)
             .setEmoji(`${ZiIcons.Playbutton}`)
     })
+    const cancelOption = new StringSelectMenuOptionBuilder()
+        .setLabel("Hủy")
+        .setDescription("Hủy bỏ")
+        .setValue("cancel")
+        .setEmoji(ZiIcons.noo);
+
     const row = new ActionRowBuilder().addComponents(
         new StringSelectMenuBuilder()
             .setCustomId("player_SelectionTrack")
             .setPlaceholder("▶ | Chọn một bài hát để phát")
-            .addOptions(creator_Track)
+            .addOptions([cancelOption, ...creator_Track])
             .setMaxValues(1)
             .setMinValues(1)
     )
