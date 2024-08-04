@@ -23,7 +23,6 @@
   "homepage": "https://github.com/zijipia/Ziji-bot-discord#readme",
   "dependencies": {
     "@discord-player/extractor": "^4.5.0",
-    "@distube/ytdl-core": "^4.13.5",
     "canvacord": "^6.0.2",
     "discord-player": "^6.7.1",
     "discord-player-youtubei": "^1.2.4",

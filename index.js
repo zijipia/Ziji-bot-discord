@@ -17,7 +17,7 @@ const player = new Player(client, {
 });
 player.setMaxListeners(100);
 player.extractors.register(YoutubeiExtractor, {})
-player.extractors.loadDefault();
+player.extractors.loadDefault((ext) => ext !== "YouTubeExtractor");
 
 // player.on("debug", console.log)
 
