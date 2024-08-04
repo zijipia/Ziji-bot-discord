@@ -1,3 +1,4 @@
+const { useQueue } = require("discord-player");
 const { CommandInteraction } = require("discord.js");
 
 module.exports.data = {
