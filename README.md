@@ -27,6 +27,7 @@ npm install
 .env:
 ```bash
 TOKEN = "Your Bot Token"
+MONGO = "Your Bot Mongo URI"
 ```
 config.js: In file
 
