@@ -26,12 +26,12 @@
     "@distube/ytdl-core": "^4.13.5",
     "canvacord": "^6.0.2",
     "discord-player": "^6.7.1",
+    "discord-player-youtubei": "^1.2.4",
     "discord.js": "^14.15.3",
     "dotenv": "^16.4.5",
     "ffmpeg-static": "^5.2.0",
     "mediaplex": "^0.0.9",
     "mongoose": "^8.5.2",
-    "opusscript": "^0.0.8",
-    "ziextractor": "github:zijipia/ZiExtractor"
+    "opusscript": "^0.0.8"
   }
 }
