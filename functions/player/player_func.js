@@ -128,7 +128,7 @@ module.exports = {
                 .setDisabled(!trackOptions.length)
         );
 
-        if (queue.node.isPlaying() || !queue.isEmpty()) {
+        if (queue.node.isPlaying() || queue.node.isPaused() || !queue.isEmpty()) {
             embed.addFields({ name: " ", value: `${queue.node.createProgressBar({ leftChar: "﹏", rightChar: "﹏", indicator: "𓊝" })}` });
             const functions = [
                 { Label: "Search Tracks", Description: "Tìm kiếm bài hát", Value: "Search", Emoji: ZiIcons.search },
