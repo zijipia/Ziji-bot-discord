@@ -18,7 +18,7 @@ module.exports.data = {
  */
 module.exports.execute = async (interaction) => {
     const { client, guild } = interaction
-    interaction.deferReply();
+    await interaction.deferReply();
     const queue = useQueue(guild.id);
     if (!queue) return interaction.editReply({ content: "Hiện Không Có bài hát nào đang phát" });
     queue.metadata.mess.edit({ components: [] })

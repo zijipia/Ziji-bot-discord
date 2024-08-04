@@ -3,7 +3,7 @@ const path = require('node:path');
 const { Client, Collection, Events, GatewayIntentBits } = require('discord.js');
 require("dotenv").config();
 const { Player } = require("discord-player");
-const { ZiExtractor } = require("ziextractor");
+const { YoutubeiExtractor } = require("discord-player-youtubei")
 
 const client = new Client({
     intents: [
@@ -16,8 +16,8 @@ const player = new Player(client, {
     skipFFmpeg: false
 });
 player.setMaxListeners(100);
-player.extractors.register(ZiExtractor, {});
-player.extractors.loadDefault((ext) => ext !== 'YouTubeExtractor');
+player.extractors.register(YoutubeiExtractor, {})
+player.extractors.loadDefault((ext) => ext !== "YouTubeExtractor");
 
 // player.on("debug", console.log)
 
