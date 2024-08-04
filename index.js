@@ -60,6 +60,6 @@ const loadEvents = (directory, target) => {
 };
 
 loadEvents(path.join(__dirname, 'events'), client);
-loadEvents(path.join(__dirname, 'player'), player.events);
+loadEvents(path.join(__dirname, 'discord-player'), player.events);
 
 client.login(process.env.TOKEN);
