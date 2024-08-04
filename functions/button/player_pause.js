@@ -14,7 +14,7 @@ module.exports.execute = async (interaction) => {
     const queue = useQueue(interaction.guild.id);
     if (!queue) return;
     if (queue.metadata.LockStatus && queue.metadata.requestedBy?.id !== interaction.user?.id) return;
-    queue.node.setPaused(queue.isPlaying())
+    queue.node.setPaused(queue.node.isPlaying())
 
     const player = interaction.client.functions.get("player_func");
 
