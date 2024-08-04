@@ -78,7 +78,7 @@ module.exports.execute = async (interaction, query) => {
         })
 
         if (queue?.metadata) {
-            if (interaction?.customId === "player_SelectionTrack")
+            if (interaction?.customId === "player_SelectionSearch")
                 await interaction.message.delete().catch(e => { })
             await interaction.deleteReply().catch(e => { })
         }
@@ -119,7 +119,7 @@ module.exports.execute = async (interaction, query) => {
 
     const row = new ActionRowBuilder().addComponents(
         new StringSelectMenuBuilder()
-            .setCustomId("player_SelectionTrack")
+            .setCustomId("player_SelectionSearch")
             .setPlaceholder("▶ | Chọn một bài hát để phát")
             .addOptions([cancelOption, ...creator_Track])
             .setMaxValues(1)
