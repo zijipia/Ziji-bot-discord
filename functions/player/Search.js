@@ -91,7 +91,19 @@ module.exports.execute = async (interaction, query) => {
     const results = await player.search(query, {
         fallbackSearchEngine: "youtube"
     })
-    const tracks = results.tracks.filter(t => t.url.length < 100).slice(0, 20)
+    const tracks = [];
+    const seenUrls = new Set();
+
+    for (const track of results.tracks) {
+        if (track.url.length < 100 && !seenUrls.has(track.url)) {
+            tracks.push(track);
+            seenUrls.add(track.url);
+
+            if (tracks.length >= 20) {
+                break;
+            }
+        }
+    }
     if (!tracks.length) return interaction.editReply({
         embeds: [
             new EmbedBuilder()
@@ -120,7 +132,6 @@ module.exports.execute = async (interaction, query) => {
         .setDescription("Hủy bỏ")
         .setValue("cancel")
         .setEmoji(ZiIcons.noo);
-
     const row = new ActionRowBuilder().addComponents(
         new StringSelectMenuBuilder()
             .setCustomId("player_SelectionSearch")
