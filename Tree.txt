@@ -1,0 +1,75 @@
+# Project Directory Structure
+
+Here is the directory structure for the Ziji-bot-discord project:
+
+├── .env.example
+├── .gitignore
+├── LICENSE
+├── README.md
+├── commands
+│   ├── context
+│   │   └── context_play.js     
+│   ├── fun
+│   │   └── avatar.js
+│   ├── music
+│   │   ├── disconnect.js       
+│   │   ├── music_play.js       
+│   │   ├── music_player.js     
+│   │   └── volume.js
+│   └── utility
+│       └── ping.js
+├── config.js
+├── deploy.js
+├── discord-player
+│   ├── audioTrackAdd.js        
+│   ├── audioTracksAdd.js       
+│   ├── disconnect.js
+│   ├── emptyChannel.js
+│   ├── emptyQueue.js
+│   ├── error.js
+│   ├── playerSkip.js
+│   └── playerStart.js
+├── events
+│   ├── error.js
+│   ├── interactionCreate.js    
+│   └── ready.js
+├── functions
+│   ├── SelectMenu
+│   │   ├── SelectionFillter.js 
+│   │   ├── SelectionFunc.js    
+│   │   ├── SelectionSearch.js  
+│   │   └── SelectionTrack.js   
+│   ├── autocomplete
+│   │   └── autocomplete_play.js
+│   ├── button
+│   │   ├── Queue_clear.js      
+│   │   ├── Queue_del.js        
+│   │   ├── Queue_next.js       
+│   │   ├── Queue_prev.js       
+│   │   ├── Queue_refresh.js    
+│   │   ├── Queue_shuffle.js    
+│   │   ├── cancel.js
+│   │   ├── player_next.js      
+│   │   ├── player_pause.js     
+│   │   ├── player_previous.js  
+│   │   ├── player_refresh.js   
+│   │   ├── player_search.js    
+│   │   └── player_stop.js      
+│   ├── modal
+│   │   ├── player_search.js    
+│   │   └── queue_del.js        
+│   └── player
+│       ├── EditMetadata.js
+│       ├── Fillter.js
+│       ├── Queue.js
+│       ├── Search.js
+│       └── player_func.js
+├── index.js
+├── package.json
+├── utility
+│   ├── FONT-Avo.ttf
+│   ├── MusicSearchCard.js
+│   ├── icon.js
+│   ├── mongoDB.js
+│   └── worker.js
+└── ziji Discord bot.drawio
