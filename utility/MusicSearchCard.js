@@ -15,7 +15,7 @@ class MusicSearchCard extends Builder {
             title: "",
             players: [],
         });
-        if (!FontFactory.size) Font.loadDefault();
+        if (!FontFactory.size) Font.fromFileSync("./utility/FONT-Avo.ttf");
     }
     setTitle(title) {
         this.options.set("title", title);

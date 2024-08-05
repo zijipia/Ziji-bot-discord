@@ -7,13 +7,19 @@ async function buildImage(searchPlayer, query) {
         .setTitle(query);
 
     const buffer = await card.build({ format: 'png' });
-    return buffer;
+    console.log('Buffer length:', buffer.length); // Debugging
+    parentPort.postMessage(buffer.buffer); // Send as ArrayBuffer
 }
 
+// Listen for termination signal
+parentPort.on('message', (message) => {
+    if (message === 'terminate') {
+        console.log('Worker received terminate signal');
+        process.exit(0); // Gracefully exit
+    }
+});
+
 buildImage(workerData.searchPlayer, workerData.query)
-    .then(buffer => {
-        parentPort.postMessage(buffer.buffer); // Send as ArrayBuffer
-    })
     .catch(error => {
         console.error('Error in worker:', error);
         process.exit(1);
