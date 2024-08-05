@@ -6,6 +6,7 @@ module.exports = {
     name: "error",
     type: "Player",
     execute: async (queue, error) => {
+        console.log("==== Error ====")
         console.log(error)
     }
 }

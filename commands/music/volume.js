@@ -24,7 +24,7 @@ module.exports.execute = async (interaction) => {
     await interaction.deferReply({ fetchReply: true })
     const volume = interaction.options.getInteger("query");
     const queue = useQueue(interaction.guild.id);
-    if (queue) return interaction.editReply("Hiện không có bài hát nào đang phát");
+    if (!queue) return interaction.editReply("Hiện không có bài hát nào đang phát");
     queue.node.setVolume(volume); //Pass the value for the volume here
 
 }

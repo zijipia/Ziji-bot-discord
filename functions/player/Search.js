@@ -24,7 +24,6 @@ async function buildImageInWorker(searchPlayer, query) {
         });
 
         worker.on('message', (arrayBuffer) => {
-            // Convert ArrayBuffer to Buffer
             const buffer = Buffer.from(arrayBuffer);
 
             if (!Buffer.isBuffer(buffer)) {
@@ -34,9 +33,14 @@ async function buildImageInWorker(searchPlayer, query) {
                 const attachment = new AttachmentBuilder(buffer, { name: 'search.png' });
                 resolve(attachment);
             }
+            // Send termination signal after receiving the result
+            worker.postMessage('terminate');
         });
 
-        worker.on('error', reject);
+        worker.on('error', (error) => {
+            reject(error);
+            worker.postMessage('terminate'); // Optionally send terminate signal on error
+        });
 
         worker.on('exit', (code) => {
             if (code !== 0) {
@@ -45,7 +49,6 @@ async function buildImageInWorker(searchPlayer, query) {
         });
     });
 }
-
 //====================================================================//
 /**
 * @param { BaseInteraction } interaction
@@ -80,7 +83,8 @@ module.exports.execute = async (interaction, query) => {
         if (queue?.metadata) {
             if (interaction?.customId === "player_SelectionSearch")
                 await interaction.message.delete().catch(e => { })
-            await interaction.deleteReply().catch(e => { })
+            if (interaction?.customId === "player_SelectionTrack")
+                await interaction.deleteReply().catch(e => { })
         }
         return;
     }
