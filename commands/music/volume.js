@@ -22,9 +22,13 @@ module.exports.data = {
  */
 module.exports.execute = async (interaction) => {
     await interaction.deferReply({ fetchReply: true })
-    const volume = interaction.options.getInteger("query");
+    const volume = interaction.options.getInteger("vol");
     const queue = useQueue(interaction.guild.id);
     if (!queue) return interaction.editReply("Hiện không có bài hát nào đang phát");
-    queue.node.setVolume(volume); //Pass the value for the volume here
-
+    queue.node.setVolume(Math.floor(volume)); //Pass the value for the volume here
+    await interaction.deleteReply().catch(e => { });
+    const player = interaction.client.functions.get("player_func");
+    if (!player) return;
+    const res = await player.execute(interaction.client, queue)
+    return queue.metadata.mess.edit(res);
 }
