@@ -28,54 +28,15 @@ class MusicSearchCard extends Builder {
         return this;
     }
 
-    async renderDefaultPlayer({
-        index,
-        avatar,
-        displayName,
-        time,
-    }) {
-        let image;
-        try {
-            image = await loadImage(avatar);
-        } catch {
-            image = await loadImage("https://i.imgur.com/vhcoFZo_d.webp");
-        }
-
-        return JSX.createElement(
-            "div",
-            { className: "flex items-center bg-white/15 rounded-xl p-2 px-3 justify-between" },
-            JSX.createElement(
-                "div",
-                { className: "flex justify-between items-center" },
-                JSX.createElement(
-                    "div",
-                    { className: "flex mr-2 text-2xl w-[25px]" },
-                    index
-                ),
-                JSX.createElement(
-                    "img",
-                    {
-                        src: image.toDataURL(),
-                        width: 49.25,
-                        height: 49.58,
-                        className: "rounded-full flex",
-                        alt: "avatar"
-                    }
-                ),
-                JSX.createElement(
-                    "div",
-                    { className: "flex flex-col justify-center ml-3" },
-                    JSX.createElement(
-                        "div",
-                        { className: "text-xl font-semibold -mb-1 flex" },
-                        displayName,
-                        displayName.length == 30 ? "..." : "."
-                    ),
-                    JSX.createElement(
-                        "div",
-                        { className: "text-lg font-medium text-gray-300 flex" },
-                        time
-                    )
+    async renderDefaultPlayer({ index, avatar, displayName, time }) {
+        let image; try { image = await loadImage(avatar); } catch { image = await loadImage("https://raw.githubusercontent.com/zijipia/zijipia/main/Assets/image.png"); }
+        return JSX.createElement("div", { className: "flex items-center bg-white/15 rounded-xl p-2 px-3 justify-between" },
+            JSX.createElement("div", { className: "flex justify-between items-center" },
+                JSX.createElement("div", { className: "flex mr-2 text-2xl w-[25px]" }, index),
+                JSX.createElement("img", { src: image.toDataURL(), width: 49.25, height: 49.58, className: "rounded-full flex", alt: "avatar" }),
+                JSX.createElement("div", { className: "flex flex-col justify-center ml-3" },
+                    JSX.createElement("div", { className: "text-xl font-semibold -mb-1 flex" }, displayName, displayName.length == 30 ? "..." : "."),
+                    JSX.createElement("div", { className: "text-lg font-medium text-gray-300 flex" }, time)
                 )
             ),
         );
@@ -84,7 +45,7 @@ class MusicSearchCard extends Builder {
     async render() {
         const { title, players } = this.options.getOptions();
         this.width = 1000;
-        this.height = 30 + (players.length > 10 ? 80 : 100) * Math.ceil(players.length / 2);
+        this.height = 40 + (players.length > 10 ? 80 : 100) * Math.ceil(players.length / 2);
         this.adjustCanvas();
 
         const playerGroupChunks = chunkArrayInGroups(players, Math.ceil(players.length / 2));
@@ -94,42 +55,15 @@ class MusicSearchCard extends Builder {
                 return renderedPlayers;
             })
         );
-        return JSX.createElement(
-            "div",
-            {
-                className: "flex relative w-full flex-col",
-                style: {
-                    background: "linear-gradient(to top, #120C17, #010424, #53049c)",
-                    borderRadius: "0.5rem",
-                    height: "100%",
-                    width: "100%",
-                },
-            },
-
-            JSX.createElement(
-                "div",
-                { className: "flex justify-center w-full m-0 my-5" },
-                title && JSX.createElement(
-                    "div",
-                    { className: "flex flex-col items-center justify-center ml-3" },
-                    JSX.createElement(
-                        "div",
-                        { className: "text-white font-semibold text-2xl flex" },
-                        title
-                    ),
-
+        return JSX.createElement("div", { className: "flex relative w-full flex-col", style: { background: "linear-gradient(to top, #120C17, #010424, #53049c)", borderRadius: "0.5rem", height: "100%", width: "100%", }, },
+            JSX.createElement("div", { className: "flex justify-center w-full m-0 my-5" },
+                title && JSX.createElement("div", { className: "flex flex-col items-center justify-center ml-3" },
+                    JSX.createElement("div", { className: "text-white font-semibold text-2xl flex" }, title),
                 ),
             ),
-            JSX.createElement(
-                "div",
-                { className: "flex text-white p-2 px-3", style: { gap: "6" } },
-                processedPlayerGroups.map((renderedPlayers) => JSX.createElement(
-                    "div",
-                    { className: "flex flex-col flex-1", style: { gap: "6" } },
-                    renderedPlayers
-                ))
+            JSX.createElement("div", { className: "flex text-white p-2 px-3", style: { gap: "6" } },
+                processedPlayerGroups.map((renderedPlayers) => JSX.createElement("div", { className: "flex flex-col flex-1", style: { gap: "6" } }, renderedPlayers))
             ),
-
         )
     }
 }
