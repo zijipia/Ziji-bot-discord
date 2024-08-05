@@ -24,7 +24,6 @@ async function buildImageInWorker(searchPlayer, query) {
         });
 
         worker.on('message', (arrayBuffer) => {
-            // Convert ArrayBuffer to Buffer
             const buffer = Buffer.from(arrayBuffer);
 
             if (!Buffer.isBuffer(buffer)) {
@@ -34,9 +33,14 @@ async function buildImageInWorker(searchPlayer, query) {
                 const attachment = new AttachmentBuilder(buffer, { name: 'search.png' });
                 resolve(attachment);
             }
+            // Send termination signal after receiving the result
+            worker.postMessage('terminate');
         });
 
-        worker.on('error', reject);
+        worker.on('error', (error) => {
+            reject(error);
+            worker.postMessage('terminate'); // Optionally send terminate signal on error
+        });
 
         worker.on('exit', (code) => {
             if (code !== 0) {
@@ -45,7 +49,6 @@ async function buildImageInWorker(searchPlayer, query) {
         });
     });
 }
-
 //====================================================================//
 /**
 * @param { BaseInteraction } interaction
@@ -80,14 +83,27 @@ module.exports.execute = async (interaction, query) => {
         if (queue?.metadata) {
             if (interaction?.customId === "player_SelectionSearch")
                 await interaction.message.delete().catch(e => { })
-            await interaction.deleteReply().catch(e => { })
+            if (interaction?.customId === "player_SelectionTrack")
+                await interaction.deleteReply().catch(e => { })
         }
         return;
     }
     const results = await player.search(query, {
         fallbackSearchEngine: "youtube"
     })
-    const tracks = results.tracks.filter(t => t.url.length < 100).slice(0, 20)
+    const tracks = [];
+    const seenUrls = new Set();
+
+    for (const track of results.tracks) {
+        if (track.url.length < 100 && !seenUrls.has(track.url)) {
+            tracks.push(track);
+            seenUrls.add(track.url);
+
+            if (tracks.length >= 20) {
+                break;
+            }
+        }
+    }
     if (!tracks.length) return interaction.editReply({
         embeds: [
             new EmbedBuilder()
@@ -116,7 +132,6 @@ module.exports.execute = async (interaction, query) => {
         .setDescription("Hủy bỏ")
         .setValue("cancel")
         .setEmoji(ZiIcons.noo);
-
     const row = new ActionRowBuilder().addComponents(
         new StringSelectMenuBuilder()
             .setCustomId("player_SelectionSearch")
