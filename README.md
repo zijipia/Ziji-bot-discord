@@ -8,7 +8,16 @@ Zibot is a Discord bot developed by [zijipia](https://github.com/zijipia) to enh
 # Join [Zi bot Playground:](https://discord.gg/32GkbyXtbA) to get icon of bot.
 ## Features
 - **Event Handling**: Respond to various Discord events.
-- **Music Player**: Play musics.
+- **Music Player**:
+<p>
+  <div class="image">
+    <a href="./" data-sub-html="Description">
+      <img alt="Player" src="https://raw.githubusercontent.com/zijipia/zijipia/Ziji-Discord-Bot-Image/Assets/Player.png" />
+      <img alt="Search" src="https://github.com/zijipia/zijipia/blob/Ziji-Discord-Bot-Image/Assets/search.png" />
+    </a>
+  </div>
+</p>
+
 
 ## Installation
 1. Clone the repository or download project:
@@ -26,8 +35,8 @@ npm install
 
 .env:
 ```bash
-TOKEN = "Your Bot Token"
-MONGO = "Your Bot Mongo URI"
+TOKEN = "Your Bot Token" # required
+MONGO = "Your Bot Mongo URI" # optional
 ```
 config.js: In file
 

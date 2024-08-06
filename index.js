@@ -4,7 +4,7 @@ const { Client, Collection, GatewayIntentBits } = require('discord.js');
 require("dotenv").config();
 const { Player } = require("discord-player");
 const { YoutubeiExtractor } = require("discord-player-youtubei");
-
+const { ZiExtractor } = require("ziextractor");
 const client = new Client({
     intents: [
         GatewayIntentBits.Guilds,
@@ -21,8 +21,8 @@ player.extractors.register(YoutubeiExtractor, {
     streamOptions: {
         useClient: "ANDROID"
     }
-})
-
+});
+player.extractors.register(ZiExtractor, {});
 player.extractors.loadDefault((ext) => !["YouTubeExtractor"].includes(ext));
 
 // player.on("debug", console.log)
