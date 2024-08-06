@@ -11,7 +11,7 @@ Zibot is a Discord bot developed by [zijipia](https://github.com/zijipia) to enh
 - **Music Player**:
 <p>
   <div class="image">
-    <a href="https://raw.githubusercontent.com/zijipia/zijipia/Ziji-Discord-Bot-Image/Assets/Player.png" data-sub-html="Description">
+    <a href="./" data-sub-html="Description">
       <img alt="Description" src="https://raw.githubusercontent.com/zijipia/zijipia/Ziji-Discord-Bot-Image/Assets/Player.png" />
     </a>
   </div>
