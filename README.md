@@ -8,7 +8,15 @@ Zibot is a Discord bot developed by [zijipia](https://github.com/zijipia) to enh
 # Join [Zi bot Playground:](https://discord.gg/32GkbyXtbA) to get icon of bot.
 ## Features
 - **Event Handling**: Respond to various Discord events.
-- **Music Player**: Play musics.
+- **Music Player**:
+<p>
+  <div class="image">
+    <a href="https://raw.githubusercontent.com/zijipia/zijipia/Ziji-Discord-Bot-Image/Assets/Player.png" data-sub-html="Description">
+      <img alt="Description" src="https://raw.githubusercontent.com/zijipia/zijipia/Ziji-Discord-Bot-Image/Assets/Player.png" />
+    </a>
+  </div>
+</p>
+
 
 ## Installation
 1. Clone the repository or download project:
