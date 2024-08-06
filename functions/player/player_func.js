@@ -86,7 +86,6 @@ module.exports = {
         const track = tracks ?? queue?.currentTrack ?? queue?.history?.previousTrack;
         const requestedBy = track?.requestedBy ?? queue.metadata.requestedBy;
         const queryTypeIcon = getQueryTypeIcon(track?.queryType);
-
         const timestamps = queue?.node.getTimestamp();
         const trackDurationSymbol = timestamps?.progress === "Infinity" ? "" : "%";
         const trackDuration = timestamps?.progress === "Infinity" ? "∞" : timestamps?.progress;
@@ -118,11 +117,19 @@ module.exports = {
                 .setEmoji(`${ZiIcons.Playbutton}`);
         });
 
+        const disableOptions = [
+            new StringSelectMenuOptionBuilder()
+                .setLabel("No Track")
+                .setDescription(`XX:XX`)
+                .setValue(`Ziji Bot`)
+                .setEmoji(`${ZiIcons.Playbutton}`)
+        ]
+
         const relatedTracksRow = new ActionRowBuilder().addComponents(
             new StringSelectMenuBuilder()
                 .setCustomId("player_SelectionTrack")
                 .setPlaceholder("▶ | Chọn một bài hát để thêm vào hàng đợi")
-                .addOptions(trackOptions)
+                .addOptions(trackOptions.length ? trackOptions : disableOptions)
                 .setMaxValues(1)
                 .setMinValues(1)
                 .setDisabled(!trackOptions.length)

@@ -23,7 +23,7 @@ module.exports.execute = async (interaction) => {
 
             const modal = new ModalBuilder()
                 .setTitle("Search")
-                .setCustomId("player_search")
+                .setCustomId("modal_search")
                 .addComponents(
                     new ActionRowBuilder().addComponents(
                         new TextInputBuilder()
