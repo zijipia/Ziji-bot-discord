@@ -9,13 +9,12 @@ const config = require("../../config");
 //====================================================================//
 
 function validURL(str) {
-    const pattern = new RegExp('^(https?:\\/\\/)?' + // protocol
-        '((([a-z\\d]([a-z\\d-]*[a-z\\d])*)\\.)+[a-z]{2,}|' + // domain name
-        '((\\d{1,3}\\.){3}\\d{1,3}))' + // OR ip (v4) address
-        '(\\:\\d+)?(\\/[-a-z\\d%_.~+]*)*' + // port and path
-        '(\\?[;&a-z\\d%_.~+=-]*)?' + // query string
-        '(\\#[-a-z\\d_]*)?$', 'i'); // fragment locator
-    return pattern.test(str);
+    try {
+        new URL(str);
+        return true;
+    } catch (err) {
+        return false;
+    }
 }
 
 async function buildImageInWorker(searchPlayer, query) {
@@ -55,6 +54,7 @@ async function buildImageInWorker(searchPlayer, query) {
 * @param { string } query
 */
 module.exports.execute = async (interaction, query) => {
+    console.error(query)
     const voiceChannel = interaction.member.voice.channel;
     if (!voiceChannel) {
         return interaction.reply({ content: "Bạn chưa tham gia vào kênh thoại" });
@@ -66,7 +66,6 @@ module.exports.execute = async (interaction, query) => {
 
     await interaction.deferReply({ fetchReply: true });
     const queue = useQueue(interaction.guild.id);
-
     if (validURL(query)) {
         if (!queue?.metadata) await interaction.editReply({ content: "Đang phát nhạc" });
         await player.play(voiceChannel, query, {

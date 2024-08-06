@@ -1,5 +1,5 @@
 const { useMainPlayer, useQueue } = require("discord-player");
-const { ModalBuilder, TextInputBuilder, TextInputStyle, ButtonInteraction } = require("discord.js");
+const { ModalBuilder, TextInputBuilder, TextInputStyle, ButtonInteraction, ActionRowBuilder } = require("discord.js");
 const player = useMainPlayer();
 module.exports.data = {
     name: "player_search",
@@ -11,17 +11,16 @@ module.exports.data = {
  * @returns 
  */
 module.exports.execute = async (interaction) => {
-    const queue = useQueue(interaction.guild.id);
-    if (!queue) return;
     const modal = new ModalBuilder()
         .setTitle("Search")
-        .setCustomId("player_search")
+        .setCustomId("modal_search")
         .addComponents(
-            new TextInputBuilder()
-                .setCustomId("search-input")
-                .setLabel("Search for a song")
-                .setStyle(TextInputStyle.Short)
-        )
+            new ActionRowBuilder().addComponents(
+                new TextInputBuilder()
+                    .setCustomId("search-input")
+                    .setLabel("Search for a song")
+                    .setStyle(TextInputStyle.Short)
+            ))
     await interaction.showModal(modal);
     return;
 }
