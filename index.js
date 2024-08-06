@@ -69,3 +69,11 @@ loadEvents(path.join(__dirname, 'events'), client);
 loadEvents(path.join(__dirname, 'discord-player'), player.events);
 
 client.login(process.env.TOKEN);
+
+process.on('unhandledRejection', error => {
+    console.error('Unhandled promise rejection:', error);
+});
+// prevent crash on uncaught exception
+process.on('uncaughtException', (error) => {
+    console.error('Uncaught exception:', error);
+});

@@ -54,7 +54,6 @@ async function buildImageInWorker(searchPlayer, query) {
 * @param { string } query
 */
 module.exports.execute = async (interaction, query) => {
-    console.error(query)
     const voiceChannel = interaction.member.voice.channel;
     if (!voiceChannel) {
         return interaction.reply({ content: "Bạn chưa tham gia vào kênh thoại" });
@@ -67,35 +66,52 @@ module.exports.execute = async (interaction, query) => {
     await interaction.deferReply({ fetchReply: true });
     const queue = useQueue(interaction.guild.id);
     if (validURL(query)) {
-        if (!queue?.metadata) await interaction.editReply({ content: "Đang phát nhạc" });
-        await player.play(voiceChannel, query, {
-            nodeOptions: {
-                selfDeaf: true,
-                volume: 100,
-                leaveOnEmpty: true,
-                leaveOnEmptyCooldown: 5000,
-                leaveOnEnd: true,
-                leaveOnEndCooldown: 500000,
-                metadata: queue?.metadata ?? {
-                    channel: interaction.channel,
-                    requestedBy: interaction.user,
-                    LockStatus: false,
-                    mess: interaction?.customId !== "player_SelectionSearch" ? await interaction.fetchReply() : interaction.message,
+        try {
+            if (!queue?.metadata) await interaction.editReply({ content: "Đang phát nhạc" });
+            await player.play(voiceChannel, query, {
+                nodeOptions: {
+                    selfDeaf: true,
+                    volume: 100,
+                    leaveOnEmpty: true,
+                    leaveOnEmptyCooldown: 5000,
+                    leaveOnEnd: true,
+                    leaveOnEndCooldown: 500000,
+                    metadata: queue?.metadata ?? {
+                        channel: interaction.channel,
+                        requestedBy: interaction.user,
+                        LockStatus: false,
+                        mess: interaction?.customId !== "player_SelectionSearch" ? await interaction.fetchReply() : interaction.message,
+                    }
+                }
+            });
+
+            if (queue?.metadata) {
+                if (interaction?.customId === "player_SelectionSearch") {
+                    await interaction.message.delete().catch(() => { });
+                }
+                await interaction.deleteReply().catch(() => { });
+            } else {
+                if (interaction?.customId === "player_SelectionSearch") {
+                    await interaction.deleteReply().catch(() => { });
                 }
             }
-        });
+            return;
+        } catch (e) {
+            console.error(e);
+            const response = { content: '❌ | Không tìm thấy bài hát', ephemeral: true };
+            if (interaction.replied || interaction.deferred) {
+                try {
+                    await interaction.editReply(response);
+                } catch {
+                    const meess = await interaction.fetchReply()
+                    await meess.edit(response);
+                }
 
-        if (queue?.metadata) {
-            if (interaction?.customId !== "player_SelectionTrack") {
-                await interaction.message.delete().catch(() => { });
+            } else {
+                await interaction.reply(response);
             }
-            await interaction.deleteReply().catch(() => { });
-        } else {
-            if (interaction?.customId === "player_SelectionSearch") {
-                await interaction.deleteReply().catch(() => { });
-            }
+            return;
         }
-        return;
     }
 
     const results = await player.search(query, {
