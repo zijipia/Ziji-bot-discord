@@ -12,7 +12,8 @@ Zibot is a Discord bot developed by [zijipia](https://github.com/zijipia) to enh
 <p>
   <div class="image">
     <a href="./" data-sub-html="Description">
-      <img alt="Description" src="https://raw.githubusercontent.com/zijipia/zijipia/Ziji-Discord-Bot-Image/Assets/Player.png" />
+      <img alt="Player" src="https://raw.githubusercontent.com/zijipia/zijipia/Ziji-Discord-Bot-Image/Assets/Player.png" />
+      <img alt="Search" src="https://github.com/zijipia/zijipia/blob/Ziji-Discord-Bot-Image/Assets/search.png" />
     </a>
   </div>
 </p>
