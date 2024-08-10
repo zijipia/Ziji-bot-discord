@@ -10,7 +10,7 @@ module.exports.data = {
  * @param { ButtonInteraction } interaction 
  * @returns 
  */
-module.exports.execute = async (interaction) => {
+module.exports.execute = async (interaction, lang) => {
     const modal = new ModalBuilder()
         .setTitle("Search")
         .setCustomId("modal_search")

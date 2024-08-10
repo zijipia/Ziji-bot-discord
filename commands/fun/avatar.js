@@ -19,7 +19,7 @@ module.exports.data = {
  * 
  * @param { CommandInteraction } interaction 
  */
-module.exports.execute = async (interaction) => {
+module.exports.execute = async (interaction, lang) => {
     const user = interaction.options.getUser("user") || interaction.user
 
     interaction.reply(user.displayAvatarURL({ size: 1024 }));

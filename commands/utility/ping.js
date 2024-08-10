@@ -14,7 +14,7 @@ module.exports.data = {
  * 
  * @param { CommandInteraction } interaction 
  */
-module.exports.execute = async (interaction) => {
+module.exports.execute = async (interaction, lang) => {
     const ping = interaction.client.ws.ping;
     interaction.reply(`Ping: ${ping}`);
     return;

@@ -8,7 +8,7 @@ module.exports.data = {
 /**
  * @param { ModalSubmitInteraction } interaction
  */
-module.exports.execute = async (interaction) => {
+module.exports.execute = async (interaction, lang) => {
     const { guild, client, fields } = interaction;
     const query = fields.getTextInputValue("search-input");
     const command = client.functions.get("Search");
