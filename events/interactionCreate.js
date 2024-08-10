@@ -35,39 +35,11 @@ module.exports.execute = async (interaction) => {
         console.error(`No ${commandType} matching ${interaction.commandName || interaction.customId} was found.`);
         return;
     }
-    if (client?.db) {
-        // Destructure userDB to extract values with default assignments
-        const { xp = 1, level = 1, coin = 1 } = await client.db.ZiUser.findOne({ userID: interaction.user.id }) || {};
-
-        // Calculate new xp
-        let newXp = xp + 1;
-        let newLevel = level;
-        let newCoin = coin;
-
-        // Level up if the new xp exceeds the threshold
-        const xpThreshold = newLevel * 50 + 1;
-        if (newXp > xpThreshold) {
-            newLevel += 1;
-            newXp = 1;
-            newCoin += newLevel * 100;
-        }
-
-        // Update the user in the database
-        await client.db.ZiUser.updateOne(
-            { userID: interaction.user.id },
-            {
-                $set: {
-                    xp: newXp,
-                    level: newLevel,
-                    coin: newCoin
-                }
-            },
-            { upsert: true }
-        );
-    }
+    const langfunc = client.functions.get("ZiRank");
+    const lang = await langfunc.execute(client, interaction.user, 1);
 
     try {
-        await command.execute(interaction);
+        await command.execute(interaction, lang);
     } catch (error) {
         console.error(error);
         const response = { content: 'There was an error while executing this command!', ephemeral: true };

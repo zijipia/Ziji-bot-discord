@@ -14,7 +14,7 @@ async function Update_Player(client, queue) {
 /**
  * @param { StringSelectMenuInteraction } interaction
  */
-module.exports.execute = async (interaction) => {
+module.exports.execute = async (interaction, lang) => {
     const { guild, client, values } = interaction;
     const query = values?.at(0);
     const queue = useQueue(guild.id);

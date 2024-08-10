@@ -9,7 +9,7 @@ module.exports.data = {
 /**
  * @param { StringSelectMenuInteraction } interaction
  */
-module.exports.execute = async (interaction) => {
+module.exports.execute = async (interaction, lang) => {
     const { guild, client, values } = interaction;
     const queue = useQueue(interaction.guild.id);
     const fillter = values?.at(0);

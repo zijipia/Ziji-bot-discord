@@ -2,6 +2,7 @@ const { EmbedBuilder, ActionRowBuilder, ButtonBuilder, BaseInteraction, Attachme
 const { useMainPlayer, useQueue } = require("discord-player");
 const { ButtonStyle, StringSelectMenuOptionBuilder, StringSelectMenuBuilder } = require("discord.js");
 const { Worker } = require('worker_threads');
+const langdef = require("./../../lang/vi")
 const player = useMainPlayer();
 const ZiIcons = require("./../../utility/icon");
 const config = require("../../config");
@@ -52,15 +53,16 @@ async function buildImageInWorker(searchPlayer, query) {
 /**
 * @param { BaseInteraction } interaction
 * @param { string } query
+* @param { langdef } lang
 */
-module.exports.execute = async (interaction, query) => {
+module.exports.execute = async (interaction, query, lang) => {
     const voiceChannel = interaction.member.voice.channel;
     if (!voiceChannel) {
-        return interaction.reply({ content: "Bạn chưa tham gia vào kênh thoại" });
+        return interaction.reply({ content: lang?.Search?.NOvoiceChannel ?? "Bạn chưa tham gia vào kênh thoại" });
     }
     const voiceMe = interaction.guild.members.cache.get(interaction.client.user.id).voice.channel;
     if (voiceMe && voiceMe.id !== voiceChannel.id) {
-        return interaction.reply({ content: "Bot đã tham gia một kênh thoại khác" });
+        return interaction.reply({ content: lang?.Search?.NOvoiceChannel ?? "Bot đã tham gia một kênh thoại khác" });
     }
 
     await interaction.deferReply({ fetchReply: true });

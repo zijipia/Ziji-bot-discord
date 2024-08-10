@@ -10,7 +10,7 @@ module.exports.data = {
 /**
  * @param { AutocompleteInteraction } interaction 
  */
-module.exports.execute = async (interaction) => {
+module.exports.execute = async (interaction, lang) => {
     try {
         const query = interaction.options.getString('query', true);
         if (!query) return;
