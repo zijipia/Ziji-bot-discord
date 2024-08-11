@@ -11,7 +11,6 @@ const {
 } = require("discord.js");
 const ZiIcons = require("../../utility/icon");
 
-// Helper function to create a button
 const CreateButton = ({ id = null, style = ButtonStyle.Secondary, label = null, emoji = null, disable = true }) => {
     const button = new ButtonBuilder()
         .setCustomId(`player_${id}`)
@@ -146,7 +145,7 @@ module.exports = {
                 { Label: "Mute", Description: "Chỉnh âm lượng về 0", Value: "Mute", Emoji: ZiIcons.mute },
                 { Label: "Vol +", Description: "Tăng âm lượng", Value: "volinc", Emoji: ZiIcons.volinc },
                 { Label: "Vol -", Description: "Giảm âm lượng", Value: "voldec", Emoji: ZiIcons.voldec },
-                { Label: "Lyrics", Description: "Lời bài hát", Value: "Lyrics", Emoji: ZiIcons.lyrics },
+                // { Label: "Lyrics", Description: "Lời bài hát", Value: "Lyrics", Emoji: ZiIcons.lyrics },
                 { Label: "Shuffle", Description: "Trộn bài", Value: "Shuffle", Emoji: ZiIcons.shuffle },
                 { Label: "Fillter", Description: "Hiệu Ứng", Value: "Fillter", Emoji: ZiIcons.fillter }
             ];
