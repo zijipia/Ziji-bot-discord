@@ -56,7 +56,7 @@ If you made some changes that you think should make it into the project, send a 
 This project is licensed under the MIT License. See the [LICENSE](./blob/main/LICENSE) file for details.
 
 ## Contact
-For more information, visit the [project page](https://github.com/zijipia/Ziji-bot-discord).
+For more information, visit the [project page](https://github.com/zijipia/Ziji-bot-discord) [Support sever](https://discord.gg/GQyJkZDtdX).
 
 ***
 This README provides an overview, installation steps, usage instructions, and contribution guidelines for the Zibot project.
