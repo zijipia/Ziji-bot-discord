@@ -68,7 +68,10 @@ module.exports.execute = async (interaction, query) => {
     if (validURL(query)) {
         try {
             if (!queue?.metadata) await interaction.editReply({ content: "Đang phát nhạc" });
-            await player.play(voiceChannel, query, {
+            const res = await player.search(query, {
+                requestedBy: interaction.user,
+            })
+            await player.play(voiceChannel, res, {
                 nodeOptions: {
                     selfDeaf: true,
                     volume: 100,
