@@ -62,7 +62,7 @@ For more information, visit the [project page](https://github.com/zijipia/Ziji-b
 This README provides an overview, installation steps, usage instructions, and contribution guidelines for the Zibot project.
 
 ## Testing
-Ziji is testing ZiExtractor, if anything doesn't work properly try turning it off in index.js file line 25.
+Ziji is testing ZiExtractor, if anything doesn't work properly try turning it off [in index.js file line 25.](https://github.com/zijipia/Ziji-bot-discord/blob/main/index.js#L25)
 ```js
 // player.extractors.register(ZiExtractor, {});
 ```
