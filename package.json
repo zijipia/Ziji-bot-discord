@@ -33,6 +33,6 @@
     "mongoose": "^8.5.2",
     "opusscript": "^0.0.8",
     "sharp": "^0.33.4",
-    "ziextractor": "^1.0.5"
+    "ziextractor": "^1.0.6"
   }
 }
