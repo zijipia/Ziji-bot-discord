@@ -195,6 +195,7 @@ module.exports = {
                 CreateButton({ id: "refresh", emoji: `${ZiIcons.refesh}`, disable: false }),
                 CreateButton({ id: "previous", emoji: `${ZiIcons.prev}`, disable: !queue?.history?.previousTrack }),
                 CreateButton({ id: "search", emoji: `${ZiIcons.search}`, disable: false }),
+                CreateButton({ id: "autoPlay", emoji: `${ZiIcons.loopA}`, disable: false }),
                 CreateButton({ id: "stop", emoji: `${ZiIcons.stop}`, disable: false })
             );
             code.components = [relatedTracksRow, buttonRow];
