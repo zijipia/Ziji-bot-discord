@@ -1,4 +1,4 @@
-const { Client } = require("discord.js");
+const { Client, User } = require("discord.js");
 const config = require("../../config");
 
 module.exports.data = {
@@ -8,9 +8,10 @@ module.exports.data = {
 
 /**
  * @param { Client } interaction 
+ * @param { User } user
  */
 module.exports.execute = async (client, user, xpAdd = 1) => {
-    if (client?.db) {
+    if (client?.db && user) {
         // Destructure userDB to extract values with default assignments
         const { xp = 1, level = 1, coin = 1, lang } = await client.db.ZiUser.findOne({ userID: user.id }) || {};
 

@@ -103,5 +103,3 @@ module.exports.execute = async (interaction, lang) => {
 
     return;
 }
-// const command = client.functions.get("Search");
-// await command.execute(interaction, query);

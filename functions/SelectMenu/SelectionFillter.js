@@ -20,5 +20,3 @@ module.exports.execute = async (interaction, lang) => {
     queue.metadata.mess.edit(await player.execute(client, queue));
     return;
 }
-// const command = client.functions.get("Search");
-// await command.execute(interaction, query);
