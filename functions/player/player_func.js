@@ -91,7 +91,7 @@ module.exports = {
             )
             .setColor("Random")
             .setFooter({
-                text: `${lang.until.requestBy} ${interaction.user.username}`,
+                text: `${lang.until.requestBy} ${requestedBy?.username}`,
                 iconURL: requestedBy.displayAvatarURL({ size: 1024 })
             })
             .setTimestamp()
