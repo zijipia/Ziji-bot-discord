@@ -1,43 +1,51 @@
-const { CommandInteraction } = require("discord.js");
-const { EmbedBuilder, ActionRowBuilder, ButtonBuilder, BaseInteraction } = require("discord.js");
+const { CommandInteraction, EmbedBuilder } = require("discord.js");
 
 module.exports.data = {
     name: "ping",
-    description: "Xem ping của bot",
-    type: 1, // slash commad
+    description: "Check the bot's ping",
+    type: 1, // slash command
     options: [],
     integration_types: [0, 1],
     contexts: [0, 1, 2],
-}
+};
+
 /**
  * 
- * @param { CommandInteraction } interaction 
+ * @param {CommandInteraction} interaction 
+ * @param {Object} lang 
  */
 module.exports.execute = async (interaction, lang) => {
-    const sent = await interaction.reply({ content: '🏓 Pinging...', fetchReply: true });
+    try {
+        console.log(lang)
+        const initialResponse = await interaction.reply({ content: '🏓 Pinging...', fetchReply: true });
 
-    const roundTripLatency = sent.createdTimestamp - interaction.createdTimestamp;
+        const roundTripLatency = initialResponse.createdTimestamp - interaction.createdTimestamp;
+        const botPing = interaction.client.ws.ping;
 
-    const botPing = interaction.client.ws.ping;
+        const latencyStatus = botPing > 200 ? lang?.Ping?.Poor || " " :
+            botPing > 100 ? lang?.Ping?.Good || " " : lang?.Ping?.Excellent || " ";
 
-    let latencyStatus = '🟢 Excellent';
-    if (botPing > 100) latencyStatus = '🟡 Good';
-    if (botPing > 200) latencyStatus = '🔴 Poor';
+        const informationEmbed = new EmbedBuilder()
+            .setTitle('🏓 Pong!')
+            .setColor("Random")
+            .setDescription(lang.Ping?.Description?.replace("##username##", interaction.user) || " ")
+            .addFields(
+                { name: lang?.Ping?.Roundtrip || " ", value: `${roundTripLatency}ms`, inline: true },
+                { name: lang?.Ping?.Websocket || " ", value: `${botPing}ms`, inline: true },
+                { name: lang?.Ping?.Latency || " ", value: latencyStatus, inline: true },
+                { name: lang?.Ping?.Timestamp || " ", value: `<t:${Math.floor(Date.now() / 1000)}:F>`, inline: true },
+            )
+            .setImage("https://media.discordapp.net/attachments/1064851388221358153/1209448467077005332/image.png")
+            .setThumbnail(interaction.client.user.displayAvatarURL({ size: 1024, dynamic: true }))
+            .setTimestamp()
+            .setFooter({
+                text: `${lang.until.requestBy} ${interaction.user.username}`,
+                iconURL: interaction.user.displayAvatarURL({ size: 1024 }),
+            });
 
-    const informationEmbed = new EmbedBuilder()
-        .setTitle('🏓 Pong!')
-        .setColor('#00FFE4')
-        .setDescription(`Hey ${interaction.user.username}! Here's my **latency** status:`)
-        .addFields(
-            { name: '🔄 Round-trip Latency', value: `${roundTripLatency}ms`, inline: true },
-            { name: '🌐 WebSocket Ping', value: `${botPing}ms`, inline: true },
-            { name: '📉 Latency Status', value: latencyStatus, inline: false },
-        )
-        .setImage('https://example.com/ping-image.png') // Optional: add a relevant image
-        .setThumbnail(interaction.client.user.displayAvatarURL({ dynamic: true }))
-        .setFooter({ text: 'Powered by  Gay Labs', iconURL: 'https://cdn.discordapp.com/avatars/1208465212961722379/a_52503028c37fb1a49040706395cda6c9.gif' })
-        .setTimestamp();
-
-    await interaction.editReply({ content: null, embeds: [informationEmbed] });
-
-}
+        await interaction.editReply({ content: null, embeds: [informationEmbed] });
+    } catch (error) {
+        console.error('Error executing ping command:', error);
+        await interaction.followUp({ content: '❌ There was an error executing the ping command.', ephemeral: true });
+    }
+};

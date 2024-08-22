@@ -25,7 +25,7 @@ module.exports.execute = async (interaction, lang) => {
     const { client, guild } = interaction
     await interaction.deferReply();
     const langcode = interaction.options.getString("lang");
-    if (!client?.db) return interaction.editReply({ content: "Database hiện không được bật, xin vui lòng liên hệ dev bot" })
+    if (!client?.db) return interaction.editReply({ content: lang?.until?.noDB || "Database hiện không được bật, xin vui lòng liên hệ dev bot" })
     await client.db.ZiUser.updateOne(
         { userID: interaction.user.id },
         {

@@ -69,7 +69,7 @@ module.exports.execute = async (interaction, query, lang) => {
     const queue = useQueue(interaction.guild.id);
     if (validURL(query)) {
         try {
-            if (!queue?.metadata) await interaction.editReply({ content: "Đang phát nhạc" });
+            if (!queue?.metadata) await interaction.editReply({ content: "<a:loading:1151184304676819085> Loading..." });
             const res = await player.search(query, {
                 requestedBy: interaction.user,
             })
@@ -103,7 +103,7 @@ module.exports.execute = async (interaction, query, lang) => {
             return;
         } catch (e) {
             console.error(e);
-            const response = { content: '❌ | Không tìm thấy bài hát', ephemeral: true };
+            const response = { content: lang?.Search?.NOres ?? '❌ | Không tìm thấy bài hát', ephemeral: true };
             if (interaction.replied || interaction.deferred) {
                 try {
                     await interaction.editReply(response);
