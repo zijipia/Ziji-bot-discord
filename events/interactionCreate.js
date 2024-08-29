@@ -45,6 +45,10 @@ module.exports.execute = async (interaction) => {
         return;
     }
 
+    // Get the user's language preference
+    const langfunc = client.functions.get("ZiRank");
+    const lang = await langfunc.execute(client, user, interaction.isAutocomplete() ? 0 : 1);
+
     // Try to execute the command and handle errors
     try {
         if (interaction.isAutocomplete()) {
