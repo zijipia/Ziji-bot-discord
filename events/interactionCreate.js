@@ -39,7 +39,11 @@ module.exports.execute = async (interaction) => {
     const lang = await langfunc.execute(client, interaction.user, 1);
 
     try {
-        await command.execute(interaction, lang);
+        if (interaction.isAutocomplete()) {
+            await command.autocomplete(interaction);
+        } else {
+            await command.execute(interaction);
+        }
     } catch (error) {
         console.error(error);
         const response = { content: 'There was an error while executing this command!', ephemeral: true };
