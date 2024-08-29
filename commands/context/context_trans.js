@@ -37,15 +37,15 @@ module.exports.execute = async (interaction, lang) => {
             embed.setColor(revembed?.color)
 
 
-        if (revembed.description) {
+        if (revembed?.description) {
             const descriptions = await translate(revembed.description, { to: lang?.name || 'en' });
             embed.setDescription(descriptions.text);
         }
-        if (revembed.title) {
+        if (revembed?.title) {
             const titles = await translate(revembed.title, { to: lang?.name || 'en' });
             embed.setTitle(titles.text);
         }
-        if (revembed.fields) {
+        if (revembed?.fields?.length) {
             for (const field of revembed.fields) {
                 const fieldname = await translate(field.name, { to: lang?.name || 'en' });
                 const fields = await translate(field.value, { to: lang?.name || 'en' });
