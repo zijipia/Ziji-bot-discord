@@ -11,7 +11,7 @@ module.exports = {
 module.exports.execute = async (interaction) => {
     let command;
     let commandType;
-    const { client, user } = interaction
+    const { client, user } = interaction;
     //cooldowns 
     if (interaction.isChatInputCommand() || interaction.isAutocomplete() || interaction.isMessageContextMenuCommand()) {
         const now = Date.now();
