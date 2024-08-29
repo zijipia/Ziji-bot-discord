@@ -1,9 +1,9 @@
 const config = require("../config");
-const { useMainPlayer } = require("discord-player");
+const { useMainPlayer, GuildQueueEvent } = require("discord-player");
 const players = useMainPlayer();
 
 module.exports = {
-    name: "error",
+    name: GuildQueueEvent.error,
     type: "Player",
     execute: async (queue, error) => {
         console.log("==== Error ====")

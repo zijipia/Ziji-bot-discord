@@ -1,9 +1,9 @@
 const config = require("../config");
-const { useMainPlayer } = require("discord-player");
+const { useMainPlayer, GuildQueueEvent } = require("discord-player");
 const players = useMainPlayer();
 
 module.exports = {
-    name: "emptyQueue",
+    name: GuildQueueEvent.emptyQueue,
     type: "Player",
     execute: async (queue) => {
         const player = players.client.functions.get("player_func");

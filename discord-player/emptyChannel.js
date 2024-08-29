@@ -1,7 +1,8 @@
 const config = require("../config");
+const { GuildQueueEvent } = require("discord-player")
 
 module.exports = {
-    name: "emptyChannel",
+    name: GuildQueueEvent.emptyChannel,
     type: "Player",
     execute: async (queue) => {
         if (queue.metadata.mess)

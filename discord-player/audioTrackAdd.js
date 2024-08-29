@@ -1,8 +1,8 @@
 const { EmbedBuilder } = require("discord.js");
 const config = require("../config");
-
+const { GuildQueueEvent } = require("discord-player");
 module.exports = {
-    name: "audioTrackAdd",
+    name: GuildQueueEvent.audioTrackAdd,
     type: "Player",
     execute: async (queue, track) => {
         const embed = new EmbedBuilder()
