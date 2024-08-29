@@ -20,7 +20,7 @@ module.exports.execute = async (interaction, lang) => {
         const content = await translate(targetMessage.content, { to: lang?.name || 'en' });
         res.content = `${content.text}`;
     }
-    if (targetMessage.embeds) {
+    if (targetMessage.embeds.length) {
         const revembed = targetMessage.embeds?.at(0)?.data
         const embed = new EmbedBuilder()
             .setFooter({
