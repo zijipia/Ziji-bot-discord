@@ -44,7 +44,6 @@ module.exports.execute = async (interaction, lang) => {
     const text = options.getString('text', true);
     const langTo = options.getString('lang', false) || lang?.name || 'en';
     const translated = await translate(text, { from: 'auto', to: langTo });
-    console.log(translated)
     const embed = new EmbedBuilder()
         .setTitle(`Translated ${this.language[translated.from.language.iso]} -> ${this.language[langTo]}:`)
         .setDescription(translated.text)
