@@ -1,4 +1,5 @@
 module.exports = {
+    name: "vi",
     until: {
         name: 'Tiếng Việt',
         langChange: "Ngôn ngữ của bạn đã được đổi thành:",

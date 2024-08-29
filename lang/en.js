@@ -1,4 +1,5 @@
 module.exports = {
+    name: "en",
     until: {
         name: 'English',
         langChange: "Your language has been changed to:",
