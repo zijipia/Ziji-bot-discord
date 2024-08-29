@@ -35,8 +35,6 @@ module.exports.execute = async (interaction) => {
         console.error(`No ${commandType} matching ${interaction.commandName || interaction.customId} was found.`);
         return;
     }
-    const langfunc = client.functions.get("ZiRank");
-    const lang = await langfunc.execute(client, interaction.user, 1);
 
     try {
         if (interaction.isAutocomplete()) {
