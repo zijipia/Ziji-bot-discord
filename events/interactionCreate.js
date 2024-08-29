@@ -11,9 +11,9 @@ module.exports = {
 module.exports.execute = async (interaction) => {
     let command;
     let commandType;
-    const { client, user } = interaction
+    const { client, user } = interaction;
     //cooldowns 
-    if (interaction.isChatInputCommand() || interaction.isMessageContextMenuCommand()) {
+    if (interaction.isChatInputCommand() || interaction.isAutocomplete() || interaction.isMessageContextMenuCommand()) {
         const now = Date.now();
         if (!!client.cooldowns.has(user.id)) {
             const cooldownAmount = (config?.defaultCooldownDuration ?? 3) * 1_000;
@@ -26,9 +26,9 @@ module.exports.execute = async (interaction) => {
         client.cooldowns.set(user.id, now);
         command = client.commands.get(interaction.commandName);
         commandType = 'command';
-    } else if (interaction.isAutocomplete() || interaction.isMessageComponent() || interaction.isModalSubmit()) {
+    } else if (interaction.isMessageComponent() || interaction.isModalSubmit()) {
         command = client.functions.get(interaction.isAutocomplete() ? interaction.commandName : interaction.customId);
-        commandType = interaction.isAutocomplete() ? 'autocomplete' : 'function';
+        commandType = 'function';
     }
 
     if (!command) {

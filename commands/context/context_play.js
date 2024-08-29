@@ -16,12 +16,7 @@ module.exports.execute = async (interaction, lang) => {
     if (!query) {
         const embed = interaction.targetMessage.embeds?.at(0).data;
         if (embed) {
-            const Fields = embed.fields?.at(0)
-            if (Fields && Fields.value.includes("﹏"))
-                query = embed?.author?.url
-            if (!query) {
-                query = embed?.description
-            }
+            query = embed?.author?.url ?? embed?.description
         }
     }
     const command = interaction.client.functions.get("Search");
