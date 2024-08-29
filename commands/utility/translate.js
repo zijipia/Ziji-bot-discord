@@ -59,6 +59,22 @@ module.exports.execute = async (interaction, lang) => {
     await interaction.editReply({ embeds: [embed] });
 };
 
+module.exports.autocomplete = async (interaction, lang) => {
+    try {
+        const text = interaction.options.getString('text', true);
+        const langTo = lang?.name || 'en';
+        const translated = await translate(text, { to: langTo });
+        const transtext = translated.from?.text?.value;
+        if (!transtext) return;
+        await interaction.respond([{
+            name: transtext,
+            value: transtext.replace(/[\[\]]/g, "")
+        }]);
+        return;
+    } catch (e) {
+        console.error(e);
+    }
+};
 
 
 module.exports.language = {
