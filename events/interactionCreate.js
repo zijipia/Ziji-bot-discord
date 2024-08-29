@@ -40,9 +40,9 @@ module.exports.execute = async (interaction) => {
 
     try {
         if (interaction.isAutocomplete()) {
-            await command.autocomplete(interaction);
+            await command.autocomplete(interaction, lang);
         } else {
-            await command.execute(interaction);
+            await command.execute(interaction, lang);
         }
     } catch (error) {
         console.error(error);
