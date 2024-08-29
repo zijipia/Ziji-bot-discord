@@ -32,10 +32,10 @@ module.exports = {
             commandType = 'function';
         }
 
-        if (!command) {
-            console.error(`No ${commandType} matching ${interaction.commandName || interaction.customId} was found.`);
-            return;
-        }
+    if (!command) {
+        console.error(`No ${commandType} matching ${interaction.commandName || interaction.customId} was found.`);
+        return;
+    }
 
         try {
             if (interaction.isAutocomplete()) {
