@@ -41,7 +41,6 @@ module.exports.execute = async (interaction) => {
             await command.autocomplete(interaction);
         } else {
             await command.execute(interaction);
-
         }
     } catch (error) {
         console.error(error);
