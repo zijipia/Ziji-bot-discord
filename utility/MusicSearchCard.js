@@ -29,7 +29,7 @@ class MusicSearchCard extends Builder {
     }
 
     async renderDefaultPlayer({ index, avatar, displayName, time }) {
-        let image; try { image = await loadImage(avatar); } catch { image = await loadImage("https://raw.githubusercontent.com/zijipia/zijipia/main/Assets/image.png"); }
+        let image = await getCachedImage(avatar);
         return JSX.createElement("div", { className: "flex items-center bg-white/15 rounded-xl p-2 px-3 justify-between" },
             JSX.createElement("div", { className: "flex justify-between items-center" },
                 JSX.createElement("div", { className: "flex mr-2 text-2xl w-[25px]" }, index),
@@ -65,6 +65,23 @@ class MusicSearchCard extends Builder {
                 processedPlayerGroups.map((renderedPlayers) => JSX.createElement("div", { className: "flex flex-col flex-1", style: { gap: "6" } }, renderedPlayers))
             ),
         )
+    }
+}
+
+const imageCache = new Map();
+
+async function getCachedImage(url) {
+    if (imageCache.has(url)) {
+        return imageCache.get(url);
+    }
+    try {
+        const image = await loadImage(url);
+        imageCache.set(url, image);
+        return image;
+    } catch {
+        const fallbackImage = await loadImage("https://raw.githubusercontent.com/zijipia/zijipia/main/Assets/image.png");
+        imageCache.set(url, fallbackImage);
+        return fallbackImage;
     }
 }
 
