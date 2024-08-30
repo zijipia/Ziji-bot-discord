@@ -51,8 +51,9 @@ const loadFiles = (directory, collection) => {
         }
     }
 };
-loadFiles(path.join(__dirname, 'commands'), client.commands);
-loadFiles(path.join(__dirname, 'functions'), client.functions);
+
+loadFilesAsync(path.join(__dirname, 'commands'), client.commands);
+loadFilesAsync(path.join(__dirname, 'functions'), client.functions);
 
 const loadEvents = (directory, target) => {
     const files = fs.readdirSync(directory).filter(file => file.endsWith('.js'));
