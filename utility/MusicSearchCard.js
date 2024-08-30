@@ -16,7 +16,21 @@ class MusicSearchCard extends Builder {
             players: [],
         });
         if (!FontFactory.size) Font.fromFileSync("./utility/FONT-Avo.ttf");
+        this.memoizedRenderDefaultPlayer = this.memoize(this.renderDefaultPlayer);
+        this.calculateDimensions = this.memoize(calculateDimensions);
     }
+
+    memoize(fn) {
+        const cache = new Map();
+        return function (...args) {
+            const key = JSON.stringify(args);
+            if (cache.has(key)) return cache.get(key);
+            const result = fn.apply(this, args);
+            cache.set(key, result);
+            return result;
+        }
+    }
+
     setTitle(title) {
         this.options.set("title", title);
         return this;
@@ -30,13 +44,56 @@ class MusicSearchCard extends Builder {
 
     async renderDefaultPlayer({ index, avatar, displayName, time }) {
         let image = await getCachedImage(avatar);
-        return JSX.createElement("div", { className: "flex items-center bg-white/15 rounded-xl p-2 px-3 justify-between" },
-            JSX.createElement("div", { className: "flex justify-between items-center" },
-                JSX.createElement("div", { className: "flex mr-2 text-2xl w-[25px]" }, index),
-                JSX.createElement("img", { src: image.toDataURL(), width: 49.25, height: 49.58, className: "rounded-full flex", alt: "avatar" }),
-                JSX.createElement("div", { className: "flex flex-col justify-center ml-3" },
-                    JSX.createElement("div", { className: "text-xl font-semibold -mb-1 flex" }, displayName, displayName.length == 30 ? "..." : "."),
-                    JSX.createElement("div", { className: "text-lg font-medium text-gray-300 flex" }, time)
+        return JSX.createElement("div", {
+            style: {
+                display: "flex",
+                alignItems: "center",
+                justifyContent: "space-between",
+                backgroundColor: "rgba(255, 255, 255, 0.1)",
+                borderRadius: "0.75rem",
+                padding: "0.75rem",
+                transition: "background-color 0.3s ease"
+            }
+        },
+            JSX.createElement("div", { style: { display: "flex", alignItems: "center" } },
+                JSX.createElement("div", {
+                    style: {
+                        display: "flex",
+                        justifyContent: "center",
+                        alignItems: "center",
+                        marginRight: "1rem",
+                        fontSize: "1.5rem",
+                        fontWeight: "bold",
+                        width: "30px",
+                        height: "30px",
+                        backgroundColor: "rgba(255, 255, 255, 0.2)",
+                        borderRadius: "9999px"
+                    }
+                }, index),
+                JSX.createElement("img", {
+                    src: image.toDataURL(),
+                    width: 55,
+                    height: 55,
+                    style: { borderRadius: "9999px", marginRight: "1rem" },
+                    alt: "avatar"
+                }),
+                JSX.createElement("div", { style: { display: "flex", flexDirection: "column", justifyContent: "center" } },
+                    JSX.createElement("div", {
+                        style: {
+                            display: "flex",
+                            fontSize: "1.25rem",
+                            fontWeight: "600",
+                            marginBottom: "0.25rem"
+                        }
+                    }, displayName.length > 30 ? displayName.slice(0, 30) + "..." : displayName),
+                    JSX.createElement("div", {
+                        style: {
+                            display: "flex",
+                            fontSize: "1.125rem",
+                            fontWeight: "500",
+                            color: "rgb(209, 213, 219)"
+                        }
+                    }, time)
                 )
             ),
         );
@@ -44,35 +101,54 @@ class MusicSearchCard extends Builder {
 
     async render() {
         const { title, players } = this.options.getOptions();
-        this.width = 1000;
-        this.height = 40 + (players.length > 10 ? 80 : 100) * Math.ceil(players.length / 2);
+        const maxPlayersPerColumn = Math.ceil(players.length / 2);
+        const { height, width } = this.calculateDimensions(players.length);
+        this.height = height;
+        this.width = width;
         this.adjustCanvas();
+        const leftColumn = players.slice(0, maxPlayersPerColumn);
+        const rightColumn = players.slice(maxPlayersPerColumn);
 
-        const playerGroupChunks = chunkArrayInGroups(players, Math.ceil(players.length / 2));
-        const processedPlayerGroups = await Promise.all(
-            playerGroupChunks.map(async (playerGroup) => {
-                const renderedPlayers = await Promise.all(playerGroup.map((player) => this.renderDefaultPlayer(player)));
-                return renderedPlayers;
-            })
-        );
-        return JSX.createElement("div", { className: "flex relative w-full flex-col", style: { background: "linear-gradient(to top, #120C17, #010424, #53049c)", borderRadius: "0.5rem", height: "100%", width: "100%", }, },
-            JSX.createElement("div", { className: "flex justify-center w-full m-0 my-5" },
-                title && JSX.createElement("div", { className: "flex flex-col items-center justify-center ml-3" },
-                    JSX.createElement("div", { className: "text-white font-semibold text-2xl flex" }, title),
+        const processedPlayerGroups = await Promise.all([
+            Promise.all(leftColumn.map((player) => this.memoizedRenderDefaultPlayer(player))),
+            Promise.all(rightColumn.map((player) => this.memoizedRenderDefaultPlayer(player)))
+        ]);
+
+        // Loại bỏ requestAnimationFrame và trả về kết quả trực tiếp
+        return JSX.createElement("div", {
+            style: {
+                display: "flex",
+                flexDirection: "column",
+                background: "linear-gradient(to bottom right, #120C17, #010424, #53049c)",
+                borderRadius: "1rem",
+                height: `${this.height}px`,
+                width: `${this.width}px`,
+                padding: "15px"
+            }
+        },
+            JSX.createElement("div", { style: { display: "flex", justifyContent: "center", width: "100%", marginBottom: "1rem" } },
+                title && JSX.createElement("div", { style: { display: "flex", flexDirection: "column", alignItems: "center", justifyContent: "center" } },
+                    JSX.createElement("div", { style: { display: "flex", color: "white", fontWeight: "bold", fontSize: "1.5rem" } }, title),
+                    JSX.createElement("div", { style: { display: "flex", width: "4rem", height: "0.2rem", backgroundColor: "rgba(255, 255, 255, 0.5)", marginTop: "0.3rem", borderRadius: "9999px" } }),
                 ),
             ),
-            JSX.createElement("div", { className: "flex text-white p-2 px-3", style: { gap: "6" } },
-                processedPlayerGroups.map((renderedPlayers) => JSX.createElement("div", { className: "flex flex-col flex-1", style: { gap: "6" } }, renderedPlayers))
+            JSX.createElement("div", { style: { display: "flex", color: "white", gap: "15px" } },
+                processedPlayerGroups.map((renderedPlayers) => JSX.createElement("div", { style: { display: "flex", flexDirection: "column", flex: 1, gap: "8px" } }, ...renderedPlayers))
             ),
-        )
+        );
     }
 }
 
 const imageCache = new Map();
+const MAX_CACHE_SIZE = 100;
 
 async function getCachedImage(url) {
     if (imageCache.has(url)) {
         return imageCache.get(url);
+    }
+    if (imageCache.size >= MAX_CACHE_SIZE) {
+        const oldestKey = imageCache.keys().next().value;
+        imageCache.delete(oldestKey);
     }
     try {
         const image = await loadImage(url);
@@ -84,5 +160,19 @@ async function getCachedImage(url) {
         return fallbackImage;
     }
 }
+
+const calculateDimensions = (playersCount) => {
+    const playerHeight = 80;
+    const titleHeight = 60;
+    const padding = 30;
+    const maxPlayersPerColumn = Math.ceil(playersCount / 2);
+
+    const height = titleHeight + padding +
+        playerHeight * maxPlayersPerColumn +
+        (maxPlayersPerColumn - 1) * 10 + 20;
+    const width = 550 * 2 + padding;
+
+    return { height, width };
+};
 
 module.exports = { MusicSearchCard };
