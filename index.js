@@ -31,14 +31,15 @@ client.commands = new Collection();
 client.functions = new Collection();
 client.cooldowns = new Collection();
 
-const loadFiles = (directory, collection) => {
+const loadFilesAsync = async (directory, collection) => {
     const folders = fs.readdirSync(directory);
-    console.log(`========== Load ${directory.split("\\").slice(-1)?.at(0)} ==========`);
-    for (const folder of folders) {
+    console.log(`========== Load ${path.basename(directory)} ==========`);
+    
+    await Promise.all(folders.map(async (folder) => {
         const folderPath = path.join(directory, folder);
         const files = fs.readdirSync(folderPath).filter(file => file.endsWith('.js'));
 
-        for (const file of files) {
+        await Promise.all(files.map(async (file) => {
             const filePath = path.join(folderPath, file);
             const module = require(filePath);
 
@@ -48,8 +49,8 @@ const loadFiles = (directory, collection) => {
             } else {
                 console.log(`[WARNING] The ${folder} at ${filePath} is missing a required "data" or "execute" property.`);
             }
-        }
-    }
+        }));
+    }));
 };
 
 loadFilesAsync(path.join(__dirname, 'commands'), client.commands);
