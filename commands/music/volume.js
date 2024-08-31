@@ -17,7 +17,6 @@ module.exports.data = {
   ],
   integration_types: [0],
   contexts: [0],
-  global: true,
 };
 /**
  *

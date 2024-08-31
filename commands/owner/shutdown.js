@@ -7,7 +7,7 @@ module.exports.data = {
   type: 1, // slash command
   integration_types: [0],
   contexts: [0],
-  global: false,
+  owner: true,
 };
 
 /**

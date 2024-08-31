@@ -5,9 +5,9 @@ const config = require('./config');
 
 module.exports = async client => {
   const globalCommands = [];
-  const serverSpecificCommands = [];
+  const ownerCommands = [];
 
-  // Grab all the command folders from the commands directory
+  // Load commands from all folders
   const foldersPath = path.join(__dirname, 'commands');
   const commandFolders = fs.readdirSync(foldersPath);
 
@@ -20,64 +20,48 @@ module.exports = async client => {
       const command = require(filePath);
 
       if ('data' in command && 'execute' in command) {
-        if (command.data.global) {
-          globalCommands.push(command.data);
+        if (command.data.owner) {
+          ownerCommands.push(command.data);
         } else {
-          serverSpecificCommands.push(command.data);
+          globalCommands.push(command.data);
         }
-      } else {
-        console.log(`[WARNING] The command at ${filePath} is missing a required "data" or "execute" property.`);
       }
     }
   }
 
-  // Construct and prepare an instance of the REST module
   const rest = new REST().setToken(process.env.TOKEN);
 
   try {
     console.log(`Started refreshing ${globalCommands.length} global application [/] commands.`);
     // Deploy global commands
-    const globalData = await rest.put(Routes.applicationCommands(client.user.id), { body: globalCommands });
-    console.log(`Successfully reloaded ${globalData.length} global application [/] commands.`);
+    if (globalCommands.length > 0) {
+      console.log(`Successfully reloaded ${globalCommands.length} global application [/] commands.`);
+      await rest.put(Routes.applicationCommands(client.user.id), { body: globalCommands });
+    }
 
-    // Initialize serverData as an empty object
-    const serverData = {};
+    // Deploy owner commands to specific guilds
+    const guildIds = config.DevGuild || [];
 
-    // Deploy server-specific commands
-    const guildIds = config.DevGuild;
+    if (guildIds.length > 0 && ownerCommands.length > 0) {
+      console.log(`Started refreshing ${ownerCommands.length} owner application [/] commands for guild ${guildIds}.`);
 
-    // Nếu không có guilds, thoát
-    if (guildIds && Array.isArray(guildIds) && guildIds.length > 0) {
       for (const guildId of guildIds) {
-        // Kiểm tra xem guildId có phải là một chuỗi hợp lệ không
-        if (typeof guildId === 'string' && guildId.match(/^\d{18}$/)) {
+        try {
+          await rest.put(Routes.applicationGuildCommands(client.user.id, guildId), { body: ownerCommands });
           console.log(
-            `Started refreshing ${serverSpecificCommands.length} guild-specific application [/] commands for guild ${guildId}.`
+            `Successfully reloaded ${ownerCommands.length} owner application [/] commands for guild ${guildIds}.`
           );
-
-          try {
-            serverData[guildId] = await rest.put(Routes.applicationGuildCommands(client.user.id, guildId), {
-              body: serverSpecificCommands,
-            });
-
-            console.log(
-              `Successfully reloaded ${serverData[guildId].length} guild-specific application [/] commands for guild ${guildId}.`
-            );
-          } catch (error) {
-            console.error(`Error refreshing commands for guild ${guildId}:`, error);
-          }
-        } else {
-          console.warn(`Skipping invalid guild ID: ${guildId}`);
+        } catch (error) {
+          console.error(
+            `Error deploying owner commands to guild ${guildId}. Make sure you provided the correct guild ID and the bot is in the guild.`
+          );
+          process.exit(1);
         }
       }
     } else {
-      console.log(
-        '[WARNING] No valid guild IDs were provided in the config file. Skipping server-specific command deployment.'
-      );
+      console.log('No owner commands to deploy or no guilds provided.');
     }
-
-    return { global: globalData, serverSpecific: serverData };
   } catch (error) {
-    console.error(error);
+    console.error('Error during command deployment:', error);
   }
 };
