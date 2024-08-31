@@ -7,7 +7,6 @@ const { YoutubeiExtractor } = require('discord-player-youtubei');
 const { ZiExtractor } = require('ziextractor');
 const chalk = require('chalk');
 const { table } = require('table');
-require('module-alias/register');
 
 const client = new Client({
   intents: [GatewayIntentBits.Guilds, GatewayIntentBits.GuildVoiceStates],
