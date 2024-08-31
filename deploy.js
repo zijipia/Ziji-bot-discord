@@ -1,45 +1,67 @@
 const { REST, Routes } = require('discord.js');
 const fs = require('node:fs');
 const path = require('node:path');
-module.exports = async (client) => {
-    const commands = [];
-    // Grab all the command folders from the commands directory you created earlier
-    const foldersPath = path.join(__dirname, 'commands');
-    const commandFolders = fs.readdirSync(foldersPath);
+const config = require('./config');
 
-    for (const folder of commandFolders) {
-        // Grab all the command files from the commands directory you created earlier
-        const commandsPath = path.join(foldersPath, folder);
-        const commandFiles = fs.readdirSync(commandsPath).filter(file => file.endsWith('.js'));
-        // Grab the SlashCommandBuilder#toJSON() output of each command's data for deployment
-        for (const file of commandFiles) {
-            const filePath = path.join(commandsPath, file);
-            const command = require(filePath);
-            if ('data' in command && 'execute' in command) {
-                commands.push(command.data);
-            } else {
-                console.log(`[WARNING] The command at ${filePath} is missing a required "data" or "execute" property.`);
-            }
+module.exports = async client => {
+  const globalCommands = [];
+  const ownerCommands = [];
+
+  // Load commands from all folders
+  const foldersPath = path.join(__dirname, 'commands');
+  const commandFolders = fs.readdirSync(foldersPath);
+
+  for (const folder of commandFolders) {
+    const commandsPath = path.join(foldersPath, folder);
+    const commandFiles = fs.readdirSync(commandsPath).filter(file => file.endsWith('.js'));
+
+    for (const file of commandFiles) {
+      const filePath = path.join(commandsPath, file);
+      const command = require(filePath);
+
+      if ('data' in command && 'execute' in command) {
+        if (command.data.owner) {
+          ownerCommands.push(command.data);
+        } else {
+          globalCommands.push(command.data);
         }
+      }
+    }
+  }
+
+  const rest = new REST().setToken(process.env.TOKEN);
+
+  try {
+    console.log(`Started refreshing ${globalCommands.length} global application [/] commands.`);
+    // Deploy global commands
+    if (globalCommands.length > 0) {
+      console.log(`Successfully reloaded ${globalCommands.length} global application [/] commands.`);
+      await rest.put(Routes.applicationCommands(client.user.id), { body: globalCommands });
     }
 
-    // Construct and prepare an instance of the REST module
-    const rest = new REST().setToken(process.env.TOKEN);
+    // Deploy owner commands to specific guilds
+    const guildIds = config.DevGuild || [];
 
-    // and deploy your commands!
-    try {
-        console.log(`Started refreshing ${commands.length} application [/] commands.`);
-        // The put method is used to fully refresh all commands in the guild with the current set
-        const data = await rest.put(
-            Routes.applicationCommands(client.user.id),
-            { body: commands },
-        );
+    if (guildIds.length > 0 && ownerCommands.length > 0) {
+      console.log(`Started refreshing ${ownerCommands.length} owner application [/] commands for guild ${guildIds}.`);
 
-        console.log(`Successfully reloaded ${data.length} application [/] commands.`);
-        return data
-    } catch (error) {
-        // And of course, make sure you catch and log any errors!
-        console.error(error);
+      for (const guildId of guildIds) {
+        try {
+          await rest.put(Routes.applicationGuildCommands(client.user.id, guildId), { body: ownerCommands });
+          console.log(
+            `Successfully reloaded ${ownerCommands.length} owner application [/] commands for guild ${guildIds}.`
+          );
+        } catch (error) {
+          console.error(
+            `Error deploying owner commands to guild ${guildId}. Make sure you provided the correct guild ID and the bot is in the guild.`
+          );
+          process.exit(1);
+        }
+      }
+    } else {
+      console.log('No owner commands to deploy or no guilds provided.');
     }
-
-}
+  } catch (error) {
+    console.error('Error during command deployment:', error);
+  }
+};
