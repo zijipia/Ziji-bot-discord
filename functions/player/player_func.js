@@ -75,7 +75,6 @@ module.exports = {
     execute: async (client, queue, tracks) => {
         const track = tracks ?? queue?.currentTrack ?? queue?.history?.previousTrack;
         const requestedBy = track?.requestedBy ?? queue.metadata.requestedBy;
-
         const queryTypeIcon = getQueryTypeIcon(track?.queryType);
         const timestamps = queue?.node.getTimestamp();
         const trackDurationSymbol = timestamps?.progress === "Infinity" ? "" : "%";
