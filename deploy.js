@@ -55,25 +55,39 @@ module.exports = async (client) => {
     const serverData = {};
 
     // Deploy server-specific commands
-    const guildIds = config?.DevGuild;
+    const guildIds = config.DevGuilds;
 
     // Nếu không có guilds, thoát
-    if (guildIds) {
+    if (guildIds && Array.isArray(guildIds) && guildIds.length > 0) {
       for (const guildId of guildIds) {
-        console.log(
-          `Started refreshing ${serverSpecificCommands.length} guild-specific application [/] commands for guild ${guildId}.`,
-        );
-        serverData[guildId] = await rest.put(
-          Routes.applicationGuildCommands(client.user.id, guildId),
-          { body: serverSpecificCommands },
-        );
-        console.log(
-          `Successfully reloaded ${serverData[guildId].length} guild-specific application [/] commands for guild ${guildId}.`,
-        );
+        // Kiểm tra xem guildId có phải là một chuỗi hợp lệ không
+        if (typeof guildId === 'string' && guildId.match(/^\d{18}$/)) {
+          console.log(
+            `Started refreshing ${serverSpecificCommands.length} guild-specific application [/] commands for guild ${guildId}.`,
+          );
+
+          try {
+            serverData[guildId] = await rest.put(
+              Routes.applicationGuildCommands(client.user.id, guildId),
+              { body: serverSpecificCommands },
+            );
+
+            console.log(
+              `Successfully reloaded ${serverData[guildId].length} guild-specific application [/] commands for guild ${guildId}.`,
+            );
+          } catch (error) {
+            console.error(
+              `Error refreshing commands for guild ${guildId}:`,
+              error,
+            );
+          }
+        } else {
+          console.warn(`Skipping invalid guild ID: ${guildId}`);
+        }
       }
     } else {
       console.log(
-        '[WARNING] No guilds were provided in the config file. Skipping server-specific command deployment.',
+        '[WARNING] No valid guild IDs were provided in the config file. Skipping server-specific command deployment.',
       );
     }
 
