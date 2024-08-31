@@ -16,7 +16,6 @@ module.exports.data = {
  */
 module.exports.execute = async (interaction, lang) => {
     try {
-        console.log(lang)
         const initialResponse = await interaction.reply({ content: '🏓 Pinging...', fetchReply: true });
 
         const roundTripLatency = initialResponse.createdTimestamp - interaction.createdTimestamp;

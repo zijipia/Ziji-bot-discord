@@ -27,15 +27,10 @@ module.exports.execute = async (interaction, lang) => {
                 text: `${lang.until.requestBy} ${user?.username}`,
                 iconURL: user.displayAvatarURL({ size: 1024 })
             })
-            .setTimestamp();
-
-        if (revembed?.thumbnail?.url)
-            embed.setThumbnail(revembed?.thumbnail?.url)
-        if (revembed?.image?.url)
-            embed.setImage(revembed?.image?.url)
-        if (revembed?.color)
-            embed.setColor(revembed?.color)
-
+            .setTimestamp()
+            .setThumbnail(revembed?.thumbnail?.url || null)
+            .setImage(revembed?.image?.url || null)
+            .setColor(revembed?.color || null)
 
         if (revembed?.description) {
             const descriptions = await translate(revembed.description, { to: lang?.name || 'en' });
@@ -45,14 +40,25 @@ module.exports.execute = async (interaction, lang) => {
             const titles = await translate(revembed.title, { to: lang?.name || 'en' });
             embed.setTitle(titles.text);
         }
+        if (revembed?.author) {
+            const authorname = await translate(revembed.author.name, { to: lang?.name || 'en' });
+            embed.setAuthor({
+                name: authorname.text.length ? authorname.text : " ",
+                iconURL: revembed.author?.icon_url,
+                url: revembed.author?.url
+            })
+        }
         if (revembed?.fields?.length) {
             for (const field of revembed.fields) {
                 const fieldname = await translate(field.name, { to: lang?.name || 'en' });
-                const fields = await translate(field.value, { to: lang?.name || 'en' });
-                embed.addFields({ name: fieldname.text, value: fields.text, inline: field.inline });
+                const fieldvalue = await translate(field.value, { to: lang?.name || 'en' });
+                embed.addFields({
+                    name: fieldname.text.length ? fieldname.text : " ",
+                    value: fieldvalue.text.length ? fieldvalue.text : " ",
+                    inline: field.inline
+                });
             }
         }
-
         res.embeds = [embed];
     }
     await interaction.editReply(res);

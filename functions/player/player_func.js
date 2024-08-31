@@ -40,7 +40,7 @@ const getRelatedTracks = async (track, history) => {
     }
 };
 // Helper function to get query Type Icon
-const getQueryTypeIcon = (type) => {
+const getQueryTypeIcon = (type, raw) => {
     switch (type) {
         case QueryType.YOUTUBE:
         case QueryType.YOUTUBE_PLAYLIST:
@@ -58,7 +58,7 @@ const getQueryTypeIcon = (type) => {
         case QueryType.SOUNDCLOUD_SEARCH:
             return ZiIcons.soundcloudIconURL;
         default:
-            return ZiIcons.AttachmentIconURL;
+            return raw?.favicon ?? ZiIcons.AttachmentIconURL;
     }
 }
 
@@ -77,7 +77,7 @@ module.exports = {
         const requestedBy = track?.requestedBy ?? queue.metadata.requestedBy;
         const langfunc = client.functions.get("ZiRank");
         const lang = await langfunc.execute(client, requestedBy, 0);
-        const queryTypeIcon = getQueryTypeIcon(track?.queryType);
+        const queryTypeIcon = getQueryTypeIcon(track?.queryType, track?.raw);
         const timestamps = queue?.node.getTimestamp();
         const trackDurationSymbol = timestamps?.progress === "Infinity" ? "" : "%";
         const trackDuration = timestamps?.progress === "Infinity" ? "∞" : timestamps?.progress;

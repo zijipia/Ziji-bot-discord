@@ -1,6 +1,6 @@
 {
   "name": "ziji-bot-discord",
-  "version": "0.0.1",
+  "version": "1.0.1",
   "description": "Ziji bot discord",
   "main": "index.js",
   "scripts": {
@@ -34,6 +34,6 @@
     "mongoose": "^8.5.2",
     "opusscript": "^0.0.8",
     "sharp": "^0.33.4",
-    "ziextractor": "^1.0.6"
+    "ziextractor": "^1.0.8"
   }
 }

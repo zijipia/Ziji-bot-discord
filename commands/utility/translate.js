@@ -44,7 +44,6 @@ module.exports.execute = async (interaction, lang) => {
     const text = options.getString('text', true);
     const langTo = options.getString('lang', false) || lang?.name || 'en';
     const translated = await translate(text, { from: 'auto', to: langTo });
-    console.log(translated)
     const embed = new EmbedBuilder()
         .setTitle(`Translated ${this.language[translated.from.language.iso]} -> ${this.language[langTo]}:`)
         .setDescription(translated.text)
@@ -59,6 +58,22 @@ module.exports.execute = async (interaction, lang) => {
     await interaction.editReply({ embeds: [embed] });
 };
 
+module.exports.autocomplete = async (interaction, lang) => {
+    try {
+        const text = interaction.options.getString('text', true);
+        const langTo = lang?.name || 'en';
+        const translated = await translate(text, { to: langTo });
+        const transtext = translated.from?.text?.value;
+        if (!transtext) return;
+        await interaction.respond([{
+            name: transtext,
+            value: transtext.replace(/[\[\]]/g, "")
+        }]);
+        return;
+    } catch (e) {
+        console.error(e);
+    }
+};
 
 
 module.exports.language = {
