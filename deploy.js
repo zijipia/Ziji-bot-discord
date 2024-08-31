@@ -55,7 +55,7 @@ module.exports = async (client) => {
     const serverData = {};
 
     // Deploy server-specific commands
-    const guildIds = config?.DevGuilds;
+    const guildIds = config?.DevGuild;
 
     // Nếu không có guilds, thoát
     if (!guildIds) return;
