@@ -58,18 +58,22 @@ module.exports = async (client) => {
     const guildIds = config?.DevGuild;
 
     // Nếu không có guilds, thoát
-    if (!guildIds) return;
-
-    for (const guildId of guildIds) {
+    if (guildIds) {
+      for (const guildId of guildIds) {
+        console.log(
+          `Started refreshing ${serverSpecificCommands.length} guild-specific application [/] commands for guild ${guildId}.`,
+        );
+        serverData[guildId] = await rest.put(
+          Routes.applicationGuildCommands(client.user.id, guildId),
+          { body: serverSpecificCommands },
+        );
+        console.log(
+          `Successfully reloaded ${serverData[guildId].length} guild-specific application [/] commands for guild ${guildId}.`,
+        );
+      }
+    } else {
       console.log(
-        `Started refreshing ${serverSpecificCommands.length} guild-specific application [/] commands for guild ${guildId}.`,
-      );
-      serverData[guildId] = await rest.put(
-        Routes.applicationGuildCommands(client.user.id, guildId),
-        { body: serverSpecificCommands },
-      );
-      console.log(
-        `Successfully reloaded ${serverData[guildId].length} guild-specific application [/] commands for guild ${guildId}.`,
+        '[WARNING] No guilds were provided in the config file. Skipping server-specific command deployment.',
       );
     }
 
