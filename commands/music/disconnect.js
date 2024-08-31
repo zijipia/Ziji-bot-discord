@@ -9,6 +9,7 @@ module.exports.data = {
   options: [],
   integration_types: [0],
   contexts: [0],
+  global: true,
 };
 /**
  *
