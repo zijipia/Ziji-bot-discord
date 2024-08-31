@@ -1,7 +1,7 @@
 module.exports = {
-  // Cho phép deploy bot
+  // Cho phép deploy command bot
   deploy: true,
-  // Tên hoạt động hiển thị của bot
+  // Tên hoạt động của bot
   ActivityName: 'Ziji bot',
   // Trạng thái mặc định của bot 'online', 'idle', 'dnd', 'invisible'
   Status: 'idle',
