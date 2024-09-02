@@ -11,9 +11,6 @@ module.exports.data = {
  * @returns
  */
 module.exports.execute = async (interaction, lang) => {
-  if (interaction.message.interaction.user.id !== interaction.user.id) {
-    return interaction.reply({ content: 'You cannot interact with this button.', ephemeral: true });
-  }
   const queue = useQueue(interaction.guild.id);
   queue.tracks.shuffle();
   const QueueTrack = interaction.client.functions.get('Queue');
