@@ -36,6 +36,6 @@
     "opusscript": "^0.0.8",
     "sharp": "^0.33.4",
     "table": "^6.8.2",
-    "ziextractor": "^1.0.9"
+    "ziextractor": "^1.0.10"
   }
 }
