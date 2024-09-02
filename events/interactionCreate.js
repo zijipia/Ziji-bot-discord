@@ -11,10 +11,6 @@ module.exports = {
 module.exports.execute = async interaction => {
   const { client, user } = interaction;
 
-  if (!interaction.guild) {
-    return interaction.reply({ content: 'Commands cannot be run in DMs.', ephemeral: true });
-  }
-
   let command;
   let commandType;
 
