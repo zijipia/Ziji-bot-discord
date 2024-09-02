@@ -10,6 +10,9 @@ module.exports.data = {
  * @param { StringSelectMenuInteraction } interaction
  */
 module.exports.execute = async (interaction, lang) => {
+  if (interaction.message.interaction.user.id !== interaction.user.id) {
+    return interaction.reply({ content: 'You cannot interact with this menu.', ephemeral: true });
+  }
   const { guild, client, values } = interaction;
   const queue = useQueue(interaction.guild.id);
   const fillter = values?.at(0);
