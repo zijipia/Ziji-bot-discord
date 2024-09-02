@@ -10,6 +10,7 @@ module.exports = {
  */
 module.exports.execute = async interaction => {
   const { client, user } = interaction;
+
   let command;
   let commandType;
 

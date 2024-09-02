@@ -21,7 +21,7 @@ async function Update_Player(client, queue) {
  * @param { StringSelectMenuInteraction } interaction
  */
 module.exports.execute = async (interaction, lang) => {
-  const { guild, client, values } = interaction;
+  const { guild, client, values, user } = interaction;
   const query = values?.at(0);
   const queue = useQueue(guild.id);
   switch (query) {
@@ -58,6 +58,9 @@ module.exports.execute = async (interaction, lang) => {
   if (queue.metadata.LockStatus && queue.metadata.requestedBy?.id !== interaction.user?.id) return;
   switch (query) {
     case 'Lock': {
+      if (queue.metadata.requestedBy?.id !== user.id) {
+        return interaction.reply({ content: 'You cannot interact with this menu.', ephemeral: true });
+      }
       const EditMetadata = client.functions.get('EditMetadata');
       EditMetadata.execute(guild, { LockStatus: !queue.metadata.LockStatus });
       await Update_Player(client, queue);
