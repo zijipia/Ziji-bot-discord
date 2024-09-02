@@ -23,9 +23,7 @@ module.exports.data = {
  * @param { ModalSubmitInteraction } interaction
  */
 module.exports.execute = async (interaction, lang) => {
-  if (interaction.message.interaction.user.id !== interaction.user.id) {
-    return interaction.reply({ content: 'You cannot interact with this modal.', ephemeral: true });
-  }
+  if (queue.metadata.LockStatus && queue.metadata.requestedBy?.id !== interaction.user?.id) return;
   const { guild, client, fields } = interaction;
   const queue = useQueue(guild.id);
 
