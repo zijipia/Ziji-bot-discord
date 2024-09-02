@@ -10,7 +10,7 @@ module.exports.data = {
  * @param { StringSelectMenuInteraction } interaction
  */
 module.exports.execute = async (interaction, lang) => {
-  if (interaction.message.interaction.user.id !== interaction.user.id) {
+  if (queue.metadata.requestedBy?.id !== user.id) {
     return interaction.reply({ content: 'You cannot interact with this menu.', ephemeral: true });
   }
   const { guild, client, values } = interaction;
