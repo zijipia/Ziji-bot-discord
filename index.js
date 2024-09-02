@@ -138,6 +138,7 @@ const initialize = async () => {
     loadEvents(path.join(__dirname, 'events'), client),
     loadEvents(path.join(__dirname, 'discord-player'), player.events),
   ]);
+  dfgdfg;
 
   client.login(process.env.TOKEN);
 };
