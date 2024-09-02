@@ -25,8 +25,6 @@ player.extractors.register(YoutubeiExtractor, {
 player.extractors.register(ZiExtractor, {});
 player.extractors.loadDefault(ext => !['YouTubeExtractor'].includes(ext));
 
-// player.on("debug", console.log)
-
 client.commands = new Collection();
 client.functions = new Collection();
 client.cooldowns = new Collection();
@@ -100,9 +98,9 @@ const loadEvents = async (directory, target) => {
               const event = require(path.resolve(filePath));
               clientEvents.push([chalk.hex('#E5C3FF')(file.name), '✅']);
 
-              target.on(event.name, (...args) => {
+              target.on(event.name, async (...args) => {
                 try {
-                  event.execute(...args);
+                  await event.execute(...args);
                 } catch (executeError) {
                   console.error(`Error executing event ${event.name}:`, executeError);
                 }
@@ -133,12 +131,20 @@ const loadEvents = async (directory, target) => {
   );
 };
 
-loadFiles(path.join(__dirname, 'commands'), client.commands);
-loadFiles(path.join(__dirname, 'functions'), client.functions);
-loadEvents(path.join(__dirname, 'events'), client);
-loadEvents(path.join(__dirname, 'discord-player'), player.events);
+const initialize = async () => {
+  await Promise.all([
+    loadFiles(path.join(__dirname, 'commands'), client.commands),
+    loadFiles(path.join(__dirname, 'functions'), client.functions),
+    loadEvents(path.join(__dirname, 'events'), client),
+    loadEvents(path.join(__dirname, 'discord-player'), player.events),
+  ]);
 
-client.login(process.env.TOKEN);
+  client.login(process.env.TOKEN);
+};
+
+initialize().catch(error => {
+  console.error('Error during initialization:', error);
+});
 
 process.on('unhandledRejection', error => {
   console.error('Unhandled promise rejection:', error);
