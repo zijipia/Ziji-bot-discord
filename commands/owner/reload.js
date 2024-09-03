@@ -64,8 +64,8 @@ async function reloadAll(client) {
   const results = {};
   for (const [key, [dirPath, collection, additionalAction]] of Object.entries(reloadFunctions)) {
     if (key === 'events') client.removeAllListeners();
-    if (key === 'discordPlayer' && client.player && client.player.events) {
-      client.player.events.removeAllListeners();
+    if (key === 'discordPlayer' && client.player) {
+      client.player.removeAllListeners();
     }
     results[key] = await reloadModules(client, path.join(__dirname, dirPath), collection, key, additionalAction);
   }
@@ -79,9 +79,9 @@ function reloadEvent(client, event) {
 }
 
 function reloadDiscordPlayerEvent(client, event) {
-  if (client.player && client.player.events) {
+  if (client.player) {
     const method = event.once ? 'once' : 'on';
-    client.player.events[method](event.name, (...args) => event.execute(...args));
+    client.player[method](event.name, (...args) => event.execute(...args));
   }
 }
 
