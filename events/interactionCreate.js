@@ -21,19 +21,24 @@ module.exports.execute = async interaction => {
 
     // Handle cooldowns if not an autocomplete interaction
     if (!interaction.isAutocomplete()) {
-      const now = Date.now();
-      const cooldownDuration = (config?.defaultCooldownDuration ?? 3) * 1_000;
-      const expirationTime = client.cooldowns.get(user.id) + cooldownDuration;
+      // Check if the user is an owner
+      const isOwner = config.OwnerID.includes(user.id);
 
-      if (client.cooldowns.has(user.id) && now < expirationTime) {
-        const expiredTimestamp = Math.round(expirationTime / 1_000);
-        return interaction.reply({
-          content: `Please wait, you are on a cooldown for \`${interaction.commandName}\`. You can use it again <t:${expiredTimestamp}:R>.`,
-          ephemeral: true,
-        });
+      if (!isOwner) {
+        const now = Date.now();
+        const cooldownDuration = (config?.defaultCooldownDuration ?? 3) * 1_000;
+        const expirationTime = client.cooldowns.get(user.id) + cooldownDuration;
+
+        if (client.cooldowns.has(user.id) && now < expirationTime) {
+          const expiredTimestamp = Math.round(expirationTime / 1_000);
+          return interaction.reply({
+            content: `Please wait, you are on a cooldown for \`${interaction.commandName}\`. You can use it again <t:${expiredTimestamp}:R>.`,
+            ephemeral: true,
+          });
+        }
+
+        client.cooldowns.set(user.id, now);
       }
-
-      client.cooldowns.set(user.id, now);
     }
   } else if (interaction.isMessageComponent() || interaction.isModalSubmit()) {
     command = client.functions.get(interaction.customId);
