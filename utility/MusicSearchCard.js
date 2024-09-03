@@ -15,7 +15,7 @@ class MusicSearchCard extends Builder {
       title: '',
       players: [],
     });
-    if (!FontFactory.size) Font.fromFileSync('./utility/FONT-Avo.ttf');
+    if (!FontFactory.size) Font.fromFileSync('./utility/SVN-Avo.ttf');
     this.memoizedRenderDefaultPlayer = this.memoize(this.renderDefaultPlayer);
     this.calculateDimensions = this.memoize(calculateDimensions);
   }
