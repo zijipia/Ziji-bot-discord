@@ -24,10 +24,10 @@ module.exports.data = {
 module.exports.execute = async (interaction, lang) => {
   await interaction.deferReply();
   const count = interaction.options.getInteger('count') || 1;
-  
+
   const response = await fetch(`https://api.thecatapi.com/v1/images/search?limit=${count}`);
   const data = await response.json();
-  
+
   const urls = data.map(image => image.url);
 
   await interaction.editReply({ files: urls });

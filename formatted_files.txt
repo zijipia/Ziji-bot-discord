@@ -1,1 +1,2 @@
+commands/random/cat.js
 formatted_files.txt
