@@ -38,4 +38,4 @@ jobs:
         with:
           commit_message: "Áp dụng định dạng tự động"
           branch: ${{ github.head_ref }}
-          file_pattern: '!.github/workflows/*'
+          file_pattern: '**/!(.github/workflows)/**'
