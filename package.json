@@ -4,8 +4,10 @@
   "description": "Ziji bot discord",
   "main": "index.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1",
-    "deploy": "node ./deploy.js"
+    "start": "node index.js",
+    "dev": "nodemon index.js",
+    "deploy": "node ./deploy.js",
+    "test": "echo \"Error: no test specified\" && exit 1"
   },
   "repository": {
     "type": "git",
