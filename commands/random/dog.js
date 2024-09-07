@@ -5,18 +5,32 @@ module.exports.data = {
   name: 'dog',
   description: 'Random ảnh chó',
   type: 1, // slash command
-  options: [],
+  options: [
+    {
+      name: 'count',
+      description: 'Số lượng chó',
+      type: 4, // INTEGER
+      required: false,
+      min_value: 1,
+      max_value: 10,
+    },
+  ],
   integration_types: [0, 1],
   contexts: [0, 1, 2],
 };
+
 /**
  *
  * @param { CommandInteraction } interaction
  */
 module.exports.execute = async (interaction, lang) => {
   await interaction.deferReply();
-  const response = await fetch('https://dog.ceo/api/breeds/image/random');
+  const count = interaction.options.getInteger('count') || 1;
+
+  const response = await fetch(`https://dog.ceo/api/breeds/image/random/${count}`);
   const data = await response.json();
-  console.log(data);
-  await interaction.editReply({ files: [data[0].url] });
+
+  const urls = data.message;
+
+  await interaction.editReply({ files: urls });
 };

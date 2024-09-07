@@ -62,4 +62,17 @@ module.exports = {
       UnLock: 'Mở khoá',
     },
   },
+  weather: {
+    TITLE: 'Thời tiết tại',
+    TEMP: 'Nhiệt độ',
+    HUMIDITY: 'Độ ẩm',
+    WIND: 'Gió',
+    CLOUDS: 'Mây',
+    PRESSURE: 'Áp suất',
+    SUNRISE: 'Bình minh',
+    SUNSET: 'Hoàng hôn',
+    COORDINATES: 'Tọa độ',
+    LONGITUDE: 'Kinh độ',
+    LATITUDE: 'Vĩ độ',
+  },
 };

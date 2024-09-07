@@ -62,4 +62,17 @@ module.exports = {
       UnLock: 'UnLock',
     },
   },
+  weather: {
+    TITLE: 'Weather in',
+    TEMP: 'Temperature',
+    HUMIDITY: 'Humidity',
+    WIND: 'Wind',
+    CLOUDS: 'Clouds',
+    PRESSURE: 'Pressure',
+    SUNRISE: 'Sunrise',
+    SUNSET: 'Sunset',
+    COORDINATES: 'Coordinates',
+    LONGITUDE: 'Longitude',
+    LATITUDE: 'Latitude',
+  },
 };
