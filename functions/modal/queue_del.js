@@ -28,7 +28,12 @@ module.exports.execute = async (interaction, lang) => {
   const input = fields.getTextInputValue('del-input');
   const trackIndices = removeDuplicates(input.split(/[\s,;.+-]+/));
 
-  if (!trackIndices.length || !queue || queue.isEmpty() || queue.metadata.LockStatus && queue.metadata.requestedBy?.id !== interaction.user?.id) {
+  if (
+    !trackIndices.length ||
+    !queue ||
+    queue.isEmpty() ||
+    (queue.metadata.LockStatus && queue.metadata.requestedBy?.id !== interaction.user?.id)
+  ) {
     await interaction.reply({
       content: '❌ | Không thể xóa bài hát:\n' + `${trackIndices.join('\n')}`,
       ephemeral: true,

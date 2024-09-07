@@ -11,7 +11,7 @@ module.exports.data = {
  */
 module.exports.execute = async (interaction, lang) => {
   const { guild, client, user, values } = interaction;
-    if (queue.metadata.requestedBy?.id !== user.id) {
+  if (queue.metadata.requestedBy?.id !== user.id) {
     return interaction.reply({ content: 'You cannot interact with this menu.', ephemeral: true });
   }
   const queue = useQueue(interaction.guild.id);
