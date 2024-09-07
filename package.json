@@ -7,7 +7,8 @@
     "start": "node index.js",
     "dev": "nodemon index.js",
     "deploy": "node ./deploy.js",
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "check": "prettier --ignore-path .gitignore --check ."
   },
   "repository": {
     "type": "git",
