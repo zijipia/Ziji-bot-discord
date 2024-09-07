@@ -14,7 +14,7 @@ module.exports.data = {
 module.exports.execute = async (interaction, lang) => {
   let query = interaction.targetMessage.content;
   if (!query) {
-    const embed = interaction.targetMessage.embeds?.at(0).data;
+    const embed = interaction.targetMessage.embeds?.at(0).data
     if (embed) {
       query = embed?.author?.url ?? embed?.description;
     }
