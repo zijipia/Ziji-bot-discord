@@ -33,9 +33,14 @@ jobs:
         continue-on-error: true
       - name: Run format
         run: npm run format
+      - name: Check git status
+        run: git status
+      - name: Add changes to git
+        run: git add .
       - name: Commit changes
         uses: stefanzweifel/git-auto-commit-action@v5
         with:
           commit_message: "Áp dụng định dạng tự động"
           branch: ${{ github.head_ref }}
           file_pattern: '**/!(.github/workflows)/**'
+          add_options: '-A'
