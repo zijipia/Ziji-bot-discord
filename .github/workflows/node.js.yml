@@ -10,37 +10,97 @@ on:
     branches: ['main']
 
 jobs:
-  build:
+  format-check:
     runs-on: ubuntu-latest
-
-    strategy:
-      matrix:
-        node-version: [18.x, 20.x, 22.x]
-        # See supported Node.js release schedule at https://nodejs.org/en/about/releases/
 
     steps:
       - uses: actions/checkout@v4
         with:
           token: ${{ secrets.PAT }}
-      - name: Use Node.js ${{ matrix.node-version }}
+          fetch-depth: 0
+
+      - name: Use Node.js
         uses: actions/setup-node@v4
         with:
-          node-version: ${{ matrix.node-version }}
+          node-version: '20.x'
           cache: 'npm'
+
       - run: npm ci
+
       - name: Check formatting
         run: npm run check
         continue-on-error: true
+
       - name: Run format
         run: npm run format
-      - name: Check git status
-        run: git status
-      - name: Add changes to git
-        run: git add .
-      - name: Commit changes
+
+      - name: Get formatting changes
+        id: get-changes
         run: |
-          git config --local user.email "41898282+github-actions[bot]@users.noreply.github.com"
-          git config --local user.name "github-actions[bot]"
-          git add .
-          git diff --quiet && git diff --staged --quiet || git commit -m "Áp dụng định dạng tự động"
-          git push
+          git diff --name-only > formatted_files.txt
+          echo "CHANGES<<EOF" >> $GITHUB_OUTPUT
+          git diff >> $GITHUB_OUTPUT
+          echo "EOF" >> $GITHUB_OUTPUT
+
+      - name: Create or update comment
+        if: github.event_name == 'pull_request' && github.event.pull_request.head.repo.full_name != github.repository
+        uses: actions/github-script@v7
+        with:
+          github-token: ${{secrets.GITHUB_TOKEN}}
+          script: |
+            const fs = require('fs');
+            const formatChanges = fs.readFileSync('formatted_files.txt', 'utf8');
+            const diffContent = `${{ steps.get-changes.outputs.CHANGES }}`;
+
+            const body = `
+            ### Đề xuất định dạng tự động
+
+            Bot đã phát hiện một số vấn đề về định dạng trong pull request này. Dưới đây là danh sách các file cần được định dạng lại:
+
+            ${formatChanges}
+
+            <details>
+            <summary>Xem chi tiết các thay đổi</summary>
+
+            \`\`\`diff
+            ${diffContent}
+            \`\`\`
+
+            </details>
+
+            Vui lòng xem xét áp dụng những thay đổi này để cải thiện tính nhất quán của code.
+            `;
+
+            const { data: comments } = await github.rest.issues.listComments({
+              owner: context.repo.owner,
+              repo: context.repo.repo,
+              issue_number: context.issue.number,
+            });
+
+            const botComment = comments.find(comment => 
+              comment.user.type === 'Bot' && comment.body.includes('Đề xuất định dạng tự động')
+            );
+
+            if (botComment) {
+              await github.rest.issues.updateComment({
+                owner: context.repo.owner,
+                repo: context.repo.repo,
+                comment_id: botComment.id,
+                body: body
+              });
+            } else {
+              await github.rest.issues.createComment({
+                owner: context.repo.owner,
+                repo: context.repo.repo,
+                issue_number: context.issue.number,
+                body: body
+              });
+            }
+
+      - name: Commit changes
+        if: github.event_name != 'pull_request' || github.event.pull_request.head.repo.full_name == github.repository
+        uses: stefanzweifel/git-auto-commit-action@v5
+        with:
+          commit_message: 'Áp dụng định dạng tự động'
+          branch: ${{ github.head_ref || github.ref_name }}
+          file_pattern: '**/!(.github/workflows)/**'
