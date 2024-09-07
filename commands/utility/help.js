@@ -19,24 +19,9 @@ module.exports.execute = async (interaction, lang) => {
   const guildCommands = commands.filter(cmd => cmd.type === 1 || cmd.type === 2);
   const contextCommands = commands.filter(cmd => cmd.type === 3);
   const playerButtons = [
-    {
-      name: lang?.playerButtons?.Refresh || 'Làm mới',
-      id: 'player_refresh',
-      description: lang?.playerFunc?.Fields?.Refresh || 'Làm mới trình phát nhạc',
-      icon: ZiIcons.refesh,
-    },
-    {
-      name: lang?.playerButtons?.Previous || 'Bài trước',
-      id: 'player_previous',
-      description: lang?.playerFunc?.Fields?.Previous || 'Phát bài hát trước đó',
-      icon: ZiIcons.prev,
-    },
-    {
-      name: lang?.playerButtons?.PausePlay || 'Tạm dừng/Phát',
-      id: 'player_pause',
-      description: lang?.playerFunc?.Fields?.PausePlay || 'Tạm dừng hoặc tiếp tục phát nhạc',
-      icon: ZiIcons.pause,
-    },
+   {      name: lang?.playerButtons?.Refresh || 'Làm mới',      id: 'player_refresh',      description: lang?.playerFunc?.Fields?.Refresh || 'Làm mới trình phát nhạc',     icon: ZiIcons.refesh,    },
+    {      name: lang?.playerButtons?.Previous || 'Bài trước',      id: 'player_previous',      description: lang?.playerFunc?.Fields?.Previous || 'Phát bài hát trước đó',      icon: ZiIcons.prev,    },
+    {      name: lang?.playerButtons?.PausePlay || 'Tạm dừng/Phát',     id: 'player_pause',      description: lang?.playerFunc?.Fields?.PausePlay || 'Tạm dừng hoặc tiếp tục phát nhạc',  icon: ZiIcons.pause,    },
     {
       name: lang?.playerButtons?.Next || 'Bài tiếp',
       id: 'player_next',
