@@ -14,5 +14,3 @@ module.exports.execute = async interaction => {
   const command = client.functions.get('Search');
   await command.execute(interaction, query);
 };
-// const command = client.functions.get("Search");
-// await command.execute(interaction, query);

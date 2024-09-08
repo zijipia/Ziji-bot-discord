@@ -1,13 +1,5 @@
 const { JSX, Builder, loadImage, Font, FontFactory } = require('canvacord');
 
-const chunkArrayInGroups = (arr, size) => {
-  const result = [];
-  for (let i = 0; i < arr.length; i += size) {
-    result.push(arr.slice(i, i + size));
-  }
-  return result;
-};
-
 class MusicSearchCard extends Builder {
   constructor() {
     super(2000, 420);
@@ -87,13 +79,7 @@ class MusicSearchCard extends Builder {
         }),
         JSX.createElement(
           'div',
-          {
-            style: {
-              display: 'flex',
-              flexDirection: 'column',
-              justifyContent: 'center',
-            },
-          },
+          { style: { display: 'flex', flexDirection: 'column', justifyContent: 'center' } },
           JSX.createElement(
             'div',
             {
@@ -161,35 +147,14 @@ class MusicSearchCard extends Builder {
       },
       JSX.createElement(
         'div',
-        {
-          style: {
-            display: 'flex',
-            justifyContent: 'center',
-            width: '100%',
-            marginBottom: '1rem',
-          },
-        },
+        { style: { display: 'flex', justifyContent: 'center', width: '100%', marginBottom: '1rem' } },
         title &&
           JSX.createElement(
             'div',
-            {
-              style: {
-                display: 'flex',
-                flexDirection: 'column',
-                alignItems: 'center',
-                justifyContent: 'center',
-              },
-            },
+            { style: { display: 'flex', flexDirection: 'column', alignItems: 'center', justifyContent: 'center' } },
             JSX.createElement(
               'div',
-              {
-                style: {
-                  display: 'flex',
-                  color: 'white',
-                  fontWeight: 'bold',
-                  fontSize: '1.5rem',
-                },
-              },
+              { style: { display: 'flex', color: 'white', fontWeight: 'bold', fontSize: '1.5rem' } },
               title
             ),
             JSX.createElement('div', {
@@ -210,14 +175,7 @@ class MusicSearchCard extends Builder {
         processedPlayerGroups.map(renderedPlayers =>
           JSX.createElement(
             'div',
-            {
-              style: {
-                display: 'flex',
-                flexDirection: 'column',
-                flex: 1,
-                gap: '8px',
-              },
-            },
+            { style: { display: 'flex', flexDirection: 'column', flex: 1, gap: '8px' } },
             ...renderedPlayers
           )
         )

@@ -2,6 +2,7 @@ const { EmbedBuilder, ActionRowBuilder, ButtonBuilder, BaseInteraction, Attachme
 const { useMainPlayer, useQueue } = require('discord-player');
 const { ButtonStyle, StringSelectMenuOptionBuilder, StringSelectMenuBuilder } = require('discord.js');
 const { Worker } = require('worker_threads');
+const langdef = require('./../../lang/vi');
 const player = useMainPlayer();
 const ZiIcons = require('./../../utility/icon');
 const config = require('../../config');

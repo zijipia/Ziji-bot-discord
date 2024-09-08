@@ -1,41 +1,52 @@
 const { REST, Routes } = require('discord.js');
-const fs = require('node:fs');
+const fs = require('node:fs').promises;
 const path = require('node:path');
+const config = require('./config');
+
 module.exports = async client => {
-  const commands = [];
-  // Grab all the command folders from the commands directory you created earlier
+  const commands = { global: [], owner: [] };
+
+  // Load commands from all folders
   const foldersPath = path.join(__dirname, 'commands');
-  const commandFolders = fs.readdirSync(foldersPath);
+  const loadCommands = async dir => {
+    const files = await fs.readdir(dir, { withFileTypes: true });
+    await Promise.all(
+      files.map(async file => {
+        const filePath = path.join(dir, file.name);
+        if (file.isDirectory()) {
+          await loadCommands(filePath);
+        } else if (file.isFile() && file.name.endsWith('.js')) {
+          const command = require(filePath);
+          if ('data' in command && 'execute' in command) {
+            commands[command.data.owner ? 'owner' : 'global'].push(command.data);
+          }
+        }
+      })
+    );
+  };
+  await loadCommands(foldersPath);
 
-  for (const folder of commandFolders) {
-    // Grab all the command files from the commands directory you created earlier
-    const commandsPath = path.join(foldersPath, folder);
-    const commandFiles = fs.readdirSync(commandsPath).filter(file => file.endsWith('.js'));
-    // Grab the SlashCommandBuilder#toJSON() output of each command's data for deployment
-    for (const file of commandFiles) {
-      const filePath = path.join(commandsPath, file);
-      const command = require(filePath);
-      if ('data' in command && 'execute' in command) {
-        commands.push(command.data);
-      } else {
-        console.log(`[WARNING] The command at ${filePath} is missing a required "data" or "execute" property.`);
-      }
-    }
-  }
-
-  // Construct and prepare an instance of the REST module
   const rest = new REST().setToken(process.env.TOKEN);
 
-  // and deploy your commands!
-  try {
-    console.log(`Started refreshing ${commands.length} application [/] commands.`);
-    // The put method is used to fully refresh all commands in the guild with the current set
-    const data = await rest.put(Routes.applicationCommands(client.user.id), { body: commands });
+  const deployCommands = async (commandType, route) => {
+    if (commands[commandType].length > 0) {
+      await rest.put(route, { body: commands[commandType] });
+      console.log(`Successfully reloaded ${commands[commandType].length} ${commandType} application [/] commands.`);
+    }
+  };
 
-    console.log(`Successfully reloaded ${data.length} application [/] commands.`);
-    return data;
+  try {
+    // Deploy global commands
+    await deployCommands('global', Routes.applicationCommands(client.user.id));
+
+    // Deploy owner commands to specific guilds
+    const guildIds = config.DevGuild || [];
+    if (guildIds.length > 0 && commands.owner.length > 0) {
+      await Promise.all(
+        guildIds.map(guildId => deployCommands('owner', Routes.applicationGuildCommands(client.user.id, guildId)))
+      );
+    }
   } catch (error) {
-    // And of course, make sure you catch and log any errors!
-    console.error(error);
+    console.error('Error during command deployment:', error);
   }
 };
