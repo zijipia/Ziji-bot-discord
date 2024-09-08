@@ -11,10 +11,10 @@ const { table } = require('table');
 const client = new Client({
   intents: [GatewayIntentBits.Guilds, GatewayIntentBits.GuildVoiceStates],
 });
-
 const player = new Player(client, {
   skipFFmpeg: false,
 });
+
 player.setMaxListeners(100);
 // player.extractors.register(YoutubeiExtractor, {
 //   authentication: process.env?.YoutubeAUH || '',
