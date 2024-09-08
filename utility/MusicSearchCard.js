@@ -1,13 +1,5 @@
 const { JSX, Builder, loadImage, Font, FontFactory } = require('canvacord');
 
-const chunkArrayInGroups = (arr, size) => {
-  const result = [];
-  for (let i = 0; i < arr.length; i += size) {
-    result.push(arr.slice(i, i + size));
-  }
-  return result;
-};
-
 class MusicSearchCard extends Builder {
   constructor() {
     super(2000, 420);
@@ -42,8 +34,7 @@ class MusicSearchCard extends Builder {
     return this;
   }
 
-  async renderDefaultPlayer({ index, avatar, displayName, time }) {
-    let image = await getCachedImage(avatar);
+  async renderDefaultPlayer({ index, image, displayName, time }) {
     return JSX.createElement(
       'div',
       {
@@ -84,6 +75,7 @@ class MusicSearchCard extends Builder {
           height: 55,
           style: { borderRadius: '9999px', marginRight: '1rem' },
           alt: 'avatar',
+          display: 'flex',
         }),
         JSX.createElement(
           'div',
@@ -127,12 +119,19 @@ class MusicSearchCard extends Builder {
     const leftColumn = players.slice(0, maxPlayersPerColumn);
     const rightColumn = players.slice(maxPlayersPerColumn);
 
-    const processedPlayerGroups = await Promise.all([
-      Promise.all(leftColumn.map(player => this.memoizedRenderDefaultPlayer(player))),
-      Promise.all(rightColumn.map(player => this.memoizedRenderDefaultPlayer(player))),
-    ]);
+    const imagePromises = players.map(player => getCachedImage(player.avatar));
+    const images = await Promise.all(imagePromises);
+    const imageMap = new Map(players.map((player, index) => [player.avatar, images[index]]));
 
-    // Loại bỏ requestAnimationFrame và trả về kết quả trực tiếp
+    const renderPlayerWithImage = player => {
+      const image = imageMap.get(player.avatar);
+      return this.memoizedRenderDefaultPlayer({ ...player, image });
+    };
+
+    const processedPlayerGroups = await Promise.all([
+      Promise.all(leftColumn.map(renderPlayerWithImage)),
+      Promise.all(rightColumn.map(renderPlayerWithImage)),
+    ]);
     return JSX.createElement(
       'div',
       {
