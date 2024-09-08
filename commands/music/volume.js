@@ -26,8 +26,8 @@ module.exports.execute = async (interaction, lang) => {
   await interaction.deferReply({ fetchReply: true });
   const volume = interaction.options.getInteger('vol');
   const queue = useQueue(interaction.guild.id);
-  if (!queue) return interaction.editReply('Hiện không có bài hát nào đang phát');
-  queue.node.setVolume(Math.floor(volume)); //Pass the value for the volume here
+  if (!queue) return interaction.editReply({ content: lang.music.NoPlaying });
+  queue.node.setVolume(Math.floor(volume));
   await interaction.deleteReply().catch(e => {});
   const player = interaction.client.functions.get('player_func');
   if (!player) return;

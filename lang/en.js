@@ -16,11 +16,7 @@ module.exports = {
     Good: '🟡 Good',
     Excellent: '🟢 Excellent',
   },
-  Search: {
-    NOvoiceChannel: "❌ | You haven't joined a voice channel",
-    NOvoiceMe: '❌ | The bot is already in another voice channel',
-    NOres: '❌ | No song found',
-  },
+  Search: {},
   playerButtons: {
     Refresh: 'Refresh',
     Previous: 'Previous',
@@ -74,5 +70,14 @@ module.exports = {
     COORDINATES: 'Coordinates',
     LONGITUDE: 'Longitude',
     LATITUDE: 'Latitude',
+  },
+  music: {
+    Disconnect: '✅ | Disconnect',
+    DisconnectDes: '✅ | Turn off music and leave the voice channel',
+    Next: '✅ | Track added to the beginning of the queue.',
+    NOvoiceChannel: "❌ | You haven't joined a voice channel",
+    NOvoiceMe: '❌ | The bot is already in another voice channel',
+    NOres: '❌ | No song found',
+    NoPlaying: '❌ | No tracks playing.',
   },
 };

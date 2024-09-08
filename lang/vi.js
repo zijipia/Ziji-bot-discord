@@ -16,11 +16,7 @@ module.exports = {
     Good: '🟡 Tốt',
     Excellent: '🟢 Xuất sắc',
   },
-  Search: {
-    NOvoiceChannel: '❌ | Bạn chưa tham gia vào kênh thoại',
-    NOvoiceMe: '❌ | Bot đã ở trong một kênh thoại khác',
-    NOres: '❌ | Không tìm thấy bài hát',
-  },
+  Search: {},
   playerButtons: {
     Refresh: 'Làm mới',
     Previous: 'Bài trước',
@@ -74,5 +70,14 @@ module.exports = {
     COORDINATES: 'Tọa độ',
     LONGITUDE: 'Kinh độ',
     LATITUDE: 'Vĩ độ',
+  },
+  music: {
+    Disconnect: '✅ | Ngắt kết nối',
+    DisconnectDes: '✅ | Tắt nhạc và rời khỏi kênh thoại',
+    Next: '✅ | Bài hát được thêm vào đầu hàng đợi.',
+    NOvoiceChannel: '❌ | Bạn chưa tham gia vào kênh thoại',
+    NOvoiceMe: '❌ | Bot đã ở trong một kênh thoại khác',
+    NOres: '❌ | Không tìm thấy bài hát',
+    NoPlaying: '❌ | Không có bài hát nào đang phát.',
   },
 };

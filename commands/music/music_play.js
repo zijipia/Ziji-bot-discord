@@ -56,9 +56,9 @@ module.exports.execute = async (interaction, lang) => {
 
       if (track) {
         queue.insertTrack(track, 0);
-        await interaction.reply({ content: 'Track added to the beginning of the queue.', ephemeral: true });
+        await interaction.reply({ content: lang.music.Next, ephemeral: true });
       } else {
-        await interaction.reply({ content: 'No tracks found.', ephemeral: true });
+        await interaction.reply({ content: lang.music.NOres, ephemeral: true });
       }
     } else {
       await command.execute(interaction, query, lang);

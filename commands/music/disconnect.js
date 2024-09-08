@@ -19,11 +19,11 @@ module.exports.execute = async (interaction, lang) => {
   const queue = useQueue(interaction.guild.id);
   if (!queue) {
     await interaction?.guild?.members?.me?.voice?.disconnect();
-    await interaction.editReply('Đã ngắt kết nói');
+    await interaction.editReply(lang.music.Disconnect);
     return;
   }
   if (queue.metadata.LockStatus && queue.metadata.requestedBy?.id !== interaction.user?.id) return;
   await queue?.metadata?.mess?.edit({ components: [] }).catch(e => {});
   queue.delete();
-  await interaction.editReply('Đã tắt nhạc');
+  await interaction.editReply(lang.music.DisconnectDes);
 };

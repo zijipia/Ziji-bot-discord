@@ -1,13 +1,5 @@
 const { JSX, Builder, loadImage, Font, FontFactory } = require('canvacord');
 
-const chunkArrayInGroups = (arr, size) => {
-  const result = [];
-  for (let i = 0; i < arr.length; i += size) {
-    result.push(arr.slice(i, i + size));
-  }
-  return result;
-};
-
 class MusicSearchCard extends Builder {
   constructor() {
     super(2000, 420);
