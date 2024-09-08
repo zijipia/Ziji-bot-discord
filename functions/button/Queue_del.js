@@ -9,7 +9,7 @@ module.exports.data = {
  * @param { ButtonInteraction } interaction
  * @returns
  */
-module.exports.execute = async interaction => {
+module.exports.execute = async (interaction, lang) => {
   const modal = new ModalBuilder()
     .setTitle(`Delete Track ${interaction?.guild?.name}`)
     .setCustomId('queue_del_modal')

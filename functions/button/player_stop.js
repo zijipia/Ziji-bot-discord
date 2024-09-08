@@ -10,7 +10,7 @@ module.exports.data = {
  * @param { ButtonInteraction } interaction
  * @returns
  */
-module.exports.execute = async interaction => {
+module.exports.execute = async (interaction, lang) => {
   interaction.deferUpdate();
   const queue = useQueue(interaction.guild.id);
   if (!queue) return interaction.message.edit({ components: [] }).catch(e => {});

@@ -10,7 +10,7 @@ module.exports.data = {
  * @param { ButtonInteraction } interaction
  * @returns
  */
-module.exports.execute = async interaction => {
+module.exports.execute = async (interaction, lang) => {
   const queue = useQueue(interaction.guild.id);
   queue.tracks.shuffle();
   const QueueTrack = interaction.client.functions.get('Queue');

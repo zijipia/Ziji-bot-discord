@@ -65,13 +65,21 @@ const Fillter = async (user, queue) => {
     .setTimestamp()
     .setTitle(`Audio Effect Control Panel`)
     .setDescription(
-      `**${queue?.filters?.ffmpeg
-        ?.getFiltersEnabled()
-        .map(item => `* ${item.trim()}`)
-        .join('\n')}**
-* Lưu ý: nếu thời lượng nhạc dài, thời gian áp dụng bộ lọc có thể dài hơn tương ứng.`
+      `**${
+        queue?.filters?.ffmpeg?.getFiltersEnabled().length
+          ? queue?.filters?.ffmpeg
+              ?.getFiltersEnabled()
+              .map(item => `* ${item.trim()}`)
+              .join('\n')
+          : 'Không có bộ lọc nào được kích hoạt.'
+      }**\n* Lưu ý: nếu thời lượng nhạc dài, thời gian áp dụng bộ lọc có thể dài hơn tương ứng.`
     )
-    .setFooter({ text: `Đã thêm bởi: ${user?.tag}`, iconURL: user?.displayAvatarURL({ dynamic: true }) });
+
+    .setFooter({
+      text: `Đã thêm bởi: ${user?.tag}`,
+      iconURL: user?.displayAvatarURL({ dynamic: true }),
+    });
+
   return { embeds: [embed], components: [row] };
 };
 //====================================================================//
