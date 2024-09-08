@@ -58,4 +58,8 @@ module.exports = {
   // Danh sách ID của các server dành cho nhà phát triển ["ID server", "ID server", ...] or []
   // List of server IDs for developers ["server ID", "server ID", ...] or []
   DevGuild: [],
+
+  // Bật tính năng voice assistance
+  // Enable voice assistance feature
+  voiceAssistance: true,
 };

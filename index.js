@@ -4,7 +4,7 @@ const { Client, Collection, GatewayIntentBits } = require('discord.js');
 require('dotenv').config();
 const { Player } = require('discord-player');
 const { YoutubeiExtractor } = require('discord-player-youtubei');
-const { ZiExtractor } = require('ziextractor');
+const { ZiExtractor, useZiVoiceExtractor } = require('ziextractor');
 const chalk = require('chalk');
 const { table } = require('table');
 
@@ -15,6 +15,12 @@ const player = new Player(client, {
   skipFFmpeg: false,
 });
 
+const ziVoice = useZiVoiceExtractor({
+  ignoreBots: true,
+  minimalVoiceMessageDuration: 1,
+  lang: 'vi-VN',
+});
+
 player.setMaxListeners(100);
 // player.extractors.register(YoutubeiExtractor, {
 //   authentication: process.env?.YoutubeAUH || '',
@@ -22,6 +28,7 @@ player.setMaxListeners(100);
 //     useClient: 'ANDROID',
 //   },
 // });
+
 player.extractors.register(ZiExtractor, {});
 player.extractors.loadDefault(ext => !['YouTubeExtractor'].includes(ext));
 
@@ -139,6 +146,7 @@ const initialize = async () => {
     loadFiles(path.join(__dirname, 'functions'), client.functions),
     loadEvents(path.join(__dirname, 'events'), client),
     loadEvents(path.join(__dirname, 'discord-player'), player.events),
+    loadEvents(path.join(__dirname, 'voiceExtractor'), ziVoice),
   ]);
 
   client.login(process.env.TOKEN);

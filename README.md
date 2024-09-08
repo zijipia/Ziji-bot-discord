@@ -21,6 +21,10 @@ Zibot is a Discord bot developed by [zijipia](https://github.com/zijipia) to enh
     </a>
   </div>
 </p>
+- **Voice command**:
+  - Voice control for music: play, pause, skip, adjust volume, and more.
+  - Multi-language support: Recognizes and responds in Vietnamese.
+  - Integrated AI assistant: Interact with AI assistant using voice in voice channels. (Coming soon)
 
 ## Installation
 

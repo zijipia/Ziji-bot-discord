@@ -75,6 +75,44 @@ module.exports.execute = async (interaction, lang) => {
     },
   ];
 
+  const voiceCommands = [
+    {
+      name: lang?.voiceCommands?.Play || 'Phát nhạc',
+      description: lang?.voiceFunc?.Play || 'Phát một bài hát hoặc thêm vào hàng đợi',
+      example: '"play Sơn Tùng MTP Chúng ta của hiện tại"',
+    },
+    {
+      name: lang?.voiceCommands?.Skip || 'Bỏ qua',
+      description: lang?.voiceFunc?.Skip || 'Bỏ qua bài hát hiện tại',
+      example: '"skip" hoặc "bỏ qua" hoặc "next"',
+    },
+    {
+      name: lang?.voiceCommands?.Volume || 'Âm lượng',
+      description: lang?.voiceFunc?.Volume || 'Điều chỉnh âm lượng (0-100)',
+      example: '"volume 50" hoặc "âm lượng 75"',
+    },
+    {
+      name: lang?.voiceCommands?.Pause || 'Tạm dừng',
+      description: lang?.voiceFunc?.Pause || 'Tạm dừng phát nhạc',
+      example: '"pause" hoặc "tạm dừng"',
+    },
+    {
+      name: lang?.voiceCommands?.Resume || 'Tiếp tục',
+      description: lang?.voiceFunc?.Resume || 'Tiếp tục phát nhạc',
+      example: '"resume" hoặc "tiếp tục"',
+    },
+    {
+      name: lang?.voiceCommands?.AutoPlay || 'Tự động phát',
+      description: lang?.voiceFunc?.AutoPlay || 'Bật/tắt chế độ tự động phát',
+      example: '"auto play" hoặc "tự động phát"',
+    },
+    {
+      name: lang?.voiceCommands?.Disconnect || 'Ngắt kết nối',
+      description: lang?.voiceFunc?.Disconnect || 'Ngắt kết nối từ kênh thoại',
+      example: '"disconnect" hoặc "ngắt kết nối"',
+    },
+  ];
+
   const embed = new EmbedBuilder()
     .setAuthor({
       name: `${interaction.client.user.username} Help:`,
@@ -84,7 +122,8 @@ module.exports.execute = async (interaction, lang) => {
     .setDescription(
       `# Guild Commands:\n**${guildCommands.map(cmd => `</${cmd.name}:${cmd.id}>: ${cmd.description}`).join('\n')}**` +
         `\n# Context Commands:\n**${contextCommands.map(cmd => `${cmd.name}`).join('\n')}**` +
-        `\n# Player Buttons:\n**${playerButtons.map(btn => `${btn.icon} ${btn.name}: ${btn.description}`).join('\n')}**`
+        `\n# Player Buttons:\n**${playerButtons.map(btn => `${btn.icon} ${btn.name}: ${btn.description}`).join('\n')}**` +
+        `\n# Voice Commands:\n**${voiceCommands.map(cmd => `${cmd.name}: ${cmd.description}\nVí dụ: ${cmd.example}`).join('\n\n')}**`
     )
     .setColor('Random')
     .setFooter({

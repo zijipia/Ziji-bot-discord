@@ -1,5 +1,6 @@
 module.exports = {
   name: 'vi',
+  local_names: 'vi_VN',
   until: {
     name: 'Tiếng Việt',
     langChange: 'Ngôn ngữ của bạn đã được đổi thành:',
@@ -80,5 +81,23 @@ module.exports = {
     NOvoiceMe: '❌ | Bot đã ở trong một kênh thoại khác',
     NOres: '❌ | Không tìm thấy bài hát',
     NoPlaying: '❌ | Không có bài hát nào đang phát.',
+  },
+  voiceCommands: {
+    Play: 'Phát nhạc',
+    Skip: 'Bỏ qua',
+    Volume: 'Âm lượng',
+    Pause: 'Tạm dừng',
+    Resume: 'Tiếp tục',
+    AutoPlay: 'Tự động phát',
+    Disconnect: 'Ngắt kết nối',
+  },
+  voiceFunc: {
+    Play: 'Phát một bài hát hoặc thêm vào hàng đợi',
+    Skip: 'Bỏ qua bài hát hiện tại',
+    Volume: 'Điều chỉnh âm lượng (0-100)',
+    Pause: 'Tạm dừng phát nhạc',
+    Resume: 'Tiếp tục phát nhạc',
+    AutoPlay: 'Bật/tắt chế độ tự động phát',
+    Disconnect: 'Ngắt kết nối từ kênh thoại',
   },
 };

@@ -1,5 +1,6 @@
 module.exports = {
   name: 'en',
+  local_names: 'en_US',
   until: {
     name: 'English',
     langChange: 'Your language has been changed to:',
@@ -80,5 +81,23 @@ module.exports = {
     NOvoiceMe: '❌ | The bot is already in another voice channel',
     NOres: '❌ | No song found',
     NoPlaying: '❌ | No tracks playing.',
+  },
+  voiceCommands: {
+    Play: 'Play',
+    Skip: 'Skip',
+    Volume: 'Volume',
+    Pause: 'Pause',
+    Resume: 'Resume',
+    AutoPlay: 'AutoPlay',
+    Disconnect: 'Disconnect',
+  },
+  voiceFunc: {
+    Play: 'Play a song or add to queue',
+    Skip: 'Skip the current song',
+    Volume: 'Adjust the volume (0-100)',
+    Pause: 'Pause music',
+    Resume: 'Continue music',
+    AutoPlay: 'Turn on/off auto play',
+    Disconnect: 'Disconnect from voice channel',
   },
 };

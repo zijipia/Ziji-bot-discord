@@ -63,7 +63,7 @@ const DefaultPlayerConfig = {
  * @param { string } query
  * @param { langdef } lang
  */
-module.exports.execute = async (interaction, query, lang) => {
+module.exports.execute = async (interaction, query, lang, options = {}) => {
   const { client, guild, user } = interaction;
   const voiceChannel = interaction.member.voice.channel;
   if (!voiceChannel) {
@@ -82,7 +82,10 @@ module.exports.execute = async (interaction, query, lang) => {
       const res = await player.search(query, {
         requestedBy: user,
       });
-      const playerConfig = { ...(config?.PlayerConfig ?? DefaultPlayerConfig) };
+      const playerConfig = { ...DefaultPlayerConfig, ...config?.PlayerConfig };
+      if (options.assistant && config?.voiceAssistance) {
+        playerConfig.selfDeaf = false;
+      }
       if (playerConfig.volume === 'auto') {
         playerConfig.volume = client?.db
           ? ((await client.db.ZiUser.findOne({ userID: user.id }))?.volume ?? DefaultPlayerConfig.volume)
@@ -95,6 +98,8 @@ module.exports.execute = async (interaction, query, lang) => {
             channel: interaction.channel,
             requestedBy: user,
             LockStatus: false,
+            voiceAssistance: options.assistant && config?.voiceAssistance,
+            lang: lang || langdef,
             mess:
               interaction?.customId !== 'player_SelectionSearch' ? await interaction.fetchReply() : interaction.message,
           },

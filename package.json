@@ -43,7 +43,7 @@
     "sharp": "^0.33.4",
     "table": "^6.8.2",
     "wav": "^1.0.2",
-    "ziextractor": "^1.1.0"
+    "ziextractor": "github:zijipia/ZiExtractor"
   },
   "devDependencies": {
     "nodemon": "^3.1.0",
