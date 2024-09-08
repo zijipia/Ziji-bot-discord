@@ -1,4 +1,5 @@
 const { useQueue } = require('discord-player');
+const config = require('../../config');
 const {
   StringSelectMenuInteraction,
   ModalBuilder,
@@ -84,9 +85,22 @@ module.exports.execute = async (interaction, lang) => {
       await Update_Player(client, queue);
       return;
     }
+    case 'unmute': {
+      const volumd = config?.PlayerConfig.volume ?? 100;
+      if (volumd === 'auto') {
+        volumd = client?.db ? ((await client.db.ZiUser.findOne({ userID: user.id }))?.volume ?? 100) : 100;
+      }
+      const Vol = Math.min(volumd + 10, 100);
+      queue.node.setVolume(Vol);
+      await Update_Player(client, queue);
+      return;
+    }
     case 'volinc': {
       const current_Vol = queue.node.volume;
       const Vol = Math.min(current_Vol + 10, 100);
+      if (client?.db) {
+        await client.db.ZiUser.updateOne({ userID: user.id }, { $set: { volume: Vol }, $upsert: true });
+      }
       queue.node.setVolume(Vol);
       await Update_Player(client, queue);
       return;
@@ -94,6 +108,9 @@ module.exports.execute = async (interaction, lang) => {
     case 'voldec': {
       const current_Vol = queue.node.volume;
       const Vol = Math.max(current_Vol - 10, 0);
+      if (client?.db) {
+        await client.db.ZiUser.updateOne({ userID: user.id }, { $set: { volume: Vol }, $upsert: true });
+      }
       queue.node.setVolume(Vol);
       await Update_Player(client, queue);
       return;

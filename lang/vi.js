@@ -56,6 +56,7 @@ module.exports = {
       SelectTrack: 'Chọn bài hát',
       Lock: 'Khoá',
       UnLock: 'Mở khoá',
+      Unmute: 'Mở khoá âm lượng',
     },
   },
   weather: {

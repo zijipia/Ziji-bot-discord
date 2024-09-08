@@ -56,6 +56,7 @@ module.exports = {
       SelectTrack: 'Select Track',
       Lock: 'Lock',
       UnLock: 'UnLock',
+      Unmute: 'Unmute',
     },
   },
   weather: {

@@ -64,27 +64,28 @@ const DefaultPlayerConfig = {
  * @param { langdef } lang
  */
 module.exports.execute = async (interaction, query, lang) => {
+  const { client, guild, user } = interaction;
   const voiceChannel = interaction.member.voice.channel;
   if (!voiceChannel) {
     return interaction.reply({ content: lang?.music?.NOvoiceChannel ?? 'Bạn chưa tham gia vào kênh thoại' });
   }
-  const voiceMe = interaction.guild.members.cache.get(interaction.client.user.id).voice.channel;
+  const voiceMe = guild.members.cache.get(client.user.id).voice.channel;
   if (voiceMe && voiceMe.id !== voiceChannel.id) {
     return interaction.reply({ content: lang?.music?.NOvoiceMe ?? 'Bot đã tham gia một kênh thoại khác' });
   }
 
   await interaction.deferReply({ fetchReply: true });
-  const queue = useQueue(interaction.guild.id);
+  const queue = useQueue(guild.id);
   if (validURL(query)) {
     try {
       if (!queue?.metadata) await interaction.editReply({ content: '<a:loading:1151184304676819085> Loading...' });
       const res = await player.search(query, {
-        requestedBy: interaction.user,
+        requestedBy: user,
       });
       const playerConfig = { ...(config?.PlayerConfig ?? DefaultPlayerConfig) };
       if (playerConfig.volume === 'auto') {
         playerConfig.volume = client?.db
-          ? ((await client.db.ZiUser.findOne({ userID: interaction.user.id }))?.volume ?? DefaultPlayerConfig.volume)
+          ? ((await client.db.ZiUser.findOne({ userID: user.id }))?.volume ?? DefaultPlayerConfig.volume)
           : DefaultPlayerConfig.volume;
       }
       await player.play(voiceChannel, res, {
@@ -92,7 +93,7 @@ module.exports.execute = async (interaction, query, lang) => {
           ...playerConfig,
           metadata: queue?.metadata ?? {
             channel: interaction.channel,
-            requestedBy: interaction.user,
+            requestedBy: user,
             LockStatus: false,
             mess:
               interaction?.customId !== 'player_SelectionSearch' ? await interaction.fetchReply() : interaction.message,

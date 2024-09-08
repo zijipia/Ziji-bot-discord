@@ -173,6 +173,12 @@ module.exports = {
           Emoji: ZiIcons.mute,
         },
         {
+          Label: 'Unmute',
+          Description: lang?.playerFunc?.Fields?.Unmute || 'Mở khoá âm lượng',
+          Value: 'Unmute',
+          Emoji: ZiIcons.volinc,
+        },
+        {
           Label: 'Vol +',
           Description: lang?.playerFunc?.Fields?.VolInc || 'Tăng âm lượng',
           Value: 'volinc',
@@ -203,8 +209,8 @@ module.exports = {
         if (queue.isEmpty() && (f.Label === 'Shuffle' || f.Label === 'Queue')) return false;
         if (queue.node.volume > 99 && f.Value === 'volinc') return false;
         if (queue.node.volume < 1 && f.Value === 'voldec') return false;
-        if (queue.node.volume == 0 && f.Value === 'Mute') return false;
-
+        if (queue.node.volume === 0 && f.Value === 'Mute') return false;
+        if (queue.node.volume !== 0 && f.Value === 'Unmute') return false;
         return true;
       });
 
