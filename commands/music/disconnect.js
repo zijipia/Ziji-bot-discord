@@ -14,7 +14,7 @@ module.exports.data = {
  *
  * @param { CommandInteraction } interaction
  */
-module.exports.execute = async (interaction, lang) => {
+module.exports.execute = async interaction => {
   await interaction.deferReply();
   const queue = useQueue(interaction.guild.id);
   if (!queue) {
