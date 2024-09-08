@@ -7,11 +7,10 @@ module.exports.data = {
 /**
  * @param { StringSelectMenuInteraction } interaction
  */
-module.exports.execute = async (interaction, lang) => {
-  // track Selec from text search command | search modal | search context | etc...
+module.exports.execute = async interaction => {
   const query = interaction.values?.at(0);
   if (query === 'cancel') return interaction.message.delete().catch(e => {});
   const command = interaction.client.functions.get('Search');
-  await command.execute(interaction, query, lang);
+  await command.execute(interaction, query);
   return;
 };

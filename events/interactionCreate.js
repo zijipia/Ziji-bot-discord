@@ -10,7 +10,6 @@ module.exports = {
  */
 module.exports.execute = async interaction => {
   const { client, user } = interaction;
-
   let command;
   let commandType;
 
@@ -21,24 +20,19 @@ module.exports.execute = async interaction => {
 
     // Handle cooldowns if not an autocomplete interaction
     if (!interaction.isAutocomplete()) {
-      // Check if the user is an owner
-      const isOwner = config.OwnerID.includes(user.id);
+      const now = Date.now();
+      const cooldownDuration = (config?.defaultCooldownDuration ?? 3) * 1_000;
+      const expirationTime = client.cooldowns.get(user.id) + cooldownDuration;
 
-      if (!isOwner) {
-        const now = Date.now();
-        const cooldownDuration = (config?.defaultCooldownDuration ?? 3) * 1_000;
-        const expirationTime = client.cooldowns.get(user.id) + cooldownDuration;
-
-        if (client.cooldowns.has(user.id) && now < expirationTime) {
-          const expiredTimestamp = Math.round(expirationTime / 1_000);
-          return interaction.reply({
-            content: `Please wait, you are on a cooldown for \`${interaction.commandName}\`. You can use it again <t:${expiredTimestamp}:R>.`,
-            ephemeral: true,
-          });
-        }
-
-        client.cooldowns.set(user.id, now);
+      if (client.cooldowns.has(user.id) && now < expirationTime) {
+        const expiredTimestamp = Math.round(expirationTime / 1_000);
+        return interaction.reply({
+          content: `Please wait, you are on a cooldown for \`${interaction.commandName}\`. You can use it again <t:${expiredTimestamp}:R>.`,
+          ephemeral: true,
+        });
       }
+
+      client.cooldowns.set(user.id, now);
     }
   } else if (interaction.isMessageComponent() || interaction.isModalSubmit()) {
     command = client.functions.get(interaction.customId);
@@ -51,16 +45,12 @@ module.exports.execute = async interaction => {
     return;
   }
 
-  // Get the user's language preference
-  const langfunc = client.functions.get('ZiRank');
-  const lang = await langfunc.execute(client, user, interaction.isAutocomplete() ? 0 : 1);
-
   // Try to execute the command and handle errors
   try {
     if (interaction.isAutocomplete()) {
-      await command.autocomplete(interaction, lang);
+      await command.autocomplete(interaction);
     } else {
-      await command.execute(interaction, lang);
+      await command.execute(interaction);
     }
   } catch (error) {
     console.error(error);
