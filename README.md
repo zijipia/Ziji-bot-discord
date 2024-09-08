@@ -4,9 +4,13 @@
 </p>
 
 # [<img src="https://raw.githubusercontent.com/zijipia/zijipia/main/Assets/ZijiAvt.gif" width="15"/>](./) Zibot V2
-Zibot is a Discord bot developed by [zijipia](https://github.com/zijipia) to enhance your Discord server with various functionalities, using [discord.js](https://discord.js.org/) and [discord-player](https://discord-player.js.org/) 
+
+Zibot is a Discord bot developed by [zijipia](https://github.com/zijipia) to enhance your Discord server with various functionalities, using [discord.js](https://discord.js.org/) and [discord-player](https://discord-player.js.org/)
+
 # Join [Zi bot Playground:](https://discord.gg/32GkbyXtbA) to get icon of bot.
+
 ## Features
+
 - **Event Handling**: Respond to various Discord events.
 - **Music Player**:
 <p>
@@ -18,26 +22,30 @@ Zibot is a Discord bot developed by [zijipia](https://github.com/zijipia) to enh
   </div>
 </p>
 
-
 ## Installation
+
 1. Clone the repository or download project:
 
 ```bash
 git clone https://github.com/zijipia/Zibot.git
 cd Zibot
 ```
+
 2. Install dependencies:
 
 ```bash
 npm install
 ```
+
 3. Set up your environment variables (e.g., TOKEN, MONGO), config:
 
 .env:
+
 ```bash
 TOKEN = "Your Bot Token" # required
 MONGO = "Your Bot Mongo URI" # optional
 ```
+
 config.js: In file
 
 4. Start the bot:
@@ -47,22 +55,27 @@ node .
 ```
 
 ## Contributing
+
 Contributions are welcome!
 
 If you made some changes that you think should make it into the project, send a Pull Request on GitHub
 
-
 ## License
+
 This project is licensed under the MIT License. See the [LICENSE](./blob/main/LICENSE) file for details.
 
 ## Contact
+
 For more information, visit the [project page](https://github.com/zijipia/Ziji-bot-discord) [Support sever](https://discord.gg/GQyJkZDtdX).
 
-***
+---
+
 This README provides an overview, installation steps, usage instructions, and contribution guidelines for the Zibot project.
 
 ## Testing
+
 Ziji is testing ZiExtractor, if anything doesn't work properly try turning it off in index.js file line 25.
+
 ```js
 // player.extractors.register(ZiExtractor, {});
 ```

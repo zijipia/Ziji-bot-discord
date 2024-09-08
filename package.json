@@ -4,8 +4,12 @@
   "description": "Ziji bot discord",
   "main": "index.js",
   "scripts": {
+    "start": "node index.js",
+    "dev": "nodemon index.js",
+    "deploy": "node ./deploy.js",
     "test": "echo \"Error: no test specified\" && exit 1",
-    "deploy": "node ./deploy.js"
+    "check": "prettier --ignore-path .gitignore --check .",
+    "format": "prettier --ignore-path .gitignore --write ."
   },
   "repository": {
     "type": "git",
@@ -34,5 +38,9 @@
     "opusscript": "^0.0.8",
     "sharp": "^0.33.4",
     "ziextractor": "^1.0.8"
+  },
+  "devDependencies": {
+    "nodemon": "^3.1.0",
+    "prettier": "^3.3.2"
   }
 }
