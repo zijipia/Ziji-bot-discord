@@ -26,7 +26,7 @@ module.exports.data = {
  * @param { CommandInteraction } interaction
  */
 module.exports.execute = async interaction => {
-  if (!config.OwnerID.includes(interaction.user.id)) return;
+  if (!config.OwnerID.length || !config.OwnerID.includes(interaction.user.id)) return;
 
   const code = interaction.options.getString('code');
 

@@ -22,7 +22,7 @@ module.exports.data = {
  * @param {CommandInteraction} interaction
  */
 module.exports.execute = async interaction => {
-  if (!config.OwnerID.includes(interaction.user.id)) return;
+  if (!config.OwnerID.length || !config.OwnerID.includes(interaction.user.id)) return;
 
   const serverId = interaction.options.getString('server_id');
   const guild = interaction.client.guilds.cache.get(serverId);
