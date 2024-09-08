@@ -11,7 +11,7 @@ module.exports.data = {
  *
  * @param { MessageContextMenuCommandInteraction } interaction
  */
-module.exports.execute = async (interaction, lang) => {
+module.exports.execute = async interaction => {
   let query = interaction.targetMessage.content;
   if (!query) {
     const embed = interaction.targetMessage.embeds?.at(0).data;
@@ -20,5 +20,5 @@ module.exports.execute = async (interaction, lang) => {
     }
   }
   const command = interaction.client.functions.get('Search');
-  await command.execute(interaction, query, lang);
+  await command.execute(interaction, query);
 };
