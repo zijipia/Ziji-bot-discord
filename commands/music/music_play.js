@@ -43,7 +43,7 @@ module.exports.data = {
  *
  * @param { CommandInteraction } interaction
  */
-module.exports.execute = async (interaction, lang) => {
+module.exports.execute = async interaction => {
   const commandtype = interaction.options?.getSubcommand();
   const query = interaction.options?.getString('query');
   const command = interaction.client.functions.get('Search');
@@ -61,10 +61,10 @@ module.exports.execute = async (interaction, lang) => {
         await interaction.reply({ content: 'No tracks found.', ephemeral: true });
       }
     } else {
-      await command.execute(interaction, query, lang);
+      await command.execute(interaction, query);
     }
   } else {
-    await command.execute(interaction, query, lang);
+    await command.execute(interaction, query);
   }
   return;
 };
