@@ -53,23 +53,22 @@ async function buildImageInWorker(searchPlayer, query) {
 /**
  * @param { BaseInteraction } interaction
  * @param { string } query
- * @param { langdef } lang
  */
-module.exports.execute = async (interaction, query, lang) => {
+module.exports.execute = async (interaction, query) => {
   const voiceChannel = interaction.member.voice.channel;
   if (!voiceChannel) {
-    return interaction.reply({ content: lang?.Search?.NOvoiceChannel ?? 'Bạn chưa tham gia vào kênh thoại' });
+    return interaction.reply({ content: 'Bạn chưa tham gia vào kênh thoại' });
   }
   const voiceMe = interaction.guild.members.cache.get(interaction.client.user.id).voice.channel;
   if (voiceMe && voiceMe.id !== voiceChannel.id) {
-    return interaction.reply({ content: lang?.Search?.NOvoiceChannel ?? 'Bot đã tham gia một kênh thoại khác' });
+    return interaction.reply({ content: 'Bot đã tham gia một kênh thoại khác' });
   }
 
   await interaction.deferReply({ fetchReply: true });
   const queue = useQueue(interaction.guild.id);
   if (validURL(query)) {
     try {
-      if (!queue?.metadata) await interaction.editReply({ content: '<a:loading:1151184304676819085> Loading...' });
+      if (!queue?.metadata) await interaction.editReply({ content: 'Đang phát nhạc' });
       const res = await player.search(query, {
         requestedBy: interaction.user,
       });
@@ -104,7 +103,7 @@ module.exports.execute = async (interaction, query, lang) => {
       return;
     } catch (e) {
       console.error(e);
-      const response = { content: lang?.Search?.NOres ?? '❌ | Không tìm thấy bài hát', ephemeral: true };
+      const response = { content: '❌ | Không tìm thấy bài hát', ephemeral: true };
       if (interaction.replied || interaction.deferred) {
         try {
           await interaction.editReply(response);
