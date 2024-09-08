@@ -6,7 +6,6 @@ const ZiUser = Schema({
   xp: { type: Number },
   level: { type: Number, default: 1 },
   coin: { type: Number, default: 1 },
-  lang: { type: String },
 });
 
 const UserInventory = Schema({
