@@ -32,4 +32,5 @@
 *.app
 node_modules
 *.env
+config.js
 .env
