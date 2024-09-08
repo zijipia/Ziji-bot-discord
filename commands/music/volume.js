@@ -22,7 +22,7 @@ module.exports.data = {
  *
  * @param { CommandInteraction } interaction
  */
-module.exports.execute = async (interaction, lang) => {
+module.exports.execute = async interaction => {
   await interaction.deferReply({ fetchReply: true });
   const volume = interaction.options.getInteger('vol');
   const queue = useQueue(interaction.guild.id);
