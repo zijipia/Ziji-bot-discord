@@ -49,6 +49,14 @@ async function buildImageInWorker(searchPlayer, query) {
   });
 }
 
+const DefaultPlayerConfig = {
+  selfDeaf: true,
+  volume: 100,
+  leaveOnEmpty: true,
+  leaveOnEmptyCooldown: 5000,
+  leaveOnEnd: true,
+  leaveOnEndCooldown: 500000,
+};
 //====================================================================//
 /**
  * @param { BaseInteraction } interaction
@@ -73,14 +81,15 @@ module.exports.execute = async (interaction, query, lang) => {
       const res = await player.search(query, {
         requestedBy: interaction.user,
       });
+      const playerConfig = { ...(config?.PlayerConfig ?? DefaultPlayerConfig) };
+      if (playerConfig.volume === 'auto') {
+        playerConfig.volume = client?.db
+          ? ((await client.db.ZiUser.findOne({ userID: interaction.user.id }))?.volume ?? DefaultPlayerConfig.volume)
+          : DefaultPlayerConfig.volume;
+      }
       await player.play(voiceChannel, res, {
         nodeOptions: {
-          selfDeaf: true,
-          volume: 100,
-          leaveOnEmpty: true,
-          leaveOnEmptyCooldown: 5000,
-          leaveOnEnd: true,
-          leaveOnEndCooldown: 500000,
+          ...playerConfig,
           metadata: queue?.metadata ?? {
             channel: interaction.channel,
             requestedBy: interaction.user,

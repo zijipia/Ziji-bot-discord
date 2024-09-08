@@ -7,6 +7,7 @@ const ZiUser = Schema({
   level: { type: Number, default: 1 },
   coin: { type: Number, default: 1 },
   lang: { type: String },
+  volume: { type: Number, default: 100 },
 });
 
 const UserInventory = Schema({
