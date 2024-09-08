@@ -30,7 +30,7 @@ module.exports.data = {
  * @param { ButtonInteraction } interaction
  * @returns
  */
-module.exports.execute = async (interaction, lang) => {
+module.exports.execute = async interaction => {
   const queue = useQueue(interaction.guild.id);
   if (!queue) return;
   queue.setRepeatMode(queue.repeatMode === 3 ? 0 : 3);
@@ -40,5 +40,5 @@ module.exports.execute = async (interaction, lang) => {
   if (!tracks?.at(0)?.url.length) return;
 
   const command = interaction.client.functions.get('Search');
-  await command.execute(interaction, tracks?.at(0)?.url, lang);
+  await command.execute(interaction, tracks?.at(0)?.url);
 };
