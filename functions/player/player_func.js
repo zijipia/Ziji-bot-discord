@@ -21,19 +21,34 @@ const CreateButton = ({ id = null, style = ButtonStyle.Secondary, label = null, 
 // Helper function to get related tracks
 const getRelatedTracks = async (track, history) => {
   try {
-    let tracks = (await track?.extractor?.getRelatedTracks(track, history))?.tracks || [];
+    let tracks =
+      (await track?.extractor?.getRelatedTracks(track, history))?.tracks ||
+      (
+        await player.extractors.run(async ext => {
+          const res = await ext.getRelatedTracks(track, history);
+          if (!res.tracks.length) {
+            return false;
+          }
+          return res.tracks;
+        })
+      )?.result ||
+      [];
 
-    if (!tracks.length) {
+    if (!tracks.length)
       tracks =
         (
           await player.extractors.run(async ext => {
             const res = await ext.getRelatedTracks(track, history);
-            return res.tracks.length ? res.tracks : false;
+            if (!res.tracks.length) {
+              return false;
+            }
+            return res.tracks;
           })
         )?.result || [];
-    }
 
-    return tracks.filter(tr => !history.tracks.some(t => t.url === tr.url));
+    const unique = tracks.filter(tr => !history.tracks.find(t => t.url === tr.url));
+    if (unique.length) return unique;
+    return [];
   } catch (e) {
     console.log(e);
     return [];
@@ -68,15 +83,13 @@ module.exports = {
   data: { name: 'player_func', type: 'player' },
   /**
    *
-   * @param { Client } client
-   * @param { GuildQueue } queue
+   * @param {Client} client
+   * @param {GuildQueue} queue
    * @returns
    */
   execute: async (client, queue, tracks) => {
     const track = tracks ?? queue?.currentTrack ?? queue?.history?.previousTrack;
     const requestedBy = track?.requestedBy ?? queue.metadata.requestedBy;
-    const langfunc = client.functions.get('ZiRank');
-    const lang = await langfunc.execute(client, requestedBy, 0);
     const queryTypeIcon = getQueryTypeIcon(track?.queryType, track?.raw);
     const timestamps = queue?.node.getTimestamp();
     const trackDurationSymbol = timestamps?.progress === 'Infinity' ? '' : '%';
@@ -89,13 +102,11 @@ module.exports = {
         url: track?.url,
       })
       .setDescription(
-        `Volume: **${queue.node.volume}** % - Playing:  **${trackDuration}**${trackDurationSymbol} <a:_:${
-          ZiIcons.animatedIcons[Math.floor(Math.random() * ZiIcons.animatedIcons.length)]
-        }>`
+        `Volume: **${queue.node.volume}** % - Playing:  **${trackDuration}**${trackDurationSymbol} <a:_:${ZiIcons.animatedIcons[Math.floor(Math.random() * ZiIcons.animatedIcons.length)]}>`
       )
       .setColor('Random')
       .setFooter({
-        text: `${lang.until.requestBy} ${requestedBy?.username}`,
+        text: `Đã thêm bởi: ${requestedBy.username}`,
         iconURL: requestedBy.displayAvatarURL({ size: 1024 }),
       })
       .setTimestamp()
@@ -124,7 +135,7 @@ module.exports = {
     const relatedTracksRow = new ActionRowBuilder().addComponents(
       new StringSelectMenuBuilder()
         .setCustomId('player_SelectionTrack')
-        .setPlaceholder(lang?.playerFunc?.RowRel ?? '▶ | Select a song to add to the queue')
+        .setPlaceholder('▶ | Chọn một bài hát để thêm vào hàng đợi')
         .addOptions(trackOptions.length ? trackOptions : disableOptions)
         .setMaxValues(1)
         .setMinValues(1)
@@ -137,66 +148,22 @@ module.exports = {
         value: `${queue.node.createProgressBar({ leftChar: '﹏', rightChar: '﹏', indicator: '𓊝' })}`,
       });
       const functions = [
+        { Label: 'Search Tracks', Description: 'Tìm kiếm bài hát', Value: 'Search', Emoji: ZiIcons.search },
         {
-          Label: 'Search Tracks',
-          Description: lang?.playerFunc?.Fields?.Search || 'Tìm kiếm bài hát',
-          Value: 'Search',
-          Emoji: ZiIcons.search,
-        },
-        {
-          Label: !queue.metadata.LockStatus
-            ? lang?.playerFunc?.Fields?.Lock || 'Lock'
-            : lang?.playerFunc?.Fields?.UnLock || 'UnLock',
-          Description: !queue.metadata.LockStatus
-            ? lang?.playerFunc?.Fields?.Lockdes || 'Khoá truy cập player'
-            : lang?.playerFunc?.Fields?.Unlockdes || 'Mở khoá truy cập player',
+          Label: !queue.metadata.LockStatus ? 'Lock' : 'Un Lock',
+          Description: !queue.metadata.LockStatus ? 'Khoá truy cập player' : 'Mở khoá truy cập player',
           Value: 'Lock',
           Emoji: !queue.metadata.LockStatus ? ZiIcons.Lock : ZiIcons.UnLock,
         },
-        { Label: 'Loop', Description: lang?.playerFunc?.Fields?.Loop || 'Lặp Lại', Value: 'Loop', Emoji: ZiIcons.loop },
-        {
-          Label: 'AutoPlay',
-          Description: lang?.playerFunc?.Fields?.AutoPlay || 'Tự động phát',
-          Value: 'AutoPlay',
-          Emoji: ZiIcons.loopA,
-        },
-        {
-          Label: 'Queue',
-          Description: lang?.playerFunc?.Fields?.Queue || 'Hàng đợi',
-          Value: 'Queue',
-          Emoji: ZiIcons.queue,
-        },
-        {
-          Label: 'Mute',
-          Description: lang?.playerFunc?.Fields?.Mute || 'Chỉnh âm lượng về 0',
-          Value: 'Mute',
-          Emoji: ZiIcons.mute,
-        },
-        {
-          Label: 'Vol +',
-          Description: lang?.playerFunc?.Fields?.VolInc || 'Tăng âm lượng',
-          Value: 'volinc',
-          Emoji: ZiIcons.volinc,
-        },
-        {
-          Label: 'Vol -',
-          Description: lang?.playerFunc?.Fields?.VolDec || 'Giảm âm lượng',
-          Value: 'voldec',
-          Emoji: ZiIcons.voldec,
-        },
+        { Label: 'Loop', Description: 'Lặp Lại', Value: 'Loop', Emoji: ZiIcons.loop },
+        { Label: 'AutoPlay', Description: 'Tự động phát', Value: 'AutoPlay', Emoji: ZiIcons.loopA },
+        { Label: 'Queue', Description: 'Hàng đợi', Value: 'Queue', Emoji: ZiIcons.queue },
+        { Label: 'Mute', Description: 'Chỉnh âm lượng về 0', Value: 'Mute', Emoji: ZiIcons.mute },
+        { Label: 'Vol +', Description: 'Tăng âm lượng', Value: 'volinc', Emoji: ZiIcons.volinc },
+        { Label: 'Vol -', Description: 'Giảm âm lượng', Value: 'voldec', Emoji: ZiIcons.voldec },
         // { Label: "Lyrics", Description: "Lời bài hát", Value: "Lyrics", Emoji: ZiIcons.lyrics },
-        {
-          Label: 'Shuffle',
-          Description: lang?.playerFunc?.Fields?.Shuffle || 'Trộn bài',
-          Value: 'Shuffle',
-          Emoji: ZiIcons.shuffle,
-        },
-        {
-          Label: 'Filter',
-          Description: lang?.playerFunc?.Fields?.Filter || 'Hiệu Ứng',
-          Value: 'Fillter',
-          Emoji: ZiIcons.fillter,
-        },
+        { Label: 'Shuffle', Description: 'Trộn bài', Value: 'Shuffle', Emoji: ZiIcons.shuffle },
+        { Label: 'Fillter', Description: 'Hiệu Ứng', Value: 'Fillter', Emoji: ZiIcons.fillter },
       ];
 
       const filteredFunctions = functions.filter(f => {
@@ -219,7 +186,7 @@ module.exports = {
       const functionRow = new ActionRowBuilder().addComponents(
         new StringSelectMenuBuilder()
           .setCustomId('player_SelectionFunc')
-          .setPlaceholder(lang?.playerFunc?.RowFunc ?? '▶ | Chọn một chức năng khác để điều khiển player')
+          .setPlaceholder('▶ | Chọn một chức năng khác để điều khiển player')
           .addOptions(functionOptions)
           .setMaxValues(1)
           .setMinValues(1)
@@ -240,7 +207,7 @@ module.exports = {
       code.components = [relatedTracksRow, functionRow, buttonRow];
     } else {
       embed
-        .setDescription(lang?.playerFunc?.QueueEmpty || `❌ | Hàng đợi trống\n✅ | Bạn có thể thêm 1 số bài hát`)
+        .setDescription(`❌ | Hàng đợi trống\n✅ | Bạn có thể thêm 1 số bài hát`)
         .setColor('Red')
         .addFields({ name: ' ', value: `𓊝 ┃ ﹏﹏﹏﹏﹏﹏﹏﹏﹏﹏﹏﹏﹏﹏﹏ ┃ 𓊝` });
 
@@ -256,7 +223,7 @@ module.exports = {
 
     if (queue.repeatMode !== 0) {
       embed.addFields({
-        name: `${lang?.playerFunc?.Fields?.Loop || 'Lặp lại'}: ${repeatMode[queue.repeatMode]}`,
+        name: `Lặp lại: ${repeatMode[queue.repeatMode]}`,
         value: ' ',
         inline: false,
       });
@@ -264,9 +231,7 @@ module.exports = {
     if (!!queue?.filters?.ffmpeg?.toArray().length) {
       embed.addFields({
         name: ` `,
-        value: `**${
-          lang?.playerFunc?.Fields?.Filter || 'Filter'
-        }: ${queue?.filters?.ffmpeg?.getFiltersEnabled()}**`.slice(0, 1020),
+        value: `**Filter: ${queue?.filters?.ffmpeg?.getFiltersEnabled()}**`.slice(0, 1020),
         inline: false,
       });
     }
