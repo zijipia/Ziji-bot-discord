@@ -35,3 +35,4 @@ node_modules
 config.js
 .env
 package-lock.json
+discord-giveaways/giveaways.json
