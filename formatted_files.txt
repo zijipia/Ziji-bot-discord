@@ -1,4 +1,1 @@
-commands/fun/userinfo.js
 formatted_files.txt
-lang/en.js
-lang/vi.js
