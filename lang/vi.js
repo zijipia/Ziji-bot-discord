@@ -17,6 +17,14 @@ module.exports = {
     Good: '🟡 Tốt',
     Excellent: '🟢 Xuất sắc',
   },
+  UserInfo: {
+    Title: 'Thông tin người dùng',
+    Username: 'Tên người dùng',
+    UserID: 'ID người dùng',
+    JoinedAt: 'Tham gia server lúc',
+    NotServerMember: 'Không phải là thành viên server',
+    UserJoined: 'Tạo tài khoản lúc'
+  },
   Search: {},
   playerButtons: {
     Refresh: 'Làm mới',
