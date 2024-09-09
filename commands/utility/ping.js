@@ -10,11 +10,12 @@ module.exports.data = {
 };
 
 /**
- *
- * @param {CommandInteraction} interaction
- * @param {Object} lang
+ * @param { object } command - object command
+ * @param { CommandInteraction } command.interaction - interaction
+ * @param { import('../../lang/vi.js') } command.lang - language
  */
-module.exports.execute = async (interaction, lang) => {
+
+module.exports.execute = async ({ interaction, lang }) => {
   try {
     const initialResponse = await interaction.reply({ content: '🏓 Pinging...', fetchReply: true });
 

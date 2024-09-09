@@ -7,9 +7,12 @@ module.exports.data = {
 };
 
 /**
- * @param { StringSelectMenuInteraction } interaction
+ * @param { object } selectmenu - object selectmenu
+ * @param { StringSelectMenuInteraction } selectmenu.interaction - selectmenu interaction
+ * @param { import('../../lang/vi.js') } selectmenu.lang - language
  */
-module.exports.execute = async (interaction, lang) => {
+
+module.exports.execute = async ({ interaction, lang }) => {
   const { guild, client, user, values } = interaction;
   if (queue.metadata.requestedBy?.id !== user.id) {
     return interaction.reply({ content: 'You cannot interact with this menu.', ephemeral: true });

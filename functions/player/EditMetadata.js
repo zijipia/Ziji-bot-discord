@@ -8,6 +8,7 @@ const player = useMainPlayer();
  * @param { BaseGuild } guild - The guild where the command is executed.
  * @param { Object } metadata - The metadata to update.
  */
+
 module.exports.execute = async (guild, metadata) => {
   try {
     const [getMetadata, setMetadata] = useMetadata(guild?.id);
@@ -27,6 +28,7 @@ module.exports.execute = async (guild, metadata) => {
 /**
  * Command data for EditMetadata.
  */
+
 module.exports.data = {
   name: 'EditMetadata',
   type: 'player',

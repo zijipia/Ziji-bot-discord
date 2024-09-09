@@ -18,10 +18,14 @@ async function Update_Player(client, queue) {
   const res = await player.execute(client, queue);
   queue.metadata.mess.edit(res);
 }
+
 /**
- * @param { StringSelectMenuInteraction } interaction
+ * @param { object } selectmenu - object selectmenu
+ * @param { StringSelectMenuInteraction } selectmenu.interaction - selectmenu interaction
+ * @param { import('../../lang/vi.js') } selectmenu.lang - language
  */
-module.exports.execute = async (interaction, lang) => {
+
+module.exports.execute = async ({ interaction, lang }) => {
   const { guild, client, values, user } = interaction;
   const query = values?.at(0);
   const queue = useQueue(guild.id);

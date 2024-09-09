@@ -20,10 +20,12 @@ module.exports.data = {
 };
 
 /**
- *
- * @param { CommandInteraction } interaction
+ * @param { object } command - object command
+ * @param { CommandInteraction } command.interaction - interaction
+ * @param { import('../../lang/vi.js') } command.lang - language
  */
-module.exports.execute = async (interaction, lang) => {
+
+module.exports.execute = async ({ interaction, lang }) => {
   await interaction.deferReply();
   const count = interaction.options.getInteger('count') || 1;
 

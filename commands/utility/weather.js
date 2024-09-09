@@ -19,7 +19,13 @@ module.exports = {
     contexts: [0, 1, 2],
   },
 
-  async execute(interaction, lang) {
+  /**
+   * @param { object } command - object command
+   * @param { CommandInteraction } command.interaction - interaction
+   * @param { import('../../lang/vi.js') } command.lang - language
+   */
+
+  async execute({ interaction, lang }) {
     await interaction.deferReply();
     const cityInput = interaction.options.getString('city');
     const apiKey = process.env.WEATHER_API_KEY;
@@ -76,7 +82,13 @@ module.exports = {
     }
   },
 
-  async autocomplete(interaction) {
+  /**
+   * @param { object } autocomplete - object autocomplete
+   * @param { AutocompleteInteraction } autocomplete.interaction - interaction
+   * @param { import('../../lang/vi.js') } autocomplete.lang - language
+   */
+
+  async autocomplete({ interaction, lang }) {
     const focusedValue = interaction.options.getFocused();
     if (!focusedValue) return interaction.respond([]);
 

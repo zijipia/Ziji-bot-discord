@@ -10,11 +10,14 @@ module.exports.data = {
   integration_types: [0],
   contexts: [0],
 };
+
 /**
- *
- * @param { CommandInteraction } interaction
+ * @param { object } command - object command
+ * @param { CommandInteraction } command.interaction - interaction
+ * @param { import('../../lang/vi.js') } lang
  */
-module.exports.execute = async (interaction, lang) => {
+
+module.exports.execute = async ({ interaction, lang }) => {
   await interaction.deferReply();
   const queue = useQueue(interaction.guild.id);
   if (!queue) {

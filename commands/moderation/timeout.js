@@ -30,9 +30,12 @@ module.exports.data = {
 };
 
 /**
- * @param { CommandInteraction } interaction
+ * @param { object } command - object command
+ * @param { CommandInteraction } command.interaction - interaction
+ * @param { import('../../lang/vi.js') } command.lang - language
  */
-module.exports.execute = async (interaction, lang) => {
+
+module.exports.execute = async ({ interaction, lang }) => {
   const user = interaction.options.getUser('user');
   const durationInput = interaction.options.getString('duration');
   const reason = interaction.options.getString('reason') || 'Không có lý do';

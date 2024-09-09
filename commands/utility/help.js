@@ -9,11 +9,14 @@ module.exports.data = {
   integration_types: [0, 1],
   contexts: [0, 1, 2],
 };
+
 /**
- *
- * @param { CommandInteraction } interaction
+ * @param { object } command - object command
+ * @param { CommandInteraction } command.interaction - interaction
+ * @param { import('../../lang/vi.js') } lang
  */
-module.exports.execute = async (interaction, lang) => {
+
+module.exports.execute = async ({ interaction, lang }) => {
   await interaction.deferReply();
   const commands = await interaction.client.rest.get(Routes.applicationCommands(interaction.client.user.id));
   const guildCommands = commands.filter(cmd => cmd.type === 1 || cmd.type === 2);

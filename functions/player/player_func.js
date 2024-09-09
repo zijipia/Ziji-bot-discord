@@ -66,12 +66,13 @@ const repeatMode = ['OFF', `${ZiIcons.loop1} Track`, `${ZiIcons.loopQ} Queue`, `
 
 module.exports = {
   data: { name: 'player_func', type: 'player' },
+  
   /**
-   *
    * @param { Client } client
    * @param { GuildQueue } queue
    * @returns
    */
+
   execute: async (client, queue, tracks) => {
     const track = tracks ?? queue?.currentTrack ?? queue?.history?.previousTrack;
     const requestedBy = track?.requestedBy ?? queue.metadata.requestedBy;

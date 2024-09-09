@@ -20,9 +20,12 @@ module.exports.data = {
 };
 
 /**
- * @param { ModalSubmitInteraction } interaction
+ * @param { object } modal - object modal
+ * @param { ModalSubmitInteraction } modal.interaction - modal interaction
+ * @param { import('../../lang/vi.js') } modal.lang - language
  */
-module.exports.execute = async (interaction, lang) => {
+
+module.exports.execute = async ({ interaction, lang }) => {
   const { guild, client, fields } = interaction;
   const queue = useQueue(guild.id);
   const input = fields.getTextInputValue('del-input');
