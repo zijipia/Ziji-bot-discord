@@ -17,6 +17,14 @@ module.exports = {
     Good: '🟡 Good',
     Excellent: '🟢 Excellent',
   },
+  UserInfo: {
+    Title: 'User information',
+    Username: 'Username',
+    UserID: 'User ID',
+    JoinedAt: 'Server joined at',
+    NotServerMember: 'Not a member in this server',
+    UserJoined: 'Account created at'
+  },
   Search: {},
   playerButtons: {
     Refresh: 'Refresh',
