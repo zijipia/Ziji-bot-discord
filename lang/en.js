@@ -23,7 +23,7 @@ module.exports = {
     UserID: 'User ID',
     JoinedAt: 'Server joined at',
     NotServerMember: 'Not a member in this server',
-    UserJoined: 'Account created at'
+    UserJoined: 'Account created at',
   },
   Search: {},
   playerButtons: {

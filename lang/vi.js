@@ -23,7 +23,7 @@ module.exports = {
     UserID: 'ID người dùng',
     JoinedAt: 'Tham gia server lúc',
     NotServerMember: 'Không phải là thành viên server',
-    UserJoined: 'Tạo tài khoản lúc'
+    UserJoined: 'Tạo tài khoản lúc',
   },
   Search: {},
   playerButtons: {
