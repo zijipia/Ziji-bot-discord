@@ -1,2 +1,1 @@
 formatted_files.txt
-functions/player/player_func.js
