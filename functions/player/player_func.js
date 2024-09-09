@@ -66,7 +66,7 @@ const repeatMode = ['OFF', `${ZiIcons.loop1} Track`, `${ZiIcons.loopQ} Queue`, `
 
 module.exports = {
   data: { name: 'player_func', type: 'player' },
-  
+
   /**
    * @param { Client } client
    * @param { GuildQueue } queue
