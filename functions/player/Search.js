@@ -73,6 +73,13 @@ module.exports.execute = async (interaction, query, lang, options = {}) => {
   if (voiceMe && voiceMe.id !== voiceChannel.id) {
     return interaction.reply({ content: lang?.music?.NOvoiceMe ?? 'Bot đã tham gia một kênh thoại khác' });
   }
+  const permissions = voiceChannel.permissionsFor(client.user);
+  if (!permissions.has('Connect') || !permissions.has('Speak')) {
+    return interaction.reply({
+      content: lang?.music?.NoPermission ?? 'Bot không có quyền tham gia hoặc nói trong kênh thoại này',
+      ephemeral: true,
+    });
+  }
 
   await interaction.deferReply({ fetchReply: true });
   const queue = useQueue(guild.id);

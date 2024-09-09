@@ -7,6 +7,19 @@ module.exports = {
     requestBy: 'Requested by:',
     noDB: '❌ | Database is not currently enabled, please contact dev bot',
   },
+  Help: {
+    Placeholder: '> | Select a category to view the commands',
+    GuildCommands: 'Guild Commands',
+    ContextCommands: 'Context Commands',
+    PlayerButtons: 'Player Commands',
+    VoiceCommands: 'Voice Commands',
+    GuildCommandsDescription: 'View the list of commands that can be used in the server',
+    ContextCommandsDescription: 'View the list of commands that can be used in the context menu',
+    PlayerButtonsDescription: 'View the list of buttons that can be used in the music player',
+    VoiceCommandsDescription: 'View the list of commands that can be used by voice',
+    Attention: 'Attention:',
+    Note: 'Note:',
+  },
   Ping: {
     Description: "Hey ##username##! Here's my **latency** and **ping** status:",
     Roundtrip: '🔄 Round-trip Latency',
@@ -25,7 +38,6 @@ module.exports = {
     NotServerMember: 'Not a member in this server',
     UserJoined: 'Account created at',
   },
-  Search: {},
   playerButtons: {
     Refresh: 'Refresh',
     Previous: 'Previous',
@@ -89,6 +101,7 @@ module.exports = {
     NOvoiceMe: '❌ | The bot is already in another voice channel',
     NOres: '❌ | No song found',
     NoPlaying: '❌ | No tracks playing.',
+    NoPermission: '❌ | Bot does not have permission to join or speak in this voice channel',
   },
   voiceCommands: {
     Play: 'Play',
@@ -98,6 +111,8 @@ module.exports = {
     Resume: 'Resume',
     AutoPlay: 'AutoPlay',
     Disconnect: 'Disconnect',
+    Note: 'The command can have multiple different calls, for example: "skip" can be called as "skip" or "next"',
+    LanguageNote: 'Change the bot language to detect language more effectively',
   },
   voiceFunc: {
     Play: 'Play a song or add to queue',
