@@ -4,12 +4,15 @@ module.exports.data = {
   name: 'queue_del',
   type: 'button',
 };
+
 /**
- *
- * @param { ButtonInteraction } interaction
+ * @param { object } button - object button
+ * @param { ButtonInteraction } button.interaction - button interaction
+ * @param { import('../../lang/vi.js') } button.lang - language
  * @returns
  */
-module.exports.execute = async (interaction, lang) => {
+
+module.exports.execute = async ({ interaction, lang }) => {
   const modal = new ModalBuilder()
     .setTitle(`Delete Track ${interaction?.guild?.name}`)
     .setCustomId('queue_del_modal')

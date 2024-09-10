@@ -16,11 +16,14 @@ module.exports.data = {
   integration_types: [0, 1],
   contexts: [0, 1, 2],
 };
+
 /**
- *
- * @param { CommandInteraction } interaction
+ * @param { object } command - object command
+ * @param { CommandInteraction } command.interaction - interaction
+ * @param { import('../../lang/vi.js') } command.lang - language
  */
-module.exports.execute = async (interaction, lang) => {
+
+module.exports.execute = async ({ interaction, lang }) => {
   const user = interaction.options.getUser('user') || interaction.user;
 
   interaction.reply(user.displayAvatarURL({ size: 1024 }));

@@ -42,8 +42,9 @@ async function buildImageInWorker(searchPlayer, query) {
 
 /**
  * @param { ButtonInteraction } interaction
- * @param {GuildQueue} queue
+ * @param { GuildQueue } queue
  */
+
 module.exports.execute = async (interaction, queue, Nextpage = true) => {
   if (!queue) return interaction.reply({ content: 'There is no music playing in this server' });
   await interaction.deferReply();

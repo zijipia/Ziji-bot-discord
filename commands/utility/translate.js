@@ -36,11 +36,12 @@ module.exports.data = {
 };
 
 /**
- *
- * @param {CommandInteraction} interaction
- * @param {Object} lang
+ * @param { object } command - object command
+ * @param { CommandInteraction } command.interaction - interaction
+ * @param { import('../../lang/vi.js') } command.lang - language
  */
-module.exports.execute = async (interaction, lang) => {
+
+module.exports.execute = async ({ interaction, lang }) => {
   await interaction.deferReply();
   const { options, client, user } = interaction;
   const text = options.getString('text', true);
@@ -59,7 +60,13 @@ module.exports.execute = async (interaction, lang) => {
   await interaction.editReply({ embeds: [embed] });
 };
 
-module.exports.autocomplete = async (interaction, lang) => {
+/**
+ * @param { object } autocomplete - object autocomplete
+ * @param { AutocompleteInteraction } autocomplete.interaction - interaction
+ * @param { import('../../lang/vi.js') } autocomplete.lang - language
+ */
+
+module.exports.autocomplete = async ({ interaction, lang }) => {
   try {
     const text = interaction.options.getString('text', true);
     const langTo = lang?.name || 'en';

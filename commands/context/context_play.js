@@ -7,11 +7,14 @@ module.exports.data = {
   integration_types: [0],
   contexts: [0],
 };
+
 /**
- *
- * @param { MessageContextMenuCommandInteraction } interaction
+ * @param { object } context - object command
+ * @param { MessageContextMenuCommandInteraction } context.interaction - interaction
+ * @param { import('../../lang/vi.js') } context.lang - language
  */
-module.exports.execute = async (interaction, lang) => {
+
+module.exports.execute = async ({ interaction, lang }) => {
   let query = interaction.targetMessage.content;
   if (!query) {
     const embed = interaction.targetMessage.embeds?.at(0).data;

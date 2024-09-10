@@ -19,11 +19,14 @@ module.exports.data = {
   integration_types: [0],
   contexts: [0],
 };
+
 /**
- *
- * @param { CommandInteraction } interaction
+ * @param { object } command - object command
+ * @param { CommandInteraction } command.interaction - interaction
+ * @param { import('../../lang/vi.js') } command.lang - language
  */
-module.exports.execute = async (interaction, lang) => {
+
+module.exports.execute = async ({ interaction, lang }) => {
   const { client, guild } = interaction;
   await interaction.deferReply();
   const langcode = interaction.options.getString('lang');

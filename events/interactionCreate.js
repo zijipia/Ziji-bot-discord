@@ -58,9 +58,9 @@ module.exports.execute = async interaction => {
   // Try to execute the command and handle errors
   try {
     if (interaction.isAutocomplete()) {
-      await command.autocomplete(interaction, lang);
+      await command.autocomplete({ interaction, lang });
     } else {
-      await command.execute(interaction, lang);
+      await command.execute({ interaction, lang });
     }
   } catch (error) {
     console.error(error);

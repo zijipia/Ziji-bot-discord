@@ -10,6 +10,7 @@ module.exports.data = {
  * @param { Client } interaction
  * @param { User } user
  */
+
 module.exports.execute = async (client, user, xpAdd = 1) => {
   if (client?.db && user) {
     // Destructure userDB to extract values with default assignments

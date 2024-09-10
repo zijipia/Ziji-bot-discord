@@ -9,6 +9,19 @@ module.exports = {
     success: 'Đã thực hiện lệnh này thành công!',
     notHavePremission: 'Bạn không có quyền để thực hiện lệnh này!',
   },
+  Help: {
+    Placeholder: '> | Chọn một danh mục để xem các lệnh',
+    GuildCommands: 'Lệnh server',
+    ContextCommands: 'Lệnh context',
+    PlayerButtons: 'Lệnh player',
+    VoiceCommands: 'Lệnh voice',
+    GuildCommandsDescription: 'Xem danh sách các lệnh có thể sử dụng trong server',
+    ContextCommandsDescription: 'Xem danh sách các lệnh có thể sử dụng trong context menu',
+    PlayerButtonsDescription: 'Xem danh sách các button có thể sử dụng trong music player',
+    VoiceCommandsDescription: 'Xem danh sách các lệnh có thể sử dụng bằng giọng nói',
+    Attention: 'Chú ý:',
+    Note: 'Lưu ý:',
+  },
   Ping: {
     Description: 'Chào ##username##! Đây là **độ trễ** và trạng thái **ping** của tôi:',
     Roundtrip: '🔄 Độ trễ vòng lặp',
@@ -107,6 +120,7 @@ module.exports = {
     NOvoiceMe: '❌ | Bot đã ở trong một kênh thoại khác',
     NOres: '❌ | Không tìm thấy bài hát',
     NoPlaying: '❌ | Không có bài hát nào đang phát.',
+    NoPermission: '❌ | Bot không có quyền tham gia hoặc nói trong kênh thoại này',
   },
   voiceCommands: {
     Play: 'Phát nhạc',
@@ -116,6 +130,8 @@ module.exports = {
     Resume: 'Tiếp tục',
     AutoPlay: 'Tự động phát',
     Disconnect: 'Ngắt kết nối',
+    Note: 'Lệnh có thể có nhiều cách gọi khác nhau, ví dụ: "skip" có thể được gọi là "bỏ qua" hoặc "next"',
+    LanguageNote: 'Thay đổi ngôn ngữ bot để dectect ngôn ngữ hiệu quả',
   },
   voiceFunc: {
     Play: 'Phát một bài hát hoặc thêm vào hàng đợi',

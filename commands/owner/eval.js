@@ -23,9 +23,12 @@ module.exports.data = {
 };
 
 /**
- * @param { CommandInteraction } interaction
+ * @param { object } command - object command
+ * @param { CommandInteraction } command.interaction - interaction
+ * @param { import('../../lang/vi.js') } command.lang - language
  */
-module.exports.execute = async interaction => {
+
+module.exports.execute = async ({ interaction, lang }) => {
   if (!config.OwnerID.length || !config.OwnerID.includes(interaction.user.id)) return;
 
   const code = interaction.options.getString('code');

@@ -31,6 +31,7 @@
 *.out
 *.app
 node_modules
+package-lock.json
 *.env
 config.js
 .env

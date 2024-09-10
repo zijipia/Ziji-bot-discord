@@ -53,11 +53,14 @@ module.exports.data = {
   integration_types: [0],
   contexts: [0],
 };
+
 /**
- *
- * @param { CommandInteraction } interaction
+ * @param { object } command - object command
+ * @param { CommandInteraction } command.interaction - interaction
+ * @param { import('../../lang/vi.js') } command.lang - language
  */
-module.exports.execute = async (interaction, lang) => {
+
+module.exports.execute = async ({ interaction, lang }) => {
   const commandtype = interaction.options?.getSubcommand();
   const query = interaction.options?.getString('query');
   const command = interaction.client.functions.get('Search');
@@ -84,11 +87,14 @@ module.exports.execute = async (interaction, lang) => {
   }
   return;
 };
+
 /**
- *
- * @param { AutocompleteInteraction } interaction
+ * @param { object } autocomplete - object autocomplete
+ * @param { AutocompleteInteraction } autocomplete.interaction - interaction
+ * @param { import('../../lang/vi.js') } autocomplete.lang - language
  */
-module.exports.autocomplete = async interaction => {
+
+module.exports.autocomplete = async ({ interaction, lang }) => {
   try {
     const query = interaction.options.getString('query', true);
     if (!query) return;

@@ -7,9 +7,12 @@ module.exports.data = {
 };
 
 /**
- * @param { StringSelectMenuInteraction } interaction
+ * @param { object } selectmenu - object selectmenu
+ * @param { StringSelectMenuInteraction } selectmenu.interaction - selectmenu interaction
+ * @param { import('../../lang/vi.js') } selectmenu.lang - language
  */
-module.exports.execute = async (interaction, lang) => {
+
+module.exports.execute = async ({ interaction, lang }) => {
   const { guild, client, user, values } = interaction;
   const queue = useQueue(interaction.guild.id);
   if (queue.metadata.requestedBy?.id !== user.id) {

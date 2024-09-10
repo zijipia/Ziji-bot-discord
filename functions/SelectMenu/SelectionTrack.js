@@ -4,10 +4,14 @@ module.exports.data = {
   name: 'player_SelectionTrack',
   type: 'SelectMenu',
 };
+
 /**
- * @param { StringSelectMenuInteraction } interaction
+ * @param { object } selectmenu - object selectmenu
+ * @param { StringSelectMenuInteraction } selectmenu.interaction - selectmenu interaction
+ * @param { import('../../lang/vi.js') } selectmenu.lang - language
  */
-module.exports.execute = async (interaction, lang) => {
+
+module.exports.execute = async ({ interaction, lang }) => {
   // track Selec from text search command | search modal | search context | etc...
   const query = interaction.values?.at(0);
   if (query === 'cancel') return interaction.message.delete().catch(e => {});

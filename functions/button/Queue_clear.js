@@ -5,12 +5,15 @@ module.exports.data = {
   name: 'queue_clear',
   type: 'button',
 };
+
 /**
- *
- * @param { ButtonInteraction } interaction
+ * @param { object } button - object button
+ * @param { ButtonInteraction } button.interaction - button interaction
+ * @param { import('../../lang/vi.js') } button.lang - language
  * @returns
  */
-module.exports.execute = async (interaction, lang) => {
+
+module.exports.execute = async ({ interaction, lang }) => {
   const queue = useQueue(interaction.guild.id);
   if (!queue) return;
   queue.clear();
