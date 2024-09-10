@@ -44,7 +44,6 @@ module.exports = {
     winners: 'Người chiến thắng:',
     endedAt: 'Kết thúc lúc',
   },
-  Search: {},
   playerButtons: {
     Refresh: 'Làm mới',
     Previous: 'Bài trước',

@@ -44,7 +44,6 @@ module.exports = {
     winners: 'Winners:',
     endedAt: 'Ended at',
   },
-  Search: {},
   playerButtons: {
     Refresh: 'Refresh',
     Previous: 'Previous',
