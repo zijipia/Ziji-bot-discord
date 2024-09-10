@@ -9,7 +9,12 @@ const chalk = require('chalk');
 const { table } = require('table');
 const { GiveawaysManager } = require('discord-giveaways');
 const client = new Client({
-  intents: [GatewayIntentBits.Guilds, GatewayIntentBits.GuildVoiceStates, GatewayIntentBits.GuildMembers, GatewayIntentBits.GuildMessageReactions],
+  intents: [
+    GatewayIntentBits.Guilds,
+    GatewayIntentBits.GuildVoiceStates,
+    GatewayIntentBits.GuildMembers,
+    GatewayIntentBits.GuildMessageReactions,
+  ],
 });
 const player = new Player(client, {
   skipFFmpeg: false,
@@ -21,11 +26,11 @@ const gaManager = new GiveawaysManager(client, {
     botsCanWin: false,
     embedColor: 'Random',
     embedColorEnd: '#000000',
-    reaction: '🎉'
-  }
-})
+    reaction: '🎉',
+  },
+});
 
-client.giveaway = gaManager
+client.giveaway = gaManager;
 
 const ziVoice = useZiVoiceExtractor({
   ignoreBots: true,

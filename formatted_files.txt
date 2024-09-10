@@ -1,1 +1,8 @@
+commands/giveaways/delete.js
+commands/giveaways/end.js
+commands/giveaways/pause.js
+commands/giveaways/reroll.js
+commands/giveaways/resume.js
+commands/giveaways/start.js
 formatted_files.txt
+index.js
