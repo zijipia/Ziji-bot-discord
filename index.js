@@ -55,15 +55,16 @@ const ziVoice = useZiVoiceExtractor({
 });
 
 player.setMaxListeners(100);
-player.extractors.register(YoutubeiExtractor, {
-  authentication: process.env?.YoutubeAUH || '',
-  streamOptions: {
-    useClient: 'ANDROID',
-  },
-});
+// player.extractors.register(YoutubeiExtractor, {
+//   authentication: process.env?.YoutubeAUH || '',
+//   streamOptions: {
+//     useClient: 'ANDROID',
+//   },
+// });
 
 player.extractors.register(ZiExtractor, {});
 player.extractors.loadDefault(ext => !['YouTubeExtractor'].includes(ext));
+// player.extractors.loadDefault();
 
 // player.on('debug', console.log);
 
