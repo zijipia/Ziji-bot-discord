@@ -8,6 +8,8 @@ module.exports = {
     langChange: 'Your language has been changed to:',
     requestBy: 'Requested by:',
     noDB: '❌ | Database is not currently enabled, please contact dev bot',
+    NOPermission: '❌ | Bot does not have permission to chat in this channel',
+    noPermission: '❌ | You do not have permission to execute this command!',
   },
   Help: {
     Placeholder: '> | Select a category to view the commands',

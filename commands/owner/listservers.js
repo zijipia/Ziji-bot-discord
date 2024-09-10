@@ -18,7 +18,8 @@ module.exports.data = {
  */
 
 module.exports.execute = async ({ interaction, lang }) => {
-  if (!config.OwnerID.length || !config.OwnerID.includes(interaction.user.id)) return;
+  if (!config.OwnerID.length || !config.OwnerID.includes(interaction.user.id))
+    return interaction.reply({ content: lang.until.noPermission, ephemeral: true });
 
   await interaction.deferReply({ ephemeral: true });
 

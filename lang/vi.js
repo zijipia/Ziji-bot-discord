@@ -8,6 +8,8 @@ module.exports = {
     noDB: '❌ | Database chưa được bật, vui lòng liên hệ với dev bot',
     success: 'Đã thực hiện lệnh này thành công!',
     notHavePremission: 'Bạn không có quyền để thực hiện lệnh này!',
+    NOPermission: '❌ | Bot không có quyền gửi tin nhắn trong kênh này',
+    noPermission: '❌ | Bạn không có quyền để thực hiện lệnh này!',
   },
   Help: {
     Placeholder: '> | Chọn một danh mục để xem các lệnh',

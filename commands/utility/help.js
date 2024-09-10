@@ -1,6 +1,13 @@
-const { CommandInteraction, Routes, EmbedBuilder, ActionRowBuilder, StringSelectMenuBuilder } = require('discord.js');
+const {
+  CommandInteraction,
+  EmbedBuilder,
+  ActionRowBuilder,
+  StringSelectMenuBuilder,
+  ButtonBuilder,
+  ButtonStyle,
+} = require('discord.js');
 const ZiIcons = require('../../utility/icon');
-
+const config = require('../../config');
 module.exports.data = {
   name: 'help',
   description: 'Help',
@@ -26,6 +33,7 @@ module.exports.execute = async ({ interaction, lang }) => {
     })
     .setDescription(lang.Help.Placeholder)
     .setColor('Random')
+    .setImage(config.botConfig?.Banner || null)
     .setFooter({
       text: `${lang.until.requestBy} ${interaction.user?.username}`,
       iconURL: interaction.user.displayAvatarURL({ size: 1024 }),
@@ -66,9 +74,22 @@ module.exports.execute = async ({ interaction, lang }) => {
 
   const row = new ActionRowBuilder().addComponents(selectMenu);
 
+  const row2 = new ActionRowBuilder().addComponents(
+    new ButtonBuilder()
+      .setLabel('Support Server')
+      .setStyle(ButtonStyle.Link)
+      .setEmoji(ZiIcons.fillter)
+      .setURL(config.botConfig?.SupportServer || 'https://discord.gg/bkBejRNcR3'),
+    new ButtonBuilder()
+      .setLabel('Invite Bot')
+      .setStyle(ButtonStyle.Link)
+      .setEmoji(ZiIcons.fillter)
+      .setURL(config.botConfig?.InviteBot || 'https://discord.com/oauth2/authorize?client_id=1005716197259612193')
+  );
+
   await interaction.editReply({
     embeds: [embed],
-    components: [row],
+    components: [row, row2],
     fetchReply: true,
   });
   return;

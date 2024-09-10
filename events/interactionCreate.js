@@ -1,4 +1,4 @@
-const { Events, CommandInteraction } = require('discord.js');
+const { Events, CommandInteraction, PermissionsBitField } = require('discord.js');
 const config = require('./../config');
 module.exports = {
   name: Events.InteractionCreate,
@@ -60,16 +60,29 @@ module.exports.execute = async interaction => {
     if (interaction.isAutocomplete()) {
       await command.autocomplete({ interaction, lang });
     } else {
+      //check permission
+      if (interaction.guild) {
+        const hasPermission = interaction.channel
+          .permissionsFor(client.user)
+          .has([PermissionsBitField.Flags.SendMessages, PermissionsBitField.Flags.ViewChannel]);
+
+        if (!hasPermission) {
+          return interaction.reply({ content: lang.until.NOPermission, ephemeral: true });
+        }
+      }
+
       await command.execute({ interaction, lang });
     }
   } catch (error) {
+    client.errorLog(`**${error.message}**`);
+    client.errorLog(error.stack);
     console.error(error);
     const response = { content: 'There was an error while executing this command!', ephemeral: true };
 
     if (interaction.replied || interaction.deferred) {
-      await interaction.followUp(response);
+      await interaction.followUp(response).catch(() => {});
     } else {
-      await interaction.reply(response);
+      await interaction.reply(response).catch(() => {});
     }
   }
 };

@@ -27,7 +27,7 @@ module.exports.execute = async ({ interaction, lang }) => {
   const userId = interaction.options.getString('user_id');
 
   if (!interaction.member.permissions.has(PermissionsBitField.Flags.BanMembers)) {
-    return interaction.reply({ content: 'Bạn không có quyền bỏ cấm thành viên.', ephemeral: true });
+    return interaction.reply({ content: lang.until.noPermission, ephemeral: true });
   }
 
   try {

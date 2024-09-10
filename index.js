@@ -1,20 +1,36 @@
 const fs = require('fs').promises;
 const path = require('node:path');
-const { Client, Collection, GatewayIntentBits } = require('discord.js');
+const { Client, Collection, GatewayIntentBits, Partials } = require('discord.js');
 require('dotenv').config();
 const { Player } = require('discord-player');
 const { YoutubeiExtractor } = require('discord-player-youtubei');
 const { ZiExtractor, useZiVoiceExtractor } = require('ziextractor');
 const chalk = require('chalk');
 const { table } = require('table');
+const config = require('./config');
 
 const client = new Client({
   intents: [
-    GatewayIntentBits.Guilds,
-    GatewayIntentBits.GuildVoiceStates,
-    GatewayIntentBits.GuildMembers,
-    GatewayIntentBits.GuildMessageReactions,
+    GatewayIntentBits.Guilds, // for guild related things
+    GatewayIntentBits.GuildVoiceStates, // for voice related things
+    GatewayIntentBits.GuildMessageReactions, // for message reactions things
+    GatewayIntentBits.GuildMembers, // for guild members related things
+    // GatewayIntentBits.GuildEmojisAndStickers, // for manage emojis and stickers
+    // GatewayIntentBits.GuildIntegrations, // for discord Integrations
+    // GatewayIntentBits.GuildWebhooks, // for discord webhooks
+    GatewayIntentBits.GuildInvites, // for guild invite managing
+    // GatewayIntentBits.GuildPresences, // for user presence things
+    GatewayIntentBits.GuildMessages, // for guild messages things
+    // GatewayIntentBits.GuildMessageTyping, // for message typing things
+    GatewayIntentBits.DirectMessages, // for dm messages
+    GatewayIntentBits.DirectMessageReactions, // for dm message reaction
+    // GatewayIntentBits.DirectMessageTyping, // for dm message typinh
+    // GatewayIntentBits.MessageContent, // enable if you need message content things
   ],
+  allowedMentions: {
+    parse: ['users'],
+    repliedUser: false,
+  },
 });
 const player = new Player(client, {
   skipFFmpeg: false,
@@ -63,31 +79,30 @@ const loadFiles = async (directory, collection) => {
     await Promise.all(
       folders.map(async folder => {
         const folderPath = path.join(directory, folder);
-        try {
-          const files = (await fs.readdir(folderPath)).filter(file => file.endsWith('.js'));
+        const files = await fs.readdir(folderPath).then(files => files.filter(file => file.endsWith('.js')));
 
-          await Promise.all(
-            files.map(async file => {
-              const filePath = path.join(folderPath, file);
-              try {
-                const module = require(path.resolve(filePath));
-
-                if ('data' in module && 'execute' in module) {
-                  clientCommands.push([chalk.hex('#E5C3FF')(module.data.name), '✅']);
-                  collection.set(module.data.name, module);
-                } else {
-                  clientCommands.push([chalk.hex('#FF5733')(file), '❌']);
-                  console.warn(`Module from ${file} is missing 'data' or 'execute' property.`);
-                }
-              } catch (moduleError) {
-                console.error(`Error loading command from file ${file}:`, moduleError);
+        await Promise.all(
+          files.map(async file => {
+            const filePath = path.join(folderPath, file);
+            try {
+              const module = require(path.resolve(filePath));
+              if ('data' in module && 'execute' in module) {
+                const isDisabled = config.disabledCommands.includes(module.data.name);
+                clientCommands.push([
+                  chalk.hex(isDisabled ? '#4733FF' : '#E5C3FF')(module.data.name),
+                  isDisabled ? '❌' : '✅',
+                ]);
+                if (!isDisabled) collection.set(module.data.name, module);
+              } else {
                 clientCommands.push([chalk.hex('#FF5733')(file), '❌']);
+                console.warn(`Module from ${file} is missing 'data' or 'execute' property.`);
               }
-            })
-          );
-        } catch (folderError) {
-          console.error(`Error reading folder ${folder}:`, folderError);
-        }
+            } catch (moduleError) {
+              console.error(`Error loading command from file ${file}:`, moduleError);
+              clientCommands.push([chalk.hex('#FF5733')(file), '❌']);
+            }
+          })
+        );
       })
     );
 
@@ -95,7 +110,7 @@ const loadFiles = async (directory, collection) => {
       table(clientCommands, {
         header: {
           alignment: 'center',
-          content: `Client ${path.basename(directory)}`,
+          content: `Commands ${path.basename(directory)}`,
         },
         singleLine: true,
         columns: [{ width: 25 }, { width: 5, alignment: 'center' }],
@@ -110,37 +125,33 @@ const loadEvents = async (directory, target) => {
   const clientEvents = [];
 
   const loadEventFiles = async dir => {
-    try {
-      const files = await fs.readdir(dir, { withFileTypes: true });
+    const files = await fs.readdir(dir, { withFileTypes: true });
 
-      await Promise.all(
-        files.map(async file => {
-          const filePath = path.join(dir, file.name);
+    await Promise.all(
+      files.map(async file => {
+        const filePath = path.join(dir, file.name);
 
-          if (file.isDirectory()) {
-            await loadEventFiles(filePath);
-          } else if (file.isFile() && file.name.endsWith('.js')) {
-            try {
-              const event = require(path.resolve(filePath));
-              clientEvents.push([chalk.hex('#E5C3FF')(file.name), '✅']);
-
-              target.on(event.name, async (...args) => {
-                try {
-                  await event.execute(...args);
-                } catch (executeError) {
-                  console.error(`Error executing event ${event.name}:`, executeError);
-                }
-              });
-            } catch (loadError) {
-              console.error(`Error loading event from file ${file.name}:`, loadError);
-              clientEvents.push([chalk.hex('#FF5733')(file.name), '❌']);
-            }
+        if (file.isDirectory()) {
+          await loadEventFiles(filePath);
+        } else if (file.isFile() && file.name.endsWith('.js')) {
+          try {
+            const event = require(path.resolve(filePath));
+            clientEvents.push([chalk.hex('#E5C3FF')(file.name), '✅']);
+            const eventHandler = async (...args) => {
+              try {
+                await event.execute(...args);
+              } catch (executeError) {
+                console.error(`Error executing event ${event.name}:`, executeError);
+              }
+            };
+            target[event.once ? 'once' : 'on'](event.name, eventHandler);
+          } catch (loadError) {
+            console.error(`Error loading event from file ${file.name}:`, loadError);
+            clientEvents.push([chalk.hex('#FF5733')(file.name), '❌']);
           }
-        })
-      );
-    } catch (error) {
-      console.error(`Error reading directory ${dir}:`, error);
-    }
+        }
+      })
+    );
   };
 
   await loadEventFiles(directory);
@@ -149,7 +160,7 @@ const loadEvents = async (directory, target) => {
     table(clientEvents, {
       header: {
         alignment: 'center',
-        content: `Client ${path.basename(directory)}`,
+        content: `Events ${path.basename(directory)}`,
       },
       singleLine: true,
       columns: [{ width: 25 }, { width: 5, alignment: 'center' }],
@@ -166,7 +177,10 @@ const initialize = async () => {
     loadEvents(path.join(__dirname, 'voiceExtractor'), ziVoice),
   ]);
 
-  client.login(process.env.TOKEN);
+  client.login(process.env.TOKEN).catch(error => {
+    console.error('Error logging in:', error);
+    console.error("The Bot Token You Entered Into Your Project Is Incorrect Or Your Bot's INTENTS Are OFF!");
+  });
 };
 
 initialize().catch(error => {
@@ -175,8 +189,12 @@ initialize().catch(error => {
 
 process.on('unhandledRejection', error => {
   console.error('Unhandled promise rejection:', error);
+  client?.errorLog(`Unhandled promise rejection: **${error.message}**`);
+  client?.errorLog(error.stack);
 });
 
 process.on('uncaughtException', error => {
   console.error('Uncaught exception:', error);
+  client?.errorLog(`Uncaught exception: **${error.message}**`);
+  client?.errorLog(error.stack);
 });

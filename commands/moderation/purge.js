@@ -36,7 +36,7 @@ module.exports.execute = async ({ interaction, lang }) => {
   const user = interaction.options.getUser('user');
 
   if (!interaction.member.permissions.has(PermissionsBitField.Flags.ManageMessages)) {
-    return interaction.reply({ content: 'Bạn không có quyền quản lý tin nhắn.', ephemeral: true });
+    return interaction.reply({ content: lang.until.noPermission, ephemeral: true });
   }
 
   const messages = await interaction.channel.messages.fetch({ limit: amount });

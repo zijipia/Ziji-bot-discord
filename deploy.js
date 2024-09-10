@@ -18,7 +18,9 @@ module.exports = async client => {
         } else if (file.isFile() && file.name.endsWith('.js')) {
           const command = require(filePath);
           if ('data' in command && 'execute' in command) {
-            commands[command.data.owner ? 'owner' : 'global'].push(command.data);
+            if (!config.disabledCommands.includes(command.data.name)) {
+              commands[command.data.owner ? 'owner' : 'global'].push(command.data);
+            }
           }
         }
       })
@@ -31,6 +33,9 @@ module.exports = async client => {
   const deployCommands = async (commandType, route) => {
     if (commands[commandType].length > 0) {
       await rest.put(route, { body: commands[commandType] });
+      client?.errorLog(
+        `Successfully reloaded ${commands[commandType].length} ${commandType} application [/] commands.`
+      );
       console.log(`Successfully reloaded ${commands[commandType].length} ${commandType} application [/] commands.`);
     }
   };

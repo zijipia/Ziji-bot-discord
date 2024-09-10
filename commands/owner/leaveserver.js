@@ -25,7 +25,8 @@ module.exports.data = {
  */
 
 module.exports.execute = async ({ interaction, lang }) => {
-  if (!config.OwnerID.length || !config.OwnerID.includes(interaction.user.id)) return;
+  if (!config.OwnerID.length || !config.OwnerID.includes(interaction.user.id))
+    return interaction.reply({ content: lang.until.noPermission, ephemeral: true });
 
   const serverId = interaction.options.getString('server_id');
   const guild = interaction.client.guilds.cache.get(serverId);

@@ -44,7 +44,7 @@ module.exports.execute = async ({ interaction, lang }) => {
     !interaction.member.permissions.has(PermissionsBitField.Flags.ModerateMembers) &&
     user.id !== interaction.client.user.id
   ) {
-    return interaction.reply({ content: 'Bạn không có quyền tạm thời cấm thành viên.', ephemeral: true });
+    return interaction.reply({ content: lang.until.noPermission, ephemeral: true });
   }
 
   const member = interaction.guild.members.cache.get(user.id);

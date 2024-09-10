@@ -2,22 +2,49 @@ module.exports = {
   // Cho phép deploy command bot
   // Allow bot command deployment
   deploy: true,
-
-  // Tên hoạt động của bot
-  // Bot's activity name
-  ActivityName: '/help',
-
-  // Trạng thái mặc định của bot 'online', 'idle', 'dnd', 'invisible'
-  // Default bot status: 'online', 'idle', 'dnd', 'invisible'
-  Status: 'online',
-
   // Thời gian chờ mặc định giữa các lệnh (tính bằng giây)
   // Default cooldown duration between commands (in seconds)
   defaultCooldownDuration: 5,
 
+  // Bật tính năng voice assistance
+  // Enable voice assistance feature
+  voiceAssistance: true,
+
   // Bật tính năng tìm kiếm hình ảnh 'true', 'false' nên tắt khi chạy trên server vì khá tốn tài nguyên
   // Enable image search feature 'true', 'false'. Should be turned off when running on server as it's resource-intensive
   ImageSearch: true,
+
+  // Cấu hình mặc định của bot
+  // Default bot configuration
+  botConfig: {
+    // Tên hoạt động của bot
+    // Bot's activity name
+    ActivityName: '/help',
+
+    // Loại hoạt động của bot
+    // Bot's activity type (PLAYING, WATCHING, LISTENING, STREAMING)
+    ActivityType: 'PLAYING',
+
+    // Trạng thái mặc định của bot 'online', 'idle', 'dnd', 'invisible'
+    // Default bot status: 'online', 'idle', 'dnd', 'invisible'
+    Status: 'online',
+
+    // ID của channel bot gửi lỗi
+    // Bot's error log channel ID
+    ErrorLog: '1151194012536016968',
+
+    // ID của server hỗ trợ
+    // Support server ID
+    SupportServer: 'https://discord.gg/bkBejRNcR3',
+
+    // Link mời bot
+    // Bot's invite link
+    InviteBot: '',
+
+    // Link ảnh banner
+    // Banner image link
+    Banner: 'https://media.discordapp.net/attachments/1064851388221358153/1209448467077005332/image.png',
+  },
 
   // Cấu hình mặc định của player
   // Default player configuration
@@ -59,7 +86,7 @@ module.exports = {
   // List of server IDs for developers ["server ID", "server ID", ...] or []
   DevGuild: [],
 
-  // Bật tính năng voice assistance
-  // Enable voice assistance feature
-  voiceAssistance: true,
+  // Danh sách các lệnh cần tắt ["Play / Add music", "giveaways", ...]
+  // List of commands to disable ["command name", "command name", ...]
+  disabledCommands: [],
 };

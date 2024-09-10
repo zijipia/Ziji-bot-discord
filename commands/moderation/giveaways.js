@@ -9,7 +9,7 @@ const ms = require('ms');
 
 module.exports.execute = async ({ interaction, lang }) => {
   if (!interaction.member.permissions.has(PermissionsBitField.Flags.ManageMessages)) {
-    return interaction.reply({ content: lang?.until?.notHavePremission, ephemeral: true });
+    return interaction.reply({ content: lang.until.noPermission, ephemeral: true });
   }
 
   const commandtype = interaction.options?.getSubcommand();

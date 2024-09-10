@@ -31,6 +31,7 @@ module.exports.execute = async ({ interaction, lang }) => {
     })
     .setDescription(lang.Help.Placeholder)
     .setColor('Random')
+    .setImage(config.botConfig?.Banner || null)
     .setFooter({
       text: `${lang.until.requestBy} ${interaction.user?.username}`,
       iconURL: interaction.user.displayAvatarURL({ size: 1024 }),

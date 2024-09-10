@@ -1,5 +1,7 @@
 const { CommandInteraction, EmbedBuilder } = require('discord.js');
 
+const config = require('../../config');
+
 module.exports.data = {
   name: 'ping',
   description: "Check the bot's ping",
@@ -35,7 +37,7 @@ module.exports.execute = async ({ interaction, lang }) => {
         { name: lang?.Ping?.Latency || ' ', value: latencyStatus, inline: true },
         { name: lang?.Ping?.Timestamp || ' ', value: `<t:${Math.floor(Date.now() / 1000)}:F>`, inline: true }
       )
-      .setImage('https://media.discordapp.net/attachments/1064851388221358153/1209448467077005332/image.png')
+      .setImage(config.botConfig?.Banner || null)
       .setThumbnail(interaction.client.user.displayAvatarURL({ size: 1024, dynamic: true }))
       .setTimestamp()
       .setFooter({
