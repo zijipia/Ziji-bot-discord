@@ -7,7 +7,7 @@ const { YoutubeiExtractor } = require('discord-player-youtubei');
 const { ZiExtractor, useZiVoiceExtractor } = require('ziextractor');
 const chalk = require('chalk');
 const { table } = require('table');
-const { GiveawaysManager } = require('discord-giveaways');
+
 const client = new Client({
   intents: [
     GatewayIntentBits.Guilds,
@@ -20,7 +20,9 @@ const player = new Player(client, {
   skipFFmpeg: false,
 });
 
-const gaManager = new GiveawaysManager(client, {
+const { GiveawaysManager } = require('discord-giveaways');
+
+client.giveaway = new GiveawaysManager(client, {
   storage: './discord-giveaways/giveaways.json',
   default: {
     botsCanWin: false,
@@ -29,8 +31,6 @@ const gaManager = new GiveawaysManager(client, {
     reaction: '🎉',
   },
 });
-
-client.giveaway = gaManager;
 
 const ziVoice = useZiVoiceExtractor({
   ignoreBots: true,

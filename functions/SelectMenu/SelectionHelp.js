@@ -43,12 +43,19 @@ module.exports.execute = async ({ interaction, lang }) => {
       embed.setDescription(
         `# ${lang.Help.GuildCommands}:\n\n` +
           guildCommands
-            .map(
-              cmd =>
-                `</${cmd.name}${cmd.options?.at(0).type == 1 ? ` ${cmd.options?.at(0).name}` : ''}:${cmd.id}>` +
-                ` ${cmd.description}`
-            )
-            .join('\n\n')
+            .map(cmd => {
+              if (cmd.options?.at(0).type == 1) {
+                let optionss = '';
+                for (const option of cmd.options) {
+                  if (option.type == 1) {
+                    optionss += `</${cmd.name} ${option.name}:${cmd.id}>: ${option.description}\n`;
+                  }
+                }
+                return optionss;
+              }
+              return `</${cmd.name}:${cmd.id}>: ${cmd.description}\n`;
+            })
+            .join('')
       );
       break;
     case 'context_commands':
