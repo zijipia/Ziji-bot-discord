@@ -11,8 +11,12 @@ module.exports = {
   ImageSearch: true,
   // Ngôn ngữ mặc định của bot (vi, en, ...)
   DeafultLang: 'vi',
+
   // Danh sách ID của chủ sở hữu bot (người dùng có thể thực hiện lệnh owner) ["ID admin", "ID admin", ...]
+  // List of bot owner IDs (users who can execute owner commands) ["admin ID", "admin ID", ...]
   OwnerID: [],
+
   // Danh sách ID của các server dành cho nhà phát triển ["ID server", "ID server", ...] or []
+  // List of server IDs for developers ["server ID", "server ID", ...] or []
   DevGuild: [],
 };
