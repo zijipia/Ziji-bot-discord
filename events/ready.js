@@ -2,6 +2,7 @@ const { Events, Client, ActivityType } = require('discord.js');
 const config = require('../config');
 const deploy = require('../deploy');
 const mongoose = require('mongoose');
+const { useMainPlayer } = require('discord-player');
 
 module.exports = {
   name: Events.ClientReady,
@@ -46,5 +47,6 @@ module.exports = {
     });
     client.user.setStatus(config?.Status || 'online');
     client.errorLog(`Ready! Logged in as ${client.user.tag}`);
+    client.errorLog(useMainPlayer().scanDeps());
   },
 };
