@@ -45,7 +45,7 @@ module.exports = {
         start: Date.now(),
       },
     });
-    client.user.setStatus(config?.Status || 'online');
+    client.user.setStatus(config?.botConfig?.Status || 'online');
     client.errorLog(`Ready! Logged in as ${client.user.tag}`);
     client.errorLog(useMainPlayer().scanDeps());
   },
