@@ -69,9 +69,7 @@ const buildSuccessResponse = (output, client) => {
 const buildErrorResponse = err => {
   const embed = new EmbedBuilder()
     .setAuthor({ name: '📤 Error' })
-    .setDescription(
-      '```js\n' + (err.message.length > 4096 ? `${err.message.substring(0, 4000)}...` : err.message) + '\n```'
-    )
+    .setDescription('```js\n' + (err.message.length > 4096 ? `${err.message.substring(0, 4000)}...` : err.message) + '\n```')
     .setColor('Random')
     .setTimestamp();
 

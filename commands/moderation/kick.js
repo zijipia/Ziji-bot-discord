@@ -33,10 +33,7 @@ module.exports.execute = async ({ interaction, lang }) => {
   const user = interaction.options.getUser('user');
   const reason = interaction.options.getString('reason') || 'Không có lý do';
 
-  if (
-    !interaction.member.permissions.has(PermissionsBitField.Flags.KickMembers) &&
-    user.id !== interaction.client.user.id
-  ) {
+  if (!interaction.member.permissions.has(PermissionsBitField.Flags.KickMembers) && user.id !== interaction.client.user.id) {
     return interaction.reply({ content: lang.until.noPermission, ephemeral: true });
   }
 

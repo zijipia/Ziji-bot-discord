@@ -108,9 +108,7 @@ module.exports.execute = async (interaction, queue, Nextpage = true) => {
         .setColor('Random')
         .addFields({ name: `Page: ${page} / ${toltalPage}`, value: ' ' })
         .setDescription(
-          `${currentTrack
-            .map(track => `${++now} | **${`${track?.title}`.slice(0, 25)}** - [${track.duration}](${track.url})`)
-            .join('\n')}`
+          `${currentTrack.map(track => `${++now} | **${`${track?.title}`.slice(0, 25)}** - [${track.duration}](${track.url})`).join('\n')}`
         );
       code.embeds = [embed];
     }
@@ -120,9 +118,7 @@ module.exports.execute = async (interaction, queue, Nextpage = true) => {
       .setColor('Random')
       .addFields({ name: `Page: ${page} / ${toltalPage}`, value: ' ' })
       .setDescription(
-        `${currentTrack
-          .map(track => `${++now} | **${`${track?.title}`.slice(0, 25)}** - [${track.duration}](${track.url})`)
-          .join('\n')}`
+        `${currentTrack.map(track => `${++now} | **${`${track?.title}`.slice(0, 25)}** - [${track.duration}](${track.url})`).join('\n')}`
       );
     code.embeds = [embed];
   }
@@ -134,11 +130,7 @@ module.exports.execute = async (interaction, queue, Nextpage = true) => {
     new ButtonBuilder().setCustomId('cancel').setEmoji('❌').setStyle(ButtonStyle.Secondary)
   );
   const row = new ActionRowBuilder().addComponents(
-    new ButtonBuilder()
-      .setCustomId('queue_Page')
-      .setLabel(`Page: ${page}`)
-      .setStyle(ButtonStyle.Secondary)
-      .setDisabled(true),
+    new ButtonBuilder().setCustomId('queue_Page').setLabel(`Page: ${page}`).setStyle(ButtonStyle.Secondary).setDisabled(true),
     new ButtonBuilder().setCustomId('queue_prev').setStyle(ButtonStyle.Secondary).setLabel('◀'),
     new ButtonBuilder().setCustomId('queue_refresh').setStyle(ButtonStyle.Secondary).setEmoji(ZiIcons.refesh),
     new ButtonBuilder().setCustomId('queue_next').setStyle(ButtonStyle.Secondary).setLabel('▶')

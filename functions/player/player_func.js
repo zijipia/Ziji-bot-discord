@@ -271,9 +271,10 @@ module.exports = {
     if (!!queue?.filters?.ffmpeg?.toArray().length) {
       embed.addFields({
         name: ` `,
-        value: `**${
-          lang?.playerFunc?.Fields?.Filter || 'Filter'
-        }: ${queue?.filters?.ffmpeg?.getFiltersEnabled()}**`.slice(0, 1020),
+        value: `**${lang?.playerFunc?.Fields?.Filter || 'Filter'}: ${queue?.filters?.ffmpeg?.getFiltersEnabled()}**`.slice(
+          0,
+          1020
+        ),
         inline: false,
       });
     }

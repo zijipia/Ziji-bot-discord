@@ -25,8 +25,7 @@ module.exports = {
   youtubeIconURL: 'https://cdn.discordapp.com/attachments/1064851388221358153/1243685364502102066/youtube.gif',
   spotifyIconURL: 'https://cdn.discordapp.com/attachments/1064851388221358153/1243684923626356846/spotify.gif',
   soundcloudIconURL: 'https://cdn.discordapp.com/attachments/1064851388221358153/1243684572672037027/SOUNDCLOUD.gif',
-  AttachmentIconURL:
-    'https://cdn.discordapp.com/attachments/1064851388221358153/1091717240669348010/ezgif.com-crop_1.gif',
+  AttachmentIconURL: 'https://cdn.discordapp.com/attachments/1064851388221358153/1091717240669348010/ezgif.com-crop_1.gif',
   animatedIcons: [
     '1150775508045410385',
     '1150776048263364608',

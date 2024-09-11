@@ -107,8 +107,7 @@ module.exports.execute = async (interaction, query, lang, options = {}) => {
             LockStatus: false,
             voiceAssistance: options.assistant && config?.voiceAssistance,
             lang: lang || langdef,
-            mess:
-              interaction?.customId !== 'player_SelectionSearch' ? await interaction.fetchReply() : interaction.message,
+            mess: interaction?.customId !== 'player_SelectionSearch' ? await interaction.fetchReply() : interaction.message,
           },
         },
       });
@@ -161,9 +160,7 @@ module.exports.execute = async (interaction, query, lang, options = {}) => {
 
   if (!tracks.length) {
     return interaction.editReply({
-      embeds: [
-        new EmbedBuilder().setTitle('Không tìm thấy kết quả nào cho:').setDescription(`${query}`).setColor('Red'),
-      ],
+      embeds: [new EmbedBuilder().setTitle('Không tìm thấy kết quả nào cho:').setDescription(`${query}`).setColor('Red')],
       components: [
         new ActionRowBuilder().addComponents(
           new ButtonBuilder().setCustomId('cancel').setEmoji('❌').setStyle(ButtonStyle.Secondary)

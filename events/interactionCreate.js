@@ -1,5 +1,42 @@
 const { Events, CommandInteraction, PermissionsBitField } = require('discord.js');
 const config = require('./../config');
+
+async function checkStatus(interaction, client, lang) {
+  // Check permission
+  if (interaction.guild) {
+    const hasPermission = interaction.channel
+      .permissionsFor(client.user)
+      .has([PermissionsBitField.Flags.SendMessages, PermissionsBitField.Flags.ViewChannel]);
+
+    if (!hasPermission) {
+      await interaction.reply({ content: lang.until.NOPermission, ephemeral: true });
+      return true;
+    }
+  }
+
+  // Check owner
+  if (config.OwnerID.includes(interaction.user.id)) return false;
+
+  // Check cooldown
+  const now = Date.now();
+  const cooldownDuration = config.defaultCooldownDuration ?? 3000;
+  const expirationTime = client.cooldowns.get(interaction.user.id) + cooldownDuration;
+
+  if (client.cooldowns.has(interaction.user.id) && now < expirationTime) {
+    const expiredTimestamp = Math.round(expirationTime / 1_000);
+    await interaction.reply({
+      content: lang.until.cooldown.replace('{command}', interaction.commandName).replace('{time}', `<t:${expiredTimestamp}:R>`),
+      ephemeral: true,
+    });
+    return true;
+  }
+
+  // Set cooldown
+  client.cooldowns.set(interaction.user.id, now);
+  setTimeout(() => client.cooldowns.delete(interaction.user.id), cooldownDuration);
+  return false;
+}
+
 module.exports = {
   name: Events.InteractionCreate,
   type: 'events',
@@ -18,28 +55,6 @@ module.exports.execute = async interaction => {
   if (interaction.isChatInputCommand() || interaction.isAutocomplete() || interaction.isMessageContextMenuCommand()) {
     command = client.commands.get(interaction.commandName);
     commandType = 'command';
-
-    // Handle cooldowns if not an autocomplete interaction
-    if (!interaction.isAutocomplete()) {
-      // Check if the user is an owner
-      const isOwner = config.OwnerID.includes(user.id);
-
-      if (!isOwner) {
-        const now = Date.now();
-        const cooldownDuration = (config?.defaultCooldownDuration ?? 3) * 1_000;
-        const expirationTime = client.cooldowns.get(user.id) + cooldownDuration;
-
-        if (client.cooldowns.has(user.id) && now < expirationTime) {
-          const expiredTimestamp = Math.round(expirationTime / 1_000);
-          return interaction.reply({
-            content: `Please wait, you are on a cooldown for \`${interaction.commandName}\`. You can use it again <t:${expiredTimestamp}:R>.`,
-            ephemeral: true,
-          });
-        }
-
-        client.cooldowns.set(user.id, now);
-      }
-    }
   } else if (interaction.isMessageComponent() || interaction.isModalSubmit()) {
     command = client.functions.get(interaction.customId);
     commandType = 'function';
@@ -60,16 +75,8 @@ module.exports.execute = async interaction => {
     if (interaction.isAutocomplete()) {
       await command.autocomplete({ interaction, lang });
     } else {
-      //check permission
-      if (interaction.guild) {
-        const hasPermission = interaction.channel
-          .permissionsFor(client.user)
-          .has([PermissionsBitField.Flags.SendMessages, PermissionsBitField.Flags.ViewChannel]);
-
-        if (!hasPermission) {
-          return interaction.reply({ content: lang.until.NOPermission, ephemeral: true });
-        }
-      }
+      const status = await checkStatus(interaction, client, lang);
+      if (status) return;
 
       await command.execute({ interaction, lang });
     }

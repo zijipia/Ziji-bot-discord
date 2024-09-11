@@ -2,14 +2,15 @@ module.exports = {
   name: 'en',
   local_names: 'en_US',
   until: {
-    success: 'Sucessfully executed this command!',
-    notHavePremission: 'You do not have premission to execute this command!',
+    success: 'Successfully executed this command!',
+    notHavePremission: 'You do not have permission to execute this command!',
     name: 'English',
     langChange: 'Your language has been changed to:',
     requestBy: 'Requested by:',
     noDB: '❌ | Database is not currently enabled, please contact dev bot',
     NOPermission: '❌ | Bot does not have permission to chat in this channel',
     noPermission: '❌ | You do not have permission to execute this command!',
+    cooldown: 'Please wait, you are on a cooldown for `{command}`! You can use it again <t:{time}:R>.',
   },
   Help: {
     Placeholder: '> | Select a category to view the commands',

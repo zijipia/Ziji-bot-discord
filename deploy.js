@@ -33,9 +33,7 @@ module.exports = async client => {
   const deployCommands = async (commandType, route) => {
     if (commands[commandType].length > 0) {
       await rest.put(route, { body: commands[commandType] });
-      client?.errorLog(
-        `Successfully reloaded ${commands[commandType].length} ${commandType} application [/] commands.`
-      );
+      client?.errorLog(`Successfully reloaded ${commands[commandType].length} ${commandType} application [/] commands.`);
       console.log(`Successfully reloaded ${commands[commandType].length} ${commandType} application [/] commands.`);
     }
   };

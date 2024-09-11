@@ -10,6 +10,7 @@ module.exports = {
     notHavePremission: 'Bạn không có quyền để thực hiện lệnh này!',
     NOPermission: '❌ | Bot không có quyền gửi tin nhắn trong kênh này',
     noPermission: '❌ | Bạn không có quyền để thực hiện lệnh này!',
+    cooldown: 'Vui lòng đợi, bạn đang trong thời gian cooldown cho `{command}`! Bạn có thể sử dụng nó lại <t:{time}:R>.',
   },
   Help: {
     Placeholder: '> | Chọn một danh mục để xem các lệnh',

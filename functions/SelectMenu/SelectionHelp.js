@@ -61,9 +61,7 @@ module.exports.execute = async ({ interaction, lang }) => {
       break;
     case 'context_commands':
       const { contextCommands } = await this.commands(interaction);
-      embed.setDescription(
-        `# ${lang.Help.ContextCommands}:\n\n` + contextCommands.map(cmd => `### ${cmd.name}`).join('\n\n')
-      );
+      embed.setDescription(`# ${lang.Help.ContextCommands}:\n\n` + contextCommands.map(cmd => `### ${cmd.name}`).join('\n\n'));
       break;
     case 'player_buttons':
       const playerButtons = this.playerButtons(lang);

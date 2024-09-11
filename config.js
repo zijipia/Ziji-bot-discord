@@ -2,9 +2,10 @@ module.exports = {
   // Cho phép deploy command bot
   // Allow bot command deployment
   deploy: true,
-  // Thời gian chờ mặc định giữa các lệnh (tính bằng giây)
-  // Default cooldown duration between commands (in seconds)
-  defaultCooldownDuration: 5,
+
+  // Thời gian chờ mặc định giữa các lệnh (tính bằng mili giây)
+  // Default cooldown duration between commands (in milliseconds)
+  defaultCooldownDuration: 5000,
 
   // Bật tính năng voice assistance
   // Enable voice assistance feature

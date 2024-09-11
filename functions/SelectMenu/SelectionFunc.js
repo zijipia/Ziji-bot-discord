@@ -1,12 +1,6 @@
 const { useQueue } = require('discord-player');
 const config = require('../../config');
-const {
-  StringSelectMenuInteraction,
-  ModalBuilder,
-  TextInputBuilder,
-  TextInputStyle,
-  ActionRowBuilder,
-} = require('discord.js');
+const { StringSelectMenuInteraction, ModalBuilder, TextInputBuilder, TextInputStyle, ActionRowBuilder } = require('discord.js');
 
 module.exports.data = {
   name: 'player_SelectionFunc',
