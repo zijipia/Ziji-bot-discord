@@ -79,7 +79,7 @@ This README provides an overview, installation steps, usage instructions, and co
 
 ## Testing
 
-Ziji is testing ZiExtractor, if anything doesn't work properly try turning it off [in index.js file line 25.](https://github.com/zijipia/Ziji-bot-discord/blob/main/index.js#L25)
+Ziji is testing ZiExtractor, if anything doesn't work properly try turning it off [in index.js file line 65.](https://github.com/zijipia/Ziji-bot-discord/blob/main/index.js#L65)
 
 ```js
 // player.extractors.register(ZiExtractor, {});
