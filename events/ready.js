@@ -13,6 +13,7 @@ module.exports = {
    */
   execute: async client => {
     client.errorLog = async messenger => {
+      if (!config?.botConfig?.ErrorLog) return;
       try {
         const channel = await client.channels.fetch(config?.botConfig?.ErrorLog).catch(() => 0);
         if (channel) {
@@ -25,7 +26,7 @@ module.exports = {
         console.error('Lỗi khi gửi tin nhắn lỗi:', error);
       }
     };
-    if (config.deploy) {
+    if (config?.deploy) {
       await deploy(client);
     }
     if (process.env.MONGO) {

@@ -32,7 +32,7 @@ module.exports = {
 
     // ID của channel bot gửi lỗi
     // Bot's error log channel ID
-    ErrorLog: '1151194012536016968',
+    ErrorLog: '',
 
     // ID của server hỗ trợ
     // Support server ID
