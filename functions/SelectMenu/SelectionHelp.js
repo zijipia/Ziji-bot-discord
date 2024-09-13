@@ -9,6 +9,7 @@ const {
   Routes,
 } = require('discord.js');
 const ZiIcons = require('../../utility/icon');
+const config = require('../../config');
 
 module.exports.data = {
   name: 'Help_Selection',
