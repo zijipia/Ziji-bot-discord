@@ -1,1 +1,2 @@
+events/ready.js
 formatted_files.txt
