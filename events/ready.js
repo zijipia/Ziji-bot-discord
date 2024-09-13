@@ -2,7 +2,6 @@ const { Events, Client, ActivityType } = require('discord.js');
 const config = require('../config');
 const deploy = require('../deploy');
 const mongoose = require('mongoose');
-const { useMainPlayer } = require('discord-player');
 
 module.exports = {
   name: Events.ClientReady,
@@ -15,11 +14,11 @@ module.exports = {
   execute: async client => {
     client.errorLog = async messenger => {
       try {
-        const channel = await client.channels.fetch(config?.botConfig?.ErrorLog);
+        const channel = await client.channels.fetch(config?.botConfig?.ErrorLog).catch(() => 0);
         if (channel) {
           const text = `[<t:${Math.floor(Date.now() / 1000)}:R>] ${messenger}`;
           for (let i = 0; i < text.length; i += 1000) {
-            await channel.send(text.slice(i, i + 1000));
+            await channel?.send(text.slice(i, i + 1000)).catch(() => {});
           }
         }
       } catch (error) {
@@ -47,6 +46,5 @@ module.exports = {
     });
     client.user.setStatus(config?.botConfig?.Status || 'online');
     client.errorLog(`Ready! Logged in as ${client.user.tag}`);
-    client.errorLog(useMainPlayer().scanDeps());
   },
 };
