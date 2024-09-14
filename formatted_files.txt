@@ -1,1 +1,2 @@
+.github/dependabot.yml
 formatted_files.txt
