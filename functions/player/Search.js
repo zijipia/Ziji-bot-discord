@@ -81,7 +81,7 @@ module.exports.execute = async (interaction, query, lang, options = {}) => {
     });
   }
 
-  await interaction.deferReply({ fetchReply: true });
+  await interaction.deferReply({ fetchReply: true }).catch(e => {});
   const queue = useQueue(guild.id);
   if (validURL(query)) {
     try {
