@@ -1,6 +1,10 @@
 const { Events, CommandInteraction, PermissionsBitField } = require('discord.js');
 const config = require('./../config');
 
+/**
+ * @param { CommandInteraction } interaction
+ */
+
 async function checkStatus(interaction, client, lang) {
   // Check permission
   if (interaction.guild) {
@@ -16,6 +20,9 @@ async function checkStatus(interaction, client, lang) {
 
   // Check owner
   if (config.OwnerID.includes(interaction.user.id)) return false;
+
+  // Check modal
+  if (interaction.isModalSubmit()) return false;
 
   // Check cooldown
   const now = Date.now();
