@@ -98,6 +98,7 @@ module.exports = {
       Stop: 'Dừng',
       SelectTrack: 'Chọn bài hát',
       Lock: 'Khoá',
+      Lyrics: 'Lời bài hát',
       UnLock: 'Mở khoá',
       Unmute: 'Mở khoá âm lượng',
     },

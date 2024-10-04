@@ -7,7 +7,7 @@ function isNumber(str) {
 
 function removeDuplicates(array) {
   const seen = new Set();
-  return array.filter(item => {
+  return array.filter((item) => {
     if (!isNumber(item) || seen.has(item)) return false;
     seen.add(item);
     return true;
@@ -45,10 +45,10 @@ module.exports.execute = async ({ interaction, lang }) => {
   }
   await interaction.deferReply();
   let tracldel = [];
-  const validIndices = trackIndices.map(index => Math.abs(Number(index)) - 1).filter(index => index >= 0);
+  const validIndices = trackIndices.map((index) => Math.abs(Number(index)) - 1).filter((index) => index >= 0);
   validIndices
     .sort((a, b) => b - a)
-    .forEach(index => {
+    .forEach((index) => {
       tracldel.push(queue.tracks.toArray()?.[index]?.title);
       queue.removeTrack(index);
     });
@@ -58,7 +58,7 @@ module.exports.execute = async ({ interaction, lang }) => {
       new EmbedBuilder()
         .setColor('Red')
         .setAuthor({ name: 'Deleted track:', iconURL: client.user.displayAvatarURL({ size: 1024 }) })
-        .setDescription(`${tracldel.map(t => `\n* ${t}`.slice(0, 50))}`.slice(0, 2000))
+        .setDescription(`${tracldel.map((t) => `\n* ${t}`.slice(0, 50))}`.slice(0, 2000))
         .setTimestamp()
         .setFooter({
           text: `Đã thêm bởi: ${interaction.user.tag} `,
@@ -67,7 +67,7 @@ module.exports.execute = async ({ interaction, lang }) => {
     ],
     components: [
       new ActionRowBuilder().addComponents(
-        new ButtonBuilder().setCustomId('cancel').setLabel('❌').setStyle(ButtonStyle.Secondary)
+        new ButtonBuilder().setCustomId('cancel').setLabel('❌').setStyle(ButtonStyle.Secondary),
       ),
     ],
   });

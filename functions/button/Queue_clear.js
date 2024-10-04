@@ -17,6 +17,6 @@ module.exports.execute = async ({ interaction, lang }) => {
   const queue = useQueue(interaction.guild.id);
   if (!queue) return;
   queue.clear();
-  interaction.message.delete().catch(e => {});
+  interaction.message.delete().catch((e) => {});
   return;
 };

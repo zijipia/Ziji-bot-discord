@@ -67,7 +67,7 @@ class MusicSearchCard extends Builder {
               borderRadius: '9999px',
             },
           },
-          index
+          index,
         ),
         JSX.createElement('img', {
           src: image.toDataURL(),
@@ -90,7 +90,7 @@ class MusicSearchCard extends Builder {
                 marginBottom: '0.25rem',
               },
             },
-            displayName.length > 30 ? displayName.slice(0, 30) + '...' : displayName
+            displayName.length > 30 ? displayName.slice(0, 30) + '...' : displayName,
           ),
           JSX.createElement(
             'div',
@@ -102,10 +102,10 @@ class MusicSearchCard extends Builder {
                 color: 'rgb(209, 213, 219)',
               },
             },
-            time
-          )
-        )
-      )
+            time,
+          ),
+        ),
+      ),
     );
   }
 
@@ -119,11 +119,11 @@ class MusicSearchCard extends Builder {
     const leftColumn = players.slice(0, maxPlayersPerColumn);
     const rightColumn = players.slice(maxPlayersPerColumn);
 
-    const imagePromises = players.map(player => getCachedImage(player.avatar));
+    const imagePromises = players.map((player) => getCachedImage(player.avatar));
     const images = await Promise.all(imagePromises);
     const imageMap = new Map(players.map((player, index) => [player.avatar, images[index]]));
 
-    const renderPlayerWithImage = player => {
+    const renderPlayerWithImage = (player) => {
       const image = imageMap.get(player.avatar);
       return this.memoizedRenderDefaultPlayer({ ...player, image });
     };
@@ -155,7 +155,7 @@ class MusicSearchCard extends Builder {
             JSX.createElement(
               'div',
               { style: { display: 'flex', color: 'white', fontWeight: 'bold', fontSize: '1.5rem' } },
-              title
+              title,
             ),
             JSX.createElement('div', {
               style: {
@@ -166,20 +166,20 @@ class MusicSearchCard extends Builder {
                 marginTop: '0.3rem',
                 borderRadius: '9999px',
               },
-            })
-          )
+            }),
+          ),
       ),
       JSX.createElement(
         'div',
         { style: { display: 'flex', color: 'white', gap: '15px' } },
-        processedPlayerGroups.map(renderedPlayers =>
+        processedPlayerGroups.map((renderedPlayers) =>
           JSX.createElement(
             'div',
             { style: { display: 'flex', flexDirection: 'column', flex: 1, gap: '8px' } },
-            ...renderedPlayers
-          )
-        )
-      )
+            ...renderedPlayers,
+          ),
+        ),
+      ),
     );
   }
 }
@@ -206,7 +206,7 @@ async function getCachedImage(url) {
   }
 }
 
-const calculateDimensions = playersCount => {
+const calculateDimensions = (playersCount) => {
   const playerHeight = 80;
   const titleHeight = 60;
   const padding = 30;

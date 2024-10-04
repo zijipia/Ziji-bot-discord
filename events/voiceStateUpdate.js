@@ -23,7 +23,7 @@ module.exports = {
     const requestedMember = botChannel.members.get(queue.metadata?.requestedBy?.id);
     if (requestedMember) return;
 
-    const nonBotMembers = botChannel.members.filter(m => !m.user.bot);
+    const nonBotMembers = botChannel.members.filter((m) => !m.user.bot);
     if (nonBotMembers.size < 1) return;
 
     const randomMember = nonBotMembers.random();

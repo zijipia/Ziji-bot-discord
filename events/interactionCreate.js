@@ -52,7 +52,7 @@ module.exports = {
 /**
  * @param { CommandInteraction } interaction
  */
-module.exports.execute = async interaction => {
+module.exports.execute = async (interaction) => {
   const { client, user } = interaction;
 
   let command;

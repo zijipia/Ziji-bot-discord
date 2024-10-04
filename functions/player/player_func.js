@@ -26,14 +26,14 @@ const getRelatedTracks = async (track, history) => {
     if (!tracks.length) {
       tracks =
         (
-          await player.extractors.run(async ext => {
+          await player.extractors.run(async (ext) => {
             const res = await ext.getRelatedTracks(track, history);
             return res.tracks.length ? res.tracks : false;
           })
         )?.result || [];
     }
 
-    return tracks.filter(tr => !history.tracks.some(t => t.url === tr.url));
+    return tracks.filter((tr) => !history.tracks.some((t) => t.url === tr.url));
   } catch (e) {
     console.log(e);
     return [];
@@ -92,7 +92,7 @@ module.exports = {
       .setDescription(
         `Volume: **${queue.node.volume}** % - Playing:  **${trackDuration}**${trackDurationSymbol} <a:_:${
           ZiIcons.animatedIcons[Math.floor(Math.random() * ZiIcons.animatedIcons.length)]
-        }>`
+        }>`,
       )
       .setColor('Random')
       .setFooter({
@@ -104,7 +104,7 @@ module.exports = {
 
     const code = { content: '' };
     const relatedTracks = await getRelatedTracks(track, queue.history);
-    const filteredTracks = relatedTracks.filter(t => t.url.length < 100).slice(0, 20);
+    const filteredTracks = relatedTracks.filter((t) => t.url.length < 100).slice(0, 20);
 
     const trackOptions = filteredTracks.map((track, i) => {
       return new StringSelectMenuOptionBuilder()
@@ -129,7 +129,7 @@ module.exports = {
         .addOptions(trackOptions.length ? trackOptions : disableOptions)
         .setMaxValues(1)
         .setMinValues(1)
-        .setDisabled(!trackOptions.length)
+        .setDisabled(!trackOptions.length),
     );
 
     if (queue.node.isPlaying() || queue.node.isPaused() || !queue.isEmpty()) {
@@ -191,7 +191,7 @@ module.exports = {
           Value: 'voldec',
           Emoji: ZiIcons.voldec,
         },
-        // { Label: "Lyrics", Description: "Lời bài hát", Value: "Lyrics", Emoji: ZiIcons.lyrics },
+        { Label: 'Lyrics', Description: lang?.playerFunc?.Fields?.Lyrics, Value: 'Lyrics', Emoji: ZiIcons.lyrics },
         {
           Label: 'Shuffle',
           Description: lang?.playerFunc?.Fields?.Shuffle || 'Trộn bài',
@@ -206,7 +206,7 @@ module.exports = {
         },
       ];
 
-      const filteredFunctions = functions.filter(f => {
+      const filteredFunctions = functions.filter((f) => {
         if (queue.isEmpty() && (f.Label === 'Shuffle' || f.Label === 'Queue')) return false;
         if (queue.node.volume > 99 && f.Value === 'volinc') return false;
         if (queue.node.volume < 1 && f.Value === 'voldec') return false;
@@ -215,7 +215,7 @@ module.exports = {
         return true;
       });
 
-      const functionOptions = filteredFunctions.map(f => {
+      const functionOptions = filteredFunctions.map((f) => {
         return new StringSelectMenuOptionBuilder()
           .setLabel(f.Label)
           .setDescription(f.Description)
@@ -229,7 +229,7 @@ module.exports = {
           .setPlaceholder(lang?.playerFunc?.RowFunc ?? '▶ | Chọn một chức năng khác để điều khiển player')
           .addOptions(functionOptions)
           .setMaxValues(1)
-          .setMinValues(1)
+          .setMinValues(1),
       );
 
       const buttonRow = new ActionRowBuilder().addComponents(
@@ -241,7 +241,7 @@ module.exports = {
           disable: false,
         }),
         CreateButton({ id: 'next', emoji: `${ZiIcons.next}`, disable: false }),
-        CreateButton({ id: 'stop', emoji: `${ZiIcons.stop}`, disable: false })
+        CreateButton({ id: 'stop', emoji: `${ZiIcons.stop}`, disable: false }),
       );
 
       code.components = [relatedTracksRow, functionRow, buttonRow];
@@ -256,7 +256,7 @@ module.exports = {
         CreateButton({ id: 'previous', emoji: `${ZiIcons.prev}`, disable: !queue?.history?.previousTrack }),
         CreateButton({ id: 'search', emoji: `${ZiIcons.search}`, disable: false }),
         CreateButton({ id: 'autoPlay', emoji: `${ZiIcons.loopA}`, disable: false }),
-        CreateButton({ id: 'stop', emoji: `${ZiIcons.stop}`, disable: false })
+        CreateButton({ id: 'stop', emoji: `${ZiIcons.stop}`, disable: false }),
       );
       code.components = [relatedTracksRow, buttonRow];
     }
@@ -273,7 +273,7 @@ module.exports = {
         name: ` `,
         value: `**${lang?.playerFunc?.Fields?.Filter || 'Filter'}: ${queue?.filters?.ffmpeg?.getFiltersEnabled()}**`.slice(
           0,
-          1020
+          1020,
         ),
         inline: false,
       });

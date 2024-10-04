@@ -45,7 +45,7 @@ module.exports.execute = async ({ interaction, lang }) => {
       embed.setDescription(
         `# ${lang.Help.GuildCommands}:\n\n` +
           guildCommands
-            .map(cmd => {
+            .map((cmd) => {
               if (cmd.options?.at(0).type == 1) {
                 let optionss = '';
                 for (const option of cmd.options) {
@@ -57,18 +57,18 @@ module.exports.execute = async ({ interaction, lang }) => {
               }
               return `</${cmd.name}:${cmd.id}>: ${cmd.description}\n`;
             })
-            .join('')
+            .join(''),
       );
       break;
     case 'context_commands':
       const { contextCommands } = await this.commands(interaction);
-      embed.setDescription(`# ${lang.Help.ContextCommands}:\n\n` + contextCommands.map(cmd => `### ${cmd.name}`).join('\n\n'));
+      embed.setDescription(`# ${lang.Help.ContextCommands}:\n\n` + contextCommands.map((cmd) => `### ${cmd.name}`).join('\n\n'));
       break;
     case 'player_buttons':
       const playerButtons = this.playerButtons(lang);
       embed.setDescription(
         `# ${lang.Help.PlayerButtons}:\n\n` +
-          playerButtons.map(btn => `** ${btn.icon} ${btn.name}**\n` + `* ${btn.description}`).join('\n\n')
+          playerButtons.map((btn) => `** ${btn.icon} ${btn.name}**\n` + `* ${btn.description}`).join('\n\n'),
       );
       break;
     case 'voice_commands':
@@ -76,19 +76,19 @@ module.exports.execute = async ({ interaction, lang }) => {
       embed.setDescription(
         `# ${lang.Help.VoiceCommands}:\n\n` +
           voiceCommands
-            .map(cmd => `- **${cmd.name}**\n` + ` - ${cmd.description}\n` + ` - **Ví dụ:** \`${cmd.example}\``)
+            .map((cmd) => `- **${cmd.name}**\n` + ` - ${cmd.description}\n` + ` - **Ví dụ:** \`${cmd.example}\``)
             .join('\n\n') +
           `\n\n## ❗ ${lang.Help.Attention}\n` +
           `- ${lang?.voiceCommands?.Note}\n\n` +
           `## 💡 ${lang.Help.Note}\n` +
-          `- ${lang?.voiceCommands?.LanguageNote}`
+          `- ${lang?.voiceCommands?.LanguageNote}`,
       );
       break;
   }
   await interaction.update({ embeds: [embed] });
 };
 
-module.exports.playerButtons = lang => [
+module.exports.playerButtons = (lang) => [
   {
     name: lang?.playerButtons?.Refresh || 'Làm mới',
     id: 'player_refresh',
@@ -145,7 +145,7 @@ module.exports.playerButtons = lang => [
   },
 ];
 
-module.exports.voiceCommands = lang => [
+module.exports.voiceCommands = (lang) => [
   {
     name: lang?.voiceCommands?.Play || 'Phát nhạc',
     description: lang?.voiceFunc?.Play || 'Phát một bài hát hoặc thêm vào hàng đợi',
@@ -183,9 +183,9 @@ module.exports.voiceCommands = lang => [
   },
 ];
 
-module.exports.commands = async interaction => {
+module.exports.commands = async (interaction) => {
   const commands = await interaction.client.rest.get(Routes.applicationCommands(interaction.client.user.id));
-  const guildCommands = commands.filter(cmd => cmd.type === 1 || cmd.type === 2);
-  const contextCommands = commands.filter(cmd => cmd.type === 3);
+  const guildCommands = commands.filter((cmd) => cmd.type === 1 || cmd.type === 2);
+  const contextCommands = commands.filter((cmd) => cmd.type === 3);
   return { guildCommands, contextCommands };
 };

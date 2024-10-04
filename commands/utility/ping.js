@@ -35,7 +35,7 @@ module.exports.execute = async ({ interaction, lang }) => {
         { name: lang?.Ping?.Roundtrip || ' ', value: `${roundTripLatency}ms`, inline: true },
         { name: lang?.Ping?.Websocket || ' ', value: `${botPing}ms`, inline: true },
         { name: lang?.Ping?.Latency || ' ', value: latencyStatus, inline: true },
-        { name: lang?.Ping?.Timestamp || ' ', value: `<t:${Math.floor(Date.now() / 1000)}:F>`, inline: true }
+        { name: lang?.Ping?.Timestamp || ' ', value: `<t:${Math.floor(Date.now() / 1000)}:F>`, inline: true },
       )
       .setImage(config.botConfig?.Banner || null)
       .setThumbnail(interaction.client.user.displayAvatarURL({ size: 1024, dynamic: true }))

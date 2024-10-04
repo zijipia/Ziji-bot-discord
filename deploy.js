@@ -3,15 +3,15 @@ const fs = require('node:fs').promises;
 const path = require('node:path');
 const config = require('./config');
 
-module.exports = async client => {
+module.exports = async (client) => {
   const commands = { global: [], owner: [] };
 
   // Load commands from all folders
   const foldersPath = path.join(__dirname, 'commands');
-  const loadCommands = async dir => {
+  const loadCommands = async (dir) => {
     const files = await fs.readdir(dir, { withFileTypes: true });
     await Promise.all(
-      files.map(async file => {
+      files.map(async (file) => {
         const filePath = path.join(dir, file.name);
         if (file.isDirectory()) {
           await loadCommands(filePath);
@@ -23,7 +23,7 @@ module.exports = async client => {
             }
           }
         }
-      })
+      }),
     );
   };
   await loadCommands(foldersPath);
@@ -46,7 +46,7 @@ module.exports = async client => {
     const guildIds = config.DevGuild || [];
     if (guildIds.length > 0 && commands.owner.length > 0) {
       await Promise.all(
-        guildIds.map(guildId => deployCommands('owner', Routes.applicationGuildCommands(client.user.id, guildId)))
+        guildIds.map((guildId) => deployCommands('owner', Routes.applicationGuildCommands(client.user.id, guildId))),
       );
     }
   } catch (error) {

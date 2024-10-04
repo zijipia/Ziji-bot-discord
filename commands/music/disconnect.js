@@ -26,7 +26,7 @@ module.exports.execute = async ({ interaction, lang }) => {
     return;
   }
   if (queue.metadata.LockStatus && queue.metadata.requestedBy?.id !== interaction.user?.id) return;
-  await queue?.metadata?.mess?.edit({ components: [] }).catch(e => {});
+  await queue?.metadata?.mess?.edit({ components: [] }).catch((e) => {});
   queue.delete();
   await interaction.editReply(lang.music.DisconnectDes);
 };

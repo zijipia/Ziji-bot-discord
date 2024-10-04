@@ -19,8 +19,8 @@ module.exports.execute = async ({ interaction, lang }) => {
     .setCustomId('modal_search')
     .addComponents(
       new ActionRowBuilder().addComponents(
-        new TextInputBuilder().setCustomId('search-input').setLabel('Search for a song').setStyle(TextInputStyle.Short)
-      )
+        new TextInputBuilder().setCustomId('search-input').setLabel('Search for a song').setStyle(TextInputStyle.Short),
+      ),
     );
   await interaction.showModal(modal);
   return;

@@ -98,6 +98,7 @@ module.exports = {
       Stop: 'Stop',
       SelectTrack: 'Select Track',
       Lock: 'Lock',
+      Lyrics: 'Show lyrics',
       UnLock: 'UnLock',
       Unmute: 'Unmute',
     },

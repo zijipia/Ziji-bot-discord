@@ -24,7 +24,7 @@ async function buildImageInWorker(searchPlayer, query) {
       workerData: { searchPlayer, query },
     });
 
-    worker.on('message', arrayBuffer => {
+    worker.on('message', (arrayBuffer) => {
       try {
         const buffer = Buffer.from(arrayBuffer);
         if (!Buffer.isBuffer(buffer)) {
@@ -41,7 +41,7 @@ async function buildImageInWorker(searchPlayer, query) {
 
     worker.on('error', reject);
 
-    worker.on('exit', code => {
+    worker.on('exit', (code) => {
       if (code !== 0) {
         reject(new Error(`Worker stopped with exit code ${code}`));
       }
@@ -53,9 +53,10 @@ const DefaultPlayerConfig = {
   selfDeaf: true,
   volume: 100,
   leaveOnEmpty: true,
-  leaveOnEmptyCooldown: 5000,
+  leaveOnEmptyCooldown: 50_000,
   leaveOnEnd: true,
-  leaveOnEndCooldown: 500000,
+  leaveOnEndCooldown: 500_000,
+  pauseOnEmpty: true,
 };
 //====================================================================//
 /**
@@ -81,7 +82,7 @@ module.exports.execute = async (interaction, query, lang, options = {}) => {
     });
   }
 
-  await interaction.deferReply({ fetchReply: true }).catch(e => {});
+  await interaction.deferReply({ fetchReply: true }).catch((e) => {});
   const queue = useQueue(guild.id);
   if (validURL(query)) {
     try {
@@ -106,6 +107,7 @@ module.exports.execute = async (interaction, query, lang, options = {}) => {
             requestedBy: user,
             LockStatus: false,
             voiceAssistance: options.assistant && config?.voiceAssistance,
+            ZiLyrics: { Active: false },
             lang: lang || langdef,
             mess: interaction?.customId !== 'player_SelectionSearch' ? await interaction.fetchReply() : interaction.message,
           },
@@ -163,7 +165,7 @@ module.exports.execute = async (interaction, query, lang, options = {}) => {
       embeds: [new EmbedBuilder().setTitle('Không tìm thấy kết quả nào cho:').setDescription(`${query}`).setColor('Red')],
       components: [
         new ActionRowBuilder().addComponents(
-          new ButtonBuilder().setCustomId('cancel').setEmoji('❌').setStyle(ButtonStyle.Secondary)
+          new ButtonBuilder().setCustomId('cancel').setEmoji('❌').setStyle(ButtonStyle.Secondary),
         ),
       ],
     });
@@ -189,7 +191,7 @@ module.exports.execute = async (interaction, query, lang, options = {}) => {
       .setPlaceholder('▶ | Chọn một bài hát để phát')
       .addOptions([cancelOption, ...creator_Track])
       .setMaxValues(1)
-      .setMinValues(1)
+      .setMinValues(1),
   );
 
   if (config?.ImageSearch) {
@@ -216,7 +218,7 @@ module.exports.execute = async (interaction, query, lang, options = {}) => {
         name: `${i + 1}: ${track.title.slice(0, 50)} \`[${track.duration}]\``.slice(0, 99),
         value: ` `,
         inline: false,
-      }))
+      })),
     );
 
   return interaction.editReply({ embeds: [embed], components: [row] });

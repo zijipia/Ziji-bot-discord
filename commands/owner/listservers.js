@@ -23,7 +23,7 @@ module.exports.execute = async ({ interaction, lang }) => {
 
   await interaction.deferReply({ ephemeral: true });
 
-  const servers = interaction.client.guilds.cache.map(guild => ({
+  const servers = interaction.client.guilds.cache.map((guild) => ({
     name: guild.name,
     id: guild.id,
     memberCount: guild.memberCount,
@@ -32,7 +32,7 @@ module.exports.execute = async ({ interaction, lang }) => {
   const embed = new EmbedBuilder()
     .setTitle('Servers List')
     .setColor('Blue')
-    .setDescription(servers.map(server => `**${server.name}** (ID: ${server.id}) - Members: ${server.memberCount}`).join('\n'))
+    .setDescription(servers.map((server) => `**${server.name}** (ID: ${server.id}) - Members: ${server.memberCount}`).join('\n'))
     .setFooter({ text: `Total Servers: ${servers.length}` })
     .setTimestamp();
 

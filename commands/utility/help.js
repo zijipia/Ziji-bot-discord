@@ -84,7 +84,7 @@ module.exports.execute = async ({ interaction, lang }) => {
       .setLabel('Invite Bot')
       .setStyle(ButtonStyle.Link)
       .setEmoji(ZiIcons.fillter)
-      .setURL(config.botConfig?.InviteBot || 'https://discord.com/oauth2/authorize?client_id=1005716197259612193')
+      .setURL(config.botConfig?.InviteBot || 'https://discord.com/oauth2/authorize?client_id=1005716197259612193'),
   );
 
   await interaction.editReply({

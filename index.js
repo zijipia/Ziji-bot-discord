@@ -63,7 +63,7 @@ player.extractors.register(YoutubeiExtractor, {
 });
 
 player.extractors.register(ZiExtractor, {});
-player.extractors.loadDefault(ext => !['YouTubeExtractor'].includes(ext));
+player.extractors.loadDefault((ext) => !['YouTubeExtractor'].includes(ext));
 // player.extractors.loadDefault();
 
 // player.on('debug', console.log);
@@ -78,12 +78,12 @@ const loadFiles = async (directory, collection) => {
     const clientCommands = [];
 
     await Promise.all(
-      folders.map(async folder => {
+      folders.map(async (folder) => {
         const folderPath = path.join(directory, folder);
-        const files = await fs.readdir(folderPath).then(files => files.filter(file => file.endsWith('.js')));
+        const files = await fs.readdir(folderPath).then((files) => files.filter((file) => file.endsWith('.js')));
 
         await Promise.all(
-          files.map(async file => {
+          files.map(async (file) => {
             const filePath = path.join(folderPath, file);
             try {
               const module = require(path.resolve(filePath));
@@ -99,9 +99,9 @@ const loadFiles = async (directory, collection) => {
               console.error(`Error loading command from file ${file}:`, moduleError);
               clientCommands.push([chalk.hex('#FF5733')(file), '❌']);
             }
-          })
+          }),
         );
-      })
+      }),
     );
 
     console.log(
@@ -112,7 +112,7 @@ const loadFiles = async (directory, collection) => {
         },
         singleLine: true,
         columns: [{ width: 25 }, { width: 5, alignment: 'center' }],
-      })
+      }),
     );
   } catch (dirError) {
     console.error(`Error reading directory ${directory}:`, dirError);
@@ -122,11 +122,11 @@ const loadFiles = async (directory, collection) => {
 const loadEvents = async (directory, target) => {
   const clientEvents = [];
 
-  const loadEventFiles = async dir => {
+  const loadEventFiles = async (dir) => {
     const files = await fs.readdir(dir, { withFileTypes: true });
 
     await Promise.all(
-      files.map(async file => {
+      files.map(async (file) => {
         const filePath = path.join(dir, file.name);
 
         if (file.isDirectory()) {
@@ -148,7 +148,7 @@ const loadEvents = async (directory, target) => {
             clientEvents.push([chalk.hex('#FF5733')(file.name), '❌']);
           }
         }
-      })
+      }),
     );
   };
 
@@ -162,7 +162,7 @@ const loadEvents = async (directory, target) => {
       },
       singleLine: true,
       columns: [{ width: 25 }, { width: 5, alignment: 'center' }],
-    })
+    }),
   );
 };
 
@@ -175,23 +175,23 @@ const initialize = async () => {
     loadEvents(path.join(__dirname, 'voiceExtractor'), ziVoice),
   ]);
 
-  client.login(process.env.TOKEN).catch(error => {
+  client.login(process.env.TOKEN).catch((error) => {
     console.error('Error logging in:', error);
     console.error("The Bot Token You Entered Into Your Project Is Incorrect Or Your Bot's INTENTS Are OFF!");
   });
 };
 
-initialize().catch(error => {
+initialize().catch((error) => {
   console.error('Error during initialization:', error);
 });
 
-process.on('unhandledRejection', error => {
+process.on('unhandledRejection', (error) => {
   console.error('Unhandled promise rejection:', error);
   client?.errorLog(`Unhandled promise rejection: **${error.message}**`);
   client?.errorLog(error.stack);
 });
 
-process.on('uncaughtException', error => {
+process.on('uncaughtException', (error) => {
   console.error('Uncaught exception:', error);
   client?.errorLog(`Uncaught exception: **${error.message}**`);
   client?.errorLog(error.stack);

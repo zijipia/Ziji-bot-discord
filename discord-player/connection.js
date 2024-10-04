@@ -9,7 +9,7 @@ module.exports = {
    * @param { import('discord-player').GuildQueue } queue
    */
 
-  execute: async queue => {
+  execute: async (queue) => {
     if (!queue?.metadata?.voiceAssistance && !config?.voiceAssistance) return;
     const speechOptions = {
       ignoreBots: true,

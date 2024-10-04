@@ -32,7 +32,7 @@ module.exports.execute = async ({ interaction, lang }) => {
   const queue = useQueue(interaction.guild.id);
   if (!queue) return interaction.editReply({ content: lang.music.NoPlaying });
   queue.node.setVolume(Math.floor(volume));
-  await interaction.deleteReply().catch(e => {});
+  await interaction.deleteReply().catch((e) => {});
   if (client.db) {
     await client.db.ZiUser.updateOne({ userID: user.id }, { $set: { volume: volume }, $upsert: true });
   }

@@ -104,12 +104,12 @@ module.exports.autocomplete = async ({ interaction, lang }) => {
     });
 
     const tracks = results.tracks
-      .filter(t => t.title.length > 0 && t.title.length < 100 && t.url.length > 0 && t.url.length < 100)
+      .filter((t) => t.title.length > 0 && t.title.length < 100 && t.url.length > 0 && t.url.length < 100)
       .slice(0, 10);
 
     if (!tracks.length) return;
 
-    await interaction.respond(tracks.map(t => ({ name: t.title, value: t.url })));
+    await interaction.respond(tracks.map((t) => ({ name: t.title, value: t.url })));
     return;
   } catch (e) {
     console.error(e);

@@ -9,13 +9,13 @@ async function buildImage(searchPlayer, query) {
 }
 
 // Listen for termination signal
-parentPort.on('message', message => {
+parentPort.on('message', (message) => {
   if (message === 'terminate') {
     process.exit(0); // Gracefully exit
   }
 });
 
-buildImage(workerData.searchPlayer, workerData.query).catch(error => {
+buildImage(workerData.searchPlayer, workerData.query).catch((error) => {
   console.error('Error in worker:', error);
   process.exit(1);
 });

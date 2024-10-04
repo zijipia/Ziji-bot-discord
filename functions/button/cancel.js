@@ -13,6 +13,6 @@ module.exports.data = {
  */
 
 module.exports.execute = async ({ interaction, lang }) => {
-  interaction.message.delete().catch(e => {});
+  interaction.message.delete().catch((e) => {});
   return;
 };

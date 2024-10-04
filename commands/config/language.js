@@ -41,7 +41,7 @@ module.exports.execute = async ({ interaction, lang }) => {
         lang: langcode,
       },
     },
-    { upsert: true }
+    { upsert: true },
   );
   const langfunc = client.functions.get('ZiRank');
   const lang2 = await langfunc.execute(client, interaction.user, 0);

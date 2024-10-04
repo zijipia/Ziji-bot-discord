@@ -34,14 +34,14 @@ module.exports.getRelatedTracks = async (track, history) => {
     if (!tracks.length) {
       tracks =
         (
-          await player.extractors.run(async ext => {
+          await player.extractors.run(async (ext) => {
             const res = await ext.getRelatedTracks(track, history);
             return res.tracks.length ? res.tracks : false;
           })
         )?.result || [];
     }
 
-    return tracks.filter(tr => !history.tracks.some(t => t.url === tr.url));
+    return tracks.filter((tr) => !history.tracks.some((t) => t.url === tr.url));
   } catch (e) {
     console.log(e);
     return [];

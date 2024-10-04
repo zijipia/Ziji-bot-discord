@@ -66,7 +66,7 @@ const buildSuccessResponse = (output, client) => {
 };
 
 // Tạo phản hồi lỗi
-const buildErrorResponse = err => {
+const buildErrorResponse = (err) => {
   const embed = new EmbedBuilder()
     .setAuthor({ name: '📤 Error' })
     .setDescription('```js\n' + (err.message.length > 4096 ? `${err.message.substring(0, 4000)}...` : err.message) + '\n```')

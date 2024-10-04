@@ -11,8 +11,8 @@ module.exports = {
    *
    * @param { Client } client
    */
-  execute: async client => {
-    client.errorLog = async messenger => {
+  execute: async (client) => {
+    client.errorLog = async (messenger) => {
       if (!config?.botConfig?.ErrorLog) return;
       try {
         const channel = await client.channels.fetch(config?.botConfig?.ErrorLog).catch(() => 0);

@@ -23,8 +23,8 @@ module.exports.execute = async ({ interaction, lang }) => {
           .setPlaceholder('Track Number')
           .setLabel('Track Number ex: 1,3,4...')
           .setStyle(TextInputStyle.Short)
-          .setRequired(true)
-      )
+          .setRequired(true),
+      ),
     );
   await interaction.showModal(modal);
   return;

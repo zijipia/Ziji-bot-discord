@@ -31,7 +31,7 @@ module.exports.execute = async ({ interaction, lang }) => {
   const response = await fetch(`https://api.thecatapi.com/v1/images/search?limit=${count}`);
   const data = await response.json();
 
-  const urls = data.map(image => image.url);
+  const urls = data.map((image) => image.url);
 
   await interaction.editReply({ files: urls });
 };

@@ -39,7 +39,7 @@ module.exports.execute = async (client, user, xpAdd = 1) => {
           coin: newCoin,
         },
       },
-      { upsert: true }
+      { upsert: true },
     );
     const langdef = require(`./../../lang/${lang || config?.DeafultLang}`);
     return langdef;

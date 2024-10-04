@@ -38,7 +38,7 @@ const createButton = (index, label, description, customId) => {
     .setValue(`${customId}`);
 };
 
-const FillterRow = async queue => {
+const FillterRow = async (queue) => {
   const buttons = buttonConfigs.map((config, index) => {
     const button = createButton(index, config.label, config.description, config.id);
     if (config.id == 'OFF') return button.setEmoji('❌');
@@ -54,7 +54,7 @@ const FillterRow = async queue => {
       .setMinValues(1)
       .setMaxValues(1)
       .setPlaceholder('▶️ | Pick the audio effect.')
-      .addOptions(buttons)
+      .addOptions(buttons),
   );
 };
 
@@ -69,10 +69,10 @@ const Fillter = async (user, queue) => {
         queue?.filters?.ffmpeg?.getFiltersEnabled().length
           ? queue?.filters?.ffmpeg
               ?.getFiltersEnabled()
-              .map(item => `* ${item.trim()}`)
+              .map((item) => `* ${item.trim()}`)
               .join('\n')
           : 'Không có bộ lọc nào được kích hoạt.'
-      }**\n* Lưu ý: nếu thời lượng nhạc dài, thời gian áp dụng bộ lọc có thể dài hơn tương ứng.`
+      }**\n* Lưu ý: nếu thời lượng nhạc dài, thời gian áp dụng bộ lọc có thể dài hơn tương ứng.`,
     )
 
     .setFooter({
@@ -94,12 +94,12 @@ module.exports.execute = async (interaction, fillterr) => {
   if (!queue) return;
   if (fillterr == 'OFF') {
     await queue?.filters?.ffmpeg?.setFilters(false);
-    await interaction?.message?.delete().catch(e => {});
+    await interaction?.message?.delete().catch((e) => {});
     return;
   }
   if (fillterr) {
     await queue?.filters.ffmpeg.toggle(`${fillterr}`);
-    await interaction?.message.edit(await Fillter(interaction?.user, queue)).catch(e => {});
+    await interaction?.message.edit(await Fillter(interaction?.user, queue)).catch((e) => {});
     return;
   }
   await interaction.editReply(await Fillter(interaction?.user, queue));

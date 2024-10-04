@@ -13,7 +13,7 @@ async function buildImageInWorker(searchPlayer, query) {
       workerData: { searchPlayer, query },
     });
 
-    worker.on('message', arrayBuffer => {
+    worker.on('message', (arrayBuffer) => {
       const buffer = Buffer.from(arrayBuffer);
 
       if (!Buffer.isBuffer(buffer)) {
@@ -27,12 +27,12 @@ async function buildImageInWorker(searchPlayer, query) {
       worker.postMessage('terminate');
     });
 
-    worker.on('error', error => {
+    worker.on('error', (error) => {
       reject(error);
       worker.postMessage('terminate'); // Optionally send terminate signal on error
     });
 
-    worker.on('exit', code => {
+    worker.on('exit', (code) => {
       if (code !== 0) {
         reject(new Error(`Worker stopped with exit code ${code}`));
       }
@@ -64,8 +64,8 @@ module.exports.execute = async (interaction, queue, Nextpage = true) => {
   });
   if (!queuetrack.length) {
     if (!mainRequire) {
-      await interaction?.deleteReply().catch(e => console.log);
-      return interaction.message.delete().catch(e => console.log);
+      await interaction?.deleteReply().catch((e) => console.log);
+      return interaction.message.delete().catch((e) => console.log);
     }
     return interaction.editReply({ content: 'There is no music playing in this server' });
   }
@@ -108,7 +108,7 @@ module.exports.execute = async (interaction, queue, Nextpage = true) => {
         .setColor('Random')
         .addFields({ name: `Page: ${page} / ${toltalPage}`, value: ' ' })
         .setDescription(
-          `${currentTrack.map(track => `${++now} | **${`${track?.title}`.slice(0, 25)}** - [${track.duration}](${track.url})`).join('\n')}`
+          `${currentTrack.map((track) => `${++now} | **${`${track?.title}`.slice(0, 25)}** - [${track.duration}](${track.url})`).join('\n')}`,
         );
       code.embeds = [embed];
     }
@@ -118,7 +118,7 @@ module.exports.execute = async (interaction, queue, Nextpage = true) => {
       .setColor('Random')
       .addFields({ name: `Page: ${page} / ${toltalPage}`, value: ' ' })
       .setDescription(
-        `${currentTrack.map(track => `${++now} | **${`${track?.title}`.slice(0, 25)}** - [${track.duration}](${track.url})`).join('\n')}`
+        `${currentTrack.map((track) => `${++now} | **${`${track?.title}`.slice(0, 25)}** - [${track.duration}](${track.url})`).join('\n')}`,
       );
     code.embeds = [embed];
   }
@@ -127,18 +127,18 @@ module.exports.execute = async (interaction, queue, Nextpage = true) => {
     new ButtonBuilder().setCustomId('queue_clear').setLabel('Clear All').setStyle(ButtonStyle.Secondary),
     new ButtonBuilder().setCustomId('queue_del').setEmoji('🗑️').setStyle(ButtonStyle.Secondary),
     new ButtonBuilder().setCustomId('queue_Shuffle').setEmoji(ZiIcons.shuffle).setStyle(ButtonStyle.Secondary),
-    new ButtonBuilder().setCustomId('cancel').setEmoji('❌').setStyle(ButtonStyle.Secondary)
+    new ButtonBuilder().setCustomId('cancel').setEmoji('❌').setStyle(ButtonStyle.Secondary),
   );
   const row = new ActionRowBuilder().addComponents(
     new ButtonBuilder().setCustomId('queue_Page').setLabel(`Page: ${page}`).setStyle(ButtonStyle.Secondary).setDisabled(true),
     new ButtonBuilder().setCustomId('queue_prev').setStyle(ButtonStyle.Secondary).setLabel('◀'),
     new ButtonBuilder().setCustomId('queue_refresh').setStyle(ButtonStyle.Secondary).setEmoji(ZiIcons.refesh),
-    new ButtonBuilder().setCustomId('queue_next').setStyle(ButtonStyle.Secondary).setLabel('▶')
+    new ButtonBuilder().setCustomId('queue_next').setStyle(ButtonStyle.Secondary).setLabel('▶'),
   );
   code.components = [queueFund, row];
   /*=================== send file =====================*/
   if (mainRequire) return interaction.editReply(code);
-  interaction.deleteReply().catch(e => {});
+  interaction.deleteReply().catch((e) => {});
   interaction.message.edit(code);
   return;
 };

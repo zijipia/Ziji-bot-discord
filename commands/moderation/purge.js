@@ -41,7 +41,7 @@ module.exports.execute = async ({ interaction, lang }) => {
 
   const messages = await interaction.channel.messages.fetch({ limit: amount });
   const filteredMessages = user
-    ? Array.from(messages.filter(msg => msg.author.id === user.id).values()).slice(0, amount)
+    ? Array.from(messages.filter((msg) => msg.author.id === user.id).values()).slice(0, amount)
     : Array.from(messages.values()).slice(0, amount);
 
   await interaction.channel.bulkDelete(filteredMessages, true);

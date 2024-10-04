@@ -8,7 +8,7 @@ module.exports = {
    *
    * @param { Error } error
    */
-  execute: async error => {
+  execute: async (error) => {
     console.log(error.message);
   },
 };

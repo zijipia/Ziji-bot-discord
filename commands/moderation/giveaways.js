@@ -108,15 +108,15 @@ module.exports.deleteGiveaway = async ({ interaction, lang }) => {
 
 module.exports.listGiveaways = async ({ interaction, lang }) => {
   const giveaways = await interaction.client.giveaway.getAllGiveaways();
-  const guildGiveaways = giveaways.filter(giveaway => giveaway.guildId === interaction.guild.id);
+  const guildGiveaways = giveaways.filter((giveaway) => giveaway.guildId === interaction.guild.id);
   const embed = new EmbedBuilder()
     .setDescription(
       guildGiveaways
         .map(
-          giveaway =>
-            `**${giveaway.messageId}**\n ${giveaway.prize}\n ${giveaway.hostedBy} <t:${Math.floor(giveaway.endAt / 1000)}:R>\n`
+          (giveaway) =>
+            `**${giveaway.messageId}**\n ${giveaway.prize}\n ${giveaway.hostedBy} <t:${Math.floor(giveaway.endAt / 1000)}:R>\n`,
         )
-        .join('\n')
+        .join('\n'),
     )
     .setColor('Random');
   return interaction.reply({ embeds: [embed], ephemeral: true });

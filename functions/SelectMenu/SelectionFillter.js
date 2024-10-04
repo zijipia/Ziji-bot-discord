@@ -21,7 +21,7 @@ module.exports.execute = async ({ interaction, lang }) => {
   const fillter = values?.at(0);
   const Fillter = client.functions.get('Fillter');
   const player = client.functions.get('player_func');
-  await interaction?.deferUpdate().catch(e => {});
+  await interaction?.deferUpdate().catch((e) => {});
   await Fillter.execute(interaction, fillter);
   queue.metadata.mess.edit(await player.execute(client, queue));
   return;

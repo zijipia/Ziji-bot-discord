@@ -16,8 +16,8 @@ module.exports.data = {
 module.exports.execute = async ({ interaction, lang }) => {
   interaction.deferUpdate();
   const queue = useQueue(interaction.guild.id);
-  if (!queue) return interaction.message.edit({ components: [] }).catch(e => {});
+  if (!queue) return interaction.message.edit({ components: [] }).catch((e) => {});
   if (queue.metadata.LockStatus && queue.metadata.requestedBy?.id !== interaction.user?.id) return;
-  interaction.message.edit({ components: [] }).catch(e => {});
+  interaction.message.edit({ components: [] }).catch((e) => {});
   queue.delete();
 };

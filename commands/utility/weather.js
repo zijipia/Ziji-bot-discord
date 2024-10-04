@@ -47,7 +47,7 @@ module.exports = {
 
       const { data } = await axios.get(apiUrl);
 
-      const formatTime = timestamp =>
+      const formatTime = (timestamp) =>
         new Date((timestamp + data.timezone) * 1000).toLocaleTimeString('en-UK', { timeZone: 'UTC' });
       const weatherEmbed = new EmbedBuilder()
         .setColor('#0099ff')
@@ -67,7 +67,7 @@ module.exports = {
             name: `📍 ${lang.weather.COORDINATES}`,
             value: `🌏 ${lang.weather.LATITUDE}: ${data.coord.lat}\n🌎 ${lang.weather.LONGITUDE}: ${data.coord.lon}`,
             inline: false,
-          }
+          },
         )
         .setFooter({
           text: `${lang.until.requestBy} ${interaction.user.username}`,
@@ -94,9 +94,9 @@ module.exports = {
 
     try {
       const response = await axios.get(
-        `http://api.openweathermap.org/geo/1.0/direct?q=${focusedValue}&limit=15&appid=${process.env.WEATHER_API_KEY}`
+        `http://api.openweathermap.org/geo/1.0/direct?q=${focusedValue}&limit=15&appid=${process.env.WEATHER_API_KEY}`,
       );
-      const cities = response.data.map(city => ({
+      const cities = response.data.map((city) => ({
         name: `${city.name}, ${city.country} X: ${city.lat} Y: ${city.lon}`,
         value: `${city.name}; ${city.country}; ${city.lat}; ${city.lon}`,
       }));

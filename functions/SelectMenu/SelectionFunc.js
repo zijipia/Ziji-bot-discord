@@ -34,8 +34,8 @@ module.exports.execute = async ({ interaction, lang }) => {
               .setCustomId('search-input')
               .setLabel('Search for a song')
               .setPlaceholder('Search or Url')
-              .setStyle(TextInputStyle.Short)
-          )
+              .setStyle(TextInputStyle.Short),
+          ),
         );
       await interaction.showModal(modal);
       return;
@@ -52,7 +52,7 @@ module.exports.execute = async ({ interaction, lang }) => {
       return;
     }
   }
-  interaction.deferUpdate().catch(e => console.error);
+  await interaction.deferUpdate().catch((e) => console.error);
   if (!queue) return;
   if (queue.metadata.LockStatus && queue.metadata.requestedBy?.id !== interaction.user?.id) return;
   switch (query) {
@@ -114,6 +114,20 @@ module.exports.execute = async ({ interaction, lang }) => {
       return;
     }
     case 'Lyrics': {
+      const ZiLyrics = queue.metadata.ZiLyrics;
+      if (!ZiLyrics.Active) {
+        ZiLyrics.Active = true;
+        ZiLyrics.mess = await interaction.followUp({ content: '<a:loading:1151184304676819085> Loading...' });
+        ZiLyrics.channel = interaction.channel;
+        const Lyrics = client.functions.get('Lyrics');
+        if (!Lyrics) return;
+        await Lyrics.execute(interaction, { type: 'syncedLyrics' });
+        return;
+      }
+
+      ZiLyrics?.unsubscribe();
+      ZiLyrics.mess.delete().catch(() => {});
+      ZiLyrics.Active = false;
       return;
     }
     case 'Shuffle': {
