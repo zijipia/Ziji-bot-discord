@@ -1,2 +1,1 @@
-CODE_OF_CONDUCT.md
 formatted_files.txt
