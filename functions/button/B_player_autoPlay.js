@@ -3,7 +3,7 @@ const { ButtonInteraction } = require('discord.js');
 const player = useMainPlayer();
 
 module.exports.data = {
-  name: 'player_autoPlay',
+  name: 'B_player_autoPlay',
   type: 'button',
 };
 

@@ -52,8 +52,8 @@ module.exports = {
       'auto play|tự động phát': async () => {
         queue.setRepeatMode(queue.repeatMode === 3 ? 0 : 3);
         if (queue.isPlaying()) return Update_Player(client, queue);
-        const player_autoPlay = client.functions.get('player_autoPlay');
-        const tracks = await player_autoPlay.getRelatedTracks(queue?.history?.previousTrack, queue?.history);
+        const B_player_autoPlay = client.functions.get('B_player_autoPlay');
+        const tracks = await B_player_autoPlay.getRelatedTracks(queue?.history?.previousTrack, queue?.history);
         if (!tracks?.at(0)?.url.length) return;
         const searchCommand = client.functions.get('Search');
         await searchCommand.execute(null, tracks?.at(0)?.url, queue?.metadata?.lang);
