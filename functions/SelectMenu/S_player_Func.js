@@ -115,7 +115,7 @@ module.exports.execute = async ({ interaction, lang }) => {
     }
     case 'Lyrics': {
       const ZiLyrics = queue.metadata.ZiLyrics;
-      if (!ZiLyrics.Active) {
+      if (!ZiLyrics?.Active) {
         ZiLyrics.Active = true;
         ZiLyrics.mess = await interaction.followUp({ content: '<a:loading:1151184304676819085> Loading...' });
         ZiLyrics.channel = interaction.channel;
