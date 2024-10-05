@@ -1,7 +1,7 @@
 const { useQueue } = require('discord-player');
 const { ModalBuilder, TextInputBuilder, TextInputStyle, ButtonInteraction, ActionRowBuilder } = require('discord.js');
 module.exports.data = {
-  name: 'queue_del',
+  name: 'B_queue_del',
   type: 'button',
 };
 
