@@ -1,14 +1,16 @@
-const { Events } = require('discord.js');
-const config = require('../config');
+/** @format */
+
+const { Events } = require("discord.js");
+const config = require("../config");
 
 module.exports = {
-  name: Events.Error,
-  type: 'events',
-  /**
-   *
-   * @param { Error } error
-   */
-  execute: async (error) => {
-    console.log(error.message);
-  },
+	name: Events.Error,
+	type: "events",
+	/**
+	 *
+	 * @param { Error } error
+	 */
+	execute: async (error) => {
+		console.log(error.message);
+	},
 };

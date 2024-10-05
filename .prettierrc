@@ -1,9 +1,23 @@
+# @format
+
 {
-  "printWidth": 130,
-  "tabWidth": 2,
-  "useTabs": false,
-  "singleQuote": true,
-  "trailingComma": "all",
+  "arrowParens": "always",
+  "bracketSameLine": true,
   "bracketSpacing": true,
-  "arrowParens": "always"
+  "semi": true,
+  "experimentalTernaries": true,
+  "singleQuote": false,
+  "jsxSingleQuote": true,
+  "quoteProps": "as-needed",
+  "trailingComma": "all",
+  "singleAttributePerLine": true,
+  "htmlWhitespaceSensitivity": "css",
+  "vueIndentScriptAndStyle": false,
+  "proseWrap": "always",
+  "insertPragma": true,
+  "printWidth": 130,
+  "requirePragma": false,
+  "tabWidth": 2,
+  "useTabs": true,
+  "embeddedLanguageFormatting": "auto",
 }

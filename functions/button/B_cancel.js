@@ -1,8 +1,10 @@
-const { ButtonInteraction } = require('discord.js');
+/** @format */
+
+const { ButtonInteraction } = require("discord.js");
 
 module.exports.data = {
-  name: 'B_cancel',
-  type: 'button',
+	name: "B_cancel",
+	type: "button",
 };
 
 /**
@@ -13,6 +15,6 @@ module.exports.data = {
  */
 
 module.exports.execute = async ({ interaction, lang }) => {
-  interaction.message.delete().catch((e) => {});
-  return;
+	interaction.message.delete().catch((e) => {});
+	return;
 };

@@ -1,22 +1,24 @@
+/** @format */
+
 // const { User } = require("discord.js");
-const { CommandInteraction } = require('discord.js');
+const { CommandInteraction } = require("discord.js");
 
 module.exports.data = {
-  name: 'dog',
-  description: 'Random ảnh chó',
-  type: 1, // slash command
-  options: [
-    {
-      name: 'count',
-      description: 'Số lượng chó',
-      type: 4, // INTEGER
-      required: false,
-      min_value: 1,
-      max_value: 10,
-    },
-  ],
-  integration_types: [0, 1],
-  contexts: [0, 1, 2],
+	name: "dog",
+	description: "Random ảnh chó",
+	type: 1, // slash command
+	options: [
+		{
+			name: "count",
+			description: "Số lượng chó",
+			type: 4, // INTEGER
+			required: false,
+			min_value: 1,
+			max_value: 10,
+		},
+	],
+	integration_types: [0, 1],
+	contexts: [0, 1, 2],
 };
 
 /**
@@ -26,13 +28,13 @@ module.exports.data = {
  */
 
 module.exports.execute = async ({ interaction, lang }) => {
-  await interaction.deferReply();
-  const count = interaction.options.getInteger('count') || 1;
+	await interaction.deferReply();
+	const count = interaction.options.getInteger("count") || 1;
 
-  const response = await fetch(`https://dog.ceo/api/breeds/image/random/${count}`);
-  const data = await response.json();
+	const response = await fetch(`https://dog.ceo/api/breeds/image/random/${count}`);
+	const data = await response.json();
 
-  const urls = data.message;
+	const urls = data.message;
 
-  await interaction.editReply({ files: urls });
+	await interaction.editReply({ files: urls });
 };

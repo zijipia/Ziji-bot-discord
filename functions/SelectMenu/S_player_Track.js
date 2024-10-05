@@ -1,8 +1,10 @@
-const { StringSelectMenuInteraction } = require('discord.js');
+/** @format */
+
+const { StringSelectMenuInteraction } = require("discord.js");
 
 module.exports.data = {
-  name: 'S_player_Track',
-  type: 'SelectMenu',
+	name: "S_player_Track",
+	type: "SelectMenu",
 };
 
 /**
@@ -12,10 +14,10 @@ module.exports.data = {
  */
 
 module.exports.execute = async ({ interaction, lang }) => {
-  // track Selec from text search command | search modal | search context | etc...
-  const query = interaction.values?.at(0);
-  if (query === 'cancel') return interaction.message.delete().catch((e) => {});
-  const command = interaction.client.functions.get('Search');
-  await command.execute(interaction, query, lang);
-  return;
+	// track Selec from text search command | search modal | search context | etc...
+	const query = interaction.values?.at(0);
+	if (query === "cancel") return interaction.message.delete().catch((e) => {});
+	const command = interaction.client.functions.get("Search");
+	await command.execute(interaction, query, lang);
+	return;
 };

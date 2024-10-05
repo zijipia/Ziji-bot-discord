@@ -1,3 +1,5 @@
+/** @format */
+
 // module.exports = {
 //   name: 'debug',
 //   type: 'voiceExtractor',

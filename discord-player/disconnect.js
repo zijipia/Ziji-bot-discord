@@ -1,10 +1,12 @@
-const config = require('../config');
-const { GuildQueueEvent } = require('discord-player');
+/** @format */
+
+const config = require("../config");
+const { GuildQueueEvent } = require("discord-player");
 
 module.exports = {
-  name: GuildQueueEvent.disconnect,
-  type: 'Player',
-  execute: async (queue) => {
-    if (queue.metadata.mess) return queue.metadata.mess.edit({ components: [] }).catch((e) => {});
-  },
+	name: GuildQueueEvent.disconnect,
+	type: "Player",
+	execute: async (queue) => {
+		if (queue.metadata.mess) return queue.metadata.mess.edit({ components: [] }).catch((e) => {});
+	},
 };

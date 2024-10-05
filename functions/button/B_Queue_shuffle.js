@@ -1,9 +1,11 @@
-const { useMainPlayer, useQueue } = require('discord-player');
-const { ButtonInteraction } = require('discord.js');
+/** @format */
+
+const { useMainPlayer, useQueue } = require("discord-player");
+const { ButtonInteraction } = require("discord.js");
 const player = useMainPlayer();
 module.exports.data = {
-  name: 'B_queue_Shuffle',
-  type: 'button',
+	name: "B_queue_Shuffle",
+	type: "button",
 };
 
 /**
@@ -14,9 +16,9 @@ module.exports.data = {
  */
 
 module.exports.execute = async ({ interaction, lang }) => {
-  const queue = useQueue(interaction.guild.id);
-  queue.tracks.shuffle();
-  const QueueTrack = interaction.client.functions.get('Queue');
-  QueueTrack.execute(interaction, queue, true);
-  return;
+	const queue = useQueue(interaction.guild.id);
+	queue.tracks.shuffle();
+	const QueueTrack = interaction.client.functions.get("Queue");
+	QueueTrack.execute(interaction, queue, true);
+	return;
 };

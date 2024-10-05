@@ -1,51 +1,51 @@
 {
-  "name": "ziji-bot-discord",
-  "version": "1.0.4",
-  "description": "Ziji bot discord",
-  "main": "index.js",
-  "scripts": {
-    "start": "node index.js",
-    "dev": "nodemon index.js",
-    "deploy": "node ./deploy.js",
-    "test": "echo \"Error: no test specified\" && exit 1",
-    "check": "prettier --ignore-path .gitignore --check .",
-    "format": "prettier --ignore-path .gitignore --write ."
-  },
-  "repository": {
-    "type": "git",
-    "url": "git+https://github.com/zijipia/Ziji-bot-discord.git"
-  },
-  "keywords": [
-    "ziji",
-    "ziji-bot-discord"
-  ],
-  "author": "Ziji",
-  "license": "ISC",
-  "bugs": {
-    "url": "https://github.com/zijipia/Ziji-bot-discord/issues"
-  },
-  "homepage": "https://github.com/zijipia/Ziji-bot-discord#readme",
-  "dependencies": {
-    "@discord-player/extractor": "^4.5.0",
-    "@iamtraction/google-translate": "^2.0.1",
-    "axios": "^1.7.7",
-    "canvacord": "^6.0.2",
-    "chalk": "^4.1.2",
-    "discord-giveaways": "^6.0.1",
-    "discord-player": "^6.7.1",
-    "discord-player-youtubei": "^1.3.1",
-    "discord.js": "^14.15.3",
-    "dotenv": "^16.4.5",
-    "ffmpeg-static": "^5.2.0",
-    "mediaplex": "^0.0.9",
-    "mongoose": "^8.5.2",
-    "prism-media": "^1.3.5",
-    "sharp": "^0.33.4",
-    "table": "^6.8.2",
-    "ziextractor": "^2.1.4"
-  },
-  "devDependencies": {
-    "nodemon": "^3.1.0",
-    "prettier": "^3.3.2"
-  }
+	"name": "ziji-bot-discord",
+	"version": "1.0.4",
+	"description": "Ziji bot discord",
+	"main": "index.js",
+	"scripts": {
+		"start": "node index.js",
+		"dev": "nodemon index.js",
+		"deploy": "node ./deploy.js",
+		"test": "echo \"Error: no test specified\" && exit 1",
+		"check": "prettier --ignore-path .gitignore --check .",
+		"format": "prettier --ignore-path .gitignore --write ."
+	},
+	"repository": {
+		"type": "git",
+		"url": "git+https://github.com/zijipia/Ziji-bot-discord.git"
+	},
+	"keywords": [
+		"ziji",
+		"ziji-bot-discord"
+	],
+	"author": "Ziji",
+	"license": "ISC",
+	"bugs": {
+		"url": "https://github.com/zijipia/Ziji-bot-discord/issues"
+	},
+	"homepage": "https://github.com/zijipia/Ziji-bot-discord#readme",
+	"dependencies": {
+		"@discord-player/extractor": "^4.5.0",
+		"@iamtraction/google-translate": "^2.0.1",
+		"axios": "^1.7.7",
+		"canvacord": "^6.0.2",
+		"chalk": "^4.1.2",
+		"discord-giveaways": "^6.0.1",
+		"discord-player": "^6.7.1",
+		"discord-player-youtubei": "^1.3.1",
+		"discord.js": "^14.15.3",
+		"dotenv": "^16.4.5",
+		"ffmpeg-static": "^5.2.0",
+		"mediaplex": "^0.0.9",
+		"mongoose": "^8.5.2",
+		"prism-media": "^1.3.5",
+		"sharp": "^0.33.4",
+		"table": "^6.8.2",
+		"ziextractor": "^2.1.4"
+	},
+	"devDependencies": {
+		"nodemon": "^3.1.0",
+		"prettier": "^3.3.2"
+	}
 }

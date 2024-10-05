@@ -1,3 +1,5 @@
+<!-- @format -->
+
 # Đóng góp cho Zibot V2
 
 Cảm ơn bạn đã quan tâm đến việc đóng góp cho Zibot V2! Chúng tôi rất hoan nghênh mọi đóng góp từ cộng đồng.
@@ -28,7 +30,8 @@ Nếu bạn tìm thấy lỗi, vui lòng tạo một issue mới với các thô
 
 ## Đề xuất tính năng
 
-Chúng tôi luôn mong muốn nhận được các ý tưởng mới! Nếu bạn có đề xuất cho tính năng mới, vui lòng tạo một issue mới với tag "feature request" và mô tả chi tiết về tính năng đó.
+Chúng tôi luôn mong muốn nhận được các ý tưởng mới! Nếu bạn có đề xuất cho tính năng mới, vui lòng tạo một issue mới với tag
+"feature request" và mô tả chi tiết về tính năng đó.
 
 ## Liên hệ
 

@@ -1,9 +1,11 @@
-const { useQueue } = require('discord-player');
-const { StringSelectMenuInteraction, ModalBuilder, TextInputBuilder, TextInputStyle } = require('discord.js');
+/** @format */
+
+const { useQueue } = require("discord-player");
+const { StringSelectMenuInteraction, ModalBuilder, TextInputBuilder, TextInputStyle } = require("discord.js");
 
 module.exports.data = {
-  name: 'S_player_Fillter',
-  type: 'SelectMenu',
+	name: "S_player_Fillter",
+	type: "SelectMenu",
 };
 
 /**
@@ -13,16 +15,16 @@ module.exports.data = {
  */
 
 module.exports.execute = async ({ interaction, lang }) => {
-  const { guild, client, user, values } = interaction;
-  const queue = useQueue(interaction.guild.id);
-  if (queue.metadata.requestedBy?.id !== user.id) {
-    return interaction.reply({ content: 'You cannot interact with this menu.', ephemeral: true });
-  }
-  const fillter = values?.at(0);
-  const Fillter = client.functions.get('Fillter');
-  const player = client.functions.get('player_func');
-  await interaction?.deferUpdate().catch((e) => {});
-  await Fillter.execute(interaction, fillter);
-  queue.metadata.mess.edit(await player.execute(client, queue));
-  return;
+	const { guild, client, user, values } = interaction;
+	const queue = useQueue(interaction.guild.id);
+	if (queue.metadata.requestedBy?.id !== user.id) {
+		return interaction.reply({ content: "You cannot interact with this menu.", ephemeral: true });
+	}
+	const fillter = values?.at(0);
+	const Fillter = client.functions.get("Fillter");
+	const player = client.functions.get("player_func");
+	await interaction?.deferUpdate().catch((e) => {});
+	await Fillter.execute(interaction, fillter);
+	queue.metadata.mess.edit(await player.execute(client, queue));
+	return;
 };
