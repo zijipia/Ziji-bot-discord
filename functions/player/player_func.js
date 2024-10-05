@@ -226,7 +226,7 @@ module.exports = {
 
       const functionRow = new ActionRowBuilder().addComponents(
         new StringSelectMenuBuilder()
-          .setCustomId('player_SelectionFunc')
+          .setCustomId('S_player_Func')
           .setPlaceholder(lang?.playerFunc?.RowFunc ?? '▶ | Chọn một chức năng khác để điều khiển player')
           .addOptions(functionOptions)
           .setMaxValues(1)

@@ -139,7 +139,7 @@ module.exports.playerButtons = (lang) => [
   },
   {
     name: lang?.playerButtons?.SelectFunc || 'Chức năng',
-    id: 'B_player_SelectionFunc',
+    id: 'S_player_Func',
     description: lang?.playerFunc?.RowFunc || 'Chọn các chức năng khác của trình phát',
     icon: ZiIcons.fillter,
   },

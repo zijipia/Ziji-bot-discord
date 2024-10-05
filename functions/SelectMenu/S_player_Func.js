@@ -1,9 +1,9 @@
 const { useQueue } = require('discord-player');
-const config = require('../../config');
+const config = require('../../config.js');
 const { StringSelectMenuInteraction, ModalBuilder, TextInputBuilder, TextInputStyle, ActionRowBuilder } = require('discord.js');
 
 module.exports.data = {
-  name: 'player_SelectionFunc',
+  name: 'S_player_Func',
   type: 'SelectMenu',
 };
 async function Update_Player(client, queue) {
