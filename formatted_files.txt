@@ -1,2 +1,1 @@
-.prettierrc
 formatted_files.txt
