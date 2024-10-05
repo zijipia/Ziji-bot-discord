@@ -27,7 +27,7 @@ module.exports.execute = async ({ interaction, lang }) => {
     case 'Search': {
       const modal = new ModalBuilder()
         .setTitle('Search')
-        .setCustomId('modal_search')
+        .setCustomId('M_player_search')
         .addComponents(
           new ActionRowBuilder().addComponents(
             new TextInputBuilder()

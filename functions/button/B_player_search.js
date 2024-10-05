@@ -16,7 +16,7 @@ module.exports.data = {
 module.exports.execute = async ({ interaction, lang }) => {
   const modal = new ModalBuilder()
     .setTitle('Search')
-    .setCustomId('modal_search')
+    .setCustomId('M_player_search')
     .addComponents(
       new ActionRowBuilder().addComponents(
         new TextInputBuilder().setCustomId('search-input').setLabel('Search for a song').setStyle(TextInputStyle.Short),

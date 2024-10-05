@@ -1,7 +1,7 @@
 const { ModalSubmitInteraction, ModalBuilder } = require('discord.js');
 
 module.exports.data = {
-  name: 'modal_search',
+  name: 'M_player_search',
   type: 'modal',
 };
 
