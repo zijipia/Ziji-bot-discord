@@ -133,7 +133,7 @@ module.exports.playerButtons = (lang) => [
   },
   {
     name: lang?.playerButtons?.SelectTrack || 'Chọn bài hát',
-    id: 'B_player_SelectionTrack',
+    id: 'S_player_Track',
     description: lang?.playerFunc?.RowRel || 'Chọn bài hát từ danh sách đề xuất',
     icon: ZiIcons.Playbutton,
   },

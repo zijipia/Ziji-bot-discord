@@ -125,7 +125,7 @@ module.exports = {
 
     const relatedTracksRow = new ActionRowBuilder().addComponents(
       new StringSelectMenuBuilder()
-        .setCustomId('player_SelectionTrack')
+        .setCustomId('S_player_Track')
         .setPlaceholder(lang?.playerFunc?.RowRel ?? '▶ | Select a song to add to the queue')
         .addOptions(trackOptions.length ? trackOptions : disableOptions)
         .setMaxValues(1)
