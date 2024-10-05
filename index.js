@@ -62,7 +62,7 @@ player.extractors.register(YoutubeiExtractor, {
   },
 });
 
-player.extractors.register(ZiExtractor, {});
+// player.extractors.register(ZiExtractor, {});
 player.extractors.loadDefault((ext) => !['YouTubeExtractor'].includes(ext));
 // player.extractors.loadDefault();
 

@@ -8,9 +8,16 @@ module.exports = {
     langChange: 'Your language has been changed to:',
     requestBy: 'Requested by:',
     noDB: '❌ | Database is not currently enabled, please contact dev bot',
-    NOPermission: '❌ | Bot does not have permission to chat in this channel',
+    NOPermission: '❌ | Bot does not have permission to chat and execute command in this channel',
     noPermission: '❌ | You do not have permission to execute this command!',
-    cooldown: 'Please wait, you are on a cooldown for `{command}`! You can use it again <t:{time}:R>.',
+    cooldown: 'Please wait, you are on a cooldown for `{command}`! You can use it again {time}.',
+  },
+  BotStats: {
+    Description: 'Bot stats',
+    OS: 'Curent OS',
+    djsVersion: 'Discord.js version',
+    ServerLength: 'Total server',
+    RAMUsage: 'RAM usage'
   },
   Help: {
     Placeholder: '> | Select a category to view the commands',
