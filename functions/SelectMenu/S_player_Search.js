@@ -1,7 +1,7 @@
 const { StringSelectMenuInteraction } = require('discord.js');
 
 module.exports.data = {
-  name: 'player_SelectionSearch',
+  name: 'S_player_Search',
   type: 'SelectMenu',
 };
 

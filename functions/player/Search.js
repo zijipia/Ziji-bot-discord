@@ -109,18 +109,18 @@ module.exports.execute = async (interaction, query, lang, options = {}) => {
             voiceAssistance: options.assistant && config?.voiceAssistance,
             ZiLyrics: { Active: false },
             lang: lang || langdef,
-            mess: interaction?.customId !== 'player_SelectionSearch' ? await interaction.fetchReply() : interaction.message,
+            mess: interaction?.customId !== 'S_player_Search' ? await interaction.fetchReply() : interaction.message,
           },
         },
       });
 
       if (queue?.metadata) {
-        if (interaction?.customId === 'player_SelectionSearch') {
+        if (interaction?.customId === 'S_player_Search') {
           await interaction.message.delete().catch(() => {});
         }
         await interaction.deleteReply().catch(() => {});
       } else {
-        if (interaction?.customId === 'player_SelectionSearch') {
+        if (interaction?.customId === 'S_player_Search') {
           await interaction.deleteReply().catch(() => {});
         }
       }
@@ -187,7 +187,7 @@ module.exports.execute = async (interaction, query, lang, options = {}) => {
 
   const row = new ActionRowBuilder().addComponents(
     new StringSelectMenuBuilder()
-      .setCustomId('player_SelectionSearch')
+      .setCustomId('S_player_Search')
       .setPlaceholder('▶ | Chọn một bài hát để phát')
       .addOptions([cancelOption, ...creator_Track])
       .setMaxValues(1)
