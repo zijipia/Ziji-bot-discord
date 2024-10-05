@@ -124,16 +124,16 @@ module.exports.execute = async (interaction, queue, Nextpage = true) => {
   }
   /*=================== components =====================*/
   const queueFund = new ActionRowBuilder().addComponents(
-    new ButtonBuilder().setCustomId('queue_clear').setLabel('Clear All').setStyle(ButtonStyle.Secondary),
-    new ButtonBuilder().setCustomId('queue_del').setEmoji('🗑️').setStyle(ButtonStyle.Secondary),
-    new ButtonBuilder().setCustomId('queue_Shuffle').setEmoji(ZiIcons.shuffle).setStyle(ButtonStyle.Secondary),
+    new ButtonBuilder().setCustomId('B_queue_clear').setLabel('Clear All').setStyle(ButtonStyle.Secondary),
+    new ButtonBuilder().setCustomId('B_queue_del').setEmoji('🗑️').setStyle(ButtonStyle.Secondary),
+    new ButtonBuilder().setCustomId('B_queue_Shuffle').setEmoji(ZiIcons.shuffle).setStyle(ButtonStyle.Secondary),
     new ButtonBuilder().setCustomId('B_cancel').setEmoji('❌').setStyle(ButtonStyle.Secondary),
   );
   const row = new ActionRowBuilder().addComponents(
-    new ButtonBuilder().setCustomId('queue_Page').setLabel(`Page: ${page}`).setStyle(ButtonStyle.Secondary).setDisabled(true),
-    new ButtonBuilder().setCustomId('queue_prev').setStyle(ButtonStyle.Secondary).setLabel('◀'),
-    new ButtonBuilder().setCustomId('queue_refresh').setStyle(ButtonStyle.Secondary).setEmoji(ZiIcons.refesh),
-    new ButtonBuilder().setCustomId('queue_next').setStyle(ButtonStyle.Secondary).setLabel('▶'),
+    new ButtonBuilder().setCustomId('B_queue_Page').setLabel(`Page: ${page}`).setStyle(ButtonStyle.Secondary).setDisabled(true),
+    new ButtonBuilder().setCustomId('B_queue_prev').setStyle(ButtonStyle.Secondary).setLabel('◀'),
+    new ButtonBuilder().setCustomId('B_queue_refresh').setStyle(ButtonStyle.Secondary).setEmoji(ZiIcons.refesh),
+    new ButtonBuilder().setCustomId('B_queue_next').setStyle(ButtonStyle.Secondary).setLabel('▶'),
   );
   code.components = [queueFund, row];
   /*=================== send file =====================*/

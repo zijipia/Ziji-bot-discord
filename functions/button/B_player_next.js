@@ -2,7 +2,7 @@ const { useMainPlayer, useQueue } = require('discord-player');
 const { ButtonInteraction } = require('discord.js');
 const player = useMainPlayer();
 module.exports.data = {
-  name: 'player_stop',
+  name: 'B_player_next',
   type: 'button',
 };
 
@@ -16,8 +16,7 @@ module.exports.data = {
 module.exports.execute = async ({ interaction, lang }) => {
   interaction.deferUpdate();
   const queue = useQueue(interaction.guild.id);
-  if (!queue) return interaction.message.edit({ components: [] }).catch((e) => {});
+  if (!queue) return;
   if (queue.metadata.LockStatus && queue.metadata.requestedBy?.id !== interaction.user?.id) return;
-  interaction.message.edit({ components: [] }).catch((e) => {});
-  queue.delete();
+  queue.node.skip();
 };

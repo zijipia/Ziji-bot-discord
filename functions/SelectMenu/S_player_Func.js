@@ -1,9 +1,9 @@
 const { useQueue } = require('discord-player');
-const config = require('../../config');
+const config = require('../../config.js');
 const { StringSelectMenuInteraction, ModalBuilder, TextInputBuilder, TextInputStyle, ActionRowBuilder } = require('discord.js');
 
 module.exports.data = {
-  name: 'player_SelectionFunc',
+  name: 'S_player_Func',
   type: 'SelectMenu',
 };
 async function Update_Player(client, queue) {
@@ -27,7 +27,7 @@ module.exports.execute = async ({ interaction, lang }) => {
     case 'Search': {
       const modal = new ModalBuilder()
         .setTitle('Search')
-        .setCustomId('modal_search')
+        .setCustomId('M_player_search')
         .addComponents(
           new ActionRowBuilder().addComponents(
             new TextInputBuilder()
@@ -115,7 +115,7 @@ module.exports.execute = async ({ interaction, lang }) => {
     }
     case 'Lyrics': {
       const ZiLyrics = queue.metadata.ZiLyrics;
-      if (!ZiLyrics.Active) {
+      if (!ZiLyrics?.Active) {
         ZiLyrics.Active = true;
         ZiLyrics.mess = await interaction.followUp({ content: '<a:loading:1151184304676819085> Loading...' });
         ZiLyrics.channel = interaction.channel;

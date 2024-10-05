@@ -1,7 +1,7 @@
 const { useQueue } = require('discord-player');
 const { ModalBuilder, TextInputBuilder, TextInputStyle, ButtonInteraction, ActionRowBuilder } = require('discord.js');
 module.exports.data = {
-  name: 'queue_del',
+  name: 'B_queue_del',
   type: 'button',
 };
 
@@ -15,7 +15,7 @@ module.exports.data = {
 module.exports.execute = async ({ interaction, lang }) => {
   const modal = new ModalBuilder()
     .setTitle(`Delete Track ${interaction?.guild?.name}`)
-    .setCustomId('queue_del_modal')
+    .setCustomId('M_Queue_del')
     .addComponents(
       new ActionRowBuilder().addComponents(
         new TextInputBuilder()

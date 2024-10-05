@@ -1,8 +1,7 @@
 const { useMainPlayer, useQueue } = require('discord-player');
 const { ButtonInteraction } = require('discord.js');
-const player = useMainPlayer();
 module.exports.data = {
-  name: 'queue_Shuffle',
+  name: 'B_player_pause',
   type: 'button',
 };
 
@@ -14,9 +13,15 @@ module.exports.data = {
  */
 
 module.exports.execute = async ({ interaction, lang }) => {
+  interaction.deferUpdate();
   const queue = useQueue(interaction.guild.id);
-  queue.tracks.shuffle();
-  const QueueTrack = interaction.client.functions.get('Queue');
-  QueueTrack.execute(interaction, queue, true);
-  return;
+  if (!queue) return;
+  if (queue.metadata.LockStatus && queue.metadata.requestedBy?.id !== interaction.user?.id) return;
+  queue.node.setPaused(queue.node.isPlaying());
+
+  const player = interaction.client.functions.get('player_func');
+
+  if (!player) return;
+  const res = await player.execute(interaction.client, queue);
+  queue.metadata.mess.edit(res);
 };

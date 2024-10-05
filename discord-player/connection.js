@@ -10,7 +10,7 @@ module.exports = {
    */
 
   execute: async (queue) => {
-    if (!queue?.metadata?.voiceAssistance && !config?.voiceAssistance) return;
+    if (!queue?.metadata?.voiceAssistance || !config?.voiceAssistance) return;
     const speechOptions = {
       ignoreBots: true,
       minimalVoiceMessageDuration: 1,

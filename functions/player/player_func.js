@@ -12,7 +12,7 @@ const {
 const ZiIcons = require('../../utility/icon');
 
 const CreateButton = ({ id = null, style = ButtonStyle.Secondary, label = null, emoji = null, disable = true }) => {
-  const button = new ButtonBuilder().setCustomId(`player_${id}`).setStyle(style).setDisabled(disable);
+  const button = new ButtonBuilder().setCustomId(`B_player_${id}`).setStyle(style).setDisabled(disable);
   if (label) button.setLabel(label);
   if (emoji) button.setEmoji(emoji);
   return button;
@@ -39,6 +39,7 @@ const getRelatedTracks = async (track, history) => {
     return [];
   }
 };
+
 // Helper function to get query Type Icon
 const getQueryTypeIcon = (type, raw) => {
   switch (type) {
@@ -124,7 +125,7 @@ module.exports = {
 
     const relatedTracksRow = new ActionRowBuilder().addComponents(
       new StringSelectMenuBuilder()
-        .setCustomId('player_SelectionTrack')
+        .setCustomId('S_player_Track')
         .setPlaceholder(lang?.playerFunc?.RowRel ?? '▶ | Select a song to add to the queue')
         .addOptions(trackOptions.length ? trackOptions : disableOptions)
         .setMaxValues(1)
@@ -225,7 +226,7 @@ module.exports = {
 
       const functionRow = new ActionRowBuilder().addComponents(
         new StringSelectMenuBuilder()
-          .setCustomId('player_SelectionFunc')
+          .setCustomId('S_player_Func')
           .setPlaceholder(lang?.playerFunc?.RowFunc ?? '▶ | Chọn một chức năng khác để điều khiển player')
           .addOptions(functionOptions)
           .setMaxValues(1)

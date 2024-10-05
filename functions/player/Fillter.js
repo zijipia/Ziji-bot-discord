@@ -50,7 +50,7 @@ const FillterRow = async (queue) => {
 
   return new ActionRowBuilder().addComponents(
     new StringSelectMenuBuilder()
-      .setCustomId('player_SelectionFillter')
+      .setCustomId('S_player_Fillter')
       .setMinValues(1)
       .setMaxValues(1)
       .setPlaceholder('▶️ | Pick the audio effect.')

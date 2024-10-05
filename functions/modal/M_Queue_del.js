@@ -15,7 +15,7 @@ function removeDuplicates(array) {
 }
 
 module.exports.data = {
-  name: 'queue_del_modal',
+  name: 'M_Queue_del',
   type: 'modal',
 };
 

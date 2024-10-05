@@ -1,7 +1,8 @@
 const { useMainPlayer, useQueue } = require('discord-player');
 const { ButtonInteraction } = require('discord.js');
+const player = useMainPlayer();
 module.exports.data = {
-  name: 'player_refresh',
+  name: 'B_queue_refresh',
   type: 'button',
 };
 
@@ -13,12 +14,8 @@ module.exports.data = {
  */
 
 module.exports.execute = async ({ interaction, lang }) => {
-  interaction.deferUpdate();
   const queue = useQueue(interaction.guild.id);
-  if (!queue) return;
-  const player = interaction.client.functions.get('player_func');
-
-  if (!player) return;
-  const res = await player.execute(interaction.client, queue);
-  queue.metadata.mess.edit(res);
+  const QueueTrack = interaction.client.functions.get('Queue');
+  QueueTrack.execute(interaction, queue, true);
+  return;
 };
