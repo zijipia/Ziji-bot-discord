@@ -2,7 +2,7 @@ const { useMainPlayer, useQueue } = require('discord-player');
 const { ModalBuilder, TextInputBuilder, TextInputStyle, ButtonInteraction, ActionRowBuilder } = require('discord.js');
 const player = useMainPlayer();
 module.exports.data = {
-  name: 'player_search',
+  name: 'B_player_search',
   type: 'button',
 };
 

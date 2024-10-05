@@ -1,7 +1,7 @@
 const { useMainPlayer, useQueue } = require('discord-player');
 const { ButtonInteraction } = require('discord.js');
 module.exports.data = {
-  name: 'player_refresh',
+  name: 'B_player_refresh',
   type: 'button',
 };
 

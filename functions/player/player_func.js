@@ -12,7 +12,7 @@ const {
 const ZiIcons = require('../../utility/icon');
 
 const CreateButton = ({ id = null, style = ButtonStyle.Secondary, label = null, emoji = null, disable = true }) => {
-  const button = new ButtonBuilder().setCustomId(`player_${id}`).setStyle(style).setDisabled(disable);
+  const button = new ButtonBuilder().setCustomId(`B_player_${id}`).setStyle(style).setDisabled(disable);
   if (label) button.setLabel(label);
   if (emoji) button.setEmoji(emoji);
   return button;
@@ -39,6 +39,7 @@ const getRelatedTracks = async (track, history) => {
     return [];
   }
 };
+
 // Helper function to get query Type Icon
 const getQueryTypeIcon = (type, raw) => {
   switch (type) {
