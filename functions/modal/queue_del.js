@@ -67,7 +67,7 @@ module.exports.execute = async ({ interaction, lang }) => {
     ],
     components: [
       new ActionRowBuilder().addComponents(
-        new ButtonBuilder().setCustomId('cancel').setLabel('❌').setStyle(ButtonStyle.Secondary),
+        new ButtonBuilder().setCustomId('B_cancel').setLabel('❌').setStyle(ButtonStyle.Secondary),
       ),
     ],
   });

@@ -127,7 +127,7 @@ module.exports.execute = async (interaction, queue, Nextpage = true) => {
     new ButtonBuilder().setCustomId('queue_clear').setLabel('Clear All').setStyle(ButtonStyle.Secondary),
     new ButtonBuilder().setCustomId('queue_del').setEmoji('🗑️').setStyle(ButtonStyle.Secondary),
     new ButtonBuilder().setCustomId('queue_Shuffle').setEmoji(ZiIcons.shuffle).setStyle(ButtonStyle.Secondary),
-    new ButtonBuilder().setCustomId('cancel').setEmoji('❌').setStyle(ButtonStyle.Secondary),
+    new ButtonBuilder().setCustomId('B_cancel').setEmoji('❌').setStyle(ButtonStyle.Secondary),
   );
   const row = new ActionRowBuilder().addComponents(
     new ButtonBuilder().setCustomId('queue_Page').setLabel(`Page: ${page}`).setStyle(ButtonStyle.Secondary).setDisabled(true),

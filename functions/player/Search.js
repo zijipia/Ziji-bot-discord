@@ -165,7 +165,7 @@ module.exports.execute = async (interaction, query, lang, options = {}) => {
       embeds: [new EmbedBuilder().setTitle('Không tìm thấy kết quả nào cho:').setDescription(`${query}`).setColor('Red')],
       components: [
         new ActionRowBuilder().addComponents(
-          new ButtonBuilder().setCustomId('cancel').setEmoji('❌').setStyle(ButtonStyle.Secondary),
+          new ButtonBuilder().setCustomId('B_cancel').setEmoji('❌').setStyle(ButtonStyle.Secondary),
         ),
       ],
     });
@@ -182,7 +182,7 @@ module.exports.execute = async (interaction, query, lang, options = {}) => {
   const cancelOption = new StringSelectMenuOptionBuilder()
     .setLabel('Hủy')
     .setDescription('Hủy bỏ')
-    .setValue('cancel')
+    .setValue('B_cancel')
     .setEmoji(ZiIcons.noo);
 
   const row = new ActionRowBuilder().addComponents(

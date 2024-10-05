@@ -1,7 +1,7 @@
 const { ButtonInteraction } = require('discord.js');
 
 module.exports.data = {
-  name: 'cancel',
+  name: 'B_cancel',
   type: 'button',
 };
 
