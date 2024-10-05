@@ -1,8 +1,8 @@
-const { EmbedBuilder, ActionRowBuilder, ButtonBuilder, StringSelectMenuInteraction } = require('discord.js');
+const { EmbedBuilder, ActionRowBuilder, ButtonBuilder, StringSelectMenuInteraction, ButtonStyle } = require('discord.js');
 const { useMainPlayer, useQueue, Util, GuildQueue } = require('discord-player');
 
 const player = useMainPlayer();
-
+const ZiIcons = require('../../utility/icon');
 /**
  * Executes the command to edit metadata.
  * @param { StringSelectMenuInteraction } interaction - The guild where the command is executed.
@@ -25,7 +25,18 @@ module.exports.execute = async (interaction, options) => {
     .setDescription('❌ | No Lyrics Found!\n- Query:' + `${query}`)
     .setColor('Random')
     .setThumbnail(queue?.currentTrack?.thumbnail || null);
-
+  const row = new ActionRowBuilder().addComponents(
+    new ButtonBuilder()
+      .setCustomId('B_Lyrics_input')
+      .setStyle(ButtonStyle.Secondary)
+      .setLabel('Input Lyrics Name')
+      .setEmoji(ZiIcons?.search),
+    new ButtonBuilder()
+      .setCustomId('B_Lyrics_cancel')
+      .setStyle(ButtonStyle.Secondary)
+      .setLabel('Disable syncedLyrics')
+      .setEmoji('❌'),
+  );
   const lyrics = await player.lyrics.search({ q: query });
 
   // plainLyrics
@@ -46,7 +57,7 @@ module.exports.execute = async (interaction, options) => {
   if (!queue) return;
 
   if (!lyrics?.at(0)?.syncedLyrics) {
-    await queue.metadata.ZiLyrics?.mess.edit({ content: '', embeds: [LyricsEmbed] }).catch(() => {});
+    await queue.metadata.ZiLyrics?.mess.edit({ content: '', components: [row], embeds: [LyricsEmbed] }).catch(() => {});
     return;
   }
 
@@ -68,10 +79,10 @@ module.exports.execute = async (interaction, options) => {
     previous_Lyric = current_Lyric;
 
     //send messenger
-    await queue.metadata.ZiLyrics?.mess.edit({ content: '', embeds: [embed] }).catch(async () => {
+    await queue.metadata.ZiLyrics?.mess.edit({ content: '', components: [row], embeds: [embed] }).catch(async () => {
       //update New
       queue.metadata.ZiLyrics.mess = await queue.metadata.ZiLyrics?.channel
-        .send({ content: '', embeds: [embed] })
+        .send({ content: '', components: [row], embeds: [embed] })
         .catch(() => {});
     });
   });
