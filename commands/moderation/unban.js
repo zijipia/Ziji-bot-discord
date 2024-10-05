@@ -30,11 +30,10 @@ module.exports.execute = async ({ interaction, lang }) => {
     return interaction.reply({ content: lang.until.noPermission, ephemeral: true });
   }
 
-
   if (!interaction.guild.members.me.permissions.has(PermissionsBitField.Flags.BanMembers)) {
     return interaction.reply({ content: lang.until.NOPermission, ephemeral: true });
   }
-  
+
   try {
     const user = await interaction.guild.bans.fetch(userId);
 

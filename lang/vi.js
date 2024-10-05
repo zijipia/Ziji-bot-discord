@@ -30,7 +30,7 @@ module.exports = {
     OS: 'Hệ điều hành đang dùng',
     djsVersion: 'Phiên bản discord.js',
     ServerLength: 'Tổng số server đang có',
-    RAMUsage: 'RAM đang sử dụng'
+    RAMUsage: 'RAM đang sử dụng',
   },
   Ping: {
     Description: 'Chào ##username##! Đây là **độ trễ** và trạng thái **ping** của tôi:',

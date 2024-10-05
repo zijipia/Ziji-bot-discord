@@ -17,7 +17,7 @@ module.exports = {
     OS: 'Curent OS',
     djsVersion: 'Discord.js version',
     ServerLength: 'Total server',
-    RAMUsage: 'RAM usage'
+    RAMUsage: 'RAM usage',
   },
   Help: {
     Placeholder: '> | Select a category to view the commands',
