@@ -2,7 +2,7 @@ const { useQueue } = require('discord-player');
 const { StringSelectMenuInteraction, ModalBuilder, TextInputBuilder, TextInputStyle } = require('discord.js');
 
 module.exports.data = {
-  name: 'player_SelectionFillter',
+  name: 'S_player_Fillter',
   type: 'SelectMenu',
 };
 
