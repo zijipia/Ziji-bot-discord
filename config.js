@@ -20,15 +20,15 @@ module.exports = {
   botConfig: {
     // Tên hoạt động của bot
     // Bot's activity name
-    ActivityName: '/help',
+    ActivityName: 'Visual Studio Code',
 
     // Loại hoạt động của bot
     // Bot's activity type (PLAYING, WATCHING, LISTENING, STREAMING)
-    ActivityType: 'PLAYING',
+    ActivityType: 'STREAMING',
 
     // Trạng thái mặc định của bot 'online', 'idle', 'dnd', 'invisible'
     // Default bot status: 'online', 'idle', 'dnd', 'invisible'
-    Status: 'online',
+    Status: 'idle',
 
     // ID của channel bot gửi lỗi
     // Bot's error log channel ID

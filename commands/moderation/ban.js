@@ -37,6 +37,10 @@ module.exports.execute = async ({ interaction, lang }) => {
     return interaction.reply({ content: lang.until.noPermission, ephemeral: true });
   }
 
+  if (!interaction.guild.members.me.permissions.has(PermissionsBitField.Flags.BanMembers)) {
+    return interaction.reply({ content: lang.until.NOPermission, ephemeral: true });
+  }
+
   const member = interaction.guild.members.cache.get(user.id);
   if (!member) {
     return interaction.reply({ content: 'Không tìm thấy người dùng.', ephemeral: true });

@@ -39,6 +39,10 @@ module.exports.execute = async ({ interaction, lang }) => {
     return interaction.reply({ content: lang.until.noPermission, ephemeral: true });
   }
 
+  if (!interaction.guild.members.me.permissions.has(PermissionsBitField.Flags.ManageMessages)) {
+    return interaction.reply({ content: lang.until.NOPermission, ephemeral: true });
+  }
+
   const messages = await interaction.channel.messages.fetch({ limit: amount });
   const filteredMessages = user
     ? Array.from(messages.filter((msg) => msg.author.id === user.id).values()).slice(0, amount)
