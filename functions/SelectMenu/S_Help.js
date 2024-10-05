@@ -8,11 +8,11 @@ const {
   StringSelectMenuBuilder,
   Routes,
 } = require('discord.js');
-const ZiIcons = require('../../utility/icon');
-const config = require('../../config');
+const ZiIcons = require('../../utility/icon.js');
+const config = require('../../config.js');
 
 module.exports.data = {
-  name: 'Help_Selection',
+  name: 'S_Help',
   type: 'SelectMenu',
 };
 

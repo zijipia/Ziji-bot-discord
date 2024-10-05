@@ -41,7 +41,7 @@ module.exports.execute = async ({ interaction, lang }) => {
     .setTimestamp();
 
   const selectMenu = new StringSelectMenuBuilder()
-    .setCustomId('Help_Selection')
+    .setCustomId('S_Help')
     .setPlaceholder(lang.Help.Placeholder)
     .setMinValues(1)
     .setMaxValues(1)
