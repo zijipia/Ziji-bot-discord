@@ -121,7 +121,7 @@ module.exports.execute = async ({ interaction, lang }) => {
         ZiLyrics.channel = interaction.channel;
         const Lyrics = client.functions.get('Lyrics');
         if (!Lyrics) return;
-        await Lyrics.execute(interaction, { type: 'syncedLyrics' });
+        await Lyrics.execute(null, { type: 'syncedLyrics', queue });
         return;
       }
 
