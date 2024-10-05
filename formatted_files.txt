@@ -1,5 +1,1 @@
-commands/moderation/unban.js
-commands/utility/vps.js
 formatted_files.txt
-lang/en.js
-lang/vi.js
