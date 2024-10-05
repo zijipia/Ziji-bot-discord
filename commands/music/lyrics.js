@@ -26,10 +26,11 @@ module.exports.data = {
 module.exports.execute = async ({ interaction, lang }) => {
   const { client, guild, options } = interaction;
   await interaction.deferReply();
+  const query = await options.getString('query');
 
   const Lyrics = client.functions.get('Lyrics');
   if (!Lyrics) return;
 
-  await Lyrics.execute(interaction, { type: 'plainLyrics' });
+  await Lyrics.execute(interaction, { type: 'plainLyrics', query });
   return;
 };

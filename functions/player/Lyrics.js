@@ -15,34 +15,38 @@ const player = useMainPlayer();
 module.exports.execute = async (interaction, options) => {
   const queue = options?.queue || useQueue(interaction?.guild?.id);
 
-  const LyricsEmbed = new EmbedBuilder().setDescription('❌ | No Lyrics Found!').setColor('Random');
   const query =
     options?.query ||
     queue.currentTrack.cleanTitle.replace(/lyrics|Full/g, '') ||
     queue.currentTrack.title ||
     '891275176409460746891275176409460746891275176409460746';
 
-  if (options?.type !== 'syncedLyrics') {
-    const lyrics = await player.lyrics.search({ q: query });
+  const LyricsEmbed = new EmbedBuilder()
+    .setDescription('❌ | No Lyrics Found!\n- Query:' + `${query}`)
+    .setColor('Random')
+    .setThumbnail(queue?.currentTrack?.thumbnail || null);
 
+  const lyrics = await player.lyrics.search({ q: query });
+
+  // plainLyrics
+  if (options?.type !== 'syncedLyrics') {
     if (!lyrics.length) return interaction.followUp({ content: '', embeds: [LyricsEmbed], ephemeral: true });
 
     const trimmedLyrics = lyrics[0].plainLyrics.substring(0, 1997);
-    const embed = LyricsEmbed.setTitle(`${lyrics[0]?.trackName} - ${lyrics[0]?.artistName}`).setDescription(
+
+    LyricsEmbed.setTitle(`${lyrics[0]?.trackName} - ${lyrics[0]?.artistName}`).setDescription(
       trimmedLyrics.length === 1997 ? `${trimmedLyrics}...` : trimmedLyrics,
     );
 
-    return interaction.editReply({ content: '', embeds: [embed] }).catch(async () => {
-      await interaction.followUp({ content: '', embeds: [embed] }).catch(() => {});
+    return interaction.editReply({ content: '', embeds: [LyricsEmbed] }).catch(async () => {
+      await interaction.followUp({ content: '', embeds: [LyricsEmbed] }).catch(() => {});
     });
   }
-
+  // syncedLyrics
   if (!queue) return;
 
-  const lyrics = await player.lyrics.search({ q: query });
-  LyricsEmbed.setThumbnail(queue.currentTrack?.thumbnail || null);
   if (!lyrics?.at(0)?.syncedLyrics) {
-    await queue.metadata.ZiLyrics?.mess.edit({ content: '', embeds: [embed] }).catch(() => {});
+    await queue.metadata.ZiLyrics?.mess.edit({ content: '', embeds: [LyricsEmbed] }).catch(() => {});
     return;
   }
 
@@ -71,7 +75,7 @@ module.exports.execute = async (interaction, options) => {
         .catch(() => {});
     });
   });
-
+  // subscribe syncedLyrics
   queue.metadata.ZiLyrics.unsubscribe = syncedLyrics.subscribe();
   return;
 };
