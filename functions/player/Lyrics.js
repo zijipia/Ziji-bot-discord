@@ -38,7 +38,10 @@ module.exports.execute = async (interaction, options) => {
   if (!queue) return;
 
   const lyrics = await player.lyrics.search({ q: query });
-  if (!lyrics?.at(0)?.syncedLyrics) return;
+  if (!lyrics?.at(0)?.syncedLyrics) {
+    await queue.metadata.ZiLyrics?.mess.edit({ embeds: [embed] }).catch(() => {});
+    return;
+  }
 
   const syncedLyrics = queue.syncedLyrics(lyrics.at(0));
 
@@ -48,7 +51,7 @@ module.exports.execute = async (interaction, options) => {
   syncedLyrics.onChange(async (lyricss, timestamp) => {
     current_Lyric = `[${Util.buildTimeCode(Util.parseMS(timestamp))}]: ${lyricss}`;
     const embed = LyricsEmbed.setTitle(`${lyrics[0]?.trackName} - ${lyrics[0]?.artistName}`).setDescription(
-      `${pre_previous_Lyric}\n${previous_Lyric}\n${current_Lyric}.`,
+      `${pre_previous_Lyric}\n${previous_Lyric}\n**${current_Lyric}**.`,
     );
     pre_previous_Lyric = previous_Lyric;
     previous_Lyric = current_Lyric;
