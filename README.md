@@ -59,7 +59,7 @@ TOKEN = "Your Bot Token" # required
 MONGO = "Your Bot Mongo URI" # optional
 ```
 
-config.js: In file
+config.js: In file (rename `config.js.example` to `config.js`)
 
 4. Start the bot:
 
@@ -89,8 +89,10 @@ This README provides an overview, installation steps, usage instructions, and co
 ## Testing
 
 Ziji is testing ZiExtractor, if anything doesn't work properly try turning it off
-[in index.js file line 65.](https://github.com/zijipia/Ziji-bot-discord/blob/main/index.js#L65)
+[in config.js](https://github.com/zijipia/Ziji-bot-discord/blob/main/config.js.example)
 
 ```js
-// player.extractors.register(ZiExtractor, {});
+useZiExtractor: false
 ```
+
+This also solves the problem `No result found for [object] [object]` in some hosting services.

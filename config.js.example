@@ -3,6 +3,10 @@ module.exports = {
   // Allow bot command deployment
   deploy: true,
 
+  // Cho phép hệ thống nhạc sử dụng ZiExtractor (nên tắt nếu bạn đang dùng các dịch vụ hosting bot)
+  // Allow music system to use ZiExtractor (should be disabled if you are using bot hosting services)
+  useZiExtractor: false,
+
   // Thời gian chờ mặc định giữa các lệnh (tính bằng mili giây)
   // Default cooldown duration between commands (in milliseconds)
   defaultCooldownDuration: 5000,
