@@ -1,5 +1,3 @@
-/** @format */
-
 const { StringSelectMenuInteraction } = require("discord.js");
 
 module.exports.data = {

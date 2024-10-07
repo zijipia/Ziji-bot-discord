@@ -1,5 +1,3 @@
-<!-- @format -->
-
 # Chính sách Bảo mật / Security Policy
 
 ## Phiên bản được hỗ trợ / Supported Versions

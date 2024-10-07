@@ -1,5 +1,3 @@
-/** @format */
-
 module.exports = {
 	refesh: "<:refesh:1261486580015829062>",
 	prev: "<:prev:1261482963594383502>",

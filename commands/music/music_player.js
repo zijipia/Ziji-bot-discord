@@ -1,5 +1,3 @@
-/** @format */
-
 const { useMainPlayer, useQueue } = require("discord-player");
 const { CommandInteraction } = require("discord.js");
 const player = useMainPlayer();

@@ -1,5 +1,3 @@
-/** @format */
-
 const { MessageContextMenuCommandInteraction } = require("discord.js");
 
 module.exports.data = {

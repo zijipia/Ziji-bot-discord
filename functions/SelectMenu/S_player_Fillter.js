@@ -1,5 +1,3 @@
-/** @format */
-
 const { useQueue } = require("discord-player");
 const { StringSelectMenuInteraction, ModalBuilder, TextInputBuilder, TextInputStyle } = require("discord.js");
 

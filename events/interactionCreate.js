@@ -1,5 +1,3 @@
-/** @format */
-
 const { Events, CommandInteraction, PermissionsBitField } = require("discord.js");
 const config = require("./../config");
 

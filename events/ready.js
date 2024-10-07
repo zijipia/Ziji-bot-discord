@@ -1,5 +1,3 @@
-/** @format */
-
 const { Events, Client, ActivityType } = require("discord.js");
 const config = require("../config");
 const deploy = require("../deploy");

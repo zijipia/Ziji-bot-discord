@@ -1,5 +1,3 @@
-/** @format */
-
 const { useQueue } = require("discord-player");
 const { ModalSubmitInteraction, EmbedBuilder, ActionRowBuilder, ButtonBuilder, ButtonStyle } = require("discord.js");
 

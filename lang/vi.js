@@ -1,5 +1,3 @@
-/** @format */
-
 module.exports = {
 	name: "vi",
 	local_names: "vi_VN",

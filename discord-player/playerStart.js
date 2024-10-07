@@ -1,5 +1,3 @@
-/** @format */
-
 const { GuildQueue, Track, GuildQueueEvent } = require("discord-player");
 const config = require("../config");
 

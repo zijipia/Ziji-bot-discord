@@ -1,5 +1,3 @@
-<!-- @format -->
-
 <p align="center">
     <a href="https://discord.com/oauth2/authorize?client_id=1005716197259612193"><img src="https://img.shields.io/badge/ADD_Bot-Ziji_Bot?style=for-the-badge&label=Ziji%20Bot&color=%237289DA" alt="Add Ziji bot"></a>
     <a href="https://discord.gg/zaskhD7PTW"><img src="https://img.shields.io/discord/1007597270704869387?style=for-the-badge&color=%237289DA" alt="Ziji Discord support server"></a>

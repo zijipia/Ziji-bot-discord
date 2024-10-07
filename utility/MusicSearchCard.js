@@ -1,5 +1,3 @@
-/** @format */
-
 const { JSX, Builder, loadImage, Font, FontFactory } = require("canvacord");
 
 class MusicSearchCard extends Builder {

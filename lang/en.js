@@ -1,5 +1,3 @@
-/** @format */
-
 module.exports = {
 	name: "en",
 	local_names: "en_US",

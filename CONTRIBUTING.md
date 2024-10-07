@@ -1,5 +1,3 @@
-<!-- @format -->
-
 # Đóng góp cho Zibot V2
 
 Cảm ơn bạn đã quan tâm đến việc đóng góp cho Zibot V2! Chúng tôi rất hoan nghênh mọi đóng góp từ cộng đồng.

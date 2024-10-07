@@ -1,5 +1,3 @@
-/** @format */
-
 const { GuildQueueEvent } = require("discord-player");
 
 module.exports = {

@@ -1,5 +1,3 @@
-/** @format */
-
 const { GuildQueueEvent } = require("discord-player");
 const { useZiVoiceExtractor } = require("ziextractor");
 const config = require("../config");
@@ -12,7 +10,7 @@ module.exports = {
 	 */
 
 	execute: async (queue) => {
-		if (!queue?.metadata?.voiceAssistance || !config?.voiceAssistance) return;
+		if (!queue?.metadata?.voiceAssistance || !config?.DevConfig.VoiceExtractor) return;
 		const speechOptions = {
 			ignoreBots: true,
 			minimalVoiceMessageDuration: 1,

@@ -1,5 +1,3 @@
-/** @format */
-
 const { useMainPlayer, useQueue, useHistory } = require("discord-player");
 const { ButtonInteraction } = require("discord.js");
 const player = useMainPlayer();

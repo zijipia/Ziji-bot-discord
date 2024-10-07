@@ -1,5 +1,3 @@
-/** @format */
-
 const { useMainPlayer, GuildQueue, QueryType } = require("discord-player");
 const player = useMainPlayer();
 const {

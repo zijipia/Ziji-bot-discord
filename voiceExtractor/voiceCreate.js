@@ -1,5 +1,3 @@
-/** @format */
-
 const { useMainPlayer, useQueue } = require("discord-player");
 const { EmbedBuilder } = require("discord.js");
 async function Update_Player(client, queue) {

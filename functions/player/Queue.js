@@ -1,5 +1,3 @@
-/** @format */
-
 const { EmbedBuilder, ActionRowBuilder, ButtonBuilder, ButtonInteraction, AttachmentBuilder } = require("discord.js");
 const { useMainPlayer, useQueue, Util, GuildQueue } = require("discord-player");
 const { ButtonStyle, StringSelectMenuOptionBuilder, StringSelectMenuBuilder } = require("discord.js");

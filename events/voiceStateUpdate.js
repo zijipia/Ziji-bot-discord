@@ -1,5 +1,3 @@
-/** @format */
-
 const { Events } = require("discord.js");
 const { useQueue } = require("discord-player");
 

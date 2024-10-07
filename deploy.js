@@ -1,5 +1,3 @@
-/** @format */
-
 const { REST, Routes } = require("discord.js");
 const fs = require("node:fs").promises;
 const path = require("node:path");

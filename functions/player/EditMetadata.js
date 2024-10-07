@@ -1,5 +1,3 @@
-/** @format */
-
 const { EmbedBuilder, ActionRowBuilder, ButtonBuilder, BaseInteraction, BaseGuild } = require("discord.js");
 const { useMainPlayer, useQueue, Util, useMetadata } = require("discord-player");
 

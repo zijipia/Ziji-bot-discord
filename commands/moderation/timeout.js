@@ -1,5 +1,3 @@
-/** @format */
-
 const { CommandInteraction, PermissionsBitField } = require("discord.js");
 
 module.exports.data = {

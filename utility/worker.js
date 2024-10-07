@@ -1,5 +1,3 @@
-/** @format */
-
 const { parentPort, workerData } = require("worker_threads");
 const { MusicSearchCard } = require("./MusicSearchCard");
 

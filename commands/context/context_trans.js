@@ -1,5 +1,3 @@
-/** @format */
-
 const { MessageContextMenuCommandInteraction, EmbedBuilder } = require("discord.js");
 const translate = require("@iamtraction/google-translate");
 

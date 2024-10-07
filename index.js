@@ -1,5 +1,3 @@
-/** @format */
-
 const fs = require("fs").promises;
 const path = require("node:path");
 const { Client, Collection, GatewayIntentBits, Partials } = require("discord.js");
@@ -38,24 +36,6 @@ const player = new Player(client, {
 	skipFFmpeg: false,
 });
 
-const { GiveawaysManager } = require("discord-giveaways");
-
-client.giveaway = new GiveawaysManager(client, {
-	storage: "./discord-giveaways/giveaways.json",
-	default: {
-		botsCanWin: false,
-		embedColor: "Random",
-		embedColorEnd: "#000000",
-		reaction: "🎉",
-	},
-});
-
-const ziVoice = useZiVoiceExtractor({
-	ignoreBots: true,
-	minimalVoiceMessageDuration: 1,
-	lang: "vi-VN",
-});
-
 player.setMaxListeners(100);
 player.extractors.register(YoutubeiExtractor, {
 	authentication: process.env?.YoutubeAUH || "",
@@ -63,12 +43,36 @@ player.extractors.register(YoutubeiExtractor, {
 		useClient: "IOS",
 	},
 });
-
-player.extractors.register(ZiExtractor, {});
+if (config.DevConfig.ZiExtractor) player.extractors.register(ZiExtractor, {});
 player.extractors.loadDefault((ext) => !["YouTubeExtractor"].includes(ext));
 // player.extractors.loadDefault();
 
-// player.on('debug', console.log);
+// Debug
+if (config.DevConfig.DJS_DEBUG) client.on("debug", console.log);
+if (config.DevConfig.DPe_DEBUG) player.events.on("debug", console.log);
+if (config.DevConfig.DP_DEBUG) {
+	player.scanDeps();
+	player.on("debug", console.log);
+}
+if (config.DevConfig.Giveaway) {
+	const { GiveawaysManager } = require("discord-giveaways");
+
+	client.giveaway = new GiveawaysManager(client, {
+		storage: "./discord-giveaways/giveaways.json",
+		default: {
+			botsCanWin: false,
+			embedColor: "Random",
+			embedColorEnd: "#000000",
+			reaction: "🎉",
+		},
+	});
+}
+
+const ziVoice = useZiVoiceExtractor({
+	ignoreBots: true,
+	minimalVoiceMessageDuration: 1,
+	lang: "vi-VN",
+});
 
 client.commands = new Collection();
 client.functions = new Collection();

@@ -1,5 +1,3 @@
-/** @format */
-
 const config = require("../config");
 const { useMainPlayer, GuildQueueEvent } = require("discord-player");
 const players = useMainPlayer();

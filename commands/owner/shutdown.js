@@ -1,5 +1,3 @@
-/** @format */
-
 const { CommandInteraction } = require("discord.js");
 const config = require("../../config");
 

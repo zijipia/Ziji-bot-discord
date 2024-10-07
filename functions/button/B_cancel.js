@@ -1,5 +1,3 @@
-/** @format */
-
 const { ButtonInteraction } = require("discord.js");
 
 module.exports.data = {

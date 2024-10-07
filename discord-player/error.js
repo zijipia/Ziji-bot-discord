@@ -1,11 +1,8 @@
-/** @format */
-
 const { GuildQueueEvent } = require("discord-player");
 
 module.exports = {
 	name: GuildQueueEvent.error,
 	type: "Player",
-
 	/**
 	 * @param { import('discord-player').GuildQueue } queue
 	 * @param { Error } error

@@ -1,5 +1,3 @@
-/** @format */
-
 const { CommandInteraction, PermissionsBitField, EmbedBuilder } = require("discord.js");
 const ms = require("ms");
 

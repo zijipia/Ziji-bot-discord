@@ -1,5 +1,3 @@
-/** @format */
-
 const { ModalSubmitInteraction, ModalBuilder } = require("discord.js");
 
 module.exports.data = {

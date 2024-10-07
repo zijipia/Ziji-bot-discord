@@ -1,5 +1,3 @@
-/** @format */
-
 // const { User } = require("discord.js");
 const { CommandInteraction, EmbedBuilder, GuildMember } = require("discord.js");
 

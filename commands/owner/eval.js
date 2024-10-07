@@ -1,5 +1,3 @@
-/** @format */
-
 const { CommandInteraction, EmbedBuilder, ApplicationCommandOptionType } = require("discord.js");
 const DUMMY_TOKEN = "MY_TOKEN_IS_SECRET";
 const config = require("../../config");

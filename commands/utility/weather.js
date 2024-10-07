@@ -1,5 +1,3 @@
-/** @format */
-
 const { CommandInteraction, EmbedBuilder } = require("discord.js");
 const axios = require("axios");
 
