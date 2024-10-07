@@ -50,7 +50,7 @@ player.extractors.loadDefault((ext) => !["YouTubeExtractor"].includes(ext));
 if (config.DevConfig.DJS_DEBUG) client.on("debug", console.log);
 if (config.DevConfig.DPe_DEBUG) player.events.on("debug", console.log);
 if (config.DevConfig.DP_DEBUG) {
-	player.scanDeps();
+	console.log(player.scanDeps());
 	player.on("debug", console.log);
 }
 if (config.DevConfig.Giveaway) {
