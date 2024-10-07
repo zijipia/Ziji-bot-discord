@@ -93,7 +93,7 @@ const loadFiles = async (directory, collection) => {
 						try {
 							const module = require(path.resolve(filePath));
 							if ("data" in module && "execute" in module) {
-								const isDisabled = config.disabledCommands.includes(module.data.name);
+								const isDisabled = config.disabledCommands.includes(module.data.name) || module.data?.enable == false;
 								clientCommands.push([chalk.hex(isDisabled ? "#4733FF" : "#E5C3FF")(module.data.name), isDisabled ? "❌" : "✅"]);
 								if (!isDisabled) collection.set(module.data.name, module);
 							} else {

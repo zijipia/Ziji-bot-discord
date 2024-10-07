@@ -17,11 +17,10 @@ module.exports = async (client) => {
 					await loadCommands(filePath);
 				} else if (file.isFile() && file.name.endsWith(".js")) {
 					const command = require(filePath);
-					if ("data" in command && "execute" in command) {
-						if (!config.disabledCommands.includes(command.data.name)) {
-							commands[command.data.owner ? "owner" : "global"].push(command.data);
-						}
-					}
+					if (!("data" in command) || !("execute" in command)) return;
+					if (command?.data?.enable == false) return;
+					if (config?.disabledCommands?.includes(command.data.name)) return;
+					commands[command.data.owner ? "owner" : "global"].push(command.data);
 				}
 			}),
 		);
