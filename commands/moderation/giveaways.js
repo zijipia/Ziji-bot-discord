@@ -1,5 +1,6 @@
 const { CommandInteraction, PermissionsBitField, EmbedBuilder } = require("discord.js");
 const ms = require("ms");
+const config = require("../../config.js");
 
 /**
  * @param { object } command - object command
@@ -233,4 +234,5 @@ module.exports.data = {
 	integration_types: [0],
 	contexts: [0],
 	default_member_permissions: "0", // chỉ có admin mới dùng được
+	enable: config.DevConfig.Giveaway,
 };

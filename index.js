@@ -45,7 +45,6 @@ player.extractors.register(YoutubeiExtractor, {
 });
 if (config.DevConfig.ZiExtractor) player.extractors.register(ZiExtractor, {});
 player.extractors.loadDefault((ext) => !["YouTubeExtractor"].includes(ext));
-// player.extractors.loadDefault();
 
 // Debug
 if (config.DevConfig.DJS_DEBUG) client.on("debug", console.log);

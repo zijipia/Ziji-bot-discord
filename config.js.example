@@ -12,16 +12,17 @@ module.exports = {
 	ImageSearch: true,
 
 	DevConfig: {
-		DJS_DEBUG: true,
-
-		DP_DEBUG: true,
-
-		DPe_DEBUG: true,
-
+		//discordjs debug
+		DJS_DEBUG: false,
+		//discord-player debug
+		DP_DEBUG: false,
+		//discord-player events debug
+		DPe_DEBUG: false,
+		//enable Ziext (beta)
 		ZiExtractor: true,
-
+		//enable VoiceExtractor (beta)
 		VoiceExtractor: true,
-
+		//enable Giveaway
 		Giveaway: true,
 	},
 

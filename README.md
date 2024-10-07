@@ -50,19 +50,37 @@ npm install
 
 3. Set up your environment variables (e.g., TOKEN, MONGO), config:
 
-.env:
+- Rename file .env.example to .env:
 
 ```bash
 TOKEN = "Your Bot Token" # required
 MONGO = "Your Bot Mongo URI" # optional
+...
 ```
 
-config.js: In file
+- Rename file config.js.example to config.js
+
+```js
+module.exports = {
+
+	deploy: true,
+
+	defaultCooldownDuration: 5000,
+
+	ImageSearch: true,
+
+}
+...
+```
 
 4. Start the bot:
 
 ```bash
 node .
+#or
+npm run start
+#or for dev ( using nodemon)
+npm run dev
 ```
 
 ## Contributing
@@ -87,8 +105,8 @@ This README provides an overview, installation steps, usage instructions, and co
 ## Testing
 
 Ziji is testing ZiExtractor, if anything doesn't work properly try turning it off
-[in index.js file line 65.](https://github.com/zijipia/Ziji-bot-discord/blob/main/index.js#L65)
+[in config.js file line 21.](https://github.com/zijipia/Ziji-bot-discord/blob/main/config.js.example#L21)
 
 ```js
-// player.extractors.register(ZiExtractor, {});
+  ZiExtractor: false,
 ```
