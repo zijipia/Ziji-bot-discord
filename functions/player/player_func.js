@@ -91,7 +91,7 @@ module.exports = {
 				url: track?.url,
 			})
 			.setDescription(
-				`Volume: **${queue.node.volume}** % - Playing:  **${trackDuration}**${trackDurationSymbol} <a:_:${
+				`Volume: **${queue.node.volume}** % - Playing:  **${trackDuration}**${trackDurationSymbol} - Host: ${queue.metadata.requestedBy} <a:_:${
 					ZiIcons.animatedIcons[Math.floor(Math.random() * ZiIcons.animatedIcons.length)]
 				}>`,
 			)

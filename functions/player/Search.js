@@ -117,6 +117,7 @@ module.exports.execute = async (interaction, query, lang, options = {}) => {
 						mess: interaction?.customId !== "S_player_Search" ? await interaction.fetchReply() : interaction.message,
 					},
 				},
+				requestedBy: interaction.user,
 			});
 
 			if (queue?.metadata) {
