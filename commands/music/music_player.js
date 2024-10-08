@@ -19,12 +19,13 @@ module.exports.data = {
 
 module.exports.execute = async ({ interaction, lang }) => {
 	const { client, guild } = interaction;
-	await interaction.deferReply();
+	await interaction.deferReply({ fetchReply: true });
 	const queue = useQueue(guild.id);
 	if (!queue) return interaction.editReply({ content: lang.music.NoPlaying }).catch((e) => {});
 	queue.metadata.mess.edit({ components: [] }).catch((e) => {});
-	const EditMetadata = client.functions.get("EditMetadata");
-	await EditMetadata.execute(guild, { mess: await interaction.fetchReply() });
+
+	queue.metadata.mess = await interaction.fetchReply();
+
 	const player = client.functions.get("player_func");
 	if (!player) return;
 	const res = await player.execute(client, queue);

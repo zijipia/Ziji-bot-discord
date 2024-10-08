@@ -279,7 +279,13 @@ module.exports = {
 			);
 			code.components = [relatedTracksRow, buttonRow];
 		}
-
+		if (!!queue.metadata.LockStatus) {
+			embed.addFields({
+				name: `${ZiIcons.Lock} **${lang?.playerFunc?.Fields?.Lockdes}**`,
+				value: " ",
+				inline: false,
+			});
+		}
 		if (queue.repeatMode !== 0) {
 			embed.addFields({
 				name: `${lang?.playerFunc?.Fields?.Loop || "Lặp lại"}: ${repeatMode[queue.repeatMode]}`,

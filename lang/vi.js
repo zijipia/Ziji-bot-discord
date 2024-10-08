@@ -11,6 +11,7 @@ module.exports = {
 		NOPermission: "❌ | Bot không có quyền gửi tin nhắn và thực hiện lệnh trong kênh này",
 		noPermission: "❌ | Bạn không có quyền để thực hiện lệnh này!",
 		cooldown: "Vui lòng đợi, bạn đang trong thời gian cooldown cho `{command}`! Bạn có thể sử dụng nó lại {time}.",
+		goodbye: "Tạm biệt",
 	},
 	Help: {
 		Placeholder: "> | Chọn một danh mục để xem các lệnh",
@@ -132,6 +133,7 @@ module.exports = {
 		NOres: "❌ | Không tìm thấy bài hát",
 		NoPlaying: "❌ | Không có bài hát nào đang phát.",
 		NoPermission: "❌ | Bot không có quyền tham gia hoặc nói trong kênh thoại này",
+		HostLeave: "{HOST} đã rời đi, {USER} đã được chọn làm host player",
 	},
 	voiceCommands: {
 		Play: "Phát nhạc",
