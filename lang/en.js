@@ -11,6 +11,7 @@ module.exports = {
 		NOPermission: "❌ | Bot does not have permission to chat and execute command in this channel",
 		noPermission: "❌ | You do not have permission to execute this command!",
 		cooldown: "Please wait, you are on a cooldown for `{command}`! You can use it again {time}.",
+		goodbye: "Goodbye",
 	},
 	BotStats: {
 		Description: "Bot stats",
@@ -132,6 +133,7 @@ module.exports = {
 		NOres: "❌ | No song found",
 		NoPlaying: "❌ | No tracks playing.",
 		NoPermission: "❌ | Bot does not have permission to join or speak in this voice channel",
+		HostLeave: "{HOST} has left, {USER} has been selected as host player",
 	},
 	voiceCommands: {
 		Play: "Play",
