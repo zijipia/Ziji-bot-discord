@@ -18,6 +18,9 @@ module.exports.execute = async (guild, metadata) => {
 			channel: metadata?.channel || currentMetadata?.channel,
 			requestedBy: metadata?.requestedBy || currentMetadata?.requestedBy,
 			LockStatus: metadata?.LockStatus || currentMetadata?.LockStatus,
+			voiceAssistance: metadata?.voiceAssistance || currentMetadata?.voiceAssistance,
+			ZiLyrics: metadata?.ZiLyrics || currentMetadata?.ZiLyrics,
+			lang: metadata?.lang || currentMetadata?.lang,
 			mess: metadata?.mess || currentMetadata?.mess,
 		});
 	} catch (error) {
