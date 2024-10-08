@@ -31,8 +31,9 @@ module.exports = {
 		// edit messenger
 		await queue.metadata.mess.edit(playerGui).catch(async () => await SendNewMessenger(queue, playerGui));
 		// lyrics
+
 		const ZiLyrics = queue.metadata.ZiLyrics;
-		if (ZiLyrics.Active) {
+		if (ZiLyrics?.Active) {
 			const Lyrics = client.functions.get("Lyrics");
 			if (!Lyrics) return;
 			await Lyrics.execute(null, { type: "syncedLyrics", queue });
