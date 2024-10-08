@@ -1,2 +1,1 @@
-.github/workflows/changelog.yml
 formatted_files.txt
