@@ -13,7 +13,7 @@ module.exports.data = {
  */
 
 module.exports.execute = async ({ interaction, lang }) => {
-	interaction.deferUpdate();
+	await interaction.deferUpdate();
 	const queue = useQueue(interaction.guild.id);
 	if (!queue) return interaction.followUp({ content: lang.music.NoPlaying, ephemeral: true });
 
