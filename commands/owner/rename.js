@@ -1,5 +1,5 @@
 const { CommandInteraction } = require("discord.js");
-const config = require("../../config");
+const config = require("../../config.js");
 
 module.exports.data = {
 	name: "rename",
