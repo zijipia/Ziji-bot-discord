@@ -72,8 +72,7 @@ module.exports.execute = async ({ interaction, lang }) => {
 					ephemeral: true,
 				});
 			}
-			const EditMetadata = client.functions.get("EditMetadata");
-			EditMetadata.execute(guild, { LockStatus: !queue.metadata.LockStatus });
+			queue.metadata.LockStatus = !queue.metadata.LockStatus;
 			await Update_Player(client, queue);
 			return;
 		}
