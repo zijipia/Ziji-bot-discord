@@ -70,12 +70,14 @@ module.exports.execute = async (interaction, query, lang, options = {}) => {
 	if (!voiceChannel) {
 		return interaction.reply({
 			content: lang?.music?.NOvoiceChannel ?? "Bạn chưa tham gia vào kênh thoại",
+			ephemeral: true,
 		});
 	}
 	const voiceMe = guild.members.cache.get(client.user.id).voice.channel;
 	if (voiceMe && voiceMe.id !== voiceChannel.id) {
 		return interaction.reply({
 			content: lang?.music?.NOvoiceMe ?? "Bot đã tham gia một kênh thoại khác",
+			ephemeral: true,
 		});
 	}
 	const permissions = voiceChannel.permissionsFor(client.user);
