@@ -142,7 +142,7 @@ module.exports.execute = async ({ interaction, lang }) => {
 				return;
 			}
 
-			ZiLyrics?.unsubscribe();
+			ZiLyrics.unsubscribe().catch(() => {});
 			ZiLyrics.mess.delete().catch(() => {});
 			ZiLyrics.Active = false;
 			return;

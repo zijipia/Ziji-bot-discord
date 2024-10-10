@@ -21,10 +21,6 @@ module.exports.execute = async (interaction, options) => {
 		queue.currentTrack.title ||
 		"891275176409460746891275176409460746891275176409460746";
 
-	const LyricsEmbed = new EmbedBuilder()
-		.setDescription("❌ | No Lyrics Found!\n- Query:" + `${query}`)
-		.setColor("Random")
-		.setThumbnail(queue?.currentTrack?.thumbnail || null);
 	const row = new ActionRowBuilder().addComponents(
 		new ButtonBuilder()
 			.setCustomId("B_Lyrics_input")
@@ -37,18 +33,23 @@ module.exports.execute = async (interaction, options) => {
 			.setLabel("Disable syncedLyrics")
 			.setEmoji("❌"),
 	);
+	//embed
+	const LyricsEmbed = new EmbedBuilder()
+		.setDescription("❌ | No Lyrics Found!\n- Query:" + `${query}`)
+		.setColor("Random")
+		.setThumbnail(queue?.currentTrack?.thumbnail || null);
 	const lyrics = await player.lyrics.search({ q: query });
 
-	// plainLyrics
-	if (options?.type !== "syncedLyrics") {
-		if (!lyrics.length) return interaction.followUp({ content: "", embeds: [LyricsEmbed], ephemeral: true });
+	const trimmedLyrics = lyrics?.at(0)?.plainLyrics.substring(0, 1997);
 
-		const trimmedLyrics = lyrics[0].plainLyrics.substring(0, 1997);
-
+	if (trimmedLyrics.length) {
 		LyricsEmbed.setTitle(`${lyrics[0]?.trackName} - ${lyrics[0]?.artistName}`).setDescription(
 			trimmedLyrics.length === 1997 ? `${trimmedLyrics}...` : trimmedLyrics,
 		);
+	}
 
+	// plainLyrics
+	if (options?.type !== "syncedLyrics") {
 		return interaction.editReply({ content: "", embeds: [LyricsEmbed] }).catch(async () => {
 			await interaction.followUp({ content: "", embeds: [LyricsEmbed] }).catch(() => {});
 		});
