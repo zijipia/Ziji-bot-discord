@@ -62,10 +62,9 @@ module.exports.execute = async (interaction, options) => {
 	// syncedLyrics
 	if (!queue) return;
 
-	if (!lyrics?.at(0)?.syncedLyrics) {
-		await queue.metadata.ZiLyrics?.mess.edit({ content: "", components: [row], embeds: [LyricsEmbed] }).catch(() => {});
-		return;
-	}
+	await queue.metadata.ZiLyrics?.mess.edit({ content: "", components: [row], embeds: [LyricsEmbed] }).catch(() => {});
+
+	if (!lyrics?.at(0)?.syncedLyrics) return;
 
 	const syncedLyrics = queue.syncedLyrics(lyrics.at(0));
 
