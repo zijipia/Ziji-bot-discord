@@ -17,8 +17,8 @@ module.exports.execute = async (interaction, options) => {
 
 	const query =
 		options?.query ||
-		queue.currentTrack.cleanTitle.replace(/lyrics|Full/g, "") ||
-		queue.currentTrack.title ||
+		queue?.currentTrack?.cleanTitle.replace(/lyrics|Full/g, "").replace("ft", "feat") ||
+		queue?.currentTrack?.title ||
 		"891275176409460746891275176409460746891275176409460746";
 
 	const row = new ActionRowBuilder().addComponents(
