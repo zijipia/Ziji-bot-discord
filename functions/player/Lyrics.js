@@ -68,9 +68,10 @@ module.exports.execute = async (interaction, options) => {
 
 	await queue.metadata.ZiLyrics?.mess.edit({ content: "", components: [row], embeds: [LyricsEmbed] }).catch(() => {});
 
-	if (!lyrics?.at(0)?.syncedLyrics) return;
+	let Synced_res = lyrics?.filter((l) => !!l.syncedLyrics);
+	if (!Synced_res.length) return;
 
-	const syncedLyrics = queue.syncedLyrics(lyrics.at(0));
+	const syncedLyrics = queue.syncedLyrics(Synced_res.at(0));
 
 	let current_Lyric = "",
 		previous_Lyric = "",
