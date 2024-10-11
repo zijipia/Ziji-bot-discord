@@ -15,11 +15,15 @@ const ZiIcons = require("../../utility/icon");
 module.exports.execute = async (interaction, options) => {
 	const queue = options?.queue || useQueue(interaction?.guild?.id);
 
-	const query =
+	const query = (
 		options?.query ||
-		queue?.currentTrack?.cleanTitle.replace(/lyrics|Full/g, "").replace("ft", "feat") ||
+		queue?.currentTrack?.cleanTitle ||
 		queue?.currentTrack?.title ||
-		"891275176409460746891275176409460746891275176409460746";
+		"891275176409460746891275176409460746891275176409460746"
+	)
+		.toLowerCase()
+		.replace(/lyrics|Full/g, "")
+		.replace("ft", "feat");
 
 	const row = new ActionRowBuilder().addComponents(
 		new ButtonBuilder()
