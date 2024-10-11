@@ -141,10 +141,13 @@ module.exports.execute = async ({ interaction, lang }) => {
 				await Lyrics.execute(null, { type: "syncedLyrics", queue });
 				return;
 			}
-
-			ZiLyrics.unsubscribe().catch(() => {});
 			ZiLyrics.mess.delete().catch(() => {});
 			ZiLyrics.Active = false;
+			try {
+				ZiLyrics.unsubscribe();
+			} catch (error) {
+				console.error("Error unsubscribing from lyrics:", error);
+			}
 			return;
 		}
 		case "Shuffle": {

@@ -32,6 +32,7 @@ module.exports.execute = async (interaction, options) => {
 			.setStyle(ButtonStyle.Secondary)
 			.setLabel("Disable syncedLyrics")
 			.setEmoji("❌"),
+		new ButtonBuilder().setURL("https://lrclib.net/").setStyle(ButtonStyle.Link).setLabel("lrclib"),
 	);
 	//embed
 	const LyricsEmbed = new EmbedBuilder()
@@ -40,12 +41,16 @@ module.exports.execute = async (interaction, options) => {
 		.setThumbnail(queue?.currentTrack?.thumbnail || null);
 	const lyrics = await player.lyrics.search({ q: query });
 
-	const trimmedLyrics = lyrics?.at(0)?.plainLyrics.substring(0, 1997);
+	try {
+		const trimmedLyrics = lyrics?.at(0)?.plainLyrics.substring(0, 1997);
 
-	if (trimmedLyrics.length) {
-		LyricsEmbed.setTitle(`${lyrics[0]?.trackName} - ${lyrics[0]?.artistName}`).setDescription(
-			trimmedLyrics.length === 1997 ? `${trimmedLyrics}...` : trimmedLyrics,
-		);
+		if (trimmedLyrics?.length) {
+			LyricsEmbed.setTitle(`${lyrics[0]?.trackName} - ${lyrics[0]?.artistName}`).setDescription(
+				trimmedLyrics.length === 1997 ? `${trimmedLyrics}...` : trimmedLyrics,
+			);
+		}
+	} catch {
+		console.warn("Error plainLyrics from lyrics:", error);
 	}
 
 	// plainLyrics
