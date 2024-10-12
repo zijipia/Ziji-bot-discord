@@ -1,6 +1,6 @@
 const fs = require("fs").promises;
 const path = require("node:path");
-const { Client, Collection, GatewayIntentBits, Partials } = require("discord.js");
+const { Client, Collection, GatewayIntentBits } = require("discord.js");
 require("dotenv").config();
 const { Player } = require("discord-player");
 const { YoutubeiExtractor } = require("discord-player-youtubei");

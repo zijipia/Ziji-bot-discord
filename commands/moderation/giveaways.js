@@ -13,6 +13,10 @@ module.exports.execute = async ({ interaction, lang }) => {
 		return interaction.reply({ content: lang.until.noPermission, ephemeral: true });
 	}
 
+	if (!interaction.client.giveaway) {
+		return interaction.reply({ content: ':x: | Giveaway Manager is not initialized! Please check your config.', ephemeral: true });
+	}
+
 	const commandtype = interaction.options?.getSubcommand();
 
 	switch (commandtype) {

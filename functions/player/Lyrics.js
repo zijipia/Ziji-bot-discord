@@ -22,7 +22,7 @@ module.exports.execute = async (interaction, options) => {
 		"891275176409460746891275176409460746891275176409460746"
 	)
 		.toLowerCase()
-		.replace(/lyrics|Full/g, "")
+		.replace(/lyrics|MV|Full/g, "")
 		.replace("ft", "feat");
 
 	const row = new ActionRowBuilder().addComponents(
