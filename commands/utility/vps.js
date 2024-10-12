@@ -25,7 +25,11 @@ module.exports.execute = async ({ interaction, lang }) => {
 	// Phiên bản discord.js
 	const discordJsVersion = `${version}`;
 	// Lấy GitHub Commit ID
-	const githubCommitId = execSync("git rev-parse --short HEAD").toString().trim().catch(() => {}) || 'N/A';
+	const githubCommitId =
+		execSync("git rev-parse --short HEAD")
+			.toString()
+			.trim()
+			.catch(() => {}) || "N/A";
 	// Tổng số guild mà bot tham gia
 	const guildCount = `${interaction.client.guilds.cache.size}`;
 	// RAM đang sử dụng

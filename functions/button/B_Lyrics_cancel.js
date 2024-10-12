@@ -33,7 +33,7 @@ module.exports.execute = async ({ interaction, lang }) => {
 
 	const ZiLyrics = queue.metadata.ZiLyrics;
 	ZiLyrics?.unsubscribe();
-	ZiLyrics.mess.edit({ content: ':x: | syncedLyrics is disabled!', component: [] }).catch(() => {});
+	ZiLyrics.mess.edit({ content: ":x: | syncedLyrics is disabled!", component: [] }).catch(() => {});
 	ZiLyrics.Active = false;
 	return;
 };

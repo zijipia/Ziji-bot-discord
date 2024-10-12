@@ -1,1 +1,4 @@
+commands/moderation/giveaways.js
+commands/utility/vps.js
 formatted_files.txt
+functions/button/B_Lyrics_cancel.js
