@@ -1,3 +1,8 @@
+# @format
+
+# This workflow will do a clean installation of node dependencies, cache/restore them, build the source code and run tests across different versions of node
+# For more information see: https://docs.github.com/en/actions/automating-builds-and-tests/building-and-testing-nodejs
+
 name: Node.js CI
 
 on:
@@ -12,6 +17,10 @@ jobs:
 
     steps:
       - uses: actions/checkout@v4
+        with:
+          token: ${{ secrets.ACTION_TOKEN }}
+          fetch-depth: 0
+
       - name: Use Node.js
         uses: actions/setup-node@v4
         with:
@@ -33,7 +42,9 @@ jobs:
         id: get-changes
         run: |
           git diff --name-only > formatted_files.txt
-          git diff > format_diff.txt
+          echo "CHANGES<<EOF" >> $GITHUB_OUTPUT
+          git diff >> $GITHUB_OUTPUT
+          echo "EOF" >> $GITHUB_OUTPUT
 
       - name: Run format and save changes
         run: |
