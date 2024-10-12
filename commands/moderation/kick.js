@@ -41,9 +41,17 @@ module.exports.execute = async ({ interaction, lang }) => {
 		return interaction.reply({ content: lang.until.NOPermission, ephemeral: true });
 	}
 
+	if (user.id === interaction.user.id) {
+		return interaction.reply({ content: "Bạn không thể tự kick chính mình.", ephemeral: true });
+	}
+
 	const member = interaction.guild.members.cache.get(user.id);
 	if (!member) {
 		return interaction.reply({ content: "Không tìm thấy người dùng.", ephemeral: true });
+	}
+
+	if (member.roles.highest.position >= interaction.member.roles.highest.position) {
+		return interaction.reply({ content: lang.until.NOPermission, ephemeral: true });
 	}
 
 	try {

@@ -40,10 +40,17 @@ module.exports.execute = async ({ interaction, lang }) => {
 	const durationInput = interaction.options.getString("duration");
 	const reason = interaction.options.getString("reason") || "Không có lý do";
 
-	if (!interaction.member.permissions.has(PermissionsBitField.Flags.ModerateMembers) && user.id !== interaction.client.user.id) {
+	// Không cho phép người dùng tự cấm chính mình
+	if (user.id === interaction.user.id) {
+		return interaction.reply({ content: "Bạn không thể tự cấm chính mình.", ephemeral: true });
+	}
+
+	// Kiểm tra nếu người dùng có quyền ModerateMembers
+	if (!interaction.member.permissions.has(PermissionsBitField.Flags.ModerateMembers)) {
 		return interaction.reply({ content: lang.until.noPermission, ephemeral: true });
 	}
 
+	// Kiểm tra bot có quyền ModerateMembers không
 	if (!interaction.guild.members.me.permissions.has(PermissionsBitField.Flags.ModerateMembers)) {
 		return interaction.reply({ content: lang.until.NOPermission, ephemeral: true });
 	}
@@ -51,6 +58,11 @@ module.exports.execute = async ({ interaction, lang }) => {
 	const member = interaction.guild.members.cache.get(user.id);
 	if (!member) {
 		return interaction.reply({ content: "Không tìm thấy người dùng.", ephemeral: true });
+	}
+
+	// Kiểm tra nếu người gửi có quyền cao hơn người bị cấm
+	if (member.roles.highest.position >= interaction.member.roles.highest.position) {
+		return interaction.reply({ content: lang.until.NOPermission, ephemeral: true });
 	}
 
 	const durationRegex = /^(\d+)([hmsd])$/;
