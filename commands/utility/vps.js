@@ -27,9 +27,7 @@ module.exports.execute = async ({ interaction, lang }) => {
 	// Lấy GitHub Commit ID
 	let githubCommitId = "N/A";
 	try {
-		githubCommitId = execSync("git rev-parse --short HEAD")
-			.toString()
-			.trim();
+		githubCommitId = execSync("git rev-parse --short HEAD").toString().trim();
 	} catch (error) {
 		console.error("Không thể lấy GitHub Commit ID:", error);
 	}
