@@ -1,2 +1,1 @@
-commands/utility/vps.js
 formatted_files.txt
