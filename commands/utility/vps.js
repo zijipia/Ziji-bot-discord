@@ -25,11 +25,14 @@ module.exports.execute = async ({ interaction, lang }) => {
 	// Phiên bản discord.js
 	const discordJsVersion = `${version}`;
 	// Lấy GitHub Commit ID
-	const githubCommitId =
-		execSync("git rev-parse --short HEAD")
+	let githubCommitId = "N/A";
+	try {
+		githubCommitId = execSync("git rev-parse --short HEAD")
 			.toString()
-			.trim()
-			.catch(() => {}) || "N/A";
+			.trim();
+	} catch (error) {
+		console.error("Không thể lấy GitHub Commit ID:", error);
+	}
 	// Tổng số guild mà bot tham gia
 	const guildCount = `${interaction.client.guilds.cache.size}`;
 	// RAM đang sử dụng
@@ -38,7 +41,7 @@ module.exports.execute = async ({ interaction, lang }) => {
 	// Tạo embed để hiển thị thông tin
 	const embed = new EmbedBuilder()
 		.setColor("#ffcc99")
-		.setTitle("Thông tin thống kê của bot")
+		.setTitle(lang?.BotStats?.Description)
 		.addFields(
 			{ name: lang?.BotStats?.OS, value: osInfo, inline: true },
 			{ name: lang?.BotStats?.djsVersion, value: discordJsVersion, inline: true },
