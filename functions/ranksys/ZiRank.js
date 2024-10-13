@@ -1,4 +1,3 @@
-const { Client, User } = require("discord.js");
 const config = require("../../config");
 
 module.exports.data = {
@@ -7,8 +6,8 @@ module.exports.data = {
 };
 
 /**
- * @param { Client } interaction
- * @param { User } user
+ * @param { import ("discord.js").Client } interaction
+ * @param { import ("discord.js").User } user
  */
 
 module.exports.execute = async (client, user, xpAdd = 1) => {

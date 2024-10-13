@@ -39,12 +39,14 @@ const player = new Player(client, {
 });
 
 player.setMaxListeners(100);
-// player.extractors.register(YoutubeiExtractor, {
-// 	authentication: process.env?.YoutubeAUH || "",
-// 	streamOptions: {
-// 		useClient: "IOS",
-// 	},
-// });
+if (config.DevConfig.YoutubeiExtractor)
+	player.extractors.register(YoutubeiExtractor, {
+		authentication: process.env?.YoutubeAUH || "",
+		streamOptions: {
+			useClient: "IOS",
+		},
+	});
+
 if (config.DevConfig.ZiExtractor) player.extractors.register(ZiExtractor, {});
 player.extractors.loadDefault((ext) => !["YouTubeExtractor"].includes(ext));
 
@@ -55,6 +57,7 @@ if (config.DevConfig.DP_DEBUG) {
 	console.log(player.scanDeps());
 	player.on("debug", console.log);
 }
+
 useGiveaways(
 	config.DevConfig.Giveaway ?
 		new GiveawaysManager(client, {

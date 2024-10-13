@@ -1,13 +1,4 @@
-const {
-	StringSelectMenuInteraction,
-	ModalBuilder,
-	TextInputBuilder,
-	TextInputStyle,
-	EmbedBuilder,
-	ActionRowBuilder,
-	StringSelectMenuBuilder,
-	Routes,
-} = require("discord.js");
+const { EmbedBuilder, Routes } = require("discord.js");
 const ZiIcons = require("../../utility/icon.js");
 const config = require("../../config.js");
 
@@ -18,13 +9,12 @@ module.exports.data = {
 
 /**
  * @param { object } selectmenu - object selectmenu
- * @param { StringSelectMenuInteraction } selectmenu.interaction - selectmenu interaction
+ * @param { import ("discord.js").StringSelectMenuInteraction } selectmenu.interaction - selectmenu interaction
  * @param { import('../../lang/vi.js') } selectmenu.lang - language
  */
 
 module.exports.execute = async ({ interaction, lang }) => {
-	const { guild, client, user, values } = interaction;
-	const selection = values[0];
+	const selection = interaction.values?.at(0);
 	const embed = new EmbedBuilder()
 		.setAuthor({
 			name: `${interaction.client.user.username} Help:`,

@@ -28,7 +28,7 @@ module.exports.data = {
  */
 
 module.exports.execute = async ({ interaction, lang }) => {
-	const { client, guild } = interaction;
+	const { client } = interaction;
 	await interaction.deferReply();
 	const langcode = interaction.options.getString("lang");
 	if (!client?.db)

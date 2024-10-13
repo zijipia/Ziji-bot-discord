@@ -1,4 +1,3 @@
-const { StringSelectMenuInteraction } = require("discord.js");
 const { useFunctions } = require("@zibot/zihooks");
 
 module.exports.data = {
@@ -8,7 +7,7 @@ module.exports.data = {
 
 /**
  * @param { object } selectmenu - object selectmenu
- * @param { StringSelectMenuInteraction } selectmenu.interaction - selectmenu interaction
+ * @param { import ("discord.js").StringSelectMenuInteraction } selectmenu.interaction - selectmenu interaction
  * @param { import('../../lang/vi.js') } selectmenu.lang - language
  */
 

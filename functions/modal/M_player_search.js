@@ -7,7 +7,7 @@ module.exports.data = {
 
 /**
  * @param { object } modal - object modal
- * @param {  import ("discord.js").ModalSubmitInteraction } modal.interaction - modal interaction
+ * @param { import ("discord.js").ModalSubmitInteraction } modal.interaction - modal interaction
  * @param { import('../../lang/vi.js') } modal.lang - language
  */
 

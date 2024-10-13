@@ -2,7 +2,7 @@ const { useQueue } = require("discord-player");
 const { useFunctions } = require("@zibot/zihooks");
 const Functions = useFunctions();
 const config = require("../../config.js");
-const { StringSelectMenuInteraction, ModalBuilder, TextInputBuilder, TextInputStyle, ActionRowBuilder } = require("discord.js");
+const { ModalBuilder, TextInputBuilder, TextInputStyle, ActionRowBuilder } = require("discord.js");
 
 module.exports.data = {
 	name: "S_player_Func",
@@ -17,7 +17,7 @@ async function Update_Player(client, queue) {
 
 /**
  * @param { object } selectmenu - object selectmenu
- * @param { StringSelectMenuInteraction } selectmenu.interaction - selectmenu interaction
+ * @param { import ("discord.js").StringSelectMenuInteraction } selectmenu.interaction - selectmenu interaction
  * @param { import('../../lang/vi.js') } selectmenu.lang - language
  */
 
