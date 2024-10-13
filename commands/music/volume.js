@@ -1,4 +1,5 @@
 const { useQueue } = require("discord-player");
+const { useFunctions } = require("@zibot/zihooks");
 const { CommandInteraction } = require("discord.js");
 
 module.exports.data = {
@@ -36,7 +37,7 @@ module.exports.execute = async ({ interaction, lang }) => {
 	if (client.db) {
 		await client.db.ZiUser.updateOne({ userID: user.id }, { $set: { volume: volume }, $upsert: true });
 	}
-	const player = client.functions.get("player_func");
+	const player = useFunctions().get("player_func");
 	if (!player) return;
 	const res = await player.execute(client, queue);
 	return queue.metadata.mess.edit(res);

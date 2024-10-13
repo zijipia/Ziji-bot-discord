@@ -1,4 +1,5 @@
 const { useMainPlayer, useQueue } = require("discord-player");
+const { useFunctions } = require("@zibot/zihooks");
 const { CommandInteraction, AutocompleteInteraction } = require("discord.js");
 const player = useMainPlayer();
 
@@ -63,7 +64,7 @@ module.exports.data = {
 module.exports.execute = async ({ interaction, lang }) => {
 	const commandtype = interaction.options?.getSubcommand();
 	const query = interaction.options?.getString("query");
-	const command = interaction.client.functions.get("Search");
+	const command = useFunctions().get("Search");
 	if (commandtype === "next") {
 		const queue = useQueue(interaction.guild.id);
 
