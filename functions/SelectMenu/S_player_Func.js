@@ -1,4 +1,6 @@
 const { useQueue } = require("discord-player");
+const { useFunctions } = require("@zibot/zihooks");
+const Functions = useFunctions();
 const config = require("../../config.js");
 const { StringSelectMenuInteraction, ModalBuilder, TextInputBuilder, TextInputStyle, ActionRowBuilder } = require("discord.js");
 
@@ -7,7 +9,7 @@ module.exports.data = {
 	type: "SelectMenu",
 };
 async function Update_Player(client, queue) {
-	const player = client.functions.get("player_func");
+	const player = Functions.get("player_func");
 	if (!player) return;
 	const res = await player.execute(client, queue);
 	queue.metadata.mess.edit(res);
@@ -41,13 +43,13 @@ module.exports.execute = async ({ interaction, lang }) => {
 			return;
 		}
 		case "Queue": {
-			const QueueTrack = client.functions.get("Queue");
+			const QueueTrack = Functions.get("Queue");
 			QueueTrack.execute(interaction, queue);
 			return;
 		}
 		case "Fillter": {
 			await interaction.deferReply();
-			const Fillter = client.functions.get("Fillter");
+			const Fillter = Functions.get("Fillter");
 			await Fillter.execute(interaction, null);
 			return;
 		}
@@ -136,7 +138,7 @@ module.exports.execute = async ({ interaction, lang }) => {
 					content: "<a:loading:1151184304676819085> Loading...",
 				});
 				ZiLyrics.channel = interaction.channel;
-				const Lyrics = client.functions.get("Lyrics");
+				const Lyrics = Functions.get("Lyrics");
 				if (!Lyrics) return;
 				await Lyrics.execute(null, { type: "syncedLyrics", queue });
 				return;

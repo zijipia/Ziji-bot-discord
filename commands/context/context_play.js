@@ -1,4 +1,5 @@
 const { MessageContextMenuCommandInteraction } = require("discord.js");
+const { useFunctions } = require("@zibot/zihooks");
 
 module.exports.data = {
 	name: "Play / Add music",
@@ -22,6 +23,6 @@ module.exports.execute = async ({ interaction, lang }) => {
 			query = embed?.author?.url ?? embed?.description;
 		}
 	}
-	const command = interaction.client.functions.get("Search");
+	const command = useFunctions().get("Search");
 	await command.execute(interaction, query, lang);
 };

@@ -1,6 +1,5 @@
-const { useMainPlayer, useQueue } = require("discord-player");
-const { ButtonInteraction } = require("discord.js");
-const player = useMainPlayer();
+const { useQueue } = require("discord-player");
+
 module.exports.data = {
 	name: "B_player_stop",
 	type: "button",
@@ -8,7 +7,7 @@ module.exports.data = {
 
 /**
  * @param { object } button - object button
- * @param { ButtonInteraction } button.interaction - button interaction
+ * @param { import ("discord.js").ButtonInteraction } button.interaction - button interaction
  * @param { import('../../lang/vi.js') } button.lang - language
  * @returns
  */

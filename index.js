@@ -4,7 +4,8 @@ const { Client, Collection, GatewayIntentBits } = require("discord.js");
 require("dotenv").config();
 const { Player } = require("discord-player");
 const { YoutubeiExtractor } = require("discord-player-youtubei");
-const { ZiExtractor, useZiVoiceExtractor } = require("ziextractor");
+const { ZiExtractor, useZiVoiceExtractor } = require("@zibot/ziextractor");
+const { useClient, useCooldowns, useCommands, useFunctions } = require("@zibot/zihooks");
 const chalk = require("chalk");
 const { table } = require("table");
 const config = require("./config");
@@ -37,12 +38,12 @@ const player = new Player(client, {
 });
 
 player.setMaxListeners(100);
-player.extractors.register(YoutubeiExtractor, {
-	authentication: process.env?.YoutubeAUH || "",
-	streamOptions: {
-		useClient: "IOS",
-	},
-});
+// player.extractors.register(YoutubeiExtractor, {
+// 	authentication: process.env?.YoutubeAUH || "",
+// 	streamOptions: {
+// 		useClient: "IOS",
+// 	},
+// });
 if (config.DevConfig.ZiExtractor) player.extractors.register(ZiExtractor, {});
 player.extractors.loadDefault((ext) => !["YouTubeExtractor"].includes(ext));
 
@@ -72,10 +73,6 @@ const ziVoice = useZiVoiceExtractor({
 	minimalVoiceMessageDuration: 1,
 	lang: "vi-VN",
 });
-
-client.commands = new Collection();
-client.functions = new Collection();
-client.cooldowns = new Collection();
 
 const loadFiles = async (directory, collection) => {
 	try {
@@ -172,9 +169,14 @@ const loadEvents = async (directory, target) => {
 };
 
 const initialize = async () => {
+	useClient(client);
+	useCooldowns(new Collection());
+	const functions = useFunctions(new Collection());
+	const commands = useCommands(new Collection());
+
 	await Promise.all([
-		loadFiles(path.join(__dirname, "commands"), client.commands),
-		loadFiles(path.join(__dirname, "functions"), client.functions),
+		loadFiles(path.join(__dirname, "commands"), commands),
+		loadFiles(path.join(__dirname, "functions"), functions),
 		loadEvents(path.join(__dirname, "events"), client),
 		loadEvents(path.join(__dirname, "discord-player"), player.events),
 		loadEvents(path.join(__dirname, "voiceExtractor"), ziVoice),

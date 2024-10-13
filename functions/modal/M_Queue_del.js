@@ -1,5 +1,5 @@
 const { useQueue } = require("discord-player");
-const { ModalSubmitInteraction, EmbedBuilder, ActionRowBuilder, ButtonBuilder, ButtonStyle } = require("discord.js");
+const { EmbedBuilder, ActionRowBuilder, ButtonBuilder, ButtonStyle } = require("discord.js");
 
 function isNumber(str) {
 	return /^[0-9]+$/.test(str);
@@ -21,7 +21,7 @@ module.exports.data = {
 
 /**
  * @param { object } modal - object modal
- * @param { ModalSubmitInteraction } modal.interaction - modal interaction
+ * @param {  import ("discord.js").ModalSubmitInteraction } modal.interaction - modal interaction
  * @param { import('../../lang/vi.js') } modal.lang - language
  */
 

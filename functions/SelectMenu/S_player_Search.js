@@ -1,4 +1,5 @@
 const { StringSelectMenuInteraction } = require("discord.js");
+const { useFunctions } = require("@zibot/zihooks");
 
 module.exports.data = {
 	name: "S_player_Search",
@@ -14,7 +15,7 @@ module.exports.data = {
 module.exports.execute = async ({ interaction, lang }) => {
 	const query = interaction.values?.at(0);
 	if (query === "cancel") return interaction.message.delete().catch((e) => {});
-	const command = interaction.client.functions.get("Search");
+	const command = useFunctions().get("Search");
 	await command.execute(interaction, query, lang);
 	return;
 };
