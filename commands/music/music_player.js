@@ -18,9 +18,8 @@ module.exports.data = {
  */
 
 module.exports.execute = async ({ interaction, lang }) => {
-	const { client, guild } = interaction;
 	await interaction.deferReply({ fetchReply: true });
-	const queue = useQueue(guild.id);
+	const queue = useQueue(interaction.guild.id);
 	if (!queue) return interaction.editReply({ content: lang.music.NoPlaying }).catch((e) => {});
 	queue.metadata.mess.edit({ components: [] }).catch((e) => {});
 
@@ -28,6 +27,6 @@ module.exports.execute = async ({ interaction, lang }) => {
 
 	const player = useFunctions().get("player_func");
 	if (!player) return;
-	const res = await player.execute(client, queue);
+	const res = await player.execute({ queue });
 	await interaction.editReply(res);
 };

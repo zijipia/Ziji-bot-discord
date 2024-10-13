@@ -1,4 +1,5 @@
 const config = require("../../config");
+const { useClient } = require("@zibot/zihooks");
 
 module.exports.data = {
 	name: "ZiRank",
@@ -6,17 +7,18 @@ module.exports.data = {
 };
 
 /**
- * @param { import ("discord.js").Client } interaction
  * @param { import ("discord.js").User } user
+ * @param { Number } XpADD
  */
 
-module.exports.execute = async (client, user, xpAdd = 1) => {
-	if (client?.db && user) {
+module.exports.execute = async ({ client, user, XpADD = 1 }) => {
+	const clients = client || useClient();
+	if (clients?.db && user) {
 		// Destructure userDB to extract values with default assignments
-		const { xp = 1, level = 1, coin = 1, lang } = (await client.db.ZiUser.findOne({ userID: user.id })) || {};
+		const { xp = 1, level = 1, coin = 1, lang } = (await clients.db.ZiUser.findOne({ userID: user.id })) || {};
 
 		// Calculate new xp
-		let newXp = xp + xpAdd;
+		let newXp = xp + XpADD;
 		let newLevel = level;
 		let newCoin = coin;
 
@@ -29,7 +31,7 @@ module.exports.execute = async (client, user, xpAdd = 1) => {
 		}
 
 		// Update the user in the database
-		await client.db.ZiUser.updateOne(
+		await clients.db.ZiUser.updateOne(
 			{ userID: user.id },
 			{
 				$set: {

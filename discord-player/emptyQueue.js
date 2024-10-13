@@ -10,7 +10,7 @@ module.exports = {
 	execute: async (queue) => {
 		const player = useFunctions().get("player_func");
 		if (!player) return;
-		const res = await player.execute(players.client, queue);
+		const res = await player.execute({ queue });
 		if (queue.metadata.mess) return queue.metadata.mess.edit(res);
 	},
 };

@@ -76,11 +76,11 @@ module.exports = {
 	 * @returns
 	 */
 
-	execute: async (client, queue, tracks) => {
+	execute: async ({ queue, tracks }) => {
 		const track = tracks ?? queue?.currentTrack ?? queue?.history?.previousTrack;
 		const requestedBy = track?.requestedBy ?? queue.metadata.requestedBy;
 		const langfunc = useFunctions().get("ZiRank");
-		const lang = await langfunc.execute(client, requestedBy, 0);
+		const lang = await langfunc.execute({ user: requestedBy, XpADD: 0 });
 		const queryTypeIcon = getQueryTypeIcon(track?.queryType, track?.raw);
 		const timestamps = queue?.node.getTimestamp();
 		const trackDurationSymbol = timestamps?.progress === "Infinity" ? "" : "%";

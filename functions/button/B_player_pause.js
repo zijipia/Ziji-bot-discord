@@ -33,6 +33,6 @@ module.exports.execute = async ({ interaction, lang }) => {
 	const player = useFunctions().get("player_func");
 
 	if (!player) return;
-	const res = await player.execute(interaction.client, queue);
+	const res = await player.execute({ queue });
 	queue.metadata.mess.edit(res);
 };

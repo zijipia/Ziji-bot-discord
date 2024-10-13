@@ -8,10 +8,10 @@ module.exports.data = {
 	name: "S_player_Func",
 	type: "SelectMenu",
 };
-async function Update_Player(client, queue) {
+async function Update_Player(queue) {
 	const player = Functions.get("player_func");
 	if (!player) return;
-	const res = await player.execute(client, queue);
+	const res = await player.execute({ queue });
 	queue.metadata.mess.edit(res);
 }
 
@@ -75,7 +75,7 @@ module.exports.execute = async ({ interaction, lang }) => {
 				});
 			}
 			queue.metadata.LockStatus = !queue.metadata.LockStatus;
-			await Update_Player(client, queue);
+			await Update_Player(queue);
 			return;
 		}
 		case "Loop": {
@@ -86,18 +86,18 @@ module.exports.execute = async ({ interaction, lang }) => {
 				: 0;
 			queue.setRepeatMode(repeatMode);
 
-			await Update_Player(client, queue);
+			await Update_Player(queue);
 			return;
 		}
 		case "AutoPlay": {
 			queue.setRepeatMode(queue.repeatMode === 3 ? 0 : 3);
 
-			await Update_Player(client, queue);
+			await Update_Player(queue);
 			return;
 		}
 		case "Mute": {
 			queue.node.setVolume(0);
-			await Update_Player(client, queue);
+			await Update_Player(queue);
 			return;
 		}
 		case "unmute": {
@@ -107,7 +107,7 @@ module.exports.execute = async ({ interaction, lang }) => {
 			}
 			const Vol = Math.min(volumd + 10, 100);
 			queue.node.setVolume(Vol);
-			await Update_Player(client, queue);
+			await Update_Player(queue);
 			return;
 		}
 		case "volinc": {
@@ -117,7 +117,7 @@ module.exports.execute = async ({ interaction, lang }) => {
 				await client.db.ZiUser.updateOne({ userID: user.id }, { $set: { volume: Vol }, $upsert: true });
 			}
 			queue.node.setVolume(Vol);
-			await Update_Player(client, queue);
+			await Update_Player(queue);
 			return;
 		}
 		case "voldec": {
@@ -127,7 +127,7 @@ module.exports.execute = async ({ interaction, lang }) => {
 				await client.db.ZiUser.updateOne({ userID: user.id }, { $set: { volume: Vol }, $upsert: true });
 			}
 			queue.node.setVolume(Vol);
-			await Update_Player(client, queue);
+			await Update_Player(queue);
 			return;
 		}
 		case "Lyrics": {
@@ -154,7 +154,7 @@ module.exports.execute = async ({ interaction, lang }) => {
 		}
 		case "Shuffle": {
 			queue.tracks.shuffle();
-			await Update_Player(client, queue);
+			await Update_Player(queue);
 			return;
 		}
 	}

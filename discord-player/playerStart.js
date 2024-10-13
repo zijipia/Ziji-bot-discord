@@ -23,7 +23,7 @@ module.exports = {
 		const player_func = Functions.get("player_func");
 		if (!player_func) return;
 
-		const playerGui = await player_func.execute(client, queue, track);
+		const playerGui = await player_func.execute({ queue, track });
 
 		// send messenger
 		if (!queue.metadata.mess) {

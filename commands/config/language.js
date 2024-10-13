@@ -45,6 +45,6 @@ module.exports.execute = async ({ interaction, lang }) => {
 		{ upsert: true },
 	);
 	const langfunc = useFunctions().get("ZiRank");
-	const lang2 = await langfunc.execute(client, interaction.user, 0);
+	const lang2 = await langfunc.execute({ client, user: interaction.user, XpADD: 0 });
 	interaction.editReply({ content: `${lang2.until.langChange} ${lang2.until.name}` });
 };
