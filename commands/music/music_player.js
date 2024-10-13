@@ -1,7 +1,7 @@
 const { useMainPlayer, useQueue } = require("discord-player");
 const { CommandInteraction } = require("discord.js");
 const player = useMainPlayer();
-
+const { useFunctions } = require("@zibot/zihooks");
 module.exports.data = {
 	name: "player",
 	description: "Gọi Player",
@@ -26,7 +26,7 @@ module.exports.execute = async ({ interaction, lang }) => {
 
 	queue.metadata.mess = await interaction.fetchReply();
 
-	const player = client.functions.get("player_func");
+	const player = useFunctions().get("player_func");
 	if (!player) return;
 	const res = await player.execute(client, queue);
 	await interaction.editReply(res);

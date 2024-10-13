@@ -1,5 +1,5 @@
 const { useMainPlayer, useQueue } = require("discord-player");
-const { ButtonInteraction } = require("discord.js");
+const { useFunctions } = require("@zibot/zihooks");
 const player = useMainPlayer();
 
 module.exports.data = {
@@ -9,7 +9,7 @@ module.exports.data = {
 
 /**
  * @param { object } button - object button
- * @param { ButtonInteraction } button.interaction - button interaction
+ * @param { import ("discord.js").ButtonInteraction } button.interaction - button interaction
  * @param { import('../../lang/vi.js') } button.lang - language
  * @returns
  */
@@ -23,7 +23,7 @@ module.exports.execute = async ({ interaction, lang }) => {
 
 	if (!tracks?.at(0)?.url.length) return;
 
-	const command = interaction.client.functions.get("Search");
+	const command = useFunctions().get("Search");
 	await command.execute(interaction, tracks?.at(0)?.url, lang);
 };
 

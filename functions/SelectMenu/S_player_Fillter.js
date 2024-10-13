@@ -1,4 +1,6 @@
 const { useQueue } = require("discord-player");
+const { useFunctions } = require("@zibot/zihooks");
+const Functions = useFunctions();
 const { StringSelectMenuInteraction, ModalBuilder, TextInputBuilder, TextInputStyle } = require("discord.js");
 
 module.exports.data = {
@@ -19,8 +21,8 @@ module.exports.execute = async ({ interaction, lang }) => {
 		return interaction.reply({ content: "You cannot interact with this menu.", ephemeral: true });
 	}
 	const fillter = values?.at(0);
-	const Fillter = client.functions.get("Fillter");
-	const player = client.functions.get("player_func");
+	const Fillter = Functions.get("Fillter");
+	const player = Functions.get("player_func");
 	await interaction?.deferUpdate().catch((e) => {});
 	await Fillter.execute(interaction, fillter);
 	queue.metadata.mess.edit(await player.execute(client, queue));

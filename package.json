@@ -17,7 +17,8 @@
 	},
 	"keywords": [
 		"ziji",
-		"ziji-bot-discord"
+		"ziji-bot-discord",
+		"zibot"
 	],
 	"author": "Ziji",
 	"license": "ISC",
@@ -28,6 +29,8 @@
 	"dependencies": {
 		"@discord-player/extractor": "^4.5.0",
 		"@iamtraction/google-translate": "^2.0.1",
+		"@zibot/ziextractor": "^2.1.5",
+		"@zibot/zihooks": "^1.0.0",
 		"axios": "^1.7.7",
 		"canvacord": "^6.0.2",
 		"chalk": "^4.1.2",
