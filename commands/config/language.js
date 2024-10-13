@@ -1,4 +1,5 @@
 const { CommandInteraction } = require("discord.js");
+const { useFunctions } = require("@zibot/zihooks");
 
 module.exports.data = {
 	name: "language",
@@ -43,7 +44,7 @@ module.exports.execute = async ({ interaction, lang }) => {
 		},
 		{ upsert: true },
 	);
-	const langfunc = client.functions.get("ZiRank");
+	const langfunc = useFunctions().get("ZiRank");
 	const lang2 = await langfunc.execute(client, interaction.user, 0);
 	interaction.editReply({ content: `${lang2.until.langChange} ${lang2.until.name}` });
 };

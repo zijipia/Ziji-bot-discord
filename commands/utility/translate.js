@@ -43,7 +43,7 @@ module.exports.data = {
 
 module.exports.execute = async ({ interaction, lang }) => {
 	await interaction.deferReply();
-	const { options, client, user } = interaction;
+	const { options, user } = interaction;
 	const text = options.getString("text", true);
 	const langTo = options.getString("lang", false) || lang?.name || "en";
 	const translated = await translate(text, { from: "auto", to: langTo });
