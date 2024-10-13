@@ -1,14 +1,15 @@
-const fs = require("fs").promises;
-const path = require("node:path");
-const { Client, Collection, GatewayIntentBits } = require("discord.js");
 require("dotenv").config();
-const { Player } = require("discord-player");
-const { YoutubeiExtractor } = require("discord-player-youtubei");
-const { ZiExtractor, useZiVoiceExtractor } = require("@zibot/ziextractor");
-const { useClient, useCooldowns, useCommands, useFunctions } = require("@zibot/zihooks");
 const chalk = require("chalk");
-const { table } = require("table");
+const path = require("node:path");
 const config = require("./config");
+const { table } = require("table");
+const fs = require("fs").promises;
+const { Player } = require("discord-player");
+const { GiveawaysManager } = require("discord-giveaways");
+const { YoutubeiExtractor } = require("discord-player-youtubei");
+const { Client, Collection, GatewayIntentBits } = require("discord.js");
+const { ZiExtractor, useZiVoiceExtractor } = require("@zibot/ziextractor");
+const { useClient, useCooldowns, useCommands, useFunctions, useGiveaways } = require("@zibot/zihooks");
 
 const client = new Client({
 	intents: [
@@ -54,19 +55,19 @@ if (config.DevConfig.DP_DEBUG) {
 	console.log(player.scanDeps());
 	player.on("debug", console.log);
 }
-if (config.DevConfig.Giveaway) {
-	const { GiveawaysManager } = require("discord-giveaways");
-
-	client.giveaway = new GiveawaysManager(client, {
-		storage: "./discord-giveaways/giveaways.json",
-		default: {
-			botsCanWin: false,
-			embedColor: "Random",
-			embedColorEnd: "#000000",
-			reaction: "🎉",
-		},
-	});
-}
+useGiveaways(
+	config.DevConfig.Giveaway ?
+		new GiveawaysManager(client, {
+			storage: "./discord-giveaways/giveaways.json",
+			default: {
+				botsCanWin: false,
+				embedColor: "Random",
+				embedColorEnd: "#000000",
+				reaction: "🎉",
+			},
+		})
+	:	() => false,
+);
 
 const ziVoice = useZiVoiceExtractor({
 	ignoreBots: true,
