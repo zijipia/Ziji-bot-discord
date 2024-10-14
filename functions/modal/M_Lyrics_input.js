@@ -1,4 +1,5 @@
 const { useFunctions } = require("@zibot/zihooks");
+const { useQueue } = require("discord-player");
 
 module.exports.data = {
 	name: "M_Lyrics_input",
@@ -12,11 +13,24 @@ module.exports.data = {
  */
 
 module.exports.execute = async ({ interaction, lang }) => {
-	const { guild, client, fields } = interaction;
+	const { fields } = interaction;
 	const query = fields.getTextInputValue("search-input");
 	await interaction.deferUpdate();
 	const Lyrics = useFunctions().get("Lyrics");
 	if (!Lyrics) return;
+
+	const queue = useQueue(interaction.guild.id);
+	if (!queue) {
+		await Lyrics.execute(interaction, { type: "plainLyrics", query });
+		return;
+	}
+	//unsubscribe old lyrics
+	try {
+		queue.metadata.ZiLyrics?.unsubscribe();
+	} catch (error) {
+		console.error("Error unsubscribing from lyrics:", error);
+	}
+
 	await Lyrics.execute(interaction, { type: "syncedLyrics", query });
 	return;
 };

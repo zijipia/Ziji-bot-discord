@@ -31,8 +31,12 @@ module.exports.execute = async ({ interaction, lang }) => {
 		return interaction.followUp({ content: lang.music.NOvoiceMe, ephemeral: true });
 
 	const ZiLyrics = queue.metadata.ZiLyrics;
-	ZiLyrics?.unsubscribe();
-	ZiLyrics.mess.edit({ content: ":x: | syncedLyrics is disabled!", components: [] }).catch(() => {});
+	try {
+		ZiLyrics?.unsubscribe();
+	} catch (error) {
+		console.error("Error unsubscribing from lyrics:", error);
+	}
+	ZiLyrics.mess.delete().catch(() => {});
 	ZiLyrics.Active = false;
 	return;
 };
