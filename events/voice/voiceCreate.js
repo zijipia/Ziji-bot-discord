@@ -2,7 +2,6 @@ const { useMainPlayer, useQueue } = require("discord-player");
 const { useFunctions } = require("@zibot/zihooks");
 const Functions = useFunctions();
 
-const { EmbedBuilder } = require("discord.js");
 async function Update_Player(queue) {
 	const player = Functions.get("player_func");
 	if (!player) return;

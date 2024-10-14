@@ -1,6 +1,7 @@
 const { GuildQueueEvent } = require("discord-player");
 const { useZiVoiceExtractor } = require("@zibot/ziextractor");
-const config = require("../config");
+const config = require("../../config");
+
 module.exports = {
 	name: GuildQueueEvent.connection,
 	type: "Player",

@@ -1,6 +1,6 @@
 const { Events, Client, ActivityType } = require("discord.js");
-const config = require("../config");
-const deploy = require("../deploy");
+const config = require("../../config");
+const deploy = require("../../startup/deploy");
 const mongoose = require("mongoose");
 const { useDB } = require("@zibot/zihooks");
 
@@ -9,10 +9,12 @@ module.exports = {
 	type: "events",
 	once: true,
 	/**
-	 *
 	 * @param { Client } client
 	 */
 	execute: async (client) => {
+		/**
+		 * @param { String } messenger
+		 */
 		client.errorLog = async (messenger) => {
 			if (!config?.botConfig?.ErrorLog) return;
 			try {
@@ -27,23 +29,28 @@ module.exports = {
 				console.error("Lỗi khi gửi tin nhắn lỗi:", error);
 			}
 		};
+
+		// Deploy Commands
 		if (config?.deploy) {
 			await deploy(client);
 		}
+
+		// Connect MongoDB
 		if (process.env.MONGO) {
 			await mongoose
 				.connect(process.env.MONGO)
 				.then(() => {
 					console.log("Connected to MongoDB!");
 					client.errorLog(`Connected to MongoDB!`);
-					useDB(require("./../utility/mongoDB"));
+					useDB(require("../../utility/mongoDB"));
 				})
 				.catch(() => useDB(() => false));
 		} else {
 			useDB(() => false);
 		}
 
-		console.log(`Ready! Logged in as ${client.user.tag}`);
+		// set Activity status
+		client.user.setStatus(config?.botConfig?.Status || "online");
 		client.user.setActivity({
 			name: config?.botConfig?.ActivityName || "ziji",
 			type: ActivityType[config?.botConfig?.ActivityType] || ActivityType.Playing,
@@ -51,7 +58,9 @@ module.exports = {
 				start: Date.now(),
 			},
 		});
-		client.user.setStatus(config?.botConfig?.Status || "online");
+
+		// Ready !!!
+		console.log(`Ready! Logged in as ${client.user.tag}`);
 		client.errorLog(`Ready! Logged in as ${client.user.tag}`);
 	},
 };

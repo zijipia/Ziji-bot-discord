@@ -1,4 +1,3 @@
-const config = require("../config");
 const { GuildQueueEvent } = require("discord-player");
 
 module.exports = {

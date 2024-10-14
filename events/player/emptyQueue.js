@@ -1,4 +1,3 @@
-const config = require("../config");
 const { useMainPlayer, GuildQueueEvent } = require("discord-player");
 const { useFunctions } = require("@zibot/zihooks");
 
