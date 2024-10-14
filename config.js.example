@@ -21,7 +21,7 @@ module.exports = {
 		DPe_DEBUG: false,
 
 		/** ============ Extractor ============ */
-		//enable YoutubeiExtractor (sometime err terminated)
+		//enable YoutubeiExtractor
 		YoutubeiExtractor: true,
 		//enable Ziext (beta)
 		ZiExtractor: true,
