@@ -31,7 +31,9 @@ module.exports.execute = async ({ interaction, lang }) => {
 
 	const ZiLyrics = queue.metadata.ZiLyrics;
 	try {
-		ZiLyrics?.unsubscribe();
+		if (ZiLyrics?.unsubscribe && typeof ZiLyrics.unsubscribe === "function") {
+			ZiLyrics.unsubscribe();
+		}
 	} catch (error) {
 		console.error("Error unsubscribing from lyrics:", error);
 	}

@@ -146,7 +146,9 @@ module.exports.execute = async ({ interaction, lang }) => {
 			ZiLyrics.mess.delete().catch(() => {});
 			ZiLyrics.Active = false;
 			try {
-				ZiLyrics?.unsubscribe();
+				if (ZiLyrics?.unsubscribe && typeof ZiLyrics.unsubscribe === "function") {
+					ZiLyrics.unsubscribe();
+				}
 			} catch (error) {
 				console.error("Error unsubscribing from lyrics:", error);
 			}
