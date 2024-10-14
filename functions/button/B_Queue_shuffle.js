@@ -27,7 +27,7 @@ module.exports.execute = async ({ interaction, lang }) => {
 		return interaction.followUp({ content: lang.music.NOvoiceMe, ephemeral: true });
 
 	queue.tracks.shuffle();
-	const QueueTrack = useFunctions.get("Queue");
+	const QueueTrack = useFunctions().get("Queue");
 	QueueTrack.execute(interaction, queue, true);
 	return;
 };

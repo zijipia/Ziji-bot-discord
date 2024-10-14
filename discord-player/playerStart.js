@@ -18,8 +18,6 @@ module.exports = {
 	 * @returns
 	 */
 	execute: async (queue, track) => {
-		const { client } = queue.player;
-
 		const player_func = Functions.get("player_func");
 		if (!player_func) return;
 

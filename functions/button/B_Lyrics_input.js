@@ -1,6 +1,5 @@
-const { useMainPlayer, useQueue } = require("discord-player");
 const { ModalBuilder, TextInputBuilder, TextInputStyle, ActionRowBuilder } = require("discord.js");
-const player = useMainPlayer();
+
 module.exports.data = {
 	name: "B_Lyrics_input",
 	type: "button",

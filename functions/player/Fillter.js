@@ -1,7 +1,13 @@
-const { EmbedBuilder, ActionRowBuilder, ButtonBuilder, BaseInteraction } = require("discord.js");
 const { useQueue } = require("discord-player");
-const { ButtonStyle, StringSelectMenuOptionBuilder, StringSelectMenuBuilder } = require("discord.js");
 const ZiIcons = require("./../../utility/icon");
+const {
+	EmbedBuilder,
+	ActionRowBuilder,
+	BaseInteraction,
+	StringSelectMenuOptionBuilder,
+	StringSelectMenuBuilder,
+} = require("discord.js");
+
 //====================================================================//
 const buttonConfigs = [
 	{ label: "Disable All", id: "OFF", description: "Turn off effects" },

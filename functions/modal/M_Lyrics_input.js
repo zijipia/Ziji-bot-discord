@@ -21,7 +21,7 @@ module.exports.execute = async ({ interaction, lang }) => {
 
 	const queue = useQueue(interaction.guild.id);
 	if (!queue) {
-		await Lyrics.execute(interaction, { type: "plainLyrics", query });
+		await Lyrics.execute(interaction, { type: "plainLyrics", query, lang });
 		return;
 	}
 	//unsubscribe old lyrics
@@ -31,6 +31,6 @@ module.exports.execute = async ({ interaction, lang }) => {
 		console.error("Error unsubscribing from lyrics:", error);
 	}
 
-	await Lyrics.execute(interaction, { type: "syncedLyrics", query });
+	await Lyrics.execute(interaction, { type: "syncedLyrics", query, lang });
 	return;
 };

@@ -155,4 +155,9 @@ module.exports = {
 		AutoPlay: "Bật/tắt chế độ tự động phát",
 		Disconnect: "Ngắt kết nối từ kênh thoại",
 	},
+	Lyrics: {
+		no_res: "❌ | Không tìm thấy lời bài hát!",
+		input_name: "Nhập tên bài hát",
+		disable_slrc: "Tắt syncedLyrics",
+	},
 };
