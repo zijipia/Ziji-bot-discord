@@ -30,7 +30,7 @@ module.exports = {
 		//enable VoiceExtractor (beta)
 		VoiceExtractor: true,
 		//enable Giveaway
-		Giveaway: false,
+		Giveaway: true,
 	},
 
 	// Cấu hình mặc định của bot
