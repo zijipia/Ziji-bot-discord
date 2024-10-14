@@ -4,10 +4,10 @@ const config = require("./config");
 const { Player } = require("discord-player");
 const { GiveawaysManager } = require("discord-giveaways");
 const { YoutubeiExtractor } = require("discord-player-youtubei");
+const { loadFiles, loadEvents } = require("./startup/loader.js");
 const { Client, Collection, GatewayIntentBits } = require("discord.js");
 const { ZiExtractor, useZiVoiceExtractor } = require("@zibot/ziextractor");
 const { useClient, useCooldowns, useCommands, useFunctions, useGiveaways } = require("@zibot/zihooks");
-const { loadFiles, loadEvents } = require("./startup/loader.js");
 
 const client = new Client({
 	intents: [

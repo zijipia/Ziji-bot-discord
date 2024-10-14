@@ -10,12 +10,6 @@ const ZiUser = Schema({
 	volume: { type: Number, default: 100 },
 });
 
-const UserInventory = Schema({
-	userID: { type: String },
-	Inventory: { type: Array },
-});
-
 module.exports = {
 	ZiUser: model("ZiUser", ZiUser),
-	UserInventory: model("UserInventory", UserInventory),
 };

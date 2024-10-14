@@ -42,7 +42,7 @@ module.exports = {
 				.then(() => {
 					console.log("Connected to MongoDB!");
 					client.errorLog(`Connected to MongoDB!`);
-					useDB(require("../../utility/mongoDB"));
+					useDB(require("../../startup/mongoDB"));
 				})
 				.catch(() => useDB(() => false));
 		} else {
