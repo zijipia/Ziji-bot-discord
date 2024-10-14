@@ -1,7 +1,6 @@
 const { useQueue } = require("discord-player");
-const { useFunctions } = require("@zibot/zihooks");
+const { useFunctions, useDB } = require("@zibot/zihooks");
 const { CommandInteraction } = require("discord.js");
-
 module.exports.data = {
 	name: "volume",
 	description: "Chỉnh sửa âm lượng nhạc",
@@ -34,8 +33,9 @@ module.exports.execute = async ({ interaction, lang }) => {
 	if (!queue) return interaction.editReply({ content: lang.music.NoPlaying });
 	queue.node.setVolume(Math.floor(volume));
 	await interaction.deleteReply().catch((e) => {});
-	if (client.db) {
-		await client.db.ZiUser.updateOne({ userID: user.id }, { $set: { volume: volume }, $upsert: true });
+	const DataBase = useDB();
+	if (DataBase) {
+		await DataBase.ZiUser.updateOne({ userID: user.id }, { $set: { volume: volume }, $upsert: true });
 	}
 	const player = useFunctions().get("player_func");
 	if (!player) return;

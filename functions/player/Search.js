@@ -1,5 +1,6 @@
 const { EmbedBuilder, ActionRowBuilder, ButtonBuilder, BaseInteraction, AttachmentBuilder } = require("discord.js");
 const { useMainPlayer, useQueue } = require("discord-player");
+const { useDB } = require("@zibot/zihooks");
 const { ButtonStyle, StringSelectMenuOptionBuilder, StringSelectMenuBuilder } = require("discord.js");
 const { Worker } = require("worker_threads");
 const langdef = require("./../../lang/vi");
@@ -100,10 +101,12 @@ module.exports.execute = async (interaction, query, lang, options = {}) => {
 			if (options.assistant && config?.voiceAssistance) {
 				playerConfig.selfDeaf = false;
 			}
+
 			if (playerConfig.volume === "auto") {
+				const DataBase = useDB();
 				playerConfig.volume =
-					client?.db ?
-						((await client.db.ZiUser.findOne({ userID: user.id }))?.volume ?? DefaultPlayerConfig.volume)
+					DataBase ?
+						((await DataBase.ZiUser.findOne({ userID: user.id }))?.volume ?? DefaultPlayerConfig.volume)
 					:	DefaultPlayerConfig.volume;
 			}
 			await player.play(voiceChannel, res, {

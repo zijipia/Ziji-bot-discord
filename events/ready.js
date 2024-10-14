@@ -2,6 +2,7 @@ const { Events, Client, ActivityType } = require("discord.js");
 const config = require("../config");
 const deploy = require("../deploy");
 const mongoose = require("mongoose");
+const { useDB } = require("@zibot/zihooks");
 
 module.exports = {
 	name: Events.ClientReady,
@@ -30,11 +31,16 @@ module.exports = {
 			await deploy(client);
 		}
 		if (process.env.MONGO) {
-			await mongoose.connect(process.env.MONGO).then(() => {
-				console.log("Connected to MongoDB!");
-				client.errorLog(`Connected to MongoDB!`);
-				client.db = require("./../utility/mongoDB");
-			});
+			await mongoose
+				.connect(process.env.MONGO)
+				.then(() => {
+					console.log("Connected to MongoDB!");
+					client.errorLog(`Connected to MongoDB!`);
+					useDB(require("./../utility/mongoDB"));
+				})
+				.catch(() => useDB(() => false));
+		} else {
+			useDB(() => false);
 		}
 
 		console.log(`Ready! Logged in as ${client.user.tag}`);

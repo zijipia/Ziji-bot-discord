@@ -1,5 +1,5 @@
 const { useQueue } = require("discord-player");
-const { useFunctions } = require("@zibot/zihooks");
+const { useFunctions, useDB } = require("@zibot/zihooks");
 const Functions = useFunctions();
 const config = require("../../config.js");
 const { ModalBuilder, TextInputBuilder, TextInputStyle, ActionRowBuilder } = require("discord.js");
@@ -65,7 +65,7 @@ module.exports.execute = async ({ interaction, lang }) => {
 	const userVoiceChannel = interaction.member.voice.channel;
 	if (!botVoiceChannel || botVoiceChannel.id !== userVoiceChannel?.id)
 		return interaction.followUp({ content: lang.music.NOvoiceMe, ephemeral: true });
-
+	const DataBase = useDB();
 	switch (query) {
 		case "Lock": {
 			if (queue.metadata.requestedBy?.id !== user.id) {
@@ -103,7 +103,7 @@ module.exports.execute = async ({ interaction, lang }) => {
 		case "unmute": {
 			const volumd = config?.PlayerConfig.volume ?? 100;
 			if (volumd === "auto") {
-				volumd = client?.db ? ((await client.db.ZiUser.findOne({ userID: user.id }))?.volume ?? 100) : 100;
+				volumd = DataBase ? ((await DataBase.ZiUser.findOne({ userID: user.id }))?.volume ?? 100) : 100;
 			}
 			const Vol = Math.min(volumd + 10, 100);
 			queue.node.setVolume(Vol);
@@ -113,8 +113,8 @@ module.exports.execute = async ({ interaction, lang }) => {
 		case "volinc": {
 			const current_Vol = queue.node.volume;
 			const Vol = Math.min(current_Vol + 10, 100);
-			if (client?.db) {
-				await client.db.ZiUser.updateOne({ userID: user.id }, { $set: { volume: Vol }, $upsert: true });
+			if (DataBase) {
+				await DataBase.ZiUser.updateOne({ userID: user.id }, { $set: { volume: Vol }, $upsert: true });
 			}
 			queue.node.setVolume(Vol);
 			await Update_Player(queue);
@@ -123,8 +123,8 @@ module.exports.execute = async ({ interaction, lang }) => {
 		case "voldec": {
 			const current_Vol = queue.node.volume;
 			const Vol = Math.max(current_Vol - 10, 0);
-			if (client?.db) {
-				await client.db.ZiUser.updateOne({ userID: user.id }, { $set: { volume: Vol }, $upsert: true });
+			if (DataBase) {
+				await DataBase.ZiUser.updateOne({ userID: user.id }, { $set: { volume: Vol }, $upsert: true });
 			}
 			queue.node.setVolume(Vol);
 			await Update_Player(queue);

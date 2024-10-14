@@ -1,6 +1,5 @@
 const { CommandInteraction } = require("discord.js");
-const { useFunctions } = require("@zibot/zihooks");
-
+const { useFunctions, useDB } = require("@zibot/zihooks");
 module.exports.data = {
 	name: "language",
 	description: "Chỉnh sửa ngôn ngữ bot",
@@ -31,11 +30,12 @@ module.exports.execute = async ({ interaction, lang }) => {
 	const { client } = interaction;
 	await interaction.deferReply();
 	const langcode = interaction.options.getString("lang");
-	if (!client?.db)
+	const DataBase = useDB();
+	if (!DataBase)
 		return interaction.editReply({
 			content: lang?.until?.noDB || "Database hiện không được bật, xin vui lòng liên hệ dev bot",
 		});
-	await client.db.ZiUser.updateOne(
+	await DataBase.ZiUser.updateOne(
 		{ userID: interaction.user.id },
 		{
 			$set: {
