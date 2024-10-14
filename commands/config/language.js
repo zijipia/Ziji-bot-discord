@@ -27,7 +27,6 @@ module.exports.data = {
  */
 
 module.exports.execute = async ({ interaction, lang }) => {
-	const { client } = interaction;
 	await interaction.deferReply();
 	const langcode = interaction.options.getString("lang");
 	const DataBase = useDB();
@@ -45,6 +44,6 @@ module.exports.execute = async ({ interaction, lang }) => {
 		{ upsert: true },
 	);
 	const langfunc = useFunctions().get("ZiRank");
-	const lang2 = await langfunc.execute({ client, user: interaction.user, XpADD: 0 });
+	const lang2 = await langfunc.execute({ user: interaction.user, XpADD: 0 });
 	interaction.editReply({ content: `${lang2.until.langChange} ${lang2.until.name}` });
 };

@@ -26,7 +26,6 @@ module.exports.data = {
  */
 
 module.exports.execute = async ({ interaction, lang }) => {
-	const { user, client } = interaction;
 	await interaction.deferReply({ fetchReply: true });
 	const volume = interaction.options.getInteger("vol");
 	const queue = useQueue(interaction.guild.id);
@@ -35,7 +34,7 @@ module.exports.execute = async ({ interaction, lang }) => {
 	await interaction.deleteReply().catch((e) => {});
 	const DataBase = useDB();
 	if (DataBase) {
-		await DataBase.ZiUser.updateOne({ userID: user.id }, { $set: { volume: volume }, $upsert: true });
+		await DataBase.ZiUser.updateOne({ userID: interaction.user.id }, { $set: { volume: volume }, $upsert: true });
 	}
 	const player = useFunctions().get("player_func");
 	if (!player) return;
