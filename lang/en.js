@@ -155,4 +155,9 @@ module.exports = {
 		AutoPlay: "Turn on/off auto play",
 		Disconnect: "Disconnect from voice channel",
 	},
+	Lyrics: {
+		no_res: "❌ | No Lyrics Found!",
+		input_name: "Input Lyrics Name",
+		disable_slrc: "Disable syncedLyrics",
+	},
 };

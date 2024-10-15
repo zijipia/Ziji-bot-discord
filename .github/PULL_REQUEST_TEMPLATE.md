@@ -1,5 +1,3 @@
-<!-- @format -->
-
 # Mô tả / Description
 
 <!-- Vui lòng cung cấp một mô tả ngắn gọn về những thay đổi trong pull request này. -->

@@ -1,4 +1,5 @@
-const { ModalSubmitInteraction, ModalBuilder } = require("discord.js");
+const { useFunctions } = require("@zibot/zihooks");
+const { useQueue } = require("discord-player");
 
 module.exports.data = {
 	name: "M_Lyrics_input",
@@ -7,16 +8,32 @@ module.exports.data = {
 
 /**
  * @param { object } modal - object modal
- * @param { ModalSubmitInteraction } modal.interaction - modal interaction
+ * @param { import ("discord.js").ModalSubmitInteraction } modal.interaction - modal interaction
  * @param { import('../../lang/vi.js') } modal.lang - language
  */
 
 module.exports.execute = async ({ interaction, lang }) => {
-	const { guild, client, fields } = interaction;
+	const { fields } = interaction;
 	const query = fields.getTextInputValue("search-input");
 	await interaction.deferUpdate();
-	const Lyrics = client.functions.get("Lyrics");
+	const Lyrics = useFunctions().get("Lyrics");
 	if (!Lyrics) return;
-	await Lyrics.execute(interaction, { type: "syncedLyrics", query });
+
+	const queue = useQueue(interaction.guild.id);
+	if (!queue) {
+		await Lyrics.execute(interaction, { type: "plainLyrics", query, lang });
+		return;
+	}
+	//unsubscribe old lyrics
+	const ZiLyrics = queue.metadata.ZiLyrics;
+	try {
+		if (ZiLyrics?.unsubscribe && typeof ZiLyrics.unsubscribe === "function") {
+			ZiLyrics.unsubscribe();
+		}
+	} catch (error) {
+		console.error("Error unsubscribing from lyrics:", error);
+	}
+
+	await Lyrics.execute(interaction, { type: "syncedLyrics", query, lang });
 	return;
 };

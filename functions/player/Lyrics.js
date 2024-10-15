@@ -14,6 +14,7 @@ const ZiIcons = require("../../utility/icon");
 
 module.exports.execute = async (interaction, options) => {
 	const queue = options?.queue || useQueue(interaction?.guild?.id);
+	const lang = options?.lang || queue?.metadata?.lang;
 
 	const query = (
 		options?.query ||
@@ -29,20 +30,21 @@ module.exports.execute = async (interaction, options) => {
 		new ButtonBuilder()
 			.setCustomId("B_Lyrics_input")
 			.setStyle(ButtonStyle.Secondary)
-			.setLabel("Input Lyrics Name")
+			.setLabel(lang?.Lyrics?.input_name || "Input Lyrics Name")
 			.setEmoji(ZiIcons?.search),
 		new ButtonBuilder()
 			.setCustomId("B_Lyrics_cancel")
 			.setStyle(ButtonStyle.Secondary)
-			.setLabel("Disable syncedLyrics")
+			.setLabel(lang?.Lyrics?.disable_slrc || "Disable syncedLyrics")
 			.setEmoji("❌"),
 		new ButtonBuilder().setURL("https://lrclib.net/").setStyle(ButtonStyle.Link).setLabel("lrclib"),
 	);
 	//embed
 	const LyricsEmbed = new EmbedBuilder()
-		.setDescription("❌ | No Lyrics Found!\n- Query:" + `${query}`)
+		.setDescription(`${lang?.Lyrics?.no_res || "❌ | No Lyrics Found!"}\n- Query:**${query}**`)
 		.setColor("Random")
 		.setThumbnail(queue?.currentTrack?.thumbnail || null);
+
 	const lyrics = await player.lyrics.search({ q: query });
 
 	try {

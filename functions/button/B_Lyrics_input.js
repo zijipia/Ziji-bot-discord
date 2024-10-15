@@ -1,6 +1,5 @@
-const { useMainPlayer, useQueue } = require("discord-player");
-const { ModalBuilder, TextInputBuilder, TextInputStyle, ButtonInteraction, ActionRowBuilder } = require("discord.js");
-const player = useMainPlayer();
+const { ModalBuilder, TextInputBuilder, TextInputStyle, ActionRowBuilder } = require("discord.js");
+
 module.exports.data = {
 	name: "B_Lyrics_input",
 	type: "button",
@@ -8,7 +7,7 @@ module.exports.data = {
 
 /**
  * @param { object } button - object button
- * @param { ButtonInteraction } button.interaction - button interaction
+ * @param { import ("discord.js").ButtonInteraction } button.interaction - button interaction
  * @param { import('../../lang/vi.js') } button.lang - language
  * @returns
  */

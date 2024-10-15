@@ -1,4 +1,7 @@
 const { CommandInteraction, PermissionsBitField, EmbedBuilder } = require("discord.js");
+const { useGiveaways } = require("@zibot/zihooks");
+const Giveaways = useGiveaways();
+
 const ms = require("ms");
 const config = require("../../config.js");
 
@@ -13,7 +16,7 @@ module.exports.execute = async ({ interaction, lang }) => {
 		return interaction.reply({ content: lang.until.noPermission, ephemeral: true });
 	}
 
-	if (!interaction.client.giveaway) {
+	if (!Giveaways) {
 		return interaction.reply({
 			content: ":x: | Giveaway Manager is not initialized! Please check your config.",
 			ephemeral: true,
@@ -53,7 +56,7 @@ module.exports.startGiveaway = async ({ interaction, lang }) => {
 		return interaction.reply({ content: lang?.Giveaways?.notTextChannel, ephemeral: true });
 	}
 
-	await interaction.client.giveaway.start(channel, {
+	await Giveaways.start(channel, {
 		duration: ms(duration),
 		winnerCount,
 		prize,
@@ -79,13 +82,13 @@ module.exports.startGiveaway = async ({ interaction, lang }) => {
 
 module.exports.endGiveaway = async ({ interaction, lang }) => {
 	const messageId = interaction.options.getString("message");
-	await interaction.client.giveaway.end(messageId);
+	await Giveaways.end(messageId);
 	return interaction.reply({ content: lang?.until?.success, ephemeral: true });
 };
 
 module.exports.rerollGiveaway = async ({ interaction, lang }) => {
 	const messageId = interaction.options.getString("message");
-	await interaction.client.giveaway.reroll(messageId, {
+	await Giveaways.reroll(messageId, {
 		messages: {
 			congrat: lang?.Giveaways?.winMessage,
 			error: lang?.Giveaways?.noWinner,
@@ -96,7 +99,7 @@ module.exports.rerollGiveaway = async ({ interaction, lang }) => {
 
 module.exports.pauseGiveaway = async ({ interaction, lang }) => {
 	const messageId = interaction.options.getString("message");
-	await interaction.client.giveaway.pause(messageId, {
+	await Giveaways.pause(messageId, {
 		content: lang?.Giveaways?.giveawayPaused,
 	});
 	return interaction.reply({ content: lang?.until?.success, ephemeral: true });
@@ -104,18 +107,18 @@ module.exports.pauseGiveaway = async ({ interaction, lang }) => {
 
 module.exports.resumeGiveaway = async ({ interaction, lang }) => {
 	const messageId = interaction.options.getString("message");
-	await interaction.client.giveaway.unpause(messageId);
+	await Giveaways.unpause(messageId);
 	return interaction.reply({ content: lang?.until?.success, ephemeral: true });
 };
 
 module.exports.deleteGiveaway = async ({ interaction, lang }) => {
 	const messageId = interaction.options.getString("message");
-	await interaction.client.giveaway.delete(messageId);
+	await Giveaways.delete(messageId);
 	return interaction.reply({ content: lang?.until?.success, ephemeral: true });
 };
 
 module.exports.listGiveaways = async ({ interaction, lang }) => {
-	const giveaways = await interaction.client.giveaway.getAllGiveaways();
+	const giveaways = await Giveaways.getAllGiveaways();
 	const guildGiveaways = giveaways.filter((giveaway) => giveaway.guildId === interaction.guild.id);
 	const embed = new EmbedBuilder()
 		.setDescription(

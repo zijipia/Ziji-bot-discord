@@ -1,7 +1,7 @@
 const { useMainPlayer, useQueue } = require("discord-player");
 const { CommandInteraction } = require("discord.js");
 const player = useMainPlayer();
-
+const { useFunctions } = require("@zibot/zihooks");
 module.exports.data = {
 	name: "player",
 	description: "Gọi Player",
@@ -18,16 +18,15 @@ module.exports.data = {
  */
 
 module.exports.execute = async ({ interaction, lang }) => {
-	const { client, guild } = interaction;
 	await interaction.deferReply({ fetchReply: true });
-	const queue = useQueue(guild.id);
+	const queue = useQueue(interaction.guild.id);
 	if (!queue) return interaction.editReply({ content: lang.music.NoPlaying }).catch((e) => {});
 	queue.metadata.mess.edit({ components: [] }).catch((e) => {});
 
 	queue.metadata.mess = await interaction.fetchReply();
 
-	const player = client.functions.get("player_func");
+	const player = useFunctions().get("player_func");
 	if (!player) return;
-	const res = await player.execute(client, queue);
+	const res = await player.execute({ queue });
 	await interaction.editReply(res);
 };

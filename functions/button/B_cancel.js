@@ -1,5 +1,3 @@
-const { ButtonInteraction } = require("discord.js");
-
 module.exports.data = {
 	name: "B_cancel",
 	type: "button",
@@ -7,7 +5,7 @@ module.exports.data = {
 
 /**
  * @param { object } button - object button
- * @param { ButtonInteraction } button.interaction - button interaction
+ * @param { import ("discord.js").ButtonInteraction } button.interaction - button interaction
  * @param { import('../../lang/vi.js') } button.lang - language
  * @returns
  */

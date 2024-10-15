@@ -1,9 +1,11 @@
 const { useMainPlayer, useQueue } = require("discord-player");
-const { EmbedBuilder } = require("discord.js");
-async function Update_Player(client, queue) {
-	const player = client.functions.get("player_func");
+const { useFunctions } = require("@zibot/zihooks");
+const Functions = useFunctions();
+
+async function Update_Player(queue) {
+	const player = Functions.get("player_func");
 	if (!player) return;
-	const res = await player.execute(client, queue);
+	const res = await player.execute({ queue });
 	queue.metadata.mess.edit(res);
 }
 module.exports = {
@@ -33,16 +35,16 @@ module.exports = {
 				} else {
 					console.log("Không tìm thấy giá trị âm lượng hợp lệ trong lệnh");
 				}
-				Update_Player(client, queue);
+				Update_Player(queue);
 			},
 			"pause|tạm dừng": () => {
 				queue.node.pause();
-				Update_Player(client, queue);
+				Update_Player(queue);
 				console.log("Đã tạm dừng phát nhạc");
 			},
 			"resume|tiếp tục": () => {
 				queue.node.resume();
-				Update_Player(client, queue);
+				Update_Player(queue);
 				console.log("Đã tiếp tục phát nhạc");
 			},
 			"disconnect|ngắt kết nối": () => {
@@ -51,11 +53,11 @@ module.exports = {
 			},
 			"auto play|tự động phát": async () => {
 				queue.setRepeatMode(queue.repeatMode === 3 ? 0 : 3);
-				if (queue.isPlaying()) return Update_Player(client, queue);
-				const B_player_autoPlay = client.functions.get("B_player_autoPlay");
+				if (queue.isPlaying()) return Update_Player(queue);
+				const B_player_autoPlay = Functions.get("B_player_autoPlay");
 				const tracks = await B_player_autoPlay.getRelatedTracks(queue?.history?.previousTrack, queue?.history);
 				if (!tracks?.at(0)?.url.length) return;
-				const searchCommand = client.functions.get("Search");
+				const searchCommand = Functions.get("Search");
 				await searchCommand.execute(null, tracks?.at(0)?.url, queue?.metadata?.lang);
 			},
 			"play|tìm|phát|hát": async () => {

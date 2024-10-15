@@ -1,6 +1,4 @@
-const { useMainPlayer, useQueue } = require("discord-player");
-const { ModalBuilder, TextInputBuilder, TextInputStyle, ButtonInteraction, ActionRowBuilder } = require("discord.js");
-const player = useMainPlayer();
+const { useQueue } = require("discord-player");
 module.exports.data = {
 	name: "B_Lyrics_cancel",
 	type: "button",
@@ -8,7 +6,7 @@ module.exports.data = {
 
 /**
  * @param { object } button - object button
- * @param { ButtonInteraction } button.interaction - button interaction
+ * @param { import ("discord.js").ButtonInteraction } button.interaction - button interaction
  * @param { import('../../lang/vi.js') } button.lang - language
  * @returns
  */
@@ -32,8 +30,14 @@ module.exports.execute = async ({ interaction, lang }) => {
 		return interaction.followUp({ content: lang.music.NOvoiceMe, ephemeral: true });
 
 	const ZiLyrics = queue.metadata.ZiLyrics;
-	ZiLyrics?.unsubscribe();
-	ZiLyrics.mess.edit({ content: ":x: | syncedLyrics is disabled!", components: [] }).catch(() => {});
+	try {
+		if (ZiLyrics?.unsubscribe && typeof ZiLyrics.unsubscribe === "function") {
+			ZiLyrics.unsubscribe();
+		}
+	} catch (error) {
+		console.error("Error unsubscribing from lyrics:", error);
+	}
+	ZiLyrics.mess.delete().catch(() => {});
 	ZiLyrics.Active = false;
 	return;
 };

@@ -1,6 +1,5 @@
-const { useMainPlayer, useQueue } = require("discord-player");
+const { useFunctions } = require("@zibot/zihooks");
 const { CommandInteraction, EmbedBuilder } = require("discord.js");
-const player = useMainPlayer();
 
 module.exports.data = {
 	name: "lyrics",
@@ -24,13 +23,13 @@ module.exports.data = {
  */
 
 module.exports.execute = async ({ interaction, lang }) => {
-	const { client, guild, options } = interaction;
+	const { options } = interaction;
 	await interaction.deferReply();
 	const query = await options.getString("query");
 
-	const Lyrics = client.functions.get("Lyrics");
+	const Lyrics = useFunctions().get("Lyrics");
 	if (!Lyrics) return;
 
-	await Lyrics.execute(interaction, { type: "plainLyrics", query });
+	await Lyrics.execute(interaction, { type: "plainLyrics", query, lang });
 	return;
 };

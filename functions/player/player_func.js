@@ -1,4 +1,6 @@
 const { useMainPlayer, GuildQueue, QueryType } = require("discord-player");
+const { useFunctions } = require("@zibot/zihooks");
+
 const player = useMainPlayer();
 const {
 	Client,
@@ -74,11 +76,11 @@ module.exports = {
 	 * @returns
 	 */
 
-	execute: async (client, queue, tracks) => {
+	execute: async ({ queue, tracks }) => {
 		const track = tracks ?? queue?.currentTrack ?? queue?.history?.previousTrack;
 		const requestedBy = track?.requestedBy ?? queue.metadata.requestedBy;
-		const langfunc = client.functions.get("ZiRank");
-		const lang = await langfunc.execute(client, requestedBy, 0);
+		const langfunc = useFunctions().get("ZiRank");
+		const lang = await langfunc.execute({ user: requestedBy, XpADD: 0 });
 		const queryTypeIcon = getQueryTypeIcon(track?.queryType, track?.raw);
 		const timestamps = queue?.node.getTimestamp();
 		const trackDurationSymbol = timestamps?.progress === "Infinity" ? "" : "%";

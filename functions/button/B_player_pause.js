@@ -1,5 +1,6 @@
-const { useMainPlayer, useQueue } = require("discord-player");
-const { ButtonInteraction } = require("discord.js");
+const { useQueue } = require("discord-player");
+const { useFunctions } = require("@zibot/zihooks");
+
 module.exports.data = {
 	name: "B_player_pause",
 	type: "button",
@@ -7,7 +8,7 @@ module.exports.data = {
 
 /**
  * @param { object } button - object button
- * @param { ButtonInteraction } button.interaction - button interaction
+ * @param { import ("discord.js").ButtonInteraction } button.interaction - button interaction
  * @param { import('../../lang/vi.js') } button.lang - language
  * @returns
  */
@@ -29,9 +30,9 @@ module.exports.execute = async ({ interaction, lang }) => {
 
 	queue.node.setPaused(queue.node.isPlaying());
 
-	const player = interaction.client.functions.get("player_func");
+	const player = useFunctions().get("player_func");
 
 	if (!player) return;
-	const res = await player.execute(interaction.client, queue);
+	const res = await player.execute({ queue });
 	queue.metadata.mess.edit(res);
 };

@@ -1,21 +1,23 @@
 const { useQueue } = require("discord-player");
+const { useFunctions, useDB } = require("@zibot/zihooks");
+const Functions = useFunctions();
 const config = require("../../config.js");
-const { StringSelectMenuInteraction, ModalBuilder, TextInputBuilder, TextInputStyle, ActionRowBuilder } = require("discord.js");
+const { ModalBuilder, TextInputBuilder, TextInputStyle, ActionRowBuilder } = require("discord.js");
 
 module.exports.data = {
 	name: "S_player_Func",
 	type: "SelectMenu",
 };
-async function Update_Player(client, queue) {
-	const player = client.functions.get("player_func");
+async function Update_Player(queue) {
+	const player = Functions.get("player_func");
 	if (!player) return;
-	const res = await player.execute(client, queue);
+	const res = await player.execute({ queue });
 	queue.metadata.mess.edit(res);
 }
 
 /**
  * @param { object } selectmenu - object selectmenu
- * @param { StringSelectMenuInteraction } selectmenu.interaction - selectmenu interaction
+ * @param { import ("discord.js").StringSelectMenuInteraction } selectmenu.interaction - selectmenu interaction
  * @param { import('../../lang/vi.js') } selectmenu.lang - language
  */
 
@@ -41,13 +43,13 @@ module.exports.execute = async ({ interaction, lang }) => {
 			return;
 		}
 		case "Queue": {
-			const QueueTrack = client.functions.get("Queue");
+			const QueueTrack = Functions.get("Queue");
 			QueueTrack.execute(interaction, queue);
 			return;
 		}
 		case "Fillter": {
 			await interaction.deferReply();
-			const Fillter = client.functions.get("Fillter");
+			const Fillter = Functions.get("Fillter");
 			await Fillter.execute(interaction, null);
 			return;
 		}
@@ -63,7 +65,7 @@ module.exports.execute = async ({ interaction, lang }) => {
 	const userVoiceChannel = interaction.member.voice.channel;
 	if (!botVoiceChannel || botVoiceChannel.id !== userVoiceChannel?.id)
 		return interaction.followUp({ content: lang.music.NOvoiceMe, ephemeral: true });
-
+	const DataBase = useDB();
 	switch (query) {
 		case "Lock": {
 			if (queue.metadata.requestedBy?.id !== user.id) {
@@ -73,7 +75,7 @@ module.exports.execute = async ({ interaction, lang }) => {
 				});
 			}
 			queue.metadata.LockStatus = !queue.metadata.LockStatus;
-			await Update_Player(client, queue);
+			await Update_Player(queue);
 			return;
 		}
 		case "Loop": {
@@ -84,48 +86,48 @@ module.exports.execute = async ({ interaction, lang }) => {
 				: 0;
 			queue.setRepeatMode(repeatMode);
 
-			await Update_Player(client, queue);
+			await Update_Player(queue);
 			return;
 		}
 		case "AutoPlay": {
 			queue.setRepeatMode(queue.repeatMode === 3 ? 0 : 3);
 
-			await Update_Player(client, queue);
+			await Update_Player(queue);
 			return;
 		}
 		case "Mute": {
 			queue.node.setVolume(0);
-			await Update_Player(client, queue);
+			await Update_Player(queue);
 			return;
 		}
 		case "unmute": {
 			const volumd = config?.PlayerConfig.volume ?? 100;
 			if (volumd === "auto") {
-				volumd = client?.db ? ((await client.db.ZiUser.findOne({ userID: user.id }))?.volume ?? 100) : 100;
+				volumd = DataBase ? ((await DataBase.ZiUser.findOne({ userID: user.id }))?.volume ?? 100) : 100;
 			}
 			const Vol = Math.min(volumd + 10, 100);
 			queue.node.setVolume(Vol);
-			await Update_Player(client, queue);
+			await Update_Player(queue);
 			return;
 		}
 		case "volinc": {
 			const current_Vol = queue.node.volume;
 			const Vol = Math.min(current_Vol + 10, 100);
-			if (client?.db) {
-				await client.db.ZiUser.updateOne({ userID: user.id }, { $set: { volume: Vol }, $upsert: true });
+			if (DataBase) {
+				await DataBase.ZiUser.updateOne({ userID: user.id }, { $set: { volume: Vol }, $upsert: true });
 			}
 			queue.node.setVolume(Vol);
-			await Update_Player(client, queue);
+			await Update_Player(queue);
 			return;
 		}
 		case "voldec": {
 			const current_Vol = queue.node.volume;
 			const Vol = Math.max(current_Vol - 10, 0);
-			if (client?.db) {
-				await client.db.ZiUser.updateOne({ userID: user.id }, { $set: { volume: Vol }, $upsert: true });
+			if (DataBase) {
+				await DataBase.ZiUser.updateOne({ userID: user.id }, { $set: { volume: Vol }, $upsert: true });
 			}
 			queue.node.setVolume(Vol);
-			await Update_Player(client, queue);
+			await Update_Player(queue);
 			return;
 		}
 		case "Lyrics": {
@@ -136,7 +138,7 @@ module.exports.execute = async ({ interaction, lang }) => {
 					content: "<a:loading:1151184304676819085> Loading...",
 				});
 				ZiLyrics.channel = interaction.channel;
-				const Lyrics = client.functions.get("Lyrics");
+				const Lyrics = Functions.get("Lyrics");
 				if (!Lyrics) return;
 				await Lyrics.execute(null, { type: "syncedLyrics", queue });
 				return;
@@ -144,7 +146,9 @@ module.exports.execute = async ({ interaction, lang }) => {
 			ZiLyrics.mess.delete().catch(() => {});
 			ZiLyrics.Active = false;
 			try {
-				ZiLyrics.unsubscribe();
+				if (ZiLyrics?.unsubscribe && typeof ZiLyrics.unsubscribe === "function") {
+					ZiLyrics.unsubscribe();
+				}
 			} catch (error) {
 				console.error("Error unsubscribing from lyrics:", error);
 			}
@@ -152,7 +156,7 @@ module.exports.execute = async ({ interaction, lang }) => {
 		}
 		case "Shuffle": {
 			queue.tracks.shuffle();
-			await Update_Player(client, queue);
+			await Update_Player(queue);
 			return;
 		}
 	}

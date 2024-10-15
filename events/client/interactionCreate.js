@@ -1,5 +1,10 @@
 const { Events, CommandInteraction, PermissionsBitField } = require("discord.js");
-const config = require("./../config");
+const config = require("../../config");
+const { useCooldowns, useCommands, useFunctions } = require("@zibot/zihooks");
+
+const Cooldowns = useCooldowns();
+const Commands = useCommands();
+const Functions = useFunctions();
 
 /**
  * @param { CommandInteraction } interaction
@@ -27,9 +32,9 @@ async function checkStatus(interaction, client, lang) {
 	// Check cooldown
 	const now = Date.now();
 	const cooldownDuration = config.defaultCooldownDuration ?? 3000;
-	const expirationTime = client.cooldowns.get(interaction.user.id) + cooldownDuration;
+	const expirationTime = Cooldowns.get(interaction.user.id) + cooldownDuration;
 
-	if (client.cooldowns.has(interaction.user.id) && now < expirationTime) {
+	if (Cooldowns.has(interaction.user.id) && now < expirationTime) {
 		const expiredTimestamp = Math.round(expirationTime / 1_000);
 		await interaction.reply({
 			content: lang.until.cooldown.replace("{command}", interaction.commandName).replace("{time}", `<t:${expiredTimestamp}:R>`),
@@ -39,8 +44,8 @@ async function checkStatus(interaction, client, lang) {
 	}
 
 	// Set cooldown
-	client.cooldowns.set(interaction.user.id, now);
-	setTimeout(() => client.cooldowns.delete(interaction.user.id), cooldownDuration);
+	Cooldowns.set(interaction.user.id, now);
+	setTimeout(() => Cooldowns.delete(interaction.user.id), cooldownDuration);
 	return false;
 }
 
@@ -60,10 +65,10 @@ module.exports.execute = async (interaction) => {
 
 	// Determine the interaction type and set the command
 	if (interaction.isChatInputCommand() || interaction.isAutocomplete() || interaction.isMessageContextMenuCommand()) {
-		command = client.commands.get(interaction.commandName);
+		command = Commands.get(interaction.commandName);
 		commandType = "command";
 	} else if (interaction.isMessageComponent() || interaction.isModalSubmit()) {
-		command = client.functions.get(interaction.customId);
+		command = Functions.get(interaction.customId);
 		commandType = "function";
 	}
 
@@ -74,8 +79,8 @@ module.exports.execute = async (interaction) => {
 	}
 
 	// Get the user's language preference
-	const langfunc = client.functions.get("ZiRank");
-	const lang = await langfunc.execute(client, user, interaction.isAutocomplete() ? 0 : 1);
+	const langfunc = Functions.get("ZiRank");
+	const lang = await langfunc.execute({ user, XpADD: interaction.isAutocomplete() ? 0 : 1 });
 
 	// Try to execute the command and handle errors
 	try {

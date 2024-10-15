@@ -1,31 +1,20 @@
 const { REST, Routes } = require("discord.js");
-const fs = require("node:fs").promises;
-const path = require("node:path");
-const config = require("./config");
+const config = require("../config");
+const { useCommands } = require("@zibot/zihooks");
 
 module.exports = async (client) => {
 	const commands = { global: [], owner: [] };
 
-	// Load commands from all folders
-	const foldersPath = path.join(__dirname, "commands");
-	const loadCommands = async (dir) => {
-		const files = await fs.readdir(dir, { withFileTypes: true });
-		await Promise.all(
-			files.map(async (file) => {
-				const filePath = path.join(dir, file.name);
-				if (file.isDirectory()) {
-					await loadCommands(filePath);
-				} else if (file.isFile() && file.name.endsWith(".js")) {
-					const command = require(filePath);
-					if (!("data" in command) || !("execute" in command)) return;
-					if (command?.data?.enable == false) return;
-					if (config?.disabledCommands?.includes(command.data.name)) return;
-					commands[command.data.owner ? "owner" : "global"].push(command.data);
-				}
-			}),
-		);
-	};
-	await loadCommands(foldersPath);
+	// Load commands
+	await Promise.all(
+		useCommands().map(async (command) => {
+			/**
+			 * useCommands đã xử lý các commands disable ở index.js file rồi.
+			 *  -> Nên không cần thiết xử lý lại ở đây
+			 */
+			commands[command.data.owner ? "owner" : "global"].push(command.data);
+		}),
+	).catch((e) => console.log(`Error reloaded commands:\n ${e}`));
 
 	const rest = new REST().setToken(process.env.TOKEN);
 
