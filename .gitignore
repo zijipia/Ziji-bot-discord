@@ -36,4 +36,4 @@ package-lock.json
 config.js
 .env
 package-lock.json
-discord-giveaways
+giveaways.json

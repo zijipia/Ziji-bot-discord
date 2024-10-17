@@ -59,7 +59,7 @@ if (config.DevConfig.DP_DEBUG) {
 useGiveaways(
 	config.DevConfig.Giveaway ?
 		new GiveawaysManager(client, {
-			storage: "./discord-giveaways/giveaways.json",
+			storage: "./giveaways.json",
 			default: {
 				botsCanWin: false,
 				embedColor: "Random",
