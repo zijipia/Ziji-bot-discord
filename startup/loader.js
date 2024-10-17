@@ -83,7 +83,13 @@ const loadEvents = async (directory, target) => {
 					try {
 						// Tải module Events từ file
 						const event = require(path.resolve(filePath));
-						clientEvents.push([chalk.hex("#E5C3FF")(file.name), "✅"]);
+
+						const isDisabled = event?.enable == false;
+
+						clientEvents.push([chalk.hex(isDisabled ? "#4733FF" : "#E5C3FF")(event.name), isDisabled ? "❌" : "✅"]);
+
+						if (isDisabled) return;
+
 						// Định nghĩa hàm xử lý Events
 						const eventHandler = async (...args) => {
 							try {

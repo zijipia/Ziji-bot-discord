@@ -105,7 +105,7 @@ This README provides an overview, installation steps, usage instructions, and co
 ## Testing
 
 Ziji is testing ZiExtractor, if anything doesn't work properly try turning it off
-[in config.js file line 27.](https://github.com/zijipia/Ziji-bot-discord/blob/main/config.js.example#L27)
+[in config.js file line 149.](https://github.com/zijipia/Ziji-bot-discord/blob/main/config.js.example#L149)
 
 ```js
   ZiExtractor: false,
