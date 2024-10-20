@@ -1,6 +1,9 @@
+const config = require("@zibot/zihooks").useConfig();
 module.exports = {
 	name: "vi",
 	local_names: "vi_VN",
+	color: config?.defaultColor,
+	botConfig: config?.botConfig,
 	until: {
 		name: "Tiếng Việt",
 		langChange: "Ngôn ngữ của bạn đã được đổi thành:",

@@ -3,8 +3,7 @@ const os = require("os");
 const { version: DjsVersion } = require("discord.js");
 const { version: DplVersion } = require("discord-player");
 const { execSync } = require("child_process");
-const { useConfig, useCommands } = require("@zibot/zihooks");
-const config = useConfig();
+const { useCommands } = require("@zibot/zihooks");
 
 module.exports.data = {
 	name: "statistics",
@@ -55,7 +54,7 @@ module.exports.execute = async ({ interaction, lang }) => {
           • ${lang?.BotStats?.Operation}: <t:${Math.floor(Number(Date.now() - client.uptime) / 1000)}:R>
           • Ping: \`${client.ws.ping} MS\`
           • ${lang?.BotStats?.RAMUsage}: \`${(process.memoryUsage().heapUsed / 1024 / 1024).toFixed(2)} MB\`
-          [Invite Bot](${config?.botConfig.InviteBot}) /  [Support Server](${config?.botConfig.SupportServer})
+          [Invite Bot](${lang?.botConfig.InviteBot}) /  [Support Server](${lang?.botConfig.SupportServer})
           **`,
 		)
 		.addFields(
@@ -64,7 +63,7 @@ module.exports.execute = async ({ interaction, lang }) => {
 			{ name: lang?.BotStats?.dplVersion, value: `${DplVersion}`, inline: true },
 			{ name: "GitHub Commit ID", value: githubCommitId, inline: true },
 		)
-		.setImage(config?.botConfig?.Banner ?? null)
+		.setImage(lang?.botConfig?.Banner ?? null)
 		.setThumbnail(interaction.client.user.displayAvatarURL())
 		.setFooter({
 			text: `${lang.until.requestBy} ${interaction.user.username}`,

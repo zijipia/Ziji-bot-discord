@@ -12,6 +12,12 @@ module.exports = {
 	defaultCooldownDuration: 5000,
 
 	/**
+	 * Màu mặt định (hex , Random)
+	 * color (hex , Random)
+	 */
+	defaultColor: "Random",
+
+	/**
 	 * Bật tính năng tìm kiếm hình ảnh 'true', 'false' nên tắt khi chạy trên server vì khá tốn tài nguyên
 	 * Enable image search feature 'true', 'false'. Should be turned off when running on server as it's resource-intensive
 	 */

@@ -1,7 +1,9 @@
+const config = require("@zibot/zihooks").useConfig();
 module.exports = {
 	name: "en",
 	local_names: "en_US",
-	color: "",
+	color: config?.defaultColor,
+	botConfig: config?.botConfig,
 	until: {
 		success: "Successfully executed this command!",
 		notHavePremission: "You do not have permission to execute this command!",
