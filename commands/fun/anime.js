@@ -1,6 +1,5 @@
 const { EmbedBuilder } = require("discord.js");
-const Kitsu = require("kitsu");
-const kitsu = new Kitsu();
+const fetch = require("node-fetch");
 
 function removeVietnameseTones(str) {
 	str = str.replace(/à|á|ạ|ả|ã|â|ầ|ấ|ậ|ẩ|ẫ|ă|ằ|ắ|ặ|ẳ|ẵ/g, "a");
@@ -31,6 +30,23 @@ function removeVietnameseTones(str) {
 	return str;
 }
 
+function getTitle(anime) {
+	return anime?.titles?.en_jp || anime?.titles?.en || anime.titles?.ja_jp || "unknown";
+}
+
+module.exports.Zisearch = async (params) => {
+	try {
+		let search = encodeURI(removeVietnameseTones(params));
+		const Link = "https://kitsu.io/api/edge/" + "anime?filter[text]=" + search + "&page[limit]=" + 2;
+		const response = await fetch(Link);
+		const body = await response.json();
+		return body.data;
+	} catch (e) {
+		console.log(e);
+		return [];
+	}
+};
+
 module.exports.data = {
 	name: "anime",
 	description: "Get anime information.",
@@ -41,7 +57,7 @@ module.exports.data = {
 			description: "Name anime",
 			type: 3, // string
 			required: true,
-			// autocomplete: true,
+			autocomplete: true,
 		},
 	],
 	integration_types: [0, 1],
@@ -56,13 +72,34 @@ module.exports.data = {
 
 module.exports.execute = async ({ interaction, lang }) => {
 	await interaction.deferReply();
+
 	const { options, user } = interaction;
-	const name = options.getString("name", true);
-	let search = encodeURI(removeVietnameseTones(name));
-	const { data } = await kitsu.get("anime?filter[text]=" + search + "&page[limit]=" + 2);
-	const anime = data?.at(0);
-	if (!anime) return;
-	const title = anime?.titles?.en_jp || anime?.titles?.en || anime.titles?.ja_jp || "unknown";
+	const query = options.getString("name", true);
+	const [name, id] = query.split(":::");
+	const data = await this.Zisearch(name);
+
+	if (!data.length) {
+		await interaction.editReply({
+			embeds: [
+				new EmbedBuilder()
+					.setColor(lang?.color || "Random")
+					.setTimestamp()
+					.setDescription(lang?.until.noresult)
+					.setFooter({
+						text: `${lang.until.requestBy} ${user?.username}`,
+						iconURL: user.displayAvatarURL({ size: 1024 }),
+					}),
+			],
+		});
+
+		return;
+	}
+	let anime = null;
+	if (id) anime = data?.find((anime) => anime.id === id);
+	if (anime) anime = anime.attributes;
+	else anime = data?.at(0).attributes;
+
+	const title = getTitle(anime);
 
 	const info = new EmbedBuilder()
 		.setColor(lang?.color || "Random")
@@ -103,17 +140,16 @@ module.exports.execute = async ({ interaction, lang }) => {
 
 module.exports.autocomplete = async ({ interaction, lang }) => {
 	try {
-		// const text = interaction.options.getString("text", true);
-		// const langTo = lang?.name || "en";
-		// const translated = await translate(text, { to: langTo });
-		// const transtext = translated.from?.text?.value;
-		// if (!transtext) return;
-		// await interaction.respond([
-		// 	{
-		// 		name: transtext,
-		// 		value: transtext.replace(/[\[\]]/g, ""),
-		// 	},
-		// ]);
+		const name = interaction.options.getString("name", true);
+		const data = await this.Zisearch(name);
+		if (!data.length) return;
+
+		await interaction.respond(
+			data.map((anime) => ({
+				name: getTitle(anime.attributes),
+				value: `${getTitle(anime.attributes)}:::${anime.id}`,
+			})),
+		);
 		return;
 	} catch (e) {
 		console.error(e);

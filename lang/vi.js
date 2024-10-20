@@ -15,6 +15,7 @@ module.exports = {
 		noPermission: "❌ | Bạn không có quyền để thực hiện lệnh này!",
 		cooldown: "Vui lòng đợi, bạn đang trong thời gian cooldown cho `{command}`! Bạn có thể sử dụng nó lại {time}.",
 		goodbye: "Tạm biệt",
+		noresult: "❌ | Không tìm thấy kết quả",
 	},
 	Help: {
 		Placeholder: "> | Chọn một danh mục để xem các lệnh",

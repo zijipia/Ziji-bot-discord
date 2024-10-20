@@ -15,6 +15,7 @@ module.exports = {
 		noPermission: "❌ | You do not have permission to execute this command!",
 		cooldown: "Please wait, you are on a cooldown for `{command}`! You can use it again {time}.",
 		goodbye: "Goodbye",
+		noresult: "❌ | No result",
 	},
 	BotStats: {
 		Description: "Bot stats",
