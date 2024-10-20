@@ -1,4 +1,3 @@
-const { MessageContextMenuCommandInteraction } = require("discord.js");
 const { useFunctions } = require("@zibot/zihooks");
 
 module.exports.data = {
@@ -11,7 +10,7 @@ module.exports.data = {
 
 /**
  * @param { object } context - object command
- * @param { MessageContextMenuCommandInteraction } context.interaction - interaction
+ * @param { import ("discord.js").MessageContextMenuCommandInteraction } context.interaction - interaction
  * @param { import('../../lang/vi.js') } context.lang - language
  */
 

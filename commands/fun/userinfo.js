@@ -1,5 +1,4 @@
-// const { User } = require("discord.js");
-const { CommandInteraction, EmbedBuilder, GuildMember } = require("discord.js");
+const { EmbedBuilder } = require("discord.js");
 
 module.exports.data = {
 	name: "userinfo",
@@ -19,7 +18,7 @@ module.exports.data = {
 
 /**
  * @param { object } command - object command
- * @param { CommandInteraction } command.interaction - interaction
+ * @param { import ("discord.js").CommandInteraction } command.interaction - interaction
  * @param { import('../../lang/vi.js') } command.lang - language
  */
 

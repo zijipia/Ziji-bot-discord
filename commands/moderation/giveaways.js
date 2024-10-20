@@ -1,13 +1,13 @@
-const { CommandInteraction, PermissionsBitField, EmbedBuilder } = require("discord.js");
-const { useGiveaways } = require("@zibot/zihooks");
+const { PermissionsBitField, EmbedBuilder } = require("discord.js");
+const { useGiveaways, useConfig } = require("@zibot/zihooks");
 const Giveaways = useGiveaways();
+const config = useConfig();
 
 const ms = require("ms");
-const config = require("../../config.js");
 
 /**
  * @param { object } command - object command
- * @param { CommandInteraction } command.interaction - interaction
+ * @param { import ("discord.js").CommandInteraction } command.interaction - interaction
  * @param { import('../../lang/vi.js') } command.lang - language
  */
 

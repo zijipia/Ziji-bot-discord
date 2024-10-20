@@ -1,11 +1,4 @@
-const {
-	CommandInteraction,
-	EmbedBuilder,
-	ActionRowBuilder,
-	StringSelectMenuBuilder,
-	ButtonBuilder,
-	ButtonStyle,
-} = require("discord.js");
+const { EmbedBuilder, ActionRowBuilder, StringSelectMenuBuilder, ButtonBuilder, ButtonStyle } = require("discord.js");
 const ZiIcons = require("../../utility/icon");
 const config = require("../../config");
 module.exports.data = {
@@ -19,7 +12,7 @@ module.exports.data = {
 
 /**
  * @param { object } command - object command
- * @param { CommandInteraction } command.interaction - interaction
+ * @param { import ("discord.js").CommandInteraction } command.interaction - interaction
  * @param { import('../../lang/vi.js') } lang
  */
 

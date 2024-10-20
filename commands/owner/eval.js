@@ -1,4 +1,4 @@
-const { CommandInteraction, EmbedBuilder, ApplicationCommandOptionType } = require("discord.js");
+const { EmbedBuilder, ApplicationCommandOptionType } = require("discord.js");
 const DUMMY_TOKEN = "MY_TOKEN_IS_SECRET";
 const config = require("../../config");
 
@@ -24,7 +24,7 @@ module.exports.data = {
 
 /**
  * @param { object } command - object command
- * @param { CommandInteraction } command.interaction - interaction
+ * @param { import ("discord.js").CommandInteraction } command.interaction - interaction
  * @param { import('../../lang/vi.js') } command.lang - language
  */
 

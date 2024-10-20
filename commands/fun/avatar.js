@@ -1,6 +1,3 @@
-// const { User } = require("discord.js");
-const { CommandInteraction } = require("discord.js");
-
 module.exports.data = {
 	name: "avatar",
 	description: "Xem ảnh đại diện của ai đó",
@@ -19,7 +16,7 @@ module.exports.data = {
 
 /**
  * @param { object } command - object command
- * @param { CommandInteraction } command.interaction - interaction
+ * @param { import ("discord.js").CommandInteraction } command.interaction - interaction
  * @param { import('../../lang/vi.js') } command.lang - language
  */
 
