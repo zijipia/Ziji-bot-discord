@@ -226,7 +226,7 @@ module.exports.execute = async (interaction, query, lang, options = {}) => {
 	const embed = new EmbedBuilder()
 		.setTitle("Tìm kiếm kết quả:")
 		.setDescription(`${query}`)
-		.setColor("Random")
+		.setColor(lang?.color || "Random")
 		.addFields(
 			tracks.map((track, i) => ({
 				name: `${i + 1}: ${track.title.slice(0, 50)} \`[${track.duration}]\``.slice(0, 99),

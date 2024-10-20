@@ -29,7 +29,7 @@ module.exports.execute = async ({ interaction, lang }) => {
 	const getFieldValue = (name, value) => ({ name, value, inline: true });
 
 	const embed = new EmbedBuilder()
-		.setColor("Random")
+		.setColor(lang?.color || "Random")
 		.setTitle(lang?.UserInfo?.Title)
 		.setThumbnail(member.user.displayAvatarURL())
 		.addFields([

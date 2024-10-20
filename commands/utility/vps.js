@@ -38,7 +38,7 @@ module.exports.execute = async ({ interaction, lang }) => {
 
 	// Tạo embed để hiển thị thông tin
 	const embed = new EmbedBuilder()
-		.setColor("#ffcc99")
+		.setColor(lang?.color || "Random")
 		.setTitle(lang?.BotStats?.Description)
 		.addFields(
 			{ name: lang?.BotStats?.OS, value: osInfo, inline: true },

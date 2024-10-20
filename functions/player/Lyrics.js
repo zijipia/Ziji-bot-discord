@@ -42,7 +42,7 @@ module.exports.execute = async (interaction, options) => {
 	//embed
 	const LyricsEmbed = new EmbedBuilder()
 		.setDescription(`${lang?.Lyrics?.no_res || "❌ | No Lyrics Found!"}\n- Query:**${query}**`)
-		.setColor("Random")
+		.setColor(lang?.color || "Random")
 		.setThumbnail(queue?.currentTrack?.thumbnail || null);
 
 	const lyrics = await player.lyrics.search({ q: query });

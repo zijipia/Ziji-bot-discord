@@ -15,7 +15,7 @@ module.exports.execute = async ({ user, XpADD = 1 }) => {
 	const DataBase = useDB();
 	if (DataBase && user) {
 		// Destructure userDB to extract values with default assignments
-		const { xp = 1, level = 1, coin = 1, lang } = (await DataBase.ZiUser.findOne({ userID: user.id })) || {};
+		const { xp = 1, level = 1, coin = 1, lang, color } = (await DataBase.ZiUser.findOne({ userID: user.id })) || {};
 
 		// Calculate new xp
 		let newXp = xp + XpADD;
@@ -43,6 +43,7 @@ module.exports.execute = async ({ user, XpADD = 1 }) => {
 			{ upsert: true },
 		);
 		const langdef = require(`./../../lang/${lang || config?.DeafultLang}`);
+		langdef.color = color;
 		return langdef;
 	} else {
 		// If the database is not available, just increment the user's XP and Coin

@@ -8,6 +8,7 @@ const ZiUser = Schema({
 	coin: { type: Number, default: 1 },
 	lang: { type: String },
 	volume: { type: Number, default: 100 },
+	color: { type: String, default: "Random" },
 });
 
 module.exports = {

@@ -97,7 +97,7 @@ module.exports = {
 					ZiIcons.animatedIcons[Math.floor(Math.random() * ZiIcons.animatedIcons.length)]
 				}>`,
 			)
-			.setColor("Random")
+			.setColor(lang?.color || "Random")
 			.setFooter({
 				text: `${lang.until.requestBy} ${requestedBy?.username}`,
 				iconURL: requestedBy.displayAvatarURL({ size: 1024 }),

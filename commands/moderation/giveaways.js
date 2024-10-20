@@ -129,7 +129,7 @@ module.exports.listGiveaways = async ({ interaction, lang }) => {
 				)
 				.join("\n"),
 		)
-		.setColor("Random");
+		.setColor(lang?.color || "Random");
 	return interaction.reply({ embeds: [embed], ephemeral: true });
 };
 

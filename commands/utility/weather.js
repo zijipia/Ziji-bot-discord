@@ -52,7 +52,7 @@ module.exports = {
 					timeZone: "UTC",
 				});
 			const weatherEmbed = new EmbedBuilder()
-				.setColor("#0099ff")
+				.setColor(lang?.color || "Random")
 				.setTitle(`🌡️ ${lang.weather.TITLE}: ${data.name}, :flag_${data.sys.country.toLowerCase()}:`)
 				.setDescription(data.weather[0].description.charAt(0).toUpperCase() + data.weather[0].description.slice(1))
 				.setThumbnail(`https://openweathermap.org/img/wn/${data.weather[0].icon}@2x.png`)

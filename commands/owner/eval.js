@@ -43,34 +43,34 @@ module.exports.execute = async ({ interaction, lang }) => {
 	let response;
 	try {
 		const result = await eval(code);
-		response = buildSuccessResponse(result, interaction.client);
+		response = buildSuccessResponse(result, interaction.client, lang);
 	} catch (error) {
-		response = buildErrorResponse(error);
+		response = buildErrorResponse(error, lang);
 	}
 
 	await interaction.reply(response);
 };
 
 // Tạo phản hồi thành công
-const buildSuccessResponse = (output, client) => {
+const buildSuccessResponse = (output, client, lang) => {
 	// Bảo vệ token
 	output = require("util").inspect(output, { depth: 0 }).replace(client.token, DUMMY_TOKEN);
 
 	const embed = new EmbedBuilder()
 		.setAuthor({ name: "📤 Output" })
 		.setDescription("```js\n" + (output.length > 4096 ? `${output.substring(0, 4000)}...` : output) + "\n```")
-		.setColor("Random")
+		.setColor(lang?.color || "Random")
 		.setTimestamp();
 
 	return { embeds: [embed] };
 };
 
 // Tạo phản hồi lỗi
-const buildErrorResponse = (err) => {
+const buildErrorResponse = (err, lang) => {
 	const embed = new EmbedBuilder()
 		.setAuthor({ name: "📤 Error" })
 		.setDescription("```js\n" + (err.message.length > 4096 ? `${err.message.substring(0, 4000)}...` : err.message) + "\n```")
-		.setColor("Random")
+		.setColor(lang?.color || "Random")
 		.setTimestamp();
 
 	return { embeds: [embed] };

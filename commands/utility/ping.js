@@ -30,7 +30,7 @@ module.exports.execute = async ({ interaction, lang }) => {
 
 		const informationEmbed = new EmbedBuilder()
 			.setTitle("🏓 Pong!")
-			.setColor("Random")
+			.setColor(lang?.color || "Random")
 			.setDescription(lang.Ping?.Description?.replace("##username##", interaction.user) || " ")
 			.addFields(
 				{ name: lang?.Ping?.Roundtrip || " ", value: `${roundTripLatency}ms`, inline: true },

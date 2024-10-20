@@ -1,6 +1,7 @@
 module.exports = {
 	name: "en",
 	local_names: "en_US",
+	color: "",
 	until: {
 		success: "Successfully executed this command!",
 		notHavePremission: "You do not have permission to execute this command!",

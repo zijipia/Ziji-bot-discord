@@ -50,7 +50,7 @@ module.exports.execute = async ({ interaction, lang }) => {
 	const embed = new EmbedBuilder()
 		.setTitle(`Translated ${this.language[translated.from.language.iso]} -> ${this.language[langTo]}:`)
 		.setDescription(translated.text)
-		.setColor("Random")
+		.setColor(lang?.color || "Random")
 		.setFooter({
 			text: `${lang.until.requestBy} ${user?.username}`,
 			iconURL: user.displayAvatarURL({ size: 1024 }),
