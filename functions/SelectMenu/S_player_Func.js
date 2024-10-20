@@ -1,7 +1,7 @@
 const { useQueue } = require("discord-player");
-const { useFunctions, useDB } = require("@zibot/zihooks");
+const { useFunctions, useDB, useConfig } = require("@zibot/zihooks");
 const Functions = useFunctions();
-const config = require("../../config.js");
+const config = useConfig();
 const { ModalBuilder, TextInputBuilder, TextInputStyle, ActionRowBuilder } = require("discord.js");
 
 module.exports.data = {

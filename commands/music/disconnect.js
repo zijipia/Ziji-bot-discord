@@ -1,6 +1,4 @@
-const { useMainPlayer, useQueue } = require("discord-player");
-const { CommandInteraction } = require("discord.js");
-const player = useMainPlayer();
+const { useQueue } = require("discord-player");
 
 module.exports.data = {
 	name: "disconnect",
@@ -13,7 +11,7 @@ module.exports.data = {
 
 /**
  * @param { object } command - object command
- * @param { CommandInteraction } command.interaction - interaction
+ * @param { import ("discord.js").CommandInteraction } command.interaction - interaction
  * @param { import('../../lang/vi.js') } lang
  */
 

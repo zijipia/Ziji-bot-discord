@@ -1,4 +1,4 @@
-const { CommandInteraction, EmbedBuilder } = require("discord.js");
+const { EmbedBuilder } = require("discord.js");
 const axios = require("axios");
 
 module.exports = {
@@ -21,7 +21,7 @@ module.exports = {
 
 	/**
 	 * @param { object } command - object command
-	 * @param { CommandInteraction } command.interaction - interaction
+	 * @param { import ("discord.js").CommandInteraction } command.interaction - interaction
 	 * @param { import('../../lang/vi.js') } command.lang - language
 	 */
 

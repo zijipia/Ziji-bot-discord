@@ -1,6 +1,5 @@
-const { CommandInteraction, EmbedBuilder } = require("discord.js");
-
-const config = require("../../config");
+const { EmbedBuilder } = require("discord.js");
+const config = require("@zibot/zihooks").useConfig();
 
 module.exports.data = {
 	name: "ping",
@@ -13,7 +12,7 @@ module.exports.data = {
 
 /**
  * @param { object } command - object command
- * @param { CommandInteraction } command.interaction - interaction
+ * @param { import ("discord.js").CommandInteraction } command.interaction - interaction
  * @param { import('../../lang/vi.js') } command.lang - language
  */
 

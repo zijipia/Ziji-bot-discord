@@ -1,4 +1,5 @@
 const { useQueue } = require("discord-player");
+
 module.exports.data = {
 	name: "B_Lyrics_cancel",
 	type: "button",

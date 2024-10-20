@@ -1,5 +1,4 @@
-const { CommandInteraction } = require("discord.js");
-const config = require("../../config.js");
+const config = require("@zibot/zihooks").useConfig();
 
 module.exports.data = {
 	name: "rename",
@@ -26,7 +25,7 @@ module.exports.data = {
 
 /**
  * @param { object } command - object command
- * @param { CommandInteraction } command.interaction - interaction
+ * @param { import ("discord.js").CommandInteraction } command.interaction - interaction
  * @param { import('../../lang/vi.js') } command.lang - language
  */
 

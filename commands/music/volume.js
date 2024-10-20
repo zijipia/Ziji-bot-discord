@@ -1,6 +1,6 @@
 const { useQueue } = require("discord-player");
 const { useFunctions, useDB } = require("@zibot/zihooks");
-const { CommandInteraction } = require("discord.js");
+
 module.exports.data = {
 	name: "volume",
 	description: "Chỉnh sửa âm lượng nhạc",
@@ -21,8 +21,8 @@ module.exports.data = {
 
 /**
  * @param { object } command - object command
- * @param { CommandInteraction } command.interaction - interaction
- * @param { import('../../lang/vi.js') } lang
+ * @param { import ("discord.js").CommandInteraction } command.interaction - interaction
+ * @param { import ('../../lang/vi.js') } lang
  */
 
 module.exports.execute = async ({ interaction, lang }) => {

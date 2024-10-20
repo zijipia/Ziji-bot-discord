@@ -1,6 +1,5 @@
 const { useMainPlayer, useQueue } = require("discord-player");
 const { useFunctions } = require("@zibot/zihooks");
-const { CommandInteraction, AutocompleteInteraction } = require("discord.js");
 const player = useMainPlayer();
 
 module.exports.data = {
@@ -57,7 +56,7 @@ module.exports.data = {
 
 /**
  * @param { object } command - object command
- * @param { CommandInteraction } command.interaction - interaction
+ * @param { import ("discord.js").CommandInteraction } command.interaction - interaction
  * @param { import('../../lang/vi.js') } command.lang - language
  */
 
@@ -91,7 +90,7 @@ module.exports.execute = async ({ interaction, lang }) => {
 
 /**
  * @param { object } autocomplete - object autocomplete
- * @param { AutocompleteInteraction } autocomplete.interaction - interaction
+ * @param { import ("discord.js").AutocompleteInteraction } autocomplete.interaction - interaction
  * @param { import('../../lang/vi.js') } autocomplete.lang - language
  */
 

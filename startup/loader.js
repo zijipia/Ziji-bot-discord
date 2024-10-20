@@ -2,7 +2,7 @@ const { table } = require("table");
 const fs = require("fs").promises;
 const chalk = require("chalk");
 const path = require("node:path");
-const config = require("../config");
+const config = require("@zibot/zihooks").useConfig();
 
 // Hàm loadFiles để tải các file lệnh từ thư mục chỉ định
 const loadFiles = async (directory, collection) => {
