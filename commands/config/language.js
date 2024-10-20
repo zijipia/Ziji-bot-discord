@@ -1,4 +1,5 @@
 const { useFunctions, useDB } = require("@zibot/zihooks");
+
 module.exports.data = {
 	name: "language",
 	description: "Chỉnh sửa ngôn ngữ bot",

@@ -1,9 +1,13 @@
-const { EmbedBuilder, ActionRowBuilder, ButtonBuilder, ButtonInteraction, AttachmentBuilder } = require("discord.js");
-const { useMainPlayer, useQueue, Util, GuildQueue } = require("discord-player");
-const { ButtonStyle, StringSelectMenuOptionBuilder, StringSelectMenuBuilder } = require("discord.js");
-const player = useMainPlayer();
+const {
+	EmbedBuilder,
+	ActionRowBuilder,
+	ButtonBuilder,
+	ButtonInteraction,
+	AttachmentBuilder,
+	ButtonStyle,
+} = require("discord.js");
 const ZiIcons = require("./../../utility/icon");
-const config = require("../../config");
+const config = require("@zibot/zihooks").useConfig();
 
 const { Worker } = require("worker_threads");
 
@@ -42,7 +46,7 @@ async function buildImageInWorker(searchPlayer, query) {
 
 /**
  * @param { ButtonInteraction } interaction
- * @param { GuildQueue } queue
+ * @param { import("discord-player").GuildQueue } queue
  */
 
 module.exports.execute = async (interaction, queue, Nextpage = true) => {

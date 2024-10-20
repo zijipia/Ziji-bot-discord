@@ -1,4 +1,4 @@
-const { useMainPlayer, GuildQueue, QueryType } = require("discord-player");
+const { useMainPlayer, QueryType } = require("discord-player");
 const { useFunctions } = require("@zibot/zihooks");
 
 const player = useMainPlayer();

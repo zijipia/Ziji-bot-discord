@@ -1,5 +1,5 @@
-const config = require("../../config");
-const { useDB } = require("@zibot/zihooks");
+const { useDB, useConfig } = require("@zibot/zihooks");
+const config = useConfig();
 
 module.exports.data = {
 	name: "ZiRank",

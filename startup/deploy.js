@@ -1,6 +1,6 @@
 const { REST, Routes } = require("discord.js");
-const config = require("../config");
-const { useCommands } = require("@zibot/zihooks");
+const { useCommands, useConfig } = require("@zibot/zihooks");
+const config = useConfig();
 
 module.exports = async (client) => {
 	const commands = { global: [], owner: [] };

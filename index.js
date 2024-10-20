@@ -1,13 +1,13 @@
 require("dotenv").config();
+const { useClient, useCooldowns, useCommands, useFunctions, useGiveaways, useConfig } = require("@zibot/zihooks");
 const path = require("node:path");
-const config = require("./config");
 const { Player } = require("discord-player");
+const config = useConfig(require("./config"));
 const { GiveawaysManager } = require("discord-giveaways");
 const { YoutubeiExtractor } = require("discord-player-youtubei");
 const { loadFiles, loadEvents } = require("./startup/loader.js");
 const { Client, Collection, GatewayIntentBits } = require("discord.js");
 const { ZiExtractor, useZiVoiceExtractor } = require("@zibot/ziextractor");
-const { useClient, useCooldowns, useCommands, useFunctions, useGiveaways } = require("@zibot/zihooks");
 
 const client = new Client({
 	intents: [
@@ -32,6 +32,7 @@ const client = new Client({
 		repliedUser: false,
 	},
 });
+
 const player = new Player(client, {
 	skipFFmpeg: false,
 });
@@ -79,7 +80,6 @@ const ziVoice = useZiVoiceExtractor({
 const initialize = async () => {
 	useClient(client);
 	useCooldowns(new Collection());
-
 	await Promise.all([
 		loadFiles(path.join(__dirname, "commands"), useCommands(new Collection())),
 		loadFiles(path.join(__dirname, "functions"), useFunctions(new Collection())),

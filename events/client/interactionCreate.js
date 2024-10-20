@@ -1,6 +1,6 @@
 const { Events, CommandInteraction, PermissionsBitField } = require("discord.js");
-const config = require("../../config");
-const { useCooldowns, useCommands, useFunctions } = require("@zibot/zihooks");
+const { useCooldowns, useCommands, useFunctions, useConfig } = require("@zibot/zihooks");
+const config = useConfig();
 
 const Cooldowns = useCooldowns();
 const Commands = useCommands();

@@ -1,12 +1,12 @@
 const { EmbedBuilder, ActionRowBuilder, ButtonBuilder, BaseInteraction, AttachmentBuilder } = require("discord.js");
 const { useMainPlayer, useQueue } = require("discord-player");
-const { useDB } = require("@zibot/zihooks");
+const { useDB, useConfig } = require("@zibot/zihooks");
 const { ButtonStyle, StringSelectMenuOptionBuilder, StringSelectMenuBuilder } = require("discord.js");
 const { Worker } = require("worker_threads");
 const langdef = require("./../../lang/vi");
 const player = useMainPlayer();
 const ZiIcons = require("./../../utility/icon");
-const config = require("../../config");
+const config = useConfig();
 
 //====================================================================//
 

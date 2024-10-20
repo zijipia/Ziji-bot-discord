@@ -1,7 +1,5 @@
-const { useMainPlayer, GuildQueueEvent } = require("discord-player");
+const { GuildQueueEvent } = require("discord-player");
 const { useFunctions } = require("@zibot/zihooks");
-
-const players = useMainPlayer();
 
 module.exports = {
 	name: GuildQueueEvent.emptyQueue,

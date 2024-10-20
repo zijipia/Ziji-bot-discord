@@ -1,6 +1,5 @@
 const { EmbedBuilder } = require("discord.js");
-
-const config = require("../../config");
+const config = require("@zibot/zihooks").useConfig();
 
 module.exports.data = {
 	name: "ping",

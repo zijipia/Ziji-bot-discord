@@ -1,6 +1,7 @@
 const { EmbedBuilder, ActionRowBuilder, StringSelectMenuBuilder, ButtonBuilder, ButtonStyle } = require("discord.js");
 const ZiIcons = require("../../utility/icon");
-const config = require("../../config");
+const config = require("@zibot/zihooks").useConfig();
+
 module.exports.data = {
 	name: "help",
 	description: "Help",

@@ -1,4 +1,4 @@
-const config = require("../../config");
+const config = require("@zibot/zihooks").useConfig();
 
 module.exports.data = {
 	name: "listservers",

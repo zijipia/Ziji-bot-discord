@@ -1,4 +1,4 @@
-const config = require("../../config.js");
+const config = require("@zibot/zihooks").useConfig();
 
 module.exports.data = {
 	name: "rename",
