@@ -52,7 +52,7 @@ const loadFiles = async (directory, collection) => {
 			table(clientCommands, {
 				header: {
 					alignment: "center",
-					content: `Commands ${path.basename(directory)}`,
+					content: `${path.basename(directory)}`,
 				},
 				singleLine: true,
 				columns: [{ width: 25 }, { width: 5, alignment: "center" }],
