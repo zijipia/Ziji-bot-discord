@@ -14,3 +14,5 @@ updates:
     ignore:
       - dependency-name: "chalk"
         versions: ["*"]
+      - dependency-name: "node-fetch"
+        versions: ["*"]
