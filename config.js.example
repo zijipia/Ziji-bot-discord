@@ -9,7 +9,7 @@ module.exports = {
 	 * Thời gian chờ mặc định giữa các lệnh (tính bằng mili giây)
 	 * Default cooldown duration between commands (in milliseconds)
 	 */
-	defaultCooldownDuration: 5000,
+	defaultCooldownDuration: 5_000,
 
 	/**
 	 * Màu mặt định (hex , Random)
@@ -150,7 +150,7 @@ module.exports = {
 
 		/** ============ Extractor ============ */
 		//enable YoutubeiExtractor
-		YoutubeiExtractor: false,
+		YoutubeiExtractor: true,
 		//enable Ziext (beta)
 		ZiExtractor: true,
 
