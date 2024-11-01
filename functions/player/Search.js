@@ -117,7 +117,7 @@ module.exports.execute = async (interaction, query, lang, options = {}) => {
 						channel: interaction.channel,
 						requestedBy: user,
 						LockStatus: false,
-						voiceAssistance: options.assistant && config?.voiceAssistance,
+						voiceAssistance: options.assistant && config?.DevConfig?.VoiceExtractor,
 						ZiLyrics: { Active: false },
 						lang: lang || langdef,
 						mess: interaction?.customId !== "S_player_Search" ? await interaction.fetchReply() : interaction.message,
