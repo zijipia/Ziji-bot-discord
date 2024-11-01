@@ -98,7 +98,7 @@ module.exports.execute = async (interaction, query, lang, options = {}) => {
 				requestedBy: user,
 			});
 			const playerConfig = { ...DefaultPlayerConfig, ...config?.PlayerConfig };
-			if (options.assistant && config?.voiceAssistance) {
+			if (options.assistant && config?.DevConfig?.VoiceExtractor) {
 				playerConfig.selfDeaf = false;
 			}
 
@@ -109,6 +109,7 @@ module.exports.execute = async (interaction, query, lang, options = {}) => {
 						((await DataBase.ZiUser.findOne({ userID: user.id }))?.volume ?? DefaultPlayerConfig.volume)
 					:	DefaultPlayerConfig.volume;
 			}
+
 			await player.play(voiceChannel, res, {
 				nodeOptions: {
 					...playerConfig,
