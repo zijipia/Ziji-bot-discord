@@ -27,7 +27,7 @@ const loadFiles = async (directory, collection) => {
 							const module = require(path.resolve(filePath));
 							// Kiểm tra module có thuộc tính 'data' và 'execute'
 							if ("data" in module && "execute" in module) {
-								const isDisabled = config.disabledCommands.includes(module.data.name) || module.data?.enable == false;
+								const isDisabled = config.disabledCommands.includes(module.data.name) || module.data?.enable === false;
 								// Thêm thông tin lệnh vào danh sách
 								clientCommands.push([chalk.hex(isDisabled ? "#4733FF" : "#E5C3FF")(module.data.name), isDisabled ? "❌" : "✅"]);
 								// Nếu lệnh không bị vô hiệu hóa, thêm vào collection
@@ -84,7 +84,7 @@ const loadEvents = async (directory, target) => {
 						// Tải module Events từ file
 						const event = require(path.resolve(filePath));
 
-						const isDisabled = event?.enable == false;
+						const isDisabled = event?.enable === false;
 
 						clientEvents.push([chalk.hex(isDisabled ? "#4733FF" : "#E5C3FF")(event.name), isDisabled ? "❌" : "✅"]);
 

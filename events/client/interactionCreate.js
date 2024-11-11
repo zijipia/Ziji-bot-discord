@@ -8,6 +8,8 @@ const Functions = useFunctions();
 
 /**
  * @param { CommandInteraction } interaction
+ * @param { Client } client
+ * @param { import('../../lang/vi.js') } lang - language
  */
 
 async function checkStatus(interaction, client, lang) {
