@@ -16,3 +16,5 @@ updates:
         versions: ["*"]
       - dependency-name: "node-fetch"
         versions: ["*"]
+      - dependency-name: opusscript"
+        versions: ["*"]
