@@ -38,14 +38,7 @@ const player = new Player(client, {
 });
 
 player.setMaxListeners(100);
-if (config.DevConfig.YoutubeiExtractor)
-	player.extractors.register(YoutubeiExtractor, {
-		authentication: process.env?.YoutubeAUH || "",
-		streamOptions: {
-			useClient: "IOS",
-		},
-	});
-
+if (config.DevConfig.YoutubeiExtractor) player.extractors.register(YoutubeiExtractor, {});
 if (config.DevConfig.ZiExtractor) player.extractors.register(ZiExtractor, {});
 player.extractors.loadDefault((ext) => !["YouTubeExtractor"].includes(ext));
 
