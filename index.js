@@ -2,10 +2,11 @@ require("dotenv").config();
 const { useClient, useCooldowns, useCommands, useFunctions, useGiveaways, useConfig } = require("@zibot/zihooks");
 const path = require("node:path");
 const { Player } = require("discord-player");
+const { ZiAutoresponder } = require('./startup/mongoDB')
 const config = useConfig(require("./config"));
 const { GiveawaysManager } = require("discord-giveaways");
 const { YoutubeiExtractor } = require("discord-player-youtubei");
-const { loadFiles, loadEvents } = require("./startup/loader.js");
+const { loadFiles, loadEvents, loadResponder } = require("./startup/loader.js");
 const { Client, Collection, GatewayIntentBits } = require("discord.js");
 const { ZiExtractor, useZiVoiceExtractor } = require("@zibot/ziextractor");
 
@@ -70,6 +71,7 @@ const ziVoice = useZiVoiceExtractor({
 	lang: "vi-VN",
 });
 
+client.autoRes = new Collection(); // Cache cho các autoresponder
 const initialize = async () => {
 	useClient(client);
 	useCooldowns(new Collection());
@@ -80,6 +82,7 @@ const initialize = async () => {
 		loadEvents(path.join(__dirname, "events/player"), player.events),
 		loadEvents(path.join(__dirname, "events/voice"), ziVoice),
 		loadEvents(path.join(__dirname, "events/process"), process),
+		loadResponder()
 	]);
 
 	client.login(process.env.TOKEN).catch((error) => {
