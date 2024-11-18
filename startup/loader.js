@@ -1,6 +1,7 @@
 const { table } = require("table");
 const fs = require("fs").promises;
 const chalk = require("chalk");
+const { ZiAutoresponder } =require('./mongoDB')
 const path = require("node:path");
 const config = require("@zibot/zihooks").useConfig();
 
@@ -63,6 +64,25 @@ const loadFiles = async (directory, collection) => {
 		console.error(`Error reading directory ${directory}:`, dirError);
 	}
 };
+
+const loadResponder = async () => {
+	try {
+	  const responders = await ZiAutoresponder.findOne();
+	  responders.forEach((responder) => {
+		if (!client.autoRes.has(responder.guildId)) {
+		  client.autoRes.set(responder.guildId, []);
+		}
+		client.autoRes.get(responder.guildId).push({
+		  trigger: responder.trigger,
+		  response: responder.response,
+		  matchMode: responder.options.matchMode
+		});
+	  });
+	  console.log('Autoresponders đã được tải vào cache.');
+	} catch (error) {
+	  console.error('Lỗi khi tải autoresponders:', error);
+	}
+}
 
 // Hàm loadEvents để tải các file Events từ thư mục chỉ định
 const loadEvents = async (directory, target) => {
@@ -128,4 +148,5 @@ const loadEvents = async (directory, target) => {
 module.exports = {
 	loadFiles,
 	loadEvents,
+	loadResponder
 };
