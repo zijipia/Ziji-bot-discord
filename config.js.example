@@ -159,5 +159,7 @@ module.exports = {
 		VoiceExtractor: true,
 		//enable Giveaway
 		Giveaway: true,
+		//enable AutoResponder
+		AutoResponder: true,
 	},
 };

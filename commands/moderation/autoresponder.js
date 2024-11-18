@@ -1,5 +1,7 @@
-const { ZiAutoresponder } = require("../../startup/mongoDB");
 const { PermissionsBitField } = require("discord.js");
+const { useDB, useResponder, useConfig } = require("@zibot/zihooks");
+const config = useConfig();
+
 module.exports.data = {
 	name: "autoresponder",
 	description: "Quản lý các autoresponder",
@@ -48,6 +50,7 @@ module.exports.data = {
 	integration_types: [0],
 	contexts: [0],
 	default_member_permissions: "0", // chỉ có admin mới dùng được
+	enable: config?.DevConfig?.AutoResponder,
 };
 /**
  * @param { object } command - object command
@@ -59,42 +62,47 @@ module.exports.execute = async ({ interaction, lang }) => {
 	if (!interaction.member.permissions.has(PermissionsBitField.Flags.ManageMessages)) {
 		return interaction.reply({ content: lang.until.noPermission, ephemeral: true });
 	}
-
+	const db = useDB();
+	if (!db) return interaction.reply({ content: lang?.until?.noDB });
+	const autoRes = useResponder();
 	const commandtype = interaction.options?.getSubcommand();
+	const trigger = interaction.options.getString("trigger");
+	const response = interaction.options.getString("response");
 
 	switch (commandtype) {
 		case "new":
-			return this.newAutoRes({ interaction, lang });
+			return this.newAutoRes({ interaction, lang, options: { trigger, response, db, autoRes } });
 		case "edit":
-			return this.editAutoRes({ interaction, lang });
+			return this.editAutoRes({ interaction, lang, options: { trigger, response, db, autoRes } });
 		default:
 			return interaction.reply({ content: lang?.until?.notHavePremission, ephemeral: true });
 	}
 	return;
 };
 
-module.exports.newAutoRes = async ({ interaction, lang }) => {
+module.exports.newAutoRes = async ({ interaction, lang, options }) => {
 	await interaction.deferReply();
-	const trigger = interaction.options.getString("trigger");
-	const response = interaction.options.getString("response");
+
 	try {
-		const newResponder = await ZiAutoresponder.create({
+		const newResponder = await options.db.ZiAutoresponder.create({
 			guildId: interaction.guild.id,
-			trigger: trigger,
-			response: response,
+			trigger: options.trigger,
+			response: options.response,
 		});
 
-		if (!interaction.client.autoRes.has(interaction.guild.id)) {
-			interaction.client.autoRes.set(interaction.guild.id, []);
+		if (!options.autoRes.has(interaction.guild.id)) {
+			options.autoRes.set(interaction.guild.id, []);
 		}
-		interaction.client.autoRes.get(interaction.guild.id).push({
+		options.autoRes.get(interaction.guild.id).push({
 			trigger: newResponder.trigger,
 			response: newResponder.response,
 		});
 
-		interaction.editReply(`Đã thêm autoresponder: Khi ai đó gửi \`${trigger}\`, bot sẽ trả lời \`${response}\`.`);
+		interaction.editReply(`Đã thêm autoresponder: Khi ai đó gửi \`${options.trigger}\`, bot sẽ trả lời \`${options.response}\`.`);
+		return;
 	} catch (error) {
 		console.error(error);
 		interaction.editReply("Đã xảy ra lỗi khi thêm autoresponder.");
 	}
+	return;
 };

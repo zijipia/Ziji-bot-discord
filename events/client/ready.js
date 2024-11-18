@@ -18,11 +18,11 @@ module.exports = {
 		client.errorLog = async (messenger) => {
 			if (!config?.botConfig?.ErrorLog) return;
 			try {
-				const channel = await client.channels.fetch(config?.botConfig?.ErrorLog).catch(() => 0);
+				const channel = await client.channels.fetch(config?.botConfig?.ErrorLog).catch(() => null);
 				if (channel) {
 					const text = `[<t:${Math.floor(Date.now() / 1000)}:R>] ${messenger}`;
 					for (let i = 0; i < text.length; i += 1000) {
-						await channel?.send(text.slice(i, i + 1000)).catch(() => {});
+						await channel.send(text.slice(i, i + 1000)).catch(() => {});
 					}
 				}
 			} catch (error) {
@@ -30,26 +30,23 @@ module.exports = {
 			}
 		};
 
-		// Deploy Commands
-		if (config?.deploy) {
-			await deploy(client);
-		}
+		// Use Promise.all to handle MongoDB connection and deployment concurrently
+		const [deployResult, mongoConnected] = await Promise.all([
+			config?.deploy ? deploy(client).catch(() => null) : null,
+			mongoose.connect(process.env.MONGO).catch(() => false),
+		]);
 
-		// Connect MongoDB
-		if (process.env.MONGO) {
-			await mongoose
-				.connect(process.env.MONGO)
-				.then(() => {
-					console.log("Connected to MongoDB!");
-					client.errorLog(`Connected to MongoDB!`);
-					useDB(require("../../startup/mongoDB"));
-				})
-				.catch(() => useDB(() => false));
+		if (mongoConnected) {
+			useDB(require("../../startup/mongoDB"));
+			await require("../../startup/loadResponder")();
+			console.log("Connected to MongoDB!");
+			client.errorLog("Connected to MongoDB!");
 		} else {
-			useDB(() => false);
+			console.error("Failed to connect to MongoDB!");
+			client.errorLog("Failed to connect to MongoDB!");
 		}
 
-		// set Activity status
+		// Set Activity status
 		client.user.setStatus(config?.botConfig?.Status || "online");
 		client.user.setActivity({
 			name: config?.botConfig?.ActivityName || "ziji",
@@ -59,7 +56,7 @@ module.exports = {
 			},
 		});
 
-		// Ready !!!
+		// Log the bot's readiness
 		console.log(`Ready! Logged in as ${client.user.tag}`);
 		client.errorLog(`Ready! Logged in as ${client.user.tag}`);
 	},
