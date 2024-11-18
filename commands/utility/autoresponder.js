@@ -1,53 +1,53 @@
-const { ZiAutoresponder } = require('../../startup/mongoDB')
-const { PermissionsBitField } = require('discord.js')
+const { ZiAutoresponder } = require("../../startup/mongoDB");
+const { PermissionsBitField } = require("discord.js");
 module.exports.data = {
 	name: "autoresponder",
 	description: "Quản lý các autoresponder",
 	type: 1, // slash command
 	options: [
-        {
-            name: 'new',
-            description: 'Tạo một autoresponder mới',
-            type: 1,
-            options: [
-                {
-                    name: 'trigger',
-                    description: 'Tên của autoresponder',
-                    type: 3,
-                    required: true
-                },
-                {
-                    name: 'response',
-                    description: 'Phản hồi của autoresponder',
-                    type: 3,
-                    required: true
-                }
-            ]
-        },
-        {
-            name: 'edit',
-            description: 'Sửa đổi một autoresponder có sẵn',
-            type: 1,
-            options: [
-                {
-                    name: 'trigger',
-                    description: 'Tên của autoresponder',
-                    type: 3,
-                    required: true,
-                    autocomplete: true
-                },
-                {
-                    name: 'response',
-                    description: 'Phản hồi mới của autoresponder',
-                    type: 3,
-                    required: true
-                }
-            ]
-        },
-    ],
+		{
+			name: "new",
+			description: "Tạo một autoresponder mới",
+			type: 1,
+			options: [
+				{
+					name: "trigger",
+					description: "Tên của autoresponder",
+					type: 3,
+					required: true,
+				},
+				{
+					name: "response",
+					description: "Phản hồi của autoresponder",
+					type: 3,
+					required: true,
+				},
+			],
+		},
+		{
+			name: "edit",
+			description: "Sửa đổi một autoresponder có sẵn",
+			type: 1,
+			options: [
+				{
+					name: "trigger",
+					description: "Tên của autoresponder",
+					type: 3,
+					required: true,
+					autocomplete: true,
+				},
+				{
+					name: "response",
+					description: "Phản hồi mới của autoresponder",
+					type: 3,
+					required: true,
+				},
+			],
+		},
+	],
 	integration_types: [0],
 	contexts: [0],
-    default_member_permissions: "0", // chỉ có admin mới dùng được
+	default_member_permissions: "0", // chỉ có admin mới dùng được
 };
 /**
  * @param { object } command - object command
@@ -74,28 +74,27 @@ module.exports.execute = async ({ interaction, lang }) => {
 };
 
 module.exports.newAutoRes = async ({ interaction, lang }) => {
-    await interaction.deferReply()
-    const trigger = interaction.options.getString('trigger');
-    const response = interaction.options.getString('response');
-    try {
-      const newResponder = await ZiAutoresponder.create({
-        guildId: interaction.guild.id,
-        trigger: trigger,
-        response: response,
-      });
+	await interaction.deferReply();
+	const trigger = interaction.options.getString("trigger");
+	const response = interaction.options.getString("response");
+	try {
+		const newResponder = await ZiAutoresponder.create({
+			guildId: interaction.guild.id,
+			trigger: trigger,
+			response: response,
+		});
 
-      if (!interaction.client.autoRes.has(interaction.guild.id)) {
-        interaction.client.autoRes.set(interaction.guild.id, []);
-      }
-      interaction.client.autoRes.get(interaction.guild.id).push({
-        trigger: newResponder.trigger,
-        response: newResponder.response,
-      });
+		if (!interaction.client.autoRes.has(interaction.guild.id)) {
+			interaction.client.autoRes.set(interaction.guild.id, []);
+		}
+		interaction.client.autoRes.get(interaction.guild.id).push({
+			trigger: newResponder.trigger,
+			response: newResponder.response,
+		});
 
-
-      interaction.editReply(`Đã thêm autoresponder: Khi ai đó gửi \`${trigger}\`, bot sẽ trả lời \`${response}\`.`);
-    } catch (error) {
-      console.error(error);
-      interaction.editReply('Đã xảy ra lỗi khi thêm autoresponder.');
-    }
-}
+		interaction.editReply(`Đã thêm autoresponder: Khi ai đó gửi \`${trigger}\`, bot sẽ trả lời \`${response}\`.`);
+	} catch (error) {
+		console.error(error);
+		interaction.editReply("Đã xảy ra lỗi khi thêm autoresponder.");
+	}
+};

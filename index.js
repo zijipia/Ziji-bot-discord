@@ -2,7 +2,7 @@ require("dotenv").config();
 const { useClient, useCooldowns, useCommands, useFunctions, useGiveaways, useConfig } = require("@zibot/zihooks");
 const path = require("node:path");
 const { Player } = require("discord-player");
-const { ZiAutoresponder } = require('./startup/mongoDB')
+const { ZiAutoresponder } = require("./startup/mongoDB");
 const config = useConfig(require("./config"));
 const { GiveawaysManager } = require("discord-giveaways");
 const { YoutubeiExtractor } = require("discord-player-youtubei");
@@ -82,7 +82,7 @@ const initialize = async () => {
 		loadEvents(path.join(__dirname, "events/player"), player.events),
 		loadEvents(path.join(__dirname, "events/voice"), ziVoice),
 		loadEvents(path.join(__dirname, "events/process"), process),
-		loadResponder()
+		loadResponder(),
 	]);
 
 	client.login(process.env.TOKEN).catch((error) => {

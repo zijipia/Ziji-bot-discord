@@ -1,1 +1,7 @@
+commands/utility/autoresponder.js
+events/client/messageCreate.js
 formatted_files.txt
+functions/other/Variable.js
+index.js
+startup/loader.js
+startup/mongoDB.js
