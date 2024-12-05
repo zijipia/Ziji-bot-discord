@@ -1,3 +1,4 @@
+const { QueryType } = require("discord-player");
 module.exports = {
 	/**
 	 * Cho phép deploy command bot
@@ -28,6 +29,12 @@ module.exports = {
 	 * Default bot configuration
 	 */
 	botConfig: {
+		/**
+		 * Mặc định chế độ tìm kiếm của bot
+		 * Default: bot search track engine
+		 */
+		QueryType: QueryType.SOUNDCLOUD,
+		
 		/**
 		 * Tên hoạt động của bot
 		 * Bot's activity name

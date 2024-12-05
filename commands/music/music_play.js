@@ -1,6 +1,7 @@
 const { useMainPlayer, useQueue } = require("discord-player");
-const { useFunctions } = require("@zibot/zihooks");
+const { useFunctions, useConfig } = require("@zibot/zihooks");
 const player = useMainPlayer();
+const config = useConfig();
 
 module.exports.data = {
 	name: "play",
@@ -100,7 +101,7 @@ module.exports.autocomplete = async ({ interaction, lang }) => {
 		if (!query) return;
 
 		const results = await player.search(query, {
-			fallbackSearchEngine: "youtube",
+			fallbackSearchEngine: config.PlayerConfig.QueryType,
 		});
 
 		const tracks = results.tracks

@@ -102,8 +102,12 @@ module.exports = {
 				text: `${lang.until.requestBy} ${requestedBy?.username}`,
 				iconURL: requestedBy.displayAvatarURL({ size: 1024 }),
 			})
-			.setTimestamp()
-			.setImage(track?.thumbnail);
+			.setTimestamp();
+		if (queryTypeIcon === ZiIcons.youtubeIconURL) {
+			embed.setImage(track?.thumbnail);
+		} else {
+			embed.setThumbnail(track?.thumbnail);
+		}
 
 		const code = { content: "" };
 		const relatedTracks = await getRelatedTracks(track, queue.history);
