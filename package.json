@@ -29,7 +29,7 @@
 	"dependencies": {
 		"@discord-player/extractor": "^4.5.0",
 		"@iamtraction/google-translate": "^2.0.1",
-		"@zibot/ziextractor": "^2.1.7",
+		"@zibot/ziextractor": "^2.2.0",
 		"@zibot/zihooks": "^1.0.6",
 		"axios": "^1.7.7",
 		"canvacord": "^6.0.2",
@@ -45,7 +45,6 @@
 		"node-fetch": "^2.7.0",
 		"opusscript": "^0.0.8",
 		"prism-media": "^1.3.5",
-		"scdl-core": "^1.1.0",
 		"sharp": "^0.33.4",
 		"table": "^6.8.2"
 	},
@@ -53,9 +52,5 @@
 		"nodemon": "^3.1.0",
 		"prettier": "^3.3.2"
 	},
-	"overrides": {
-		"scdl-core": {
-			"axios": "^1.7.7"
-		}
-	}
+	"overrides": {}
 }
