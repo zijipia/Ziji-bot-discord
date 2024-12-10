@@ -13,7 +13,7 @@ const { Worker } = require("worker_threads");
 
 async function buildImageInWorker(searchPlayer, query) {
 	return new Promise((resolve, reject) => {
-		const worker = new Worker("./utility/worker.js", {
+		const worker = new Worker("./utility/musicImage.js", {
 			workerData: { searchPlayer, query },
 		});
 
