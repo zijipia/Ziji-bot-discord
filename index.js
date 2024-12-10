@@ -1,5 +1,14 @@
 require("dotenv").config();
-const { useClient, useCooldowns, useCommands, useFunctions, useGiveaways, useConfig, useResponder } = require("@zibot/zihooks");
+const {
+	useClient,
+	useCooldowns,
+	useCommands,
+	useFunctions,
+	useGiveaways,
+	useConfig,
+	useResponder,
+	useWelcome,
+} = require("@zibot/zihooks");
 const path = require("node:path");
 const { Player } = require("discord-player");
 const config = useConfig(require("./config"));
@@ -73,6 +82,7 @@ const ziVoice = useZiVoiceExtractor({
 client.autoRes = new Collection(); // Cache cho các autoresponder
 const initialize = async () => {
 	useClient(client);
+	useWelcome(new Collection());
 	useCooldowns(new Collection());
 	useResponder(new Collection());
 	await Promise.all([

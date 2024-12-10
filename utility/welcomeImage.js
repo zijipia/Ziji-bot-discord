@@ -3,12 +3,7 @@ const { GreetingsCard } = require("./GreetingsCard");
 
 async function buildImage(workerData) {
 	const { ZDisplayName, ZType, ZAvatar, ZMessage, ZImage } = workerData;
-	const card = new GreetingsCard()
-		.setDisplayName(ZDisplayName)
-		.setType(ZType)
-		.setAvatar(ZAvatar)
-		.setMessage(ZMessage)
-		.setImage(ZImage);
+	const card = new GreetingsCard().setDisplayName(ZDisplayName).setType(ZType).setAvatar(ZAvatar).setMessage(ZMessage);
 
 	const buffer = await card.build({ format: "png" });
 	parentPort.postMessage(buffer.buffer); // Send as ArrayBuffer

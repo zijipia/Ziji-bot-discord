@@ -24,8 +24,21 @@ const ZiAutoresopnder = Schema(
 		timestamps: true,
 	},
 );
+const ZiWelcome = Schema(
+	{
+		guildId: { type: String, required: true },
+		channel: { type: String, required: true },
+		content: { type: String, required: true },
+		Bcontent: { type: String, required: true },
+		Bcontent: { type: String, required: true },
+	},
+	{
+		timestamps: true,
+	},
+);
 
 module.exports = {
 	ZiUser: model("ZiUser", ZiUser),
 	ZiAutoresponder: model("ZiAutoresponder", ZiAutoresopnder),
+	ZiWelcome: model("ZiWelcome", ZiWelcome),
 };

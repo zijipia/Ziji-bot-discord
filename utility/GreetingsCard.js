@@ -32,23 +32,16 @@ class GreetingsCard extends Builder {
 		this.options.set("message", value);
 		return this;
 	}
-	setImage(value) {
-		this.options.set("BGimage", value);
-		return this;
-	}
 
 	async render() {
 		const { type, displayName, avatar, message, BGimage } = this.options.getOptions();
 
 		const image = await loadImage(avatar);
-		const BG = await loadImage(BGimage);
 
 		return JSX.createElement(
-			"img",
+			"div",
 			{
-				src: BG.toDataURL(),
-				className: "h-full w-full flex flex-col items-center justify-center rounded-xl",
-				// "h-full w-full flex flex-col items-center justify-center bg-[#23272A] rounded-xl",
+				className: "h-full w-full flex flex-col items-center justify-center bg-[#23272A] rounded-xl",
 			},
 			JSX.createElement(
 				"div",

@@ -168,5 +168,7 @@ module.exports = {
 		Giveaway: true,
 		//enable AutoResponder
 		AutoResponder: true,
+		//enable welcomer
+		welcomer:true,
 	},
 };
