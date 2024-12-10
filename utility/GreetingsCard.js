@@ -41,7 +41,12 @@ class GreetingsCard extends Builder {
 		return JSX.createElement(
 			"div",
 			{
-				className: "h-full w-full flex flex-col items-center justify-center bg-[#23272A] rounded-xl",
+				className: "h-full w-full flex flex-col items-center justify-center rounded-xl",
+				style: {
+					display: "flex",
+					borderRadius: "1rem",
+					background: "linear-gradient(to bottom right, #120C17, #010424, #53049c)",
+				},
 			},
 			JSX.createElement(
 				"div",

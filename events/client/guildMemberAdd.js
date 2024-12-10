@@ -44,7 +44,7 @@ module.exports = {
 	execute: async (member) => {
 		// create card
 		const welcome = useWelcome().get(member.guild.id)?.at(0);
-		console.log(welcome);
+		if (!welcome) return;
 		try {
 			const attachment = await buildImageInWorker({
 				ZDisplayName: member.user.username,
@@ -57,9 +57,5 @@ module.exports = {
 		} catch (error) {
 			console.error("Error building image:", error);
 		}
-
-		// const card = new GreetingsCard().setImage(
-		// 	"https://cdn.discordapp.com/attachments/1150638982682652722/1265890654572118048/pngtree-free-vector-watercolor-galaxy-poster-background-template-picture-image_1055747.png?ex=66a3280b&is=66a1d68b&hm=2877d5d661892c3b5ee33d4d9fad651c7e463bb743a33b24c27c81a0ed5eb77e&",
-		// );
 	},
 };

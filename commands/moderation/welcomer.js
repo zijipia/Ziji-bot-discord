@@ -114,9 +114,9 @@ module.exports.execute = async ({ interaction, lang }) => {
  * @param { import('../../lang/vi.js') } command.lang - language
  */
 module.exports.setupWelcome = async ({ interaction, lang, options }) => {
-	await interaction.deferReply();
+	await interaction.deferReply({ ephemeral: true });
 	try {
-		const newWelcome = await options.db.ZiWelcome.updateOne(
+		await options.db.ZiWelcome.updateOne(
 			{ guildId: interaction.guild.id },
 			{
 				$set: {
@@ -143,6 +143,8 @@ module.exports.setupWelcome = async ({ interaction, lang, options }) => {
 
 		await interaction.editReply(`ok`).then(async (m) => await interaction.deleteReply(m));
 		interaction.client.emit("guildMemberAdd", interaction.member);
+		interaction.client.emit("guildMemberRemove", interaction.member);
+
 		return;
 	} catch (error) {
 		console.error(error);
