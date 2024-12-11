@@ -1,5 +1,14 @@
 require("dotenv").config();
-const { useClient, useCooldowns, useCommands, useFunctions, useGiveaways, useConfig, useResponder } = require("@zibot/zihooks");
+const {
+	useClient,
+	useCooldowns,
+	useCommands,
+	useFunctions,
+	useGiveaways,
+	useConfig,
+	useResponder,
+	useWelcome,
+} = require("@zibot/zihooks");
 const path = require("node:path");
 const { Player } = require("discord-player");
 const config = useConfig(require("./config"));
@@ -38,7 +47,10 @@ const player = new Player(client, {
 });
 
 player.setMaxListeners(100);
-if (config.DevConfig.YoutubeiExtractor) player.extractors.register(YoutubeiExtractor, {});
+if (config.DevConfig.YoutubeiExtractor) {
+	player.extractors.register(YoutubeiExtractor, {});
+	require("youtubei.js").Log.setLevel(0);
+}
 if (config.DevConfig.ZiExtractor) player.extractors.register(ZiExtractor, {});
 player.extractors.loadDefault((ext) => !["YouTubeExtractor"].includes(ext));
 
@@ -70,9 +82,9 @@ const ziVoice = useZiVoiceExtractor({
 	lang: "vi-VN",
 });
 
-client.autoRes = new Collection(); // Cache cho các autoresponder
 const initialize = async () => {
 	useClient(client);
+	useWelcome(new Collection());
 	useCooldowns(new Collection());
 	useResponder(new Collection());
 	await Promise.all([

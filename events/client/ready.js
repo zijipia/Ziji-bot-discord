@@ -39,6 +39,7 @@ module.exports = {
 		if (mongoConnected) {
 			useDB(require("../../startup/mongoDB"));
 			await require("../../startup/loadResponder")();
+			await require("../../startup/loadWelcome")();
 			console.log("Connected to MongoDB!");
 			client.errorLog("Connected to MongoDB!");
 		} else {
