@@ -1,31 +1,25 @@
-const {
-	ActionRowBuilder,
-	ButtonBuilder,
-	ButtonStyle,
-	EmbedBuilder,
-	ComponentType,
-} = require("discord.js");
+const { ActionRowBuilder, ButtonBuilder, ButtonStyle, EmbedBuilder, ComponentType } = require("discord.js");
 
 module.exports.data = {
 	name: "ai",
 	description: "Tính năng AI",
 	type: 1, // slash command
 	options: [
-        {
-            name: "ask",
+		{
+			name: "ask",
 			description: "Hỏi AI",
 			type: 1,
 			options: [
-                {
-                    name: "prompt",
+				{
+					name: "prompt",
 					description: "Tin nhắn để gửi",
 					type: 3,
 					channel_types: [0],
 					required: true,
-                }
-            ]
-        }
-    ],
+				},
+			],
+		},
+	],
 	integration_types: [0, 1],
 	contexts: [0, 1, 2],
 };
@@ -71,15 +65,8 @@ module.exports.execute = async ({ interaction, lang }) => {
 
 			// Tạo các nút điều hướng
 			const row = new ActionRowBuilder().addComponents(
-				new ButtonBuilder()
-					.setCustomId("prev")
-					.setLabel("◀")
-					.setStyle(ButtonStyle.Secondary)
-					.setDisabled(true), // Vô hiệu hóa nút "Trước" ban đầu
-				new ButtonBuilder()
-					.setCustomId("next")
-					.setLabel("▶")
-					.setStyle(ButtonStyle.Secondary)
+				new ButtonBuilder().setCustomId("prev").setLabel("◀").setStyle(ButtonStyle.Secondary).setDisabled(true), // Vô hiệu hóa nút "Trước" ban đầu
+				new ButtonBuilder().setCustomId("next").setLabel("▶").setStyle(ButtonStyle.Secondary),
 			);
 
 			// Gửi tin nhắn ban đầu với trang đầu tiên
@@ -92,8 +79,7 @@ module.exports.execute = async ({ interaction, lang }) => {
 			// Bộ thu thập (collector) để xử lý các lần bấm nút
 			const collector = message.createMessageComponentCollector({
 				componentType: ComponentType.Button,
-				filter: (btnInteraction) =>
-					btnInteraction.user.id === interaction.user.id, // Chỉ cho phép người hỏi bấm nút
+				filter: (btnInteraction) => btnInteraction.user.id === interaction.user.id, // Chỉ cho phép người hỏi bấm nút
 				time: 60000, // Hết hạn sau 60 giây
 			});
 
@@ -119,7 +105,7 @@ module.exports.execute = async ({ interaction, lang }) => {
 								.setCustomId("next")
 								.setLabel("▶")
 								.setStyle(ButtonStyle.Secondary)
-								.setDisabled(currentPage === chunks.length - 1) // Vô hiệu hóa nếu ở trang cuối
+								.setDisabled(currentPage === chunks.length - 1), // Vô hiệu hóa nếu ở trang cuối
 						),
 					],
 				});
@@ -130,16 +116,8 @@ module.exports.execute = async ({ interaction, lang }) => {
 				await interaction.editReply({
 					components: [
 						new ActionRowBuilder().addComponents(
-							new ButtonBuilder()
-								.setCustomId("prev")
-								.setLabel("◀")
-								.setStyle(ButtonStyle.Secondary)
-								.setDisabled(true),
-							new ButtonBuilder()
-								.setCustomId("next")
-								.setLabel("▶")
-								.setStyle(ButtonStyle.Secondary)
-								.setDisabled(true)
+							new ButtonBuilder().setCustomId("prev").setLabel("◀").setStyle(ButtonStyle.Secondary).setDisabled(true),
+							new ButtonBuilder().setCustomId("next").setLabel("▶").setStyle(ButtonStyle.Secondary).setDisabled(true),
 						),
 					],
 				});

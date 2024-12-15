@@ -42,20 +42,19 @@ const client = new Client({
 });
 if (config.DevConfig.ai) {
 	const { GoogleGenerativeAI } = require("@google/generative-ai");
-	if (!process.env.GEMINI_API_KEY) return 'No API key';
+	if (!process.env.GEMINI_API_KEY) return "No API key";
 	const genAI = new GoogleGenerativeAI(process.env.GEMINI_API_KEY);
 	client.run = async (msg) => {
-		const model = genAI.getGenerativeModel({ model: "gemini-1.5-flash"});
+		const model = genAI.getGenerativeModel({ model: "gemini-1.5-flash" });
 
-		const prompt = msg
-		
+		const prompt = msg;
+
 		const result = await model.generateContent(prompt);
 		const response = await result.response;
 		const text = response.text();
-		return text
-	}
+		return text;
+	};
 }
-
 
 const player = new Player(client, {
 	skipFFmpeg: false,
