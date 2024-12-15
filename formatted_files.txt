@@ -1,4 +1,1 @@
-commands/fun/ai.js
-commands/utility/variable.js
 formatted_files.txt
-index.js
