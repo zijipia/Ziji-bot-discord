@@ -24,7 +24,10 @@ module.exports.execute = (template, message) => {
 		.replace(/{user}/g, `<@${user.id}>`) // Mention người dùng
 		.replace(/{user_tag}/g, `${user.tag}`) // Tag của người dùng (username#discriminator)
 		.replace(/{user_name}/g, `${user.username}`) // Tên người dùng
+		.replace(/{user_id}/g, `${user.id}`) // Tên người dùng
+		.replace(/{user_avatar}/g, `${user.displayAvatarURL()}`) // Tên người dùng
 		.replace(/{server_name}/g, `${server.name}`) // Tên máy chủ
+		.replace(/{server_id}/g, `${server.id}`) // Tên máy chủ
 		.replace(/{server_membercount}/g, `${server.memberCount}`) // Số lượng thành viên
 		.replace(/{server_membercount_nobots}/g, `${memberCountNoBots}`); // Số lượng thành viên (trừ bot)
 };
