@@ -40,6 +40,7 @@ const client = new Client({
 		repliedUser: false,
 	},
 });
+
 if (config.DevConfig.ai) {
 	const { GoogleGenerativeAI } = require("@google/generative-ai");
 	if (!process.env.GEMINI_API_KEY) return "No API key";

@@ -169,6 +169,8 @@ module.exports = {
 		//enable AutoResponder
 		AutoResponder: true,
 		//enable welcomer
-		welcomer:true,
+		welcomer: true,
+		//enable AI
+		ai: true,
 	},
 };

@@ -1,6 +1,6 @@
 {
 	"name": "ziji-bot-discord",
-	"version": "2.1.5",
+	"version": "2.1.6",
 	"description": "Ziji bot discord",
 	"main": "index.js",
 	"scripts": {
@@ -30,7 +30,7 @@
 		"@discord-player/extractor": "^4.5.0",
 		"@google/generative-ai": "^0.21.0",
 		"@iamtraction/google-translate": "^2.0.1",
-		"@zibot/ziextractor": "^2.2.0",
+		"@zibot/ziextractor": "^2.2.1",
 		"@zibot/zihooks": "^1.0.7",
 		"axios": "^1.7.7",
 		"canvacord": "^6.0.2",
