@@ -118,6 +118,7 @@ module.exports = {
 			Lyrics: "Lời bài hát",
 			UnLock: "Mở khoá",
 			Unmute: "Mở khoá âm lượng",
+			Save: "Lưu toàn bộ bài hát trong hàng đợi hiện tại",
 		},
 	},
 	weather: {
