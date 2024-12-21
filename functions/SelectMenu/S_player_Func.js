@@ -175,7 +175,7 @@ module.exports.execute = async ({ interaction, lang }) => {
 			await interaction.followUp({
 				embeds: [
 					new EmbedBuilder()
-						.setAuthor({ name: `${interaction.user.name} Save Queue:`, iconURL: interaction.user.displayAvatarURL({}) })
+						.setAuthor({ name: `${interaction.user.username} Save Queue:`, iconURL: interaction.user.displayAvatarURL({}) })
 						.setColor(lang.color || "Random")
 						.setDescription(`**${trackss.map((t) => `* ${t.title}\n`).join("")}**`.slice(0, 4090))
 						.setFooter({
@@ -184,7 +184,7 @@ module.exports.execute = async ({ interaction, lang }) => {
 						})
 						.setTimestamp(),
 				],
-				files: [new AttachmentBuilder(Buffer.from(encrypted, "utf-8"), { name: `save.txt` })],
+				files: [new AttachmentBuilder(Buffer.from(encrypted, "utf-8"), { name: `zsave.txt` })],
 			});
 			return;
 		}
