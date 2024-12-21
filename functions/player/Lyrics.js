@@ -55,7 +55,7 @@ module.exports.execute = async (interaction, options) => {
 				trimmedLyrics.length === 1997 ? `${trimmedLyrics}...` : trimmedLyrics,
 			);
 		}
-	} catch {
+	} catch (error) {
 		console.warn("Error plainLyrics from lyrics:", error);
 	}
 

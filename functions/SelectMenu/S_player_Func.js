@@ -1,8 +1,16 @@
-const { useQueue } = require("discord-player");
+const { useQueue, serialize, decode, encode } = require("discord-player");
 const { useFunctions, useDB, useConfig } = require("@zibot/zihooks");
 const Functions = useFunctions();
 const config = useConfig();
-const { ModalBuilder, TextInputBuilder, TextInputStyle, ActionRowBuilder } = require("discord.js");
+const {
+	ModalBuilder,
+	TextInputBuilder,
+	TextInputStyle,
+	ActionRowBuilder,
+	AttachmentBuilder,
+	EmbedBuilder,
+} = require("discord.js");
+const Encryptor = require("@zibot/ziencryptor");
 
 module.exports.data = {
 	name: "S_player_Func",
@@ -157,6 +165,27 @@ module.exports.execute = async ({ interaction, lang }) => {
 		case "Shuffle": {
 			queue.tracks.shuffle();
 			await Update_Player(queue);
+			return;
+		}
+		case "Save": {
+			const trackss = queue.tracks.map((t) => serialize(t));
+			trackss.unshift(serialize(queue.currentTrack));
+			const encrypt = new Encryptor("Z");
+			const encrypted = encrypt.encrypt(encode(trackss));
+			await interaction.followUp({
+				embeds: [
+					new EmbedBuilder()
+						.setAuthor({ name: `${interaction.user.username} Save Queue:`, iconURL: interaction.user.displayAvatarURL({}) })
+						.setColor(lang.color || "Random")
+						.setDescription(`**${trackss.map((t) => `* ${t.title}\n`).join("")}**`.slice(0, 4090))
+						.setFooter({
+							text: `${lang.until.requestBy} ${interaction.user?.username}`,
+							iconURL: interaction.user.displayAvatarURL({ size: 1024 }),
+						})
+						.setTimestamp(),
+				],
+				files: [new AttachmentBuilder(Buffer.from(encrypted, "utf-8"), { name: `zsave.txt` })],
+			});
 			return;
 		}
 	}

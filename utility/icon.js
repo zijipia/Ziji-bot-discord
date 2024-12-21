@@ -22,6 +22,7 @@ module.exports = {
 	noo: "<a:noo:1254117362085658634>",
 	Playbutton: "<:Playbutton:1230129096160182322>",
 	fillter: "<:fillter:1268578610051289109>",
+	save: "<:save:1318431237794172969>",
 	youtubeIconURL: "https://cdn.discordapp.com/attachments/1064851388221358153/1243685364502102066/youtube.gif",
 	spotifyIconURL: "https://cdn.discordapp.com/attachments/1064851388221358153/1243684923626356846/spotify.gif",
 	soundcloudIconURL: "https://cdn.discordapp.com/attachments/1064851388221358153/1243684572672037027/SOUNDCLOUD.gif",

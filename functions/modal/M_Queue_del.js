@@ -61,7 +61,7 @@ module.exports.execute = async ({ interaction, lang }) => {
 					name: "Deleted track:",
 					iconURL: client.user.displayAvatarURL({ size: 1024 }),
 				})
-				.setDescription(`${tracldel.map((t) => `\n* ${t}`.slice(0, 50))}`.slice(0, 2000))
+				.setDescription(`${tracldel.map((t) => `\n* ${t}`.slice(0, 50)).join("")}`.slice(0, 2000))
 				.setTimestamp()
 				.setFooter({
 					text: `Đã thêm bởi: ${interaction.user.tag} `,

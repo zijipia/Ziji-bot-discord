@@ -34,7 +34,7 @@ module.exports.execute = async ({ interaction, lang }) => {
 	try {
 		githubCommitId = execSync("git rev-parse --short HEAD").toString().trim();
 	} catch (error) {
-		console.error("Không thể lấy GitHub Commit ID:", error);
+		console.error("Không thể lấy GitHub Commit");
 	}
 
 	const totalGuilds = client.guilds.cache.size;

@@ -221,6 +221,12 @@ module.exports = {
 					Value: "Fillter",
 					Emoji: ZiIcons.fillter,
 				},
+				{
+					Label: "Save",
+					Description: lang?.playerFunc?.Fields?.Save || "Save current queue",
+					Value: "Save",
+					Emoji: ZiIcons.save,
+				},
 			];
 
 			const filteredFunctions = functions.filter((f) => {
