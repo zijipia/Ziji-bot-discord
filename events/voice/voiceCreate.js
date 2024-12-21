@@ -1,6 +1,8 @@
 const { useMainPlayer, useQueue } = require("discord-player");
 const { useFunctions } = require("@zibot/zihooks");
 const Functions = useFunctions();
+const googleTTS = require('google-tts-api');
+const { createAudioResource } = require("discord-voip");
 
 async function Update_Player(queue) {
 	const player = Functions.get("player_func");
@@ -11,7 +13,7 @@ async function Update_Player(queue) {
 module.exports = {
 	name: "voiceCreate",
 	type: "voiceExtractor",
-	execute: async ({ content, channel, client }) => {
+	execute: async ({ content, user, channel, client }) => {
 		const player = useMainPlayer();
 		const lowerContent = content.toLowerCase();
 		console.log(lowerContent);
@@ -74,7 +76,14 @@ module.exports = {
 			} else {
 				const aifunc = await Functions.get("runVoiceAI");
 				if (aifunc.checkStatus) {
-					const result = await player.client.run(lowerContent)
+					const result = await player.client.run(`Answer up to 150 characters for this question: ${lowerContent}\nRequested by: ${user.username}`);
+					const url = googleTTS.getAudioUrl(result, {
+						lang: queue?.metadata?.lang?.local_names || 'vi',
+						slow: false,
+						host: 'https://translate.google.com',
+					  });
+					const resource = await createAudioResource(url);
+					await player.play(channel, resource)
 				}
 			}
 		}
