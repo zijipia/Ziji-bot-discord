@@ -74,6 +74,7 @@ module.exports.execute = async (interaction, query, lang, options = {}) => {
 			ephemeral: true,
 		});
 	}
+
 	const voiceMe = guild.members.cache.get(client.user.id).voice.channel;
 	if (voiceMe && voiceMe.id !== voiceChannel.id) {
 		return interaction.reply({
@@ -81,6 +82,7 @@ module.exports.execute = async (interaction, query, lang, options = {}) => {
 			ephemeral: true,
 		});
 	}
+
 	const permissions = voiceChannel.permissionsFor(client.user);
 	if (!permissions.has("Connect") || !permissions.has("Speak")) {
 		return interaction.reply({

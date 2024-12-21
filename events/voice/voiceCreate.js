@@ -2,7 +2,14 @@ const { useMainPlayer, useQueue } = require("discord-player");
 const { useFunctions } = require("@zibot/zihooks");
 const Functions = useFunctions();
 const googleTTS = require("google-tts-api");
-const { createAudioResource } = require("discord-voip");
+const {
+	joinVoiceChannel,
+	createAudioPlayer,
+	createAudioResource,
+	NoSubscriberBehavior,
+	getVoiceConnection,
+	AudioPlayerStatus,
+} = require("discord-voip");
 
 async function Update_Player(queue) {
 	const player = Functions.get("player_func");
@@ -18,7 +25,6 @@ module.exports = {
 		const lowerContent = content.toLowerCase();
 		console.log(lowerContent);
 		const queue = useQueue(channel.guild);
-		if (!queue) return;
 
 		const commands = {
 			"skip|bỏ qua|next": () => {
@@ -71,22 +77,45 @@ module.exports = {
 
 		for (const [pattern, action] of Object.entries(commands)) {
 			if (lowerContent.match(new RegExp(pattern))) {
+				if (!queue) continue;
 				await action();
-				break;
-			} else {
-				const aifunc = await Functions.get("runVoiceAI");
-				if (aifunc.checkStatus) {
-					const result = await player.client.run(
-						`Answer up to 150 characters for this question: ${lowerContent}\nRequested by: ${user.username}`,
-					);
-					const url = googleTTS.getAudioUrl(result, {
-						lang: queue?.metadata?.lang?.local_names || "vi",
-						slow: false,
-						host: "https://translate.google.com",
-					});
-					const resource = await createAudioResource(url);
-					await player.play(channel, resource);
-				}
+				return;
+			}
+		}
+
+		const aifunc = await Functions.get("runVoiceAI");
+		console.log(aifunc);
+		if (aifunc.checkStatus) {
+			const result = await player.client.run(
+				`Answer up to 150 characters for this question: ${lowerContent}\nRequested by: ${user.username}`,
+			);
+			const urlSong = googleTTS.getAudioUrl(result, {
+				lang: queue?.metadata?.lang?.local_names || "vi",
+				slow: false,
+				host: "https://translate.google.com",
+			});
+			{
+				let resource = createAudioResource(urlSong, {
+					inlineVolume: true,
+				});
+				resource.volume.setVolume(0.5);
+
+				let players = createAudioPlayer({
+					behaviors: {
+						noSubscriber: NoSubscriberBehavior.Play,
+					},
+				});
+				const connection = player.voiceUtils.getConnection(channel.guild.id);
+
+				console.log(connection);
+				connection.subscribe(players);
+				players.play(resource);
+
+				// await player.play(channel, resource, {
+				// 	audioPlayerOptions: {
+				// 		queue: false,
+				// 	},
+				// });
 			}
 		}
 	},
