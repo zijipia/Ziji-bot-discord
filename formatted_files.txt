@@ -1,1 +1,6 @@
+commands/fun/ai.js
+events/client/voiceStateUpdate.js
+events/voice/voiceCreate.js
 formatted_files.txt
+functions/ai/runAI.js
+functions/ai/runVoice.js

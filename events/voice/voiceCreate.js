@@ -1,7 +1,7 @@
 const { useMainPlayer, useQueue } = require("discord-player");
 const { useFunctions } = require("@zibot/zihooks");
 const Functions = useFunctions();
-const googleTTS = require('google-tts-api');
+const googleTTS = require("google-tts-api");
 const { createAudioResource } = require("discord-voip");
 
 async function Update_Player(queue) {
@@ -76,14 +76,16 @@ module.exports = {
 			} else {
 				const aifunc = await Functions.get("runVoiceAI");
 				if (aifunc.checkStatus) {
-					const result = await player.client.run(`Answer up to 150 characters for this question: ${lowerContent}\nRequested by: ${user.username}`);
+					const result = await player.client.run(
+						`Answer up to 150 characters for this question: ${lowerContent}\nRequested by: ${user.username}`,
+					);
 					const url = googleTTS.getAudioUrl(result, {
-						lang: queue?.metadata?.lang?.local_names || 'vi',
+						lang: queue?.metadata?.lang?.local_names || "vi",
 						slow: false,
-						host: 'https://translate.google.com',
-					  });
+						host: "https://translate.google.com",
+					});
 					const resource = await createAudioResource(url);
-					await player.play(channel, resource)
+					await player.play(channel, resource);
 				}
 			}
 		}

@@ -52,4 +52,3 @@ module.exports.execute = async ({ interaction, lang }) => {
 	}
 	return;
 };
-

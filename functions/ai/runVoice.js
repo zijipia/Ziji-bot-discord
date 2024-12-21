@@ -13,7 +13,7 @@ module.exports.execute = async (interaction) => {
 		// Kiểm tra xem người dùng có ở trong voice channel hay không
 		const voiceChannel = interaction.member?.voice.channel;
 		if (!voiceChannel) {
-			return await interaction.editReply('❌ You need to be in a voice channel to activate AI assistant!');
+			return await interaction.editReply("❌ You need to be in a voice channel to activate AI assistant!");
 		}
 
 		// Tham gia voice channel
@@ -24,10 +24,10 @@ module.exports.execute = async (interaction) => {
 		// Cập nhật trạng thái voiceAI
 		voiceAI = true;
 
-		await interaction.editReply('✅ Successfully activated AI assistant!');
+		await interaction.editReply("✅ Successfully activated AI assistant!");
 	} catch (error) {
-		console.error('Error while joining the voice channel:', error);
-		await interaction.editReply('❌ Failed to activate AI assistant. Please try again.');
+		console.error("Error while joining the voice channel:", error);
+		await interaction.editReply("❌ Failed to activate AI assistant. Please try again.");
 	}
 };
 
