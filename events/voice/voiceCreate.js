@@ -14,6 +14,7 @@ module.exports = {
 	execute: async ({ content, channel, client }) => {
 		const player = useMainPlayer();
 		const lowerContent = content.toLowerCase();
+		console.log(lowerContent);
 		const queue = useQueue(channel.guild);
 		if (!queue) return;
 
@@ -70,6 +71,11 @@ module.exports = {
 			if (lowerContent.match(new RegExp(pattern))) {
 				await action();
 				break;
+			} else {
+				const aifunc = await Functions.get("runVoiceAI");
+				if (aifunc.checkStatus) {
+					const result = await player.client.run(lowerContent)
+				}
 			}
 		}
 	},

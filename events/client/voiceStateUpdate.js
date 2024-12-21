@@ -1,6 +1,7 @@
 const { Events, EmbedBuilder } = require("discord.js");
 const { useQueue } = require("discord-player");
 const config = require("@zibot/zihooks").useConfig();
+const { useZiVoiceExtractor } = require('@zibot/ziextractor');
 
 module.exports = {
 	name: Events.VoiceStateUpdate,
@@ -13,7 +14,16 @@ module.exports = {
 
 	execute: async (oldState, newState) => {
 		const client = oldState.client;
-
+		
+		// if (newState.channel && newState.channel.type === 'voice') {
+		// 	const speechOptions = {
+		// 		ignoreBots: true,
+		// 		minimalVoiceMessageDuration: 1,
+		// 		lang: "en-US",
+		// 	};
+		// 	const ziVoice = useZiVoiceExtractor();
+		// 	ziVoice.handleSpeakingEvent(client, newState, speechOptions);
+		// }
 		const queue = useQueue(oldState?.guild?.id);
 
 		if (!queue || !queue.metadata) return;
