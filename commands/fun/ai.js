@@ -1,5 +1,6 @@
-const { useFunctions } = require("@zibot/zihooks");
+const { useFunctions, useConfig } = require("@zibot/zihooks");
 const { useQueue } = require("discord-player");
+const config = useConfig();
 
 module.exports.data = {
 	name: "ai",
@@ -27,6 +28,7 @@ module.exports.data = {
 	],
 	integration_types: [0, 1],
 	contexts: [0, 1, 2],
+	enable: config.DevConfig.ai,
 };
 
 /**
