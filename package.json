@@ -32,7 +32,7 @@
 		"@google/generative-ai": "^0.21.0",
 		"@iamtraction/google-translate": "^2.0.1",
 		"@zibot/ziencryptor": "^0.0.1",
-		"@zibot/ziextractor": "^2.2.1",
+		"@zibot/ziextractor": "^2.2.2",
 		"@zibot/zihooks": "^1.0.7",
 		"axios": "^1.7.7",
 		"canvacord": "^6.0.2",
