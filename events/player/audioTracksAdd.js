@@ -1,9 +1,11 @@
 const { EmbedBuilder } = require("discord.js");
 const { GuildQueueEvent } = require("discord-player");
+
 module.exports = {
 	name: GuildQueueEvent.audioTracksAdd,
 	type: "Player",
 	execute: async (queue, track) => {
+		if (track?.queryType === "tts") return;
 		const embed = new EmbedBuilder()
 			.setDescription(`Đã thêm danh sách phát: [${track[0]?.playlist?.title}](${track[0]?.playlist?.url})`)
 			.setThumbnail(track[0]?.playlist?.thumbnail || null)

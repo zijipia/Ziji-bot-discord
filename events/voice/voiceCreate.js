@@ -16,7 +16,7 @@ module.exports = {
 	 * @param { object } param0 - voice Create event
 	 * @param { import ("discord.js").User } param0.user - user who created the voice channel
 	 */
-	execute: async ({ content, user, channel, client }) => {
+	execute: async ({ content, user, channel }) => {
 		const player = useMainPlayer();
 		const lowerContent = content.toLowerCase();
 		console.log(lowerContent);
@@ -80,41 +80,23 @@ module.exports = {
 		}
 
 		const aifunc = await Functions.get("runVoiceAI");
-		console.log(aifunc);
 		if (aifunc.checkStatus) {
 			const result = await player.client.run(
-				`Answer up to 150 characters for this question: ${lowerContent}\nRequested by: ${user.username}`,
+				lowerContent ? `Answer up to 150 characters for this question: ${lowerContent}\nRequested by: ${user.username}` : `Hello`,
 			);
+			console.log(result);
+			const tts = await Functions.get("TextToSpeech");
 
-			const queryy = {
-				lang: queue?.metadata?.lang?.local_names || "vi",
-				slow: false,
-				host: "https://translate.google.com",
-			};
-
-			const tracls = new Track(player, {
-				title: lowerContent ?? "Unknown Title",
-				description: result,
-				author: user.username,
-				url: "https://translate.google.com",
-				requestedBy: user,
-				thumbnail: user.displayAvatarURL({ size: 1024 }),
-				views: "1",
-				duration: "0",
-				source: "tts",
-				raw: queryy,
-				queryType: "tts",
-				metadata: queryy,
-				async requestMetadata() {
-					return queryy;
+			await tts.execute(
+				{
+					client: player.client,
+					guild: channel.guild,
+					user,
 				},
-			});
-
-			await player.play(channel, tracls, {
-				audioPlayerOptions: {
-					queue: false,
-				},
-			});
+				result,
+				queue?.metadata?.lang,
+				{ queue, title: lowerContent, voice: channel },
+			);
 		}
 	},
 };

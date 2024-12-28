@@ -109,6 +109,10 @@ module.exports = {
 			embed.setThumbnail(track?.thumbnail);
 		}
 
+		if (track.queryType === "tts") {
+			embed.setDescription(`* ${player.client.user.username}:\n${track?.raw?.context}`);
+			return { content: "", embeds: [embed] };
+		}
 		const code = { content: "" };
 		const relatedTracks = await getRelatedTracks(track, queue.history);
 		const filteredTracks = relatedTracks.filter((t) => t.url.length < 100).slice(0, 20);

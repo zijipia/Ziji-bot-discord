@@ -17,6 +17,7 @@ const { YoutubeiExtractor } = require("discord-player-youtubei");
 const { loadFiles, loadEvents } = require("./startup/loader.js");
 const { Client, Collection, GatewayIntentBits } = require("discord.js");
 const { ZiExtractor, useZiVoiceExtractor, TextToSpeech } = require("@zibot/ziextractor");
+
 const client = new Client({
 	intents: [
 		GatewayIntentBits.Guilds, // for guild related things
