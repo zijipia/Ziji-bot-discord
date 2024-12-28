@@ -5,6 +5,7 @@ module.exports = {
 	name: GuildQueueEvent.audioTrackAdd,
 	type: "Player",
 	execute: async (queue, track) => {
+		if (track?.queryType === "tts") return;
 		const embed = new EmbedBuilder()
 			.setDescription(`Đã thêm bài hát: [${track?.title}](${track?.url}) \`[${track?.duration}]\``)
 			.setThumbnail(track?.thumbnail)

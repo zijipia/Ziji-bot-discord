@@ -1,15 +1,6 @@
-const { useMainPlayer, useQueue } = require("discord-player");
+const { useMainPlayer, useQueue, Track } = require("discord-player");
 const { useFunctions } = require("@zibot/zihooks");
 const Functions = useFunctions();
-const googleTTS = require("google-tts-api");
-const {
-	joinVoiceChannel,
-	createAudioPlayer,
-	createAudioResource,
-	NoSubscriberBehavior,
-	getVoiceConnection,
-	AudioPlayerStatus,
-} = require("discord-voip");
 
 async function Update_Player(queue) {
 	const player = Functions.get("player_func");
@@ -20,7 +11,12 @@ async function Update_Player(queue) {
 module.exports = {
 	name: "voiceCreate",
 	type: "voiceExtractor",
-	execute: async ({ content, user, channel, client }) => {
+	/**
+	 *
+	 * @param { object } param0 - voice Create event
+	 * @param { import ("discord.js").User } param0.user - user who created the voice channel
+	 */
+	execute: async ({ content, user, channel }) => {
 		const player = useMainPlayer();
 		const lowerContent = content.toLowerCase();
 		console.log(lowerContent);
@@ -84,39 +80,23 @@ module.exports = {
 		}
 
 		const aifunc = await Functions.get("runVoiceAI");
-		console.log(aifunc);
 		if (aifunc.checkStatus) {
 			const result = await player.client.run(
-				`Answer up to 150 characters for this question: ${lowerContent}\nRequested by: ${user.username}`,
+				lowerContent ? `Answer up to 150 characters for this question: ${lowerContent}\nRequested by: ${user.username}` : `Hello`,
 			);
-			const urlSong = googleTTS.getAudioUrl(result, {
-				lang: queue?.metadata?.lang?.local_names || "vi",
-				slow: false,
-				host: "https://translate.google.com",
-			});
-			{
-				let resource = createAudioResource(urlSong, {
-					inlineVolume: true,
-				});
-				resource.volume.setVolume(0.5);
+			console.log(result);
+			const tts = await Functions.get("TextToSpeech");
 
-				let players = createAudioPlayer({
-					behaviors: {
-						noSubscriber: NoSubscriberBehavior.Play,
-					},
-				});
-				const connection = player.voiceUtils.getConnection(channel.guild.id);
-
-				console.log(connection);
-				connection.subscribe(players);
-				players.play(resource);
-
-				// await player.play(channel, resource, {
-				// 	audioPlayerOptions: {
-				// 		queue: false,
-				// 	},
-				// });
-			}
+			await tts.execute(
+				{
+					client: player.client,
+					guild: channel.guild,
+					user,
+				},
+				result,
+				queue?.metadata?.lang,
+				{ queue, title: lowerContent, voice: channel },
+			);
 		}
 	},
 };

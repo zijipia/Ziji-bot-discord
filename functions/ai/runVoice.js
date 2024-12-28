@@ -1,6 +1,7 @@
 const { useMainPlayer } = require("discord-player");
 const player = useMainPlayer();
 const { useZiVoiceExtractor } = require("@zibot/ziextractor");
+const { useFunctions } = require("@zibot/zihooks");
 
 module.exports.data = {
 	name: "runVoiceAI",
@@ -38,29 +39,35 @@ module.exports.execute = async (interaction, lang, options = { query: null }) =>
 		}
 
 		// Tham gia voice channel
-		const connection = await player.voiceUtils.join(voiceChannel, {
-			deaf: false,
-		});
-		const ziVoice = useZiVoiceExtractor();
+		// hello, my name ${user.username}
+		const tts = useFunctions().get("TextToSpeech");
+		const result = options?.query ?? client.run(`Hello, my name ${user.username}`);
+		await tts.execute(interaction, result, lang);
 
-		if (!voiceAI) {
-			const speechOptions = {
-				ignoreBots: true,
-				minimalVoiceMessageDuration: 1,
-				lang: lang?.local_names || "vi-VN",
-			};
+		// const connection = await player.voiceUtils.join(voiceChannel, {
+		// 	deaf: false,
+		// });
 
-			ziVoice.handleSpeakingEvent(client, connection, speechOptions);
-		}
+		// const ziVoice = useZiVoiceExtractor();
 
-		if (options?.query) {
-			ziVoice.emit("voiceCreate", {
-				content: options.query,
-				user,
-				channel: voiceChannel,
-				client,
-			});
-		}
+		// if (!voiceAI) {
+		// 	const speechOptions = {
+		// 		ignoreBots: true,
+		// 		minimalVoiceMessageDuration: 1,
+		// 		lang: lang?.local_names || "vi-VN",
+		// 	};
+
+		// 	ziVoice.handleSpeakingEvent(client, connection, speechOptions);
+		// }
+
+		// if (options?.query) {
+		// 	ziVoice.emit("voiceCreate", {
+		// 		content: options.query,
+		// 		user,
+		// 		channel: voiceChannel,
+		// 		client,
+		// 	});
+		// }
 
 		// Cập nhật trạng thái voiceAI
 		voiceAI = true;
