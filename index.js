@@ -16,7 +16,7 @@ const { GiveawaysManager } = require("discord-giveaways");
 const { YoutubeiExtractor } = require("discord-player-youtubei");
 const { loadFiles, loadEvents } = require("./startup/loader.js");
 const { Client, Collection, GatewayIntentBits } = require("discord.js");
-const { ZiExtractor, useZiVoiceExtractor } = require("@zibot/ziextractor");
+const { ZiExtractor, useZiVoiceExtractor, TextToSpeech } = require("@zibot/ziextractor");
 const client = new Client({
 	intents: [
 		GatewayIntentBits.Guilds, // for guild related things
@@ -64,6 +64,7 @@ if (config.DevConfig.YoutubeiExtractor) {
 	require("youtubei.js").Log.setLevel(0);
 }
 if (config.DevConfig.ZiExtractor) player.extractors.register(ZiExtractor, {});
+player.extractors.register(TextToSpeech, {});
 player.extractors.loadDefault((ext) => !["YouTubeExtractor"].includes(ext));
 
 // Debug
