@@ -66,8 +66,6 @@ module.exports.execute = async (interaction, context, lang, options = { "enable 
 			},
 		});
 		//play
-		console.log(tracls);
-
 		await player.play(voiceChannel, tracls, {
 			audioPlayerOptions: {
 				queue: options["enable queue"],
