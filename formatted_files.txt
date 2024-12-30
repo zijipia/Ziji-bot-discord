@@ -1,4 +1,1 @@
-commands/setting/voice.js
-events/client/voiceStateUpdate.js
 formatted_files.txt
-startup/mongoDB.js
