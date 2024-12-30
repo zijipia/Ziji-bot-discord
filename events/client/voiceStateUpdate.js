@@ -25,20 +25,21 @@ module.exports = {
 			const userTag = newState.member?.user.tag || oldState.member?.user.tag;
 
 			if (newState.channelId) {
-				// Người dùng tham gia voice channel
-				const welcomeMessages = [
-					"<a:AkiBot:1323234912743981136> Chào **{user}** đợi mãi mới thấy ông vào **{channel}**!",
-					"<a:AkiBot_Dragon2:1323235139685318708> Yay, **{user}** đã tham gia **{channel}**",
-				];
-				const randomWelcomeMsg = welcomeMessages[Math.floor(Math.random() * welcomeMessages.length)];
-				const message = randomWelcomeMsg.replace("{user}", userTag).replace("{channel}", channelName);
-				logChannel.send(`${message}\n-# Toggle voice log by using /voice log`).catch(() => {});
+			  // Người dùng tham gia voice channel
+			  const welcomeMessages = ['<a:ZiBot_Dragon:1323313537229262940> Chào **{user}** đợi mãi mới thấy ông vào **{channel}**!', '<a:ZiBot_Dragon2:1323313583953547344> Yay, **{user}** đã tham gia **{channel}**'];
+			  const randomWelcomeMsg = welcomeMessages[Math.floor(Math.random() * welcomeMessages.length)];
+			  const message = randomWelcomeMsg
+				.replace("{user}", userTag)
+				.replace("{channel}", channelName);
+			  logChannel.send(`${message}\n-# Toggle voice log by using /voice log`).catch(() => {});
 			} else if (oldState.channelId) {
-				// Người dùng rời voice channel
-				const leaveMessages = ["<:AkiBot_fuckzu:1323235266655158373> **{user}** đã rời khỏi **{channel}** rồi, buồn quá  (╥﹏╥)"];
-				const randomLeaveMsg = leaveMessages[Math.floor(Math.random() * leaveMessages.length)];
-				const message = randomLeaveMsg.replace("{user}", userTag).replace("{channel}", channelName);
-				logChannel.send(`${message}\n-# Toggle voice log by using /voice log`).catch(() => {});
+			  // Người dùng rời voice channel
+			  const leaveMessages = ['<:ZiBot_fuckzu:1323313619676696651> **{user}** đã rời khỏi **{channel}** rồi, buồn quá  (╥﹏╥)'];
+			  const randomLeaveMsg = leaveMessages[Math.floor(Math.random() * leaveMessages.length)];
+			  const message = randomLeaveMsg
+				.replace("{user}", userTag)
+				.replace("{channel}", channelName);
+			  logChannel.send(`${message}\n-# Toggle voice log by using /voice log`).catch(() => {});
 			}
 		}
 
