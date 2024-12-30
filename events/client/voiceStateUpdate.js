@@ -41,15 +41,7 @@ module.exports = {
 			  logChannel.send(`${message}\n-# Toggle voice log by using /voice log`);
 			}
 		};
-		// if (newState.channel && newState.channel.type === 'voice') {
-		// 	const speechOptions = {
-		// 		ignoreBots: true,
-		// 		minimalVoiceMessageDuration: 1,
-		// 		lang: "en-US",
-		// 	};
-		// 	const ziVoice = useZiVoiceExtractor();
-		// 	ziVoice.handleSpeakingEvent(client, newState, speechOptions);
-		// }
+
 		const queue = useQueue(oldState?.guild?.id);
 
 		if (!queue || !queue.metadata) return;
