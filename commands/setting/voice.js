@@ -1,5 +1,5 @@
 const { ApplicationCommandOptionType } = require("discord.js");
-const { ZiGuild } = require('../../startup/mongoDB')
+const { ZiGuild } = require("../../startup/mongoDB");
 module.exports.data = {
 	name: "voice",
 	description: "Thiết lập lệnh voice",
@@ -9,14 +9,14 @@ module.exports.data = {
 			name: "log",
 			description: "Thông báo người tham gia kênh thoại",
 			type: 1,
-            options: [
-                {
-                    name: 'enabled',
-                    description: 'Tùy chọn tắt/mở',
-                    type: ApplicationCommandOptionType.Boolean,
-                    required: true,
-                }
-            ]
+			options: [
+				{
+					name: "enabled",
+					description: "Tùy chọn tắt/mở",
+					type: ApplicationCommandOptionType.Boolean,
+					required: true,
+				},
+			],
 		},
 	],
 	integration_types: [0, 1],
@@ -24,19 +24,19 @@ module.exports.data = {
 };
 
 module.exports.execute = async ({ interaction, lang }) => {
-    const toggle = interaction.options.getBoolean('enabled');
-    const guildId = interaction.guild.id;
+	const toggle = interaction.options.getBoolean("enabled");
+	const guildId = interaction.guild.id;
 
-    let GuildSetting = await ZiGuild.findOne({ guildId });
-    if (!GuildSetting) {
-        GuildSetting = new ZiGuild({ guildId });
-    }
+	let GuildSetting = await ZiGuild.findOne({ guildId });
+	if (!GuildSetting) {
+		GuildSetting = new ZiGuild({ guildId });
+	}
 
-    GuildSetting.voice.logMode = toggle;
-    await GuildSetting.save();
+	GuildSetting.voice.logMode = toggle;
+	await GuildSetting.save();
 
-    await interaction.reply({
-      content: `Voice log has been ${toggle ? 'enabled' : 'disabled'}.`,
-      ephemeral: true,
-    });
-}
+	await interaction.reply({
+		content: `Voice log has been ${toggle ? "enabled" : "disabled"}.`,
+		ephemeral: true,
+	});
+};

@@ -1,7 +1,7 @@
 const { Events, EmbedBuilder } = require("discord.js");
 const { useQueue } = require("discord-player");
 const config = require("@zibot/zihooks").useConfig();
-const { ZiGuild } = require('../../startup/mongoDB')
+const { ZiGuild } = require("../../startup/mongoDB");
 
 module.exports = {
 	name: Events.VoiceStateUpdate,
@@ -16,13 +16,14 @@ module.exports = {
 		const client = oldState.client;
 		const guildId = newState.guild.id;
 		const guildSetting = await ZiGuild.findOne({ guildId });
+
 		if (guildSetting && guildSetting.voice.logMode) {
 			const logChannel = newState.channel || oldState.channel;
 			if (!logChannel) return;
-		
+
 			const channelName = newState.channel?.name || oldState.channel?.name;
 			const userTag = newState.member?.user.tag || oldState.member?.user.tag;
-		
+
 			if (newState.channelId) {
 			  // Người dùng tham gia voice channel
 			  const welcomeMessages = ['<a:ZiBot_Dragon:1323313537229262940> Chào **{user}** đợi mãi mới thấy ông vào **{channel}**!', '<a:ZiBot_Dragon2:1323313583953547344> Yay, **{user}** đã tham gia **{channel}**'];
@@ -40,7 +41,7 @@ module.exports = {
 				.replace("{channel}", channelName);
 			  logChannel.send(`${message}\n-# Toggle voice log by using /voice log`).catch(() => {});
 			}
-		};
+		}
 
 		const queue = useQueue(oldState?.guild?.id);
 

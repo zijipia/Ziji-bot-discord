@@ -39,13 +39,13 @@ const ZiWelcome = Schema(
 const ZiGuild = Schema({
 	guildId: { type: String, required: true },
 	voice: {
-		logMode: { type: Boolean, default: false }
-	}
-})
+		logMode: { type: Boolean, default: false },
+	},
+});
 
 module.exports = {
 	ZiUser: model("ZiUser", ZiUser),
 	ZiAutoresponder: model("ZiAutoresponder", ZiAutoresopnder),
 	ZiWelcome: model("ZiWelcome", ZiWelcome),
-	ZiGuild: model("ZiGuild", ZiGuild)
+	ZiGuild: model("ZiGuild", ZiGuild),
 };
