@@ -41,7 +41,7 @@ module.exports.execute = async (interaction, lang, options = { query: null }) =>
 		// Tham gia voice channel
 		// hello, my name ${user.username}
 		const tts = useFunctions().get("TextToSpeech");
-		const result = options?.query ?? client.run(`Hello, my name ${user.username}`);
+		const result = options?.query ?? client.run(`Hello, my name is ${user.username}`);
 		await tts.execute(interaction, result, lang);
 
 		// const connection = await player.voiceUtils.join(voiceChannel, {
