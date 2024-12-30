@@ -1,5 +1,5 @@
 const { Events, Message } = require("discord.js");
-const { useResponder, useConfig } = require("@zibot/zihooks");
+const { useResponder, useConfig, useFunctions } = require("@zibot/zihooks");
 const config = useConfig();
 module.exports = {
 	name: Events.MessageCreate,
@@ -12,7 +12,7 @@ module.exports = {
  */
 module.exports.execute = async (message) => {
 	if (message.author.bot || !message.guild) return;
-
+	const parseVar = useFunctions().get("getVariable");
 	const guildResponders = useResponder().get(message.guild.id) ?? [];
 
 	const trigger = guildResponders.find((responder) => {
@@ -35,7 +35,7 @@ module.exports.execute = async (message) => {
 
 	if (trigger) {
 		try {
-			await message.reply(trigger.response);
+			await message.reply(parseVar.execute(trigger.response, message));
 		} catch (error) {
 			console.error(`Failed to send response: ${error.message}`);
 		}
