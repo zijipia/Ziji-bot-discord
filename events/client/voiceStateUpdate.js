@@ -1,7 +1,7 @@
 const { Events, EmbedBuilder } = require("discord.js");
 const { useQueue } = require("discord-player");
 const config = require("@zibot/zihooks").useConfig();
-const { useZiVoiceExtractor } = require("@zibot/ziextractor");
+const { ZiGuild } = require('../../startup/mongoDB')
 
 module.exports = {
 	name: Events.VoiceStateUpdate,
@@ -14,16 +14,34 @@ module.exports = {
 
 	execute: async (oldState, newState) => {
 		const client = oldState.client;
+		const guildId = newState.guild.id;
+		const guildSetting = await ZiGuild.findOne({ guildId });
+		if (guildSetting && guildSetting.voice.logMode) {
+			const logChannel = newState.channel || oldState.channel;
+			if (!logChannel) return;
+		
+			const channelName = newState.channel?.name || oldState.channel?.name;
+			const userTag = newState.member?.user.tag || oldState.member?.user.tag;
+		
+			if (newState.channelId) {
+			  // Người dùng tham gia voice channel
+			  const welcomeMessages = ['<a:AkiBot:1323234912743981136> Chào **{user}** đợi mãi mới thấy ông vào **{channel}**!', '<a:AkiBot_Dragon2:1323235139685318708> Yay, **{user}** đã tham gia **{channel}**'];
+			  const randomWelcomeMsg = welcomeMessages[Math.floor(Math.random() * welcomeMessages.length)];
+			  const message = randomWelcomeMsg
+				.replace("{user}", userTag)
+				.replace("{channel}", channelName);
+			  logChannel.send(`${message}\n-# Toggle voice log by using /voice log`);
+			} else if (oldState.channelId) {
+			  // Người dùng rời voice channel
+			  const leaveMessages = ['<:AkiBot_fuckzu:1323235266655158373> **{user}** đã rời khỏi **{channel}** rồi, buồn quá  (╥﹏╥)'];
+			  const randomLeaveMsg = leaveMessages[Math.floor(Math.random() * leaveMessages.length)];
+			  const message = randomLeaveMsg
+				.replace("{user}", userTag)
+				.replace("{channel}", channelName);
+			  logChannel.send(`${message}\n-# Toggle voice log by using /voice log`);
+			}
+		};
 
-		// if (newState.channel && newState.channel.type === 'voice') {
-		// 	const speechOptions = {
-		// 		ignoreBots: true,
-		// 		minimalVoiceMessageDuration: 1,
-		// 		lang: "en-US",
-		// 	};
-		// 	const ziVoice = useZiVoiceExtractor();
-		// 	ziVoice.handleSpeakingEvent(client, newState, speechOptions);
-		// }
 		const queue = useQueue(oldState?.guild?.id);
 
 		if (!queue || !queue.metadata) return;
