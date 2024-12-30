@@ -16,7 +16,7 @@ module.exports = {
 		const client = oldState.client;
 		const guildId = newState.guild.id;
 		const guildSetting = await ZiGuild.findOne({ guildId });
-		
+
 		if (guildSetting && guildSetting.voice.logMode) {
 			const logChannel = newState.channel || oldState.channel;
 			if (!logChannel) return;
@@ -32,13 +32,13 @@ module.exports = {
 				];
 				const randomWelcomeMsg = welcomeMessages[Math.floor(Math.random() * welcomeMessages.length)];
 				const message = randomWelcomeMsg.replace("{user}", userTag).replace("{channel}", channelName);
-				logChannel.send(`${message}\n-# Toggle voice log by using /voice log`).catch(()=> {});
+				logChannel.send(`${message}\n-# Toggle voice log by using /voice log`).catch(() => {});
 			} else if (oldState.channelId) {
 				// Người dùng rời voice channel
 				const leaveMessages = ["<:AkiBot_fuckzu:1323235266655158373> **{user}** đã rời khỏi **{channel}** rồi, buồn quá  (╥﹏╥)"];
 				const randomLeaveMsg = leaveMessages[Math.floor(Math.random() * leaveMessages.length)];
 				const message = randomLeaveMsg.replace("{user}", userTag).replace("{channel}", channelName);
-				logChannel.send(`${message}\n-# Toggle voice log by using /voice log`).catch(()=> {});
+				logChannel.send(`${message}\n-# Toggle voice log by using /voice log`).catch(() => {});
 			}
 		}
 
