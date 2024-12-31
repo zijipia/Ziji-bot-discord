@@ -38,10 +38,12 @@ async function checkStatus(interaction, client, lang) {
 
 	if (Cooldowns.has(interaction.user.id) && now < expirationTime) {
 		const expiredTimestamp = Math.round(expirationTime / 1_000);
-		await interaction.reply({
-			content: lang.until.cooldown.replace("{command}", interaction.commandName).replace("{time}", `<t:${expiredTimestamp}:R>`),
-			ephemeral: true,
-		});
+		await interaction
+			.reply({
+				content: lang.until.cooldown.replace("{command}", interaction.commandName).replace("{time}", `<t:${expiredTimestamp}:R>`),
+				ephemeral: true,
+			})
+			.catch(() => {});
 		return true;
 	}
 
