@@ -19,6 +19,7 @@ const { Client, Collection, GatewayIntentBits } = require("discord.js");
 const { ZiExtractor, useZiVoiceExtractor, TextToSpeech } = require("@zibot/ziextractor");
 
 const client = new Client({
+	rest: [{ timeout: 60_000 }],
 	intents: [
 		GatewayIntentBits.Guilds, // for guild related things
 		GatewayIntentBits.GuildVoiceStates, // for voice related things
