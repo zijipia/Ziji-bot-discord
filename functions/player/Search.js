@@ -122,6 +122,7 @@ module.exports.execute = async (interaction, query, lang, options = {}) => {
 						voiceAssistance: options.assistant && config?.DevConfig?.VoiceExtractor,
 						ZiLyrics: { Active: false },
 						lang: lang || langdef,
+						focus: options?.focus,
 						mess: interaction?.customId !== "S_player_Search" ? await interaction.fetchReply() : interaction.message,
 					},
 				},

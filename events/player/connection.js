@@ -16,6 +16,7 @@ module.exports = {
 			ignoreBots: true,
 			minimalVoiceMessageDuration: 1,
 			lang: queue?.metadata?.lang?.local_names || "vi-VN",
+			focusUser: queue?.metadata?.focus || "", //user id
 		};
 		const { player, connection } = queue;
 		const ziVoice = useZiVoiceExtractor();
