@@ -106,7 +106,6 @@ module.exports = {
 			const result = await player.client.run(res.Prompt);
 
 			const tts = await Functions.get("TextToSpeech");
-			console.log(res.old_Prompt);
 			await tts.execute(
 				{
 					client: player.client,
