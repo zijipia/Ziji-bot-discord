@@ -17,7 +17,8 @@ const { YoutubeiExtractor } = require("discord-player-youtubei");
 const { loadFiles, loadEvents } = require("./startup/loader.js");
 const { Client, Collection, GatewayIntentBits } = require("discord.js");
 const { ZiExtractor, useZiVoiceExtractor, TextToSpeech } = require("@zibot/ziextractor");
-
+const Logger = require('./startup/logger')
+const logger = new Logger
 const client = new Client({
 	intents: [
 		GatewayIntentBits.Guilds, // for guild related things
@@ -41,7 +42,7 @@ const client = new Client({
 		repliedUser: false,
 	},
 });
-
+client.logger = logger
 if (config.DevConfig.ai && process.env?.GEMINI_API_KEY?.length) {
 	const { GoogleGenerativeAI } = require("@google/generative-ai");
 	const genAI = new GoogleGenerativeAI(process.env.GEMINI_API_KEY);
@@ -69,11 +70,11 @@ player.extractors.register(TextToSpeech, {});
 player.extractors.loadDefault((ext) => !["YouTubeExtractor"].includes(ext));
 
 // Debug
-if (config.DevConfig.DJS_DEBUG) client.on("debug", console.log);
-if (config.DevConfig.DPe_DEBUG) player.events.on("debug", console.log);
+if (config.DevConfig.DJS_DEBUG) client.on("debug", logger.debug);
+if (config.DevConfig.DPe_DEBUG) player.events.on("debug", logger.debug);
 if (config.DevConfig.DP_DEBUG) {
-	console.log(player.scanDeps());
-	player.on("debug", console.log);
+	logger.debug(player.scanDeps());
+	player.on("debug", logger.debug);
 }
 
 useGiveaways(
@@ -111,11 +112,11 @@ const initialize = async () => {
 	]);
 
 	client.login(process.env.TOKEN).catch((error) => {
-		console.error("Error logging in:", error);
-		console.error("The Bot Token You Entered Into Your Project Is Incorrect Or Your Bot's INTENTS Are OFF!");
+		logger.error("Error logging in:", error);
+		logger.error("The Bot Token You Entered Into Your Project Is Incorrect Or Your Bot's INTENTS Are OFF!");
 	});
 };
 
 initialize().catch((error) => {
-	console.error("Error during initialization:", error);
+	logger.error("Error during initialization:", error);
 });

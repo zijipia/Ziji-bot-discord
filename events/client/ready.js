@@ -26,7 +26,7 @@ module.exports = {
 					}
 				}
 			} catch (error) {
-				console.error("Lỗi khi gửi tin nhắn lỗi:", error);
+				client.logger.error("Lỗi khi gửi tin nhắn lỗi:", error);
 			}
 		};
 
@@ -40,10 +40,10 @@ module.exports = {
 			useDB(require("../../startup/mongoDB"));
 			await require("../../startup/loadResponder")();
 			await require("../../startup/loadWelcome")();
-			console.log("Connected to MongoDB!");
+			client.logger.info("Connected to MongoDB!");
 			client.errorLog("Connected to MongoDB!");
 		} else {
-			console.error("Failed to connect to MongoDB!");
+			client.logger.error("Failed to connect to MongoDB!");
 			client.errorLog("Failed to connect to MongoDB!");
 		}
 
@@ -58,7 +58,7 @@ module.exports = {
 		});
 
 		// Log the bot's readiness
-		console.log(`Ready! Logged in as ${client.user.tag}`);
+		client.logger.info(`Ready! Logged in as ${client.user.tag}`);
 		client.errorLog(`Ready! Logged in as ${client.user.tag}`);
 	},
 };
