@@ -45,7 +45,9 @@ module.exports.execute = async (interaction, context, lang, options = { "enable 
 			lang: lang.local_names || "vi",
 			slow: false,
 			host: "https://translate.google.com",
-			context,
+			context: context.replace(/[^a-zA-Z0-9À-ỹ\s]/g, ""),
+			"full context": context,
+			old_Prompt: options?.old_Prompt,
 		};
 
 		const tracls = new Track(player, {
@@ -79,6 +81,7 @@ module.exports.execute = async (interaction, context, lang, options = { "enable 
 					voiceAssistance: options.assistant && config?.DevConfig?.VoiceExtractor,
 					ZiLyrics: { Active: false },
 					lang: lang || langdef,
+					focus: options?.focus,
 					mess: interaction?.customId !== "S_player_Search" ? await interaction.fetchReply() : interaction.message,
 				},
 			},

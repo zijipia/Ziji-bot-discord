@@ -122,6 +122,7 @@ module.exports.execute = async (interaction, query, lang, options = {}) => {
 						voiceAssistance: options.assistant && config?.DevConfig?.VoiceExtractor,
 						ZiLyrics: { Active: false },
 						lang: lang || langdef,
+						focus: options?.focus,
 						mess: interaction?.customId !== "S_player_Search" ? await interaction.fetchReply() : interaction.message,
 					},
 				},
@@ -150,10 +151,10 @@ module.exports.execute = async (interaction, query, lang, options = {}) => {
 					await interaction.editReply(response);
 				} catch {
 					const meess = await interaction.fetchReply();
-					await meess.edit(response);
+					await meess.edit(response).catch(() => {});
 				}
 			} else {
-				await interaction.reply(response);
+				await interaction.reply(response).catch(() => {});
 			}
 			return;
 		}
@@ -178,14 +179,16 @@ module.exports.execute = async (interaction, query, lang, options = {}) => {
 	}
 
 	if (!tracks.length) {
-		return interaction.editReply({
-			embeds: [new EmbedBuilder().setTitle("Không tìm thấy kết quả nào cho:").setDescription(`${query}`).setColor("Red")],
-			components: [
-				new ActionRowBuilder().addComponents(
-					new ButtonBuilder().setCustomId("B_cancel").setEmoji("❌").setStyle(ButtonStyle.Secondary),
-				),
-			],
-		});
+		return interaction
+			.editReply({
+				embeds: [new EmbedBuilder().setTitle("Không tìm thấy kết quả nào cho:").setDescription(`${query}`).setColor("Red")],
+				components: [
+					new ActionRowBuilder().addComponents(
+						new ButtonBuilder().setCustomId("B_cancel").setEmoji("❌").setStyle(ButtonStyle.Secondary),
+					),
+				],
+			})
+			.catch(() => {});
 	}
 
 	const creator_Track = tracks.map((track, i) => {
@@ -221,7 +224,7 @@ module.exports.execute = async (interaction, query, lang, options = {}) => {
 
 		try {
 			const attachment = await buildImageInWorker(searchPlayer, query);
-			return interaction.editReply({ embeds: [], components: [row], files: [attachment] });
+			return interaction.editReply({ embeds: [], components: [row], files: [attachment] }).catch(() => {});
 		} catch (error) {
 			console.error("Error building image:", error);
 		}
@@ -238,7 +241,7 @@ module.exports.execute = async (interaction, query, lang, options = {}) => {
 			})),
 		);
 
-	return interaction.editReply({ embeds: [embed], components: [row] });
+	return interaction.editReply({ embeds: [embed], components: [row] }).catch(() => {});
 };
 
 //====================================================================//

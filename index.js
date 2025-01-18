@@ -20,6 +20,7 @@ const { ZiExtractor, useZiVoiceExtractor, TextToSpeech } = require("@zibot/ziext
 const Logger = require('./startup/logger')
 const logger = new Logger
 const client = new Client({
+	rest: [{ timeout: 60_000 }],
 	intents: [
 		GatewayIntentBits.Guilds, // for guild related things
 		GatewayIntentBits.GuildVoiceStates, // for voice related things
@@ -46,9 +47,8 @@ client.logger = logger
 if (config.DevConfig.ai && process.env?.GEMINI_API_KEY?.length) {
 	const { GoogleGenerativeAI } = require("@google/generative-ai");
 	const genAI = new GoogleGenerativeAI(process.env.GEMINI_API_KEY);
-	client.run = async (msg) => {
+	client.run = async (prompt) => {
 		const model = genAI.getGenerativeModel({ model: "gemini-1.5-flash" });
-		const prompt = msg;
 		const result = await model.generateContent(prompt);
 		const response = await result.response;
 		const text = response.text();

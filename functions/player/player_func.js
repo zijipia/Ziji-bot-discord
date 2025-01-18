@@ -88,7 +88,7 @@ module.exports = {
 
 		const embed = new EmbedBuilder()
 			.setAuthor({
-				name: `${track?.title}`,
+				name: `${track?.title}`.slice(0, 256),
 				iconURL: `${queryTypeIcon}`,
 				url: track?.url,
 			})
@@ -110,8 +110,8 @@ module.exports = {
 		}
 
 		if (track.queryType === "tts") {
-			embed.setDescription(`* ${player.client.user.username}:\n${track?.raw?.context}`);
-			return { content: "", embeds: [embed] };
+			embed.setDescription(`* ${player.client.user.username}:\n${track?.raw?.["full context"]}`);
+			return { content: "", embeds: [embed], components: [] };
 		}
 		const code = { content: "" };
 		const relatedTracks = await getRelatedTracks(track, queue.history);

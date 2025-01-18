@@ -9,14 +9,14 @@ module.exports.execute = async (interaction, msg) => {
 	const result = await interaction.client.run(msg);
 
 	// Chia kết quả thành các trang
-	const chunks = splitIntoChunks(result, 1000); // Chia nhỏ kết quả thành các đoạn 1000 ký tự
+	const chunks = splitIntoChunks(result, 4090); // Chia nhỏ kết quả thành các đoạn
 	let currentPage = 0;
 
 	// Tạo embed cho trang hiện tại
 	const generateEmbed = (page) => {
 		return new EmbedBuilder()
 			.setTitle("Kết quả từ AI")
-			.setDescription(chunks[page])
+			.setDescription(chunks[page]) // max 4096
 			.setFooter({
 				text: `Trang ${page + 1} / ${chunks.length}`,
 			})

@@ -34,6 +34,11 @@ module.exports.data = {
 					type: 3,
 					autocomplete: true,
 				},
+				{
+					name: "focus",
+					description: "Chỉ nghe lệnh người yêu cầu.",
+					type: 5, //BOOLEAN
+				},
 			],
 		},
 		{
@@ -82,7 +87,8 @@ module.exports.execute = async ({ interaction, lang }) => {
 			await command.execute(interaction, query, lang);
 		}
 	} else if (commandtype === "assistant") {
-		await command.execute(interaction, query, lang, { assistant: true });
+		const focus = interaction.options.getBoolean("focus") ? interaction.user.id : null;
+		await command.execute(interaction, query, lang, { assistant: true, focus });
 	} else {
 		await command.execute(interaction, query, lang);
 	}

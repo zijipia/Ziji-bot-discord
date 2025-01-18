@@ -24,6 +24,13 @@ module.exports.data = {
 			name: "assistant",
 			description: "Kích hoạt AI trong phòng voice",
 			type: 1,
+			options: [
+				{
+					name: "focus",
+					description: "Chỉ nghe lệnh người yêu cầu.",
+					type: 5, //BOOLEAN
+				},
+			],
 		},
 	],
 	integration_types: [0, 1],
@@ -83,6 +90,7 @@ module.exports.ask = async (interaction, prompt) => {
 };
 
 module.exports.assistant = async (interaction, lang, { query: prompt }) => {
+	const focus = interaction.options.getBoolean("focus") ? interaction.user.id : null;
 	const runVoiceAI = useFunctions().get("runVoiceAI");
-	await runVoiceAI.execute(interaction, lang, { query: prompt });
+	await runVoiceAI.execute(interaction, lang, { query: prompt, focus });
 };
