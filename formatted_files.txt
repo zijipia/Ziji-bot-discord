@@ -1,1 +1,17 @@
+events/client/error.js
+events/player/error.js
 formatted_files.txt
+functions/button/B_TempVoice_Hide.js
+functions/button/B_TempVoice_Kick.js
+functions/button/B_TempVoice_Limit.js
+functions/button/B_TempVoice_Lock.js
+functions/button/B_TempVoice_Rename.js
+functions/modal/M_TempVoice_Kick.js
+functions/modal/M_TempVoice_Rename.js
+functions/modal/M_TempVoice_limit.js
+functions/other/joinToCreate.js
+index.js
+startup/loadResponder.js
+startup/loadWelcome.js
+startup/logger.js
+startup/mongoDB.js

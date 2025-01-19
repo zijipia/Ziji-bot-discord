@@ -17,8 +17,8 @@ const { YoutubeiExtractor } = require("discord-player-youtubei");
 const { loadFiles, loadEvents } = require("./startup/loader.js");
 const { Client, Collection, GatewayIntentBits } = require("discord.js");
 const { ZiExtractor, useZiVoiceExtractor, TextToSpeech } = require("@zibot/ziextractor");
-const Logger = require('./startup/logger')
-const logger = new Logger
+const Logger = require("./startup/logger");
+const logger = new Logger();
 const client = new Client({
 	rest: [{ timeout: 60_000 }],
 	intents: [
@@ -43,7 +43,7 @@ const client = new Client({
 		repliedUser: false,
 	},
 });
-client.logger = logger
+client.logger = logger;
 if (config.DevConfig.ai && process.env?.GEMINI_API_KEY?.length) {
 	const { GoogleGenerativeAI } = require("@google/generative-ai");
 	const genAI = new GoogleGenerativeAI(process.env.GEMINI_API_KEY);

@@ -1,6 +1,6 @@
 const { useDB, useResponder } = require("@zibot/zihooks");
-const Logger = require('./logger')
-const logger = new Logger
+const Logger = require("./logger");
+const logger = new Logger();
 module.exports = async () => {
 	try {
 		let indexs = 0;

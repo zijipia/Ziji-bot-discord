@@ -1,6 +1,6 @@
 const { GuildQueueEvent } = require("discord-player");
-const Logger = require('../../startup/logger')
-const logger = new Logger
+const Logger = require("../../startup/logger");
+const logger = new Logger();
 module.exports = {
 	name: GuildQueueEvent.error,
 	type: "Player",
