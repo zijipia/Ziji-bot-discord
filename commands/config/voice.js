@@ -1,5 +1,5 @@
-const { ApplicationCommandOptionType } = require("discord.js");
-const { ZiGuild } = require("../../startup/mongoDB");
+const { useDB } = require("@zibot/zihooks");
+
 module.exports.data = {
 	name: "voice",
 	description: "Thiết lập lệnh voice",
@@ -13,23 +13,29 @@ module.exports.data = {
 				{
 					name: "enabled",
 					description: "Tùy chọn tắt/mở",
-					type: ApplicationCommandOptionType.Boolean,
+					type: 5, //bool
 					required: true,
 				},
 			],
 		},
 	],
-	integration_types: [0, 1],
-	contexts: [0, 1, 2],
+	integration_types: [0],
+	contexts: [0],
 };
 
 module.exports.execute = async ({ interaction, lang }) => {
 	const toggle = interaction.options.getBoolean("enabled");
 	const guildId = interaction.guild.id;
 
-	let GuildSetting = await ZiGuild.findOne({ guildId });
+	const DataBase = useDB();
+	if (!DataBase)
+		return interaction.editReply({
+			content: lang?.until?.noDB || "Database hiện không được bật, xin vui lòng liên hệ dev bot",
+		});
+
+	let GuildSetting = await DataBase.ZiGuild.findOne({ guildId });
 	if (!GuildSetting) {
-		GuildSetting = new ZiGuild({ guildId });
+		GuildSetting = new DataBase.ZiGuild({ guildId });
 	}
 
 	GuildSetting.voice.logMode = toggle;
