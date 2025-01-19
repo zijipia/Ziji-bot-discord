@@ -14,7 +14,7 @@ module.exports = async (client) => {
 			 */
 			commands[command.data.owner ? "owner" : "global"].push(command.data);
 		}),
-	).catch((e) => console.log(`Error reloaded commands:\n ${e}`));
+	).catch((e) => client.logger.info(`Error reloaded commands:\n ${e}`));
 
 	const rest = new REST().setToken(process.env.TOKEN);
 
@@ -22,7 +22,7 @@ module.exports = async (client) => {
 		if (commands[commandType].length > 0) {
 			await rest.put(route, { body: commands[commandType] });
 			client?.errorLog(`Successfully reloaded ${commands[commandType].length} ${commandType} application [/] commands.`);
-			console.log(`Successfully reloaded ${commands[commandType].length} ${commandType} application [/] commands.`);
+			client.logger.info(`Successfully reloaded ${commands[commandType].length} ${commandType} application [/] commands.`);
 		}
 	};
 

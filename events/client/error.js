@@ -1,5 +1,6 @@
 const { Events } = require("discord.js");
-
+const Logger = require('../../startup/logger')
+const logger = new Logger
 module.exports = {
 	name: Events.Error,
 	type: "events",
@@ -8,6 +9,6 @@ module.exports = {
 	 * @param { Error } error
 	 */
 	execute: async (error) => {
-		console.log(error.message);
+		logger.error(error.message);
 	},
 };

@@ -1,5 +1,6 @@
 const { GuildQueueEvent } = require("discord-player");
-
+const Logger = require('../../startup/logger')
+const logger = new Logger
 module.exports = {
 	name: GuildQueueEvent.error,
 	type: "Player",
@@ -11,6 +12,6 @@ module.exports = {
 	execute: async (queue, error) => {
 		queue.player.client?.errorLog("Player Error");
 		queue.player.client?.errorLog(error.message);
-		console.log(error.stack);
+		logger.error(error.stack);
 	},
 };
