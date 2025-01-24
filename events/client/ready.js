@@ -2,7 +2,7 @@ const { Events, Client, ActivityType } = require("discord.js");
 const config = require("../../config");
 const deploy = require("../../startup/deploy");
 const mongoose = require("mongoose");
-const { useDB } = require("@zibot/zihooks");
+const { useDB, useLogger } = require("@zibot/zihooks");
 
 module.exports = {
 	name: Events.ClientReady,
@@ -26,7 +26,7 @@ module.exports = {
 					}
 				}
 			} catch (error) {
-				client.logger.error("Lỗi khi gửi tin nhắn lỗi:", error);
+				useLogger().error("Lỗi khi gửi tin nhắn lỗi:", error);
 			}
 		};
 
@@ -40,10 +40,10 @@ module.exports = {
 			useDB(require("../../startup/mongoDB"));
 			await require("../../startup/loadResponder")();
 			await require("../../startup/loadWelcome")();
-			client.logger.info("Connected to MongoDB!");
+			useLogger().info("Connected to MongoDB!");
 			client.errorLog("Connected to MongoDB!");
 		} else {
-			client.logger.error("Failed to connect to MongoDB!");
+			useLogger().error("Failed to connect to MongoDB!");
 			client.errorLog("Failed to connect to MongoDB!");
 		}
 
@@ -57,8 +57,7 @@ module.exports = {
 			},
 		});
 
-		// Log the bot's readiness
-		client.logger.info(`Ready! Logged in as ${client.user.tag}`);
+		useLogger().info(`Ready! Logged in as ${client.user.tag}`);
 		client.errorLog(`Ready! Logged in as ${client.user.tag}`);
 	},
 };
