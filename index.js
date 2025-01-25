@@ -1,13 +1,5 @@
 require("dotenv").config();
-const path = require("node:path");
-const winston = require("winston");
-const { Player } = require("discord-player");
-const config = useConfig(require("./config"));
-const { GiveawaysManager } = require("discord-giveaways");
-const { YoutubeiExtractor } = require("discord-player-youtubei");
-const { loadFiles, loadEvents } = require("./startup/loader.js");
-const { Client, Collection, GatewayIntentBits } = require("discord.js");
-const { ZiExtractor, useZiVoiceExtractor, TextToSpeech } = require("@zibot/ziextractor");
+const { startServer } = require("./web");
 const {
 	useClient,
 	useCooldowns,
@@ -19,6 +11,15 @@ const {
 	useWelcome,
 	useLogger,
 } = require("@zibot/zihooks");
+const path = require("node:path");
+const winston = require("winston");
+const { Player } = require("discord-player");
+const config = useConfig(require("./config"));
+const { GiveawaysManager } = require("discord-giveaways");
+const { YoutubeiExtractor } = require("discord-player-youtubei");
+const { loadFiles, loadEvents } = require("./startup/loader.js");
+const { Client, Collection, GatewayIntentBits } = require("discord.js");
+const { ZiExtractor, useZiVoiceExtractor, TextToSpeech } = require("@zibot/ziextractor");
 
 const client = new Client({
 	rest: [{ timeout: 60_000 }],
@@ -127,8 +128,8 @@ const initialize = async () => {
 		loadEvents(path.join(__dirname, "events/player"), player.events),
 		loadFiles(path.join(__dirname, "commands"), useCommands(new Collection())),
 		loadFiles(path.join(__dirname, "functions"), useFunctions(new Collection())),
+		startServer().catch((error) => logger.error("Error start Server:", error)),
 	]);
-
 	client.login(process.env.TOKEN).catch((error) => {
 		logger.error("Error logging in:", error);
 		logger.error("The Bot Token You Entered Into Your Project Is Incorrect Or Your Bot's INTENTS Are OFF!");
