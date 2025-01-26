@@ -43,12 +43,7 @@ async function startServer() {
 		}
 	});
 
-	const io = new Server(server, {
-		cors: {
-			origin: "*",
-			methods: ["GET", "POST"],
-		},
-	});
+	const io = new Server(server);
 
 	io.on("connection", async (socket) => {
 		console.log(`[Socket ${socket.id}] connected.`);
