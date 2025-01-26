@@ -13,19 +13,19 @@ module.exports.data = {
  * @param { import('../../lang/vi.js') } context.lang - language
  */
 module.exports.execute = async ({ interaction, lang }) => {
-    await interaction.deferReply();
-    let msg = interaction.targetMessage;
+	await interaction.deferReply();
+	let msg = interaction.targetMessage;
 
-    if (msg.content) {
-        const miq = new MiQ()
-            .setText(msg.content)
-            .setColor(true)
-            .setDisplayname(msg.author.displayName)
-            .setUsername(msg.author.username)
-            .setAvatar(msg.author.displayAvatarURL())
-            .setWatermark(interaction.client.user.tag);
-        const result = await miq.generate();
-        await interaction.editReply(result);
-        return
-    }
-}
+	if (msg.content) {
+		const miq = new MiQ()
+			.setText(msg.content)
+			.setColor(true)
+			.setDisplayname(msg.author.displayName)
+			.setUsername(msg.author.username)
+			.setAvatar(msg.author.displayAvatarURL())
+			.setWatermark(interaction.client.user.tag);
+		const result = await miq.generate();
+		await interaction.editReply(result);
+		return;
+	}
+};
