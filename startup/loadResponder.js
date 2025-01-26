@@ -1,6 +1,5 @@
-const { useDB, useResponder } = require("@zibot/zihooks");
-const Logger = require("./logger");
-const logger = new Logger();
+const { useDB, useResponder, useLogger } = require("@zibot/zihooks");
+
 module.exports = async () => {
 	try {
 		let indexs = 0;
@@ -17,8 +16,8 @@ module.exports = async () => {
 			});
 			indexs++;
 		});
-		logger.info(`Successfully reloaded ${indexs} Auto Responders.`);
+		useLogger().info(`Successfully reloaded ${indexs} Auto Responders.`);
 	} catch (error) {
-		logger.error("Lỗi khi tải autoresponders:", error);
+		useLogger().error("Lỗi khi tải autoresponders:", error);
 	}
 };

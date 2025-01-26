@@ -37,3 +37,4 @@ config.js
 .env
 package-lock.json
 giveaways.json
+bot.log

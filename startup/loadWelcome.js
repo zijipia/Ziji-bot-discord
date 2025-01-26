@@ -1,6 +1,5 @@
-const { useDB, useWelcome } = require("@zibot/zihooks");
-const Logger = require("./logger");
-const logger = new Logger();
+const { useDB, useWelcome, useLogger } = require("@zibot/zihooks");
+
 module.exports = async () => {
 	try {
 		let indexs = 0;
@@ -18,8 +17,8 @@ module.exports = async () => {
 			});
 			indexs++;
 		});
-		logger.info(`Successfully reloaded ${indexs} welcome.`);
+		useLogger().info(`Successfully reloaded ${indexs} welcome.`);
 	} catch (error) {
-		logger.error("Lỗi khi tải welcome:", error);
+		useLogger().error("Lỗi khi tải welcome:", error);
 	}
 };
