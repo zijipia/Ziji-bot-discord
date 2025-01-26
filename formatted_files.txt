@@ -1,3 +1,1 @@
-commands/context/context_quote.js
-commands/fun/quote.js
 formatted_files.txt
