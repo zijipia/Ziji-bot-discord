@@ -1,4 +1,5 @@
 require("dotenv").config();
+const { startServer } = require("./web");
 const {
 	useClient,
 	useCooldowns,
@@ -8,8 +9,10 @@ const {
 	useConfig,
 	useResponder,
 	useWelcome,
+	useLogger,
 } = require("@zibot/zihooks");
 const path = require("node:path");
+const winston = require("winston");
 const { Player } = require("discord-player");
 const config = useConfig(require("./config"));
 const { GiveawaysManager } = require("discord-giveaways");
@@ -17,8 +20,7 @@ const { YoutubeiExtractor } = require("discord-player-youtubei");
 const { loadFiles, loadEvents } = require("./startup/loader.js");
 const { Client, Collection, GatewayIntentBits } = require("discord.js");
 const { ZiExtractor, useZiVoiceExtractor, TextToSpeech } = require("@zibot/ziextractor");
-const Logger = require("./startup/logger");
-const logger = new Logger();
+
 const client = new Client({
 	rest: [{ timeout: 60_000 }],
 	intents: [
@@ -43,7 +45,24 @@ const client = new Client({
 		repliedUser: false,
 	},
 });
-client.logger = logger;
+
+// Configure logger
+const logger = useLogger(
+	winston.createLogger({
+		level: "info",
+		format: winston.format.combine(
+			winston.format.timestamp(),
+			winston.format.printf(({ level, message, timestamp }) => `[${timestamp}] [${level.toUpperCase()}]: ${message}`),
+		),
+		transports: [
+			new winston.transports.Console({
+				format: winston.format.printf(({ level, message }) => `[${level.toUpperCase()}]: ${message}`),
+			}),
+			new winston.transports.File({ filename: "bot.log" }),
+		],
+	}),
+);
+
 if (config.DevConfig.ai && process.env?.GEMINI_API_KEY?.length) {
 	const { GoogleGenerativeAI } = require("@google/generative-ai");
 	const genAI = new GoogleGenerativeAI(process.env.GEMINI_API_KEY);
@@ -109,8 +128,8 @@ const initialize = async () => {
 		loadEvents(path.join(__dirname, "events/player"), player.events),
 		loadFiles(path.join(__dirname, "commands"), useCommands(new Collection())),
 		loadFiles(path.join(__dirname, "functions"), useFunctions(new Collection())),
+		startServer().catch((error) => logger.error("Error start Server:", error)),
 	]);
-
 	client.login(process.env.TOKEN).catch((error) => {
 		logger.error("Error logging in:", error);
 		logger.error("The Bot Token You Entered Into Your Project Is Incorrect Or Your Bot's INTENTS Are OFF!");

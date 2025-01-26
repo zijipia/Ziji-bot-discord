@@ -75,6 +75,7 @@ module.exports.execute = async (interaction, context, lang, options = { "enable 
 			nodeOptions: {
 				...playerConfig,
 				metadata: queue?.metadata ?? {
+					listeners: [user],
 					channel: interaction.channel,
 					requestedBy: user,
 					LockStatus: false,
