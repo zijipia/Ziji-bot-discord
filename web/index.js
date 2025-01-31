@@ -1,7 +1,7 @@
 const express = require("express");
 const cors = require("cors");
 const { Server } = require("socket.io");
-const { useClient, useLogger } = require("@zibot/zihooks");
+const { useClient, useLogger, useConfig } = require("@zibot/zihooks");
 const { useMainPlayer } = require("discord-player");
 const http = require("http");
 
@@ -33,6 +33,7 @@ async function startServer() {
 
 			const searchResults = await player.search(query, {
 				requestedBy: client.user,
+				searchEngine: useConfig().botConfig.QueryType
 			});
 
 			res.json(searchResults.tracks.slice(0, 10));

@@ -44,7 +44,7 @@ module.exports.execute = async (message) => {
 	}
 	if (message.mentions.has(message.client.user) && !message.author.bot) {
 		const prompt = message.content.replace(`<@${message.client.user.id}>`, '').trim();
-		if (!prompt) return;
+		if (!prompt) return message.reply(`Xin chào ${message.author.username}! Sử dụng \`/help\` để bắt đầu`);
 		await message.channel.sendTyping()
 		try {
 			const result = await message.client.run(`Answer lower than 1500 characters\nTrả lời dưới 1500 ký tự hoặc ít hơn\nPrompt: ${prompt}`);
