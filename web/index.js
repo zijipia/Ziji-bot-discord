@@ -21,7 +21,6 @@ async function startServer() {
 		}),
 	);
 	server.listen(process.env.SERVER_PORT || 2003, () => {
-		console.log("Server is running on port 2003");
 		logger.info(`Server running on port ${process.env.SERVER_PORT || 2003}`);
 	});
 
@@ -43,11 +42,15 @@ async function startServer() {
 		}
 	});
 
-	const io = new Server(server);
+	const io = new Server(server, {
+		cors: {
+			methods: ["GET", "POST"],
+			origin: "*"
+		}
+	});
 
 	io.on("connection", async (socket) => {
-		console.log(`[Socket ${socket.id}] connected.`);
-		logger.info("WebSocket client connected");
+		logger.info(`[Socket ${socket.id}] connected.`);
 
 		let user = null;
 		let queue = null;
