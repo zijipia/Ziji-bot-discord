@@ -67,8 +67,14 @@ if (config.DevConfig.ai && process.env?.GEMINI_API_KEY?.length) {
 	const { GoogleGenerativeAI } = require("@google/generative-ai");
 	const genAI = new GoogleGenerativeAI(process.env.GEMINI_API_KEY);
 	client.run = async (prompt) => {
-		const model = genAI.getGenerativeModel({ model: "gemini-1.5-flash" });
-		const result = await model.generateContent(prompt);
+		const generationConfig = {
+			stopSequences: ["red"],
+			temperature: 0.9,
+			topP: 0.1,
+			topK: 16,
+		};
+		const model = genAI.getGenerativeModel({ model: "gemini-1.5-flash", generationConfig });
+		const result = await model.generateContent(prompt, {});
 		const response = await result.response;
 		const text = response.text();
 		return text;

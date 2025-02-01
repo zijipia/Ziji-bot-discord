@@ -1,7 +1,7 @@
 const express = require("express");
 const cors = require("cors");
 const { Server } = require("socket.io");
-const { useClient, useLogger } = require("@zibot/zihooks");
+const { useClient, useLogger, useConfig } = require("@zibot/zihooks");
 const { useMainPlayer } = require("discord-player");
 const http = require("http");
 
@@ -21,7 +21,6 @@ async function startServer() {
 		}),
 	);
 	server.listen(process.env.SERVER_PORT || 2003, () => {
-		console.log("Server is running on port 2003");
 		logger.info(`Server running on port ${process.env.SERVER_PORT || 2003}`);
 	});
 
@@ -34,6 +33,7 @@ async function startServer() {
 
 			const searchResults = await player.search(query, {
 				requestedBy: client.user,
+				searchEngine: useConfig().botConfig.QueryType
 			});
 
 			res.json(searchResults.tracks.slice(0, 10));
@@ -43,11 +43,15 @@ async function startServer() {
 		}
 	});
 
-	const io = new Server(server);
+	const io = new Server(server, {
+		cors: {
+			methods: ["GET", "POST"],
+			origin: "*"
+		}
+	});
 
 	io.on("connection", async (socket) => {
-		console.log(`[Socket ${socket.id}] connected.`);
-		logger.info("WebSocket client connected");
+		logger.info(`[Socket ${socket.id}] connected.`);
 
 		let user = null;
 		let queue = null;
