@@ -8,7 +8,6 @@ const http = require("http");
 async function startServer() {
 	const logger = useLogger();
 	const client = useClient();
-
 	const player = useMainPlayer();
 
 	const app = express();
@@ -36,7 +35,7 @@ async function startServer() {
 
 			const searchResults = await player.search(query, {
 				requestedBy: client.user,
-				searchEngine: useConfig().botConfig.QueryType,
+				searchEngine: useConfig().PlayerConfig.QueryType,
 			});
 
 			res.json(searchResults.tracks.slice(0, 10));
@@ -49,7 +48,7 @@ async function startServer() {
 	const io = new Server(server, {
 		cors: {
 			methods: ["GET", "POST"],
-			origin: "*",
+			credentials: true,
 		},
 	});
 
