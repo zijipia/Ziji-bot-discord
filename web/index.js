@@ -14,6 +14,7 @@ async function startServer() {
 	const server = http.createServer(app);
 	app.use(
 		cors({
+			origin: '*',
 			methods: ["GET", "POST"],
 			credentials: true,
 		}),
@@ -23,19 +24,19 @@ async function startServer() {
 	});
 
 	app.get("/", (req, res) => {
-		res.json({ status: "healthy" });
+		res.json({ status: "healthy", content: "Welcome to API!", clientName: client.user.displayName, clientId: client.user.id });
 	});
 
 	app.get("/api/search", async (req, res) => {
 		try {
-			const { query } = req.query;
+			const { query } = req.query || req.q;
 			if (!query) {
-				return res.status(400).json({ error: "Search query is required" });
+				return res.status(400).json({ error: "Search query is required! Use /api/search?q=<input>" });
 			}
 
 			const searchResults = await player.search(query, {
 				requestedBy: client.user,
-				searchEngine: useConfig().PlayerConfig.QueryType,
+				searchEngine: useConfig().botConfig.QueryType,
 			});
 
 			res.json(searchResults.tracks.slice(0, 10));
@@ -47,6 +48,7 @@ async function startServer() {
 
 	const io = new Server(server, {
 		cors: {
+			origin: '*',
 			methods: ["GET", "POST"],
 			credentials: true,
 		},
