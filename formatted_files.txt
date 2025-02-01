@@ -1,4 +1,1 @@
-commands/music/music_play.js
-commands/utility/ping.js
 formatted_files.txt
-web/index.js
