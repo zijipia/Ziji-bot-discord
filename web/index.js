@@ -15,9 +15,8 @@ async function startServer() {
 	const server = http.createServer(app);
 	app.use(
 		cors({
-			origin: "*",
 			methods: ["GET", "POST"],
-			allowedHeaders: ["Content-Type"],
+			credentials: true,
 		}),
 	);
 	server.listen(process.env.SERVER_PORT || 2003, () => {
