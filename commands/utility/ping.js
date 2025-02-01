@@ -23,7 +23,7 @@ module.exports.execute = async ({ interaction, lang }) => {
 
 		const roundTripLatency = initialResponse.createdTimestamp - interaction.createdTimestamp;
 		const botPing = interaction.client.ws.ping;
-		const req = await axios.get(`http://localhost:${process.env.SERVER_PORT || 2003}`)
+		const req = await axios.get(`http://localhost:${process.env.SERVER_PORT || 2003}`);
 		const webPing = req.data.status;
 		const latencyStatus =
 			botPing > 200 ? lang?.Ping?.Poor || " "
@@ -37,7 +37,7 @@ module.exports.execute = async ({ interaction, lang }) => {
 			.addFields(
 				{ name: lang?.Ping?.Roundtrip || " ", value: `${roundTripLatency}ms`, inline: true },
 				{ name: lang?.Ping?.Websocket || " ", value: `${botPing}ms`, inline: true },
-				{ name: '🌏 Web Control', value: `${webPing === 'healthy' ? '🟢 Working' : '🔴 Offline' }`, inline: true },
+				{ name: "🌏 Web Control", value: `${webPing === "healthy" ? "🟢 Working" : "🔴 Offline"}`, inline: true },
 				{ name: lang?.Ping?.Latency || " ", value: latencyStatus, inline: true },
 				{
 					name: lang?.Ping?.Timestamp || " ",

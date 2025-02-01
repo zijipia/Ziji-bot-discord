@@ -14,7 +14,7 @@ async function startServer() {
 	const server = http.createServer(app);
 	app.use(
 		cors({
-			origin: '*',
+			origin: "*",
 			methods: ["GET", "POST"],
 			credentials: true,
 		}),
@@ -48,7 +48,7 @@ async function startServer() {
 
 	const io = new Server(server, {
 		cors: {
-			origin: '*',
+			origin: "*",
 			methods: ["GET", "POST"],
 			credentials: true,
 		},

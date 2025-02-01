@@ -108,7 +108,7 @@ module.exports.autocomplete = async ({ interaction, lang }) => {
 
 		const results = await player.search(query, {
 			fallbackSearchEngine: QueryType.SOUNDCLOUD,
-			searchEngine: config.botConfig.QueryType
+			searchEngine: config.botConfig.QueryType,
 		});
 
 		const tracks = results.tracks
