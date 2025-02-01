@@ -13,6 +13,7 @@ const {
 } = require("@zibot/zihooks");
 const path = require("node:path");
 const winston = require("winston");
+const util = require("util");
 const { Player } = require("discord-player");
 const config = useConfig(require("./config"));
 const { GiveawaysManager } = require("discord-giveaways");
@@ -49,14 +50,20 @@ const client = new Client({
 // Configure logger
 const logger = useLogger(
 	winston.createLogger({
-		level: "info",
+		level: "debug",
 		format: winston.format.combine(
 			winston.format.timestamp(),
-			winston.format.printf(({ level, message, timestamp }) => `[${timestamp}] [${level.toUpperCase()}]: ${message}`),
+			winston.format.printf(
+				({ level, message, timestamp }) =>
+					`[${timestamp}] [${level.toUpperCase()}]:` + util.inspect(message, { showHidden: false, depth: 2, colors: true }),
+			),
 		),
 		transports: [
 			new winston.transports.Console({
-				format: winston.format.printf(({ level, message }) => `[${level.toUpperCase()}]: ${message}`),
+				format: winston.format.printf(
+					({ level, message }) =>
+						`[${level.toUpperCase()}]:` + util.inspect(message, { showHidden: false, depth: 2, colors: true }),
+				),
 			}),
 			new winston.transports.File({ filename: "bot.log" }),
 		],
@@ -95,11 +102,11 @@ player.extractors.register(TextToSpeech, {});
 player.extractors.loadDefault((ext) => !["YouTubeExtractor"].includes(ext));
 
 // Debug
-if (config.DevConfig.DJS_DEBUG) client.on("debug", logger.debug);
-if (config.DevConfig.DPe_DEBUG) player.events.on("debug", logger.debug);
+if (config.DevConfig.DJS_DEBUG) client.on("debug", (m) => logger.debug(m));
+if (config.DevConfig.DPe_DEBUG) player.events.on("debug", (m) => logger.debug(m));
 if (config.DevConfig.DP_DEBUG) {
 	logger.debug(player.scanDeps());
-	player.on("debug", logger.debug);
+	player.on("debug", (m) => logger.debug(m));
 }
 
 useGiveaways(
