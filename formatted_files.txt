@@ -1,4 +1,1 @@
-events/client/messageCreate.js
 formatted_files.txt
-functions/player/Search.js
-web/index.js
