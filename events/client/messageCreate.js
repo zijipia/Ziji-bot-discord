@@ -15,11 +15,11 @@ module.exports.execute = async (message) => {
 	if (config?.DevConfig?.AutoResponder) {
 		const parseVar = useFunctions().get("getVariable");
 		const guildResponders = useResponder().get(message.guild.id) ?? [];
-	
+
 		const trigger = guildResponders.find((responder) => {
 			const msgContent = message.content.toLowerCase();
 			const triggerContent = responder.trigger.toLowerCase();
-	
+
 			switch (responder.matchMode) {
 				case "exactly":
 					return msgContent === triggerContent;
@@ -33,7 +33,7 @@ module.exports.execute = async (message) => {
 					return msgContent === triggerContent;
 			}
 		});
-	
+
 		if (trigger) {
 			try {
 				await message.reply(parseVar.execute(trigger.response, message));
@@ -43,18 +43,20 @@ module.exports.execute = async (message) => {
 		}
 	}
 	if (message.mentions.has(message.client.user) && !message.author.bot) {
-		const prompt = message.content.replace(`<@${message.client.user.id}>`, '').trim();
+		const prompt = message.content.replace(`<@${message.client.user.id}>`, "").trim();
 		if (!prompt) return message.reply(`Xin chào ${message.author.username}! Sử dụng \`/help\` để bắt đầu`);
-		await message.channel.sendTyping()
+		await message.channel.sendTyping();
 		try {
-			const result = await message.client.run(`Answer lower than 1500 characters\nTrả lời dưới 1500 ký tự hoặc ít hơn\nPrompt: ${prompt}`);
-			await message.reply(result)
+			const result = await message.client.run(
+				`Answer lower than 1500 characters\nTrả lời dưới 1500 ký tự hoặc ít hơn\nPrompt: ${prompt}`,
+			);
+			await message.reply(result);
 		} catch (err) {
-			useLogger().error(`Error in generating content: ${err}`)
-			const replies = await message.reply('❌ | Không thể tạo nội dung! Xin hãy chờ ít phút');
+			useLogger().error(`Error in generating content: ${err}`);
+			const replies = await message.reply("❌ | Không thể tạo nội dung! Xin hãy chờ ít phút");
 			setTimeout(() => {
-				replies.delete()
-			}, 5000)
+				replies.delete();
+			}, 5000);
 		}
 	}
 };

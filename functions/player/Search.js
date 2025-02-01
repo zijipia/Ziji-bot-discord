@@ -162,7 +162,7 @@ module.exports.execute = async (interaction, query, lang, options = {}) => {
 	}
 
 	const results = await player.search(query, {
-		fallbackSearchEngine: 'youtube',
+		fallbackSearchEngine: "youtube",
 		searchEngine: config.botConfig.QueryType,
 	});
 
