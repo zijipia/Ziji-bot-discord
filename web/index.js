@@ -24,6 +24,10 @@ async function startServer() {
 		logger.info(`Server running on port ${process.env.SERVER_PORT || 2003}`);
 	});
 
+	app.get("/", (req, res) => {
+		res.json({ status: "healthy" });
+	});
+
 	app.get("/api/search", async (req, res) => {
 		try {
 			const { query } = req.query;
