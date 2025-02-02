@@ -1,2 +1,1 @@
-events/client/interactionCreate.js
 formatted_files.txt
