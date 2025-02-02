@@ -21,7 +21,7 @@ module.exports.execute = async ({ interaction, lang }) => {
 	try {
 		const initialResponse = await interaction.reply({ content: "🏓 Pinging...", withResponse: true });
 
-		const roundTripLatency = initialResponse.createdTimestamp - interaction.createdTimestamp;
+		const roundTripLatency = initialResponse.resource.message.createdTimestamp - interaction.createdTimestamp;
 		const botPing = interaction.client.ws.ping;
 		const req = await axios.get(`http://localhost:${process.env.SERVER_PORT || 2003}`);
 		const webPing = req.data.status;
