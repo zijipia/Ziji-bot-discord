@@ -96,7 +96,9 @@ module.exports.execute = async (interaction) => {
 
 			await command.execute({ interaction, lang });
 			if (config?.botConfig?.cmdLog) {
-				useLogger().debug(`${interaction.user.username} issused a command in ${interaction.guild.name} (${interaction.guildId}): ${interaction.commandName} (${interaction.isMessageContextMenuCommand() ? 'context' : 'slash command'})`)
+				useLogger().debug(
+					`${interaction.user.username} issused a command in ${interaction.guild.name} (${interaction.guildId}): ${interaction.commandName} (${interaction.isMessageContextMenuCommand() ? "context" : "slash command"})`,
+				);
 			}
 		}
 	} catch (error) {
