@@ -1,5 +1,5 @@
 const { Events, CommandInteraction, PermissionsBitField } = require("discord.js");
-const { useCooldowns, useCommands, useFunctions, useConfig } = require("@zibot/zihooks");
+const { useCooldowns, useCommands, useFunctions, useConfig, useLogger } = require("@zibot/zihooks");
 const config = useConfig();
 
 const Cooldowns = useCooldowns();
@@ -95,6 +95,9 @@ module.exports.execute = async (interaction) => {
 			if (status) return;
 
 			await command.execute({ interaction, lang });
+			if (config?.botConfig?.cmdLog) {
+				useLogger().debug(`${interaction.user.username} issused a command in ${interaction.guild.name} (${interaction.guildId}): ${interaction.commandName} (${interaction.isMessageContextMenuCommand() ? 'context' : 'slash command'})`)
+			}
 		}
 	} catch (error) {
 		client.errorLog(`**${error.message}**`);
