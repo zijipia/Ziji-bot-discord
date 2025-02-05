@@ -18,7 +18,7 @@ module.exports.data = {
 			required: false,
 		},
 		{
-			name: "nocolor",
+			name: "color",
 			description: "Do you need a color for your quote image?",
 			type: 5,
 			required: false,
@@ -36,15 +36,14 @@ module.exports.execute = async ({ interaction, lang }) => {
 	await interaction.deferReply();
 	const text = await interaction.options.getString("text");
 	const user = (await interaction.options.getUser("user")) || interaction.user;
-	const nocolor = await interaction.options.getBoolean("nocolor");
+	const color = (await interaction.options.getBoolean("color")) ?? true;
 	const miq = new MiQ()
-		.setColor(true)
+		.setColor(!!color)
 		.setText(text)
 		.setDisplayname(user.displayName)
 		.setUsername(user.username)
-		.setAvatar(user.displayAvatarURL())
+		.setAvatar(user.displayAvatarURL({ size: 1024 }))
 		.setWatermark(interaction.client.user.tag);
-	if (nocolor) miq.setColor(false);
 	const result = await miq.generate();
 	await interaction.editReply(result);
 };
