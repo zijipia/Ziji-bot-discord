@@ -24,7 +24,12 @@ async function startServer() {
 	});
 
 	app.get("/", (req, res) => {
-		res.json({ status: "healthy", content: "Welcome to API!", clientName: client.user.displayName, clientId: client.user.id });
+		res.json({
+			status: "healthy",
+			content: "Welcome to API!",
+			clientName: client?.user?.displayName,
+			clientId: client?.user?.id,
+		});
 	});
 
 	app.get("/api/search", async (req, res) => {
