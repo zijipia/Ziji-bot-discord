@@ -1,6 +1,6 @@
 const express = require("express");
 const cors = require("cors");
-const { WebSocketServer } = require("ws");
+const WebSocket = require("ws");
 const { useClient, useLogger, useConfig } = require("@zibot/zihooks");
 const { useMainPlayer } = require("discord-player");
 const http = require("http");
@@ -24,11 +24,18 @@ async function startServer() {
 	});
 
 	app.get("/", (req, res) => {
+		if (!client.isReady())
+			return res.json({
+				status: "NG",
+				content: "API loading...!",
+			});
+
 		res.json({
 			status: "healthy",
 			content: "Welcome to API!",
 			clientName: client?.user?.displayName,
 			clientId: client?.user?.id,
+			avatars: client?.user?.displayAvatarURL({ size: 1024 }),
 		});
 	});
 
@@ -41,7 +48,7 @@ async function startServer() {
 
 			const searchResults = await player.search(query, {
 				requestedBy: client.user,
-				searchEngine: useConfig().botConfig.QueryType,
+				searchEngine: useConfig().PlayerConfig.QueryType,
 			});
 
 			res.json(searchResults.tracks.slice(0, 10));
@@ -51,7 +58,7 @@ async function startServer() {
 		}
 	});
 
-	const wss = new WebSocketServer({ server });
+	const wss = new WebSocket.Server({ server });
 
 	wss.on("connection", (ws) => {
 		logger.debug("[WebSocket] Client connected.");
@@ -62,14 +69,15 @@ async function startServer() {
 		ws.on("message", async (message) => {
 			try {
 				const data = JSON.parse(message);
-				switch (data.type) {
+				console.log(data);
+				switch (data.event) {
 					case "GetVoice":
 						user = await client.users.fetch(data.userID);
 						const userQueue = player.queues.cache.find((node) => node.metadata?.listeners.includes(user));
 						if (userQueue?.connection) {
 							queue = userQueue;
 							ws.send(
-								JSON.stringify({ type: "ReplyVoice", channel: queue.metadata.channel, guild: queue.metadata.channel.guild }),
+								JSON.stringify({ event: "ReplyVoice", channel: queue.metadata.channel, guild: queue.metadata.channel.guild }),
 							);
 						}
 						break;
@@ -111,6 +119,7 @@ async function startServer() {
 					url: track.url,
 					duration: track.duration,
 					thumbnail: track.thumbnail,
+					author: track.author,
 				}));
 
 				const currentTrack =
@@ -120,14 +129,15 @@ async function startServer() {
 							url: queue.currentTrack.url,
 							duration: queue.currentTrack.duration,
 							thumbnail: queue.currentTrack.thumbnail,
+							author: queue.currentTrack.author,
 						}
 					:	null;
 
 				ws.send(
 					JSON.stringify({
-						type: "statistics",
+						event: "statistics",
 						timestamp: {
-							current: queue.node.getTimestamp(),
+							current: queue.node.getTimestamp()?.current?.value ?? 0,
 							total: queue.currentTrack?.durationMS,
 						},
 						listeners: queue.metadata?.channel?.members.filter((mem) => !mem.user.bot).size ?? 0,
