@@ -109,7 +109,7 @@ module.exports.execute = async (interaction) => {
 			content: "There was an error while executing this command!",
 			ephemeral: true,
 		};
-
+		if (interaction.isAutocomplete()) return;
 		if (interaction.replied || interaction.deferred) {
 			await interaction.followUp(response).catch(() => {});
 		} else {
