@@ -92,7 +92,7 @@ module.exports = {
 
 	async autocomplete({ interaction, lang }) {
 		const focusedValue = interaction.options.getFocused();
-		if (!focusedValue) return interaction.respond([]);
+		if (!focusedValue) return;
 
 		try {
 			const response = await axios.get(

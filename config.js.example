@@ -29,11 +29,6 @@ module.exports = {
 	 * Default bot configuration
 	 */
 	botConfig: {
-		/**
-		 * Mặc định chế độ tìm kiếm của bot
-		 * Default: bot search track engine
-		 */
-		QueryType: QueryType.SOUNDCLOUD,
 		
 		/**
 		 * Tên hoạt động của bot
@@ -83,6 +78,13 @@ module.exports = {
 	 * Default player configuration
 	 */
 	PlayerConfig: {
+		
+		/**
+		 * Mặc định chế độ tìm kiếm của bot
+		 * Default: bot search track engine
+		 */
+		QueryType: QueryType.SOUNDCLOUD,
+		
 		/**
 		 * Mặc định tắt nghe của bot
 		 * Default: bot doesn't listen (deaf mode)

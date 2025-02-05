@@ -63,6 +63,7 @@ module.exports = {
  */
 module.exports.execute = async (interaction) => {
 	const { client, user } = interaction;
+	if (!client.isReady()) return;
 
 	let command;
 	let commandType;
@@ -109,7 +110,7 @@ module.exports.execute = async (interaction) => {
 			content: "There was an error while executing this command!",
 			ephemeral: true,
 		};
-
+		if (interaction.isAutocomplete()) return;
 		if (interaction.replied || interaction.deferred) {
 			await interaction.followUp(response).catch(() => {});
 		} else {

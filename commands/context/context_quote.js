@@ -22,7 +22,7 @@ module.exports.execute = async ({ interaction, lang }) => {
 			.setColor(true)
 			.setDisplayname(msg.author.displayName)
 			.setUsername(msg.author.username)
-			.setAvatar(msg.author.displayAvatarURL())
+			.setAvatar(msg.author.displayAvatarURL({ size: 1024 }))
 			.setWatermark(interaction.client.user.tag);
 		const result = await miq.generate();
 		await interaction.editReply(result);
