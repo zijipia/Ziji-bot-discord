@@ -11,6 +11,8 @@ module.exports = {
  * @param { Message } message
  */
 module.exports.execute = async (message) => {
+	if (!message.client.isReady()) return;
+
 	if (message.author.bot || !message.guild) return;
 	if (config?.DevConfig?.AutoResponder) {
 		const parseVar = useFunctions().get("getVariable");

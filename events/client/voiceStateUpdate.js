@@ -12,6 +12,8 @@ module.exports = {
 	 * @param { import('discord.js').VoiceState } newState
 	 */
 	execute: async (oldState, newState) => {
+		if (!oldState.client.isReady()) return;
+
 		const guildId = newState.guild.id;
 		const guildSetting = await useDB()?.ZiGuild.findOne({ guildId });
 

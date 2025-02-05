@@ -63,6 +63,7 @@ module.exports = {
  */
 module.exports.execute = async (interaction) => {
 	const { client, user } = interaction;
+	if (!client.isReady()) return;
 
 	let command;
 	let commandType;
