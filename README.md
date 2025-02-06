@@ -23,6 +23,10 @@ functionalities, using [discord.js](https://discord.js.org/) and [discord-player
   </div>
 </p>
 
+- **Web Control**: See [Ziji-bot-web](https://github.com/zijipia/Ziji-bot-web)
+
+![image](https://github.com/user-attachments/assets/b2ee308e-2f46-4c20-86a6-c7f95108a86b)
+
 - **Lyrics**: Using Lrclib
 
   - syncedLyrics
@@ -31,7 +35,7 @@ functionalities, using [discord.js](https://discord.js.org/) and [discord-player
 - **Voice command**:
   - Voice control for music: play, pause, skip, adjust volume, and more.
   - Multi-language support: Recognizes and responds in Vietnamese.
-  - Integrated AI assistant: Interact with AI assistant using voice in voice channels. (Coming soon)
+  - Integrated AI assistant: Interact with AI assistant using voice in voice channels.
 
 ## Installation
 
@@ -98,14 +102,10 @@ This project is licensed under the MIT License. See the [LICENSE](./blob/main/LI
 For more information, visit the [project page](https://github.com/zijipia/Ziji-bot-discord)
 [Support sever](https://discord.gg/GQyJkZDtdX).
 
----
-
-This README provides an overview, installation steps, usage instructions, and contribution guidelines for the Zibot project.
-
 ## Testing
 
 Ziji is testing ZiExtractor, if anything doesn't work properly try turning it off
-[in config.js file line 149.](https://github.com/zijipia/Ziji-bot-discord/blob/main/config.js.example#L149)
+[in config.js file line 164.](https://github.com/zijipia/Ziji-bot-discord/blob/main/config.js.example#L164)
 
 ```js
   ZiExtractor: false,
