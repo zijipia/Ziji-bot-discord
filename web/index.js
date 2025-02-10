@@ -41,9 +41,9 @@ async function startServer() {
 
 	app.get("/api/search", async (req, res) => {
 		try {
-			const { query } = req.query || req.q;
+			const query = req.query?.query || req.query?.q;
 			if (!query) {
-				return res.status(400).json({ error: "Search query is required! Use /api/search?q=<input>" });
+				return res.status(400).json({ error: "Search query is required! Use /api/search?query=<input>" });
 			}
 
 			const searchResults = await player.search(query, {
@@ -69,41 +69,59 @@ async function startServer() {
 		ws.on("message", async (message) => {
 			try {
 				const data = JSON.parse(message);
-				console.log(data);
+				logger.debug(data);
+
+				if (data.event == "GetVoice") {
+					user = await client.users.fetch(data.userID);
+					const userQueue = player.queues.cache.find((node) => node.metadata?.listeners.includes(user));
+					if (userQueue?.connection) {
+						queue = userQueue;
+						ws.send(
+							JSON.stringify({ event: "ReplyVoice", channel: queue.metadata.channel, guild: queue.metadata.channel.guild }),
+						);
+					}
+				}
+				if (!queue || (queue.metadata.LockStatus && queue.metadata.requestedBy?.id !== (user?.id || data.userID))) return;
+
 				switch (data.event) {
-					case "GetVoice":
-						user = await client.users.fetch(data.userID);
-						const userQueue = player.queues.cache.find((node) => node.metadata?.listeners.includes(user));
-						if (userQueue?.connection) {
-							queue = userQueue;
-							ws.send(
-								JSON.stringify({ event: "ReplyVoice", channel: queue.metadata.channel, guild: queue.metadata.channel.guild }),
-							);
-						}
-						break;
 					case "pause":
-						if (queue) await queue.node.setPaused(!queue.node.isPaused());
+						await queue.node.setPaused(!queue.node.isPaused());
 						break;
 					case "play":
-						if (queue) await queue.play(data.trackUrl);
+						await queue.play(data.trackUrl);
 						break;
 					case "skip":
-						if (queue) await queue.node.skip();
+						await queue.node.skip();
 						break;
 					case "back":
-						if (queue && queue.history) queue.history.previous();
+						if (queue.history) queue.history.previous();
 						break;
 					case "volume":
-						if (queue) await queue.node.setVolume(Number(data.volume));
+						await queue.node.setVolume(Number(data.volume));
 						break;
 					case "loop":
-						if (queue) await queue.setRepeatMode(Number(data.mode));
+						await queue.setRepeatMode(Number(data.mode));
 						break;
 					case "shuffle":
-						if (queue) await queue.tracks.shuffle();
+						await queue.tracks.shuffle();
 						break;
 					case "filter":
-						if (queue) await queue.filters.ffmpeg.toggle(data.filter);
+						await queue.filters.ffmpeg.toggle(data.filter);
+						break;
+					case "Playnext":
+						if (queue.isEmpty() || !data.trackUrl || !data.TrackPosition) break;
+						const res = await player.search(data.trackUrl, {
+							requestedBy: user,
+						});
+						if (res) {
+							await queue.removeTrack(data.TrackPosition - 1);
+							await queue.insertTrack(res.tracks?.at(0), 0);
+							await queue.node.skip();
+						}
+						break;
+					case "DelTrack":
+						if (queue.isEmpty() || !data.TrackPosition) break;
+						queue.removeTrack(data.TrackPosition - 1);
 						break;
 				}
 			} catch (error) {

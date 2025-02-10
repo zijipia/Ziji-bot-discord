@@ -74,7 +74,7 @@ module.exports.execute = async ({ interaction, lang }) => {
 		const queue = useQueue(interaction.guild.id);
 
 		if (queue) {
-			const res = await player.search(query, { fallbackSearchEngine: "youtube" });
+			const res = await player.search(query, { searchEngine: config.PlayerConfig.QueryType });
 			const track = res.tracks?.[0];
 
 			if (track) {
