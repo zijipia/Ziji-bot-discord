@@ -94,7 +94,7 @@ async function startServer() {
 						await queue.node.skip();
 						break;
 					case "back":
-						if (queue.history) queue.history.previous();
+						if (queue?.history && queue.history?.previousTrack) queue.history.previous();
 						break;
 					case "volume":
 						await queue.node.setVolume(Number(data.volume));
