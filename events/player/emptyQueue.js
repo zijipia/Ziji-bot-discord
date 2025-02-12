@@ -2,7 +2,7 @@ const { GuildQueueEvent } = require("discord-player");
 const { useFunctions } = require("@zibot/zihooks");
 
 module.exports = {
-	name: GuildQueueEvent.emptyQueue,
+	name: GuildQueueEvent.EmptyQueue,
 	type: "Player",
 	execute: async (queue) => {
 		const player = useFunctions().get("player_func");

@@ -9,7 +9,7 @@ async function SendNewMessenger(queue, playerGui) {
 }
 
 module.exports = {
-	name: GuildQueueEvent.playerStart,
+	name: GuildQueueEvent.PlayerStart,
 	type: "Player",
 	/**
 	 *

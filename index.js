@@ -21,6 +21,7 @@ const { YoutubeiExtractor } = require("discord-player-youtubei");
 const { loadFiles, loadEvents } = require("./startup/loader.js");
 const { Client, Collection, GatewayIntentBits } = require("discord.js");
 const { ZiExtractor, useZiVoiceExtractor, TextToSpeech } = require("@zibot/ziextractor");
+const { DefaultExtractors } = require("@discord-player/extractor");
 
 const client = new Client({
 	rest: [{ timeout: 60_000 }],
@@ -99,7 +100,7 @@ if (config.DevConfig.YoutubeiExtractor) {
 }
 if (config.DevConfig.ZiExtractor) player.extractors.register(ZiExtractor, {});
 player.extractors.register(TextToSpeech, {});
-player.extractors.loadDefault((ext) => !["YouTubeExtractor"].includes(ext));
+player.extractors.loadMulti(DefaultExtractors);
 
 // Debug
 if (config.DevConfig.DJS_DEBUG) client.on("debug", (m) => logger.debug(m));

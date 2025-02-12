@@ -2,7 +2,7 @@ const { EmbedBuilder } = require("discord.js");
 const { GuildQueueEvent } = require("discord-player");
 
 module.exports = {
-	name: GuildQueueEvent.audioTrackAdd,
+	name: GuildQueueEvent.AudioTrackAdd,
 	type: "Player",
 	execute: async (queue, track) => {
 		if (track?.queryType === "tts") return;
