@@ -32,6 +32,8 @@ const promptBuilder = (content, player, user, queue) => {
 module.exports = {
 	name: "voiceCreate",
 	type: "voiceExtractor",
+	enable: false, //v7 not support
+
 	/**
 	 *
 	 * @param { object } param0 - voice Create event

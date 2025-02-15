@@ -1,10 +1,13 @@
 const { GuildQueueEvent } = require("discord-player");
 const { useZiVoiceExtractor } = require("@zibot/ziextractor");
+const { entersState, getVoiceConnection, VoiceConnectionStatus } = require("@discordjs/voice");
+
 const config = require("@zibot/zihooks").useConfig();
 
 module.exports = {
-	name: GuildQueueEvent.connection,
+	name: GuildQueueEvent.Connection,
 	type: "Player",
+	enable: false, //v7 not support
 	/**
 	 *
 	 * @param { import('discord-player').GuildQueue } queue
@@ -18,9 +21,12 @@ module.exports = {
 			lang: queue?.metadata?.lang?.local_names || "vi-VN",
 			focusUser: queue?.metadata?.focus || "", //user id
 		};
-		const { player, connection } = queue;
-		const ziVoice = useZiVoiceExtractor();
 
-		ziVoice.handleSpeakingEvent(player.client, connection, speechOptions);
+		let connection = getVoiceConnection(queue.guild.id);
+
+		await entersState(connection, VoiceConnectionStatus.Ready, 20_000);
+
+		const ziVoice = useZiVoiceExtractor();
+		ziVoice.handleSpeakingEvent(queue.player.client, connection, speechOptions);
 	},
 };

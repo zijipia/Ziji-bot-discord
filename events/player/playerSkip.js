@@ -2,7 +2,7 @@ const { EmbedBuilder } = require("discord.js");
 const { GuildQueueEvent } = require("discord-player");
 
 module.exports = {
-	name: GuildQueueEvent.playerSkip,
+	name: GuildQueueEvent.PlayerSkip,
 	type: "Player",
 	execute: async (queue, track) => {
 		const embed = new EmbedBuilder()
