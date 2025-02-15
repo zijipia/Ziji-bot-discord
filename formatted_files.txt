@@ -1,1 +1,3 @@
+commands/utility/Statistics.js
+commands/utility/ping.js
 formatted_files.txt

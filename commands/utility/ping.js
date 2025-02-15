@@ -53,26 +53,25 @@ module.exports.execute = async ({ interaction, lang }) => {
 				text: `${lang.until.requestBy} ${interaction.user.username}`,
 				iconURL: interaction.user.displayAvatarURL({ size: 1024 }),
 			});
-		
+
 		if (config?.webAppConfig?.enabled) {
 			const status = new ButtonBuilder()
-				.setLabel('Status')
-				.setEmoji('1254203682686373938')
+				.setLabel("Status")
+				.setEmoji("1254203682686373938")
 				.setStyle(ButtonStyle.Link)
-				.setURL(config.webAppConfig?.statusUrl)
+				.setURL(config.webAppConfig?.statusUrl);
 			const music = new ButtonBuilder()
-				.setLabel('Music Controller')
-				.setEmoji('1254203682686373938')
+				.setLabel("Music Controller")
+				.setEmoji("1254203682686373938")
 				.setStyle(ButtonStyle.Link)
-				.setURL(config.webAppConfig?.musicControllerUrl)
+				.setURL(config.webAppConfig?.musicControllerUrl);
 			const dashboard = new ButtonBuilder()
-				.setLabel('Dashboard')
-				.setEmoji('1254203682686373938')
+				.setLabel("Dashboard")
+				.setEmoji("1254203682686373938")
 				.setStyle(ButtonStyle.Link)
-				.setURL(config.webAppConfig?.dashboardUrl)
-			const row = new ActionRowBuilder()
-				.addComponents(status, music, dashboard);
-			await interaction.editReply({ content: null, embeds: [informationEmbed], components: [row] });	
+				.setURL(config.webAppConfig?.dashboardUrl);
+			const row = new ActionRowBuilder().addComponents(status, music, dashboard);
+			await interaction.editReply({ content: null, embeds: [informationEmbed], components: [row] });
 			return;
 		}
 		await interaction.editReply({ content: null, embeds: [informationEmbed] });

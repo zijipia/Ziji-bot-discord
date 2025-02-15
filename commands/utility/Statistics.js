@@ -21,7 +21,7 @@ module.exports.data = {
  */
 
 module.exports.execute = async ({ interaction, lang }) => {
-	const config = useConfig()
+	const config = useConfig();
 	await interaction.deferReply();
 	const { client } = interaction;
 
@@ -36,9 +36,8 @@ module.exports.execute = async ({ interaction, lang }) => {
 		githubCommitId = execSync("git rev-parse --short HEAD").toString().trim();
 	} catch (error) {
 		console.error("Không thể lấy GitHub Commit");
-	};
+	}
 	const onwerIDs = config?.OwnerID;
-	
 
 	const totalGuilds = client.guilds.cache.size;
 	const totalMembers = client.guilds.cache.reduce((acc, guild) => acc + guild.memberCount, 0);
@@ -49,7 +48,7 @@ module.exports.execute = async ({ interaction, lang }) => {
 		.setColor(lang?.color || "Random")
 		.setDescription(
 			`**${lang?.BotStats?.Description} ${client.user.username}:
-          • Owner/Developer: ${onwerIDs.map(id => `<@${id}>`).join(' ') || `<@891275176409460746>`}
+          • Owner/Developer: ${onwerIDs.map((id) => `<@${id}>`).join(" ") || `<@891275176409460746>`}
           • ${lang?.BotStats?.User}: \`${totalMembers || 0}\`
           • ${lang?.BotStats?.Server}: \`${totalGuilds || 0}\`
           • ${lang?.BotStats?.Voice}: \`${voiceConnections}\`
@@ -73,26 +72,25 @@ module.exports.execute = async ({ interaction, lang }) => {
 			iconURL: interaction.user.displayAvatarURL({ size: 1024 }),
 		})
 		.setTimestamp();
-	
+
 	if (config?.webAppConfig?.enabled) {
 		const status = new ButtonBuilder()
-			.setLabel('Status')
-			.setEmoji('1254203682686373938')
+			.setLabel("Status")
+			.setEmoji("1254203682686373938")
 			.setStyle(ButtonStyle.Link)
-			.setURL(config.webAppConfig?.statusUrl)
+			.setURL(config.webAppConfig?.statusUrl);
 		const music = new ButtonBuilder()
-			.setLabel('Music Controller')
-			.setEmoji('1254203682686373938')
+			.setLabel("Music Controller")
+			.setEmoji("1254203682686373938")
 			.setStyle(ButtonStyle.Link)
-			.setURL(config.webAppConfig?.musicControllerUrl)
+			.setURL(config.webAppConfig?.musicControllerUrl);
 		const dashboard = new ButtonBuilder()
-			.setLabel('Dashboard')
-			.setEmoji('1254203682686373938')
+			.setLabel("Dashboard")
+			.setEmoji("1254203682686373938")
 			.setStyle(ButtonStyle.Link)
-			.setURL(config.webAppConfig?.dashboardUrl)
-		const row = new ActionRowBuilder()
-			.addComponents(status, music, dashboard);
-		await interaction.editReply({ embeds: [embed], components: [row, rowC] });;	
+			.setURL(config.webAppConfig?.dashboardUrl);
+		const row = new ActionRowBuilder().addComponents(status, music, dashboard);
+		await interaction.editReply({ embeds: [embed], components: [row, rowC] });
 		return;
 	}
 	// Gửi embed
