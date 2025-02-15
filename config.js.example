@@ -122,6 +122,34 @@ module.exports = {
 		leaveOnEndCooldown: 50_0000,
 	},
 
+
+	/**
+	 * Cấu hình mặc định của web app
+	 * Default web app configuration
+	 */
+	webAppConfig: {
+		/**
+		 * Tùy chọn tắt, mở
+		 * Toggle on/off
+		 */
+		enabled: true,
+		/**
+		 * Link điều khiển nhạc
+		 * Music controller link
+		 */
+		musicControllerUrl: 'https://garret-bot-web.vercel.app',
+		/**
+		 * Link trạng thái bot
+		 * Bot status page
+		 */
+		statusUrl: 'https://garretapp.betteruptime.com/',
+		/**
+		 * Link cài đặt người dùng cho bot
+		 * User-setting for bot link
+		 */
+		dashboardUrl: 'https://zibot-dashboard.vercel.app/'
+	},
+
 	/**
 	 * Ngôn ngữ mặc định của bot (vi, en, ...)
 	 * Default bot language (vi, en, ...)
