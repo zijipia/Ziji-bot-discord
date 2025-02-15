@@ -119,6 +119,7 @@ module.exports = {
 			UnLock: "UnLock",
 			Unmute: "Unmute",
 			Save: "Save current queue",
+			Link: "Display some link about this music",
 		},
 	},
 	weather: {
