@@ -1,6 +1,6 @@
 const { useMainPlayer, QueryType } = require("discord-player");
 const { useFunctions } = require("@zibot/zihooks");
-const config = require('@zibot/zihooks').useConfig()
+const config = require("@zibot/zihooks").useConfig();
 const player = useMainPlayer();
 const {
 	Client,
@@ -93,9 +93,9 @@ module.exports = {
 				url: track?.url,
 			})
 			.setDescription(
-				`Volume: **${queue.node.volume}** % - Playing:  **${trackDuration}**${trackDurationSymbol} - Host: ${queue.metadata.requestedBy} <a:_:${
+				`Volume: **${queue.node.volume}** % - Playing: **${trackDuration}${trackDurationSymbol}** - Host: ${queue.metadata.requestedBy} <a:_:${
 					ZiIcons.animatedIcons[Math.floor(Math.random() * ZiIcons.animatedIcons.length)]
-				}>\n[Click to launch music controller](${config.webAppConfig?.musicControllerUrl || 'https://ziji-bot-web.vercel.app'})`,
+				}>${config.webAppConfig?.musicControllerUrl ? `\n[Click to launch music controller](${config.webAppConfig.musicControllerUrl})` : ""}`,
 			)
 			.setColor(lang?.color || "Random")
 			.setFooter({
