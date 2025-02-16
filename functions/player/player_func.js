@@ -49,6 +49,7 @@ const getQueryTypeIcon = (type, raw) => {
 		case QueryType.YOUTUBE_PLAYLIST:
 		case QueryType.YOUTUBE_SEARCH:
 		case QueryType.YOUTUBE_VIDEO:
+		case "ZiPlayer": //voice join
 			return ZiIcons.youtubeIconURL;
 		case QueryType.SPOTIFY_ALBUM:
 		case QueryType.SPOTIFY_PLAYLIST:
@@ -109,7 +110,7 @@ module.exports = {
 			embed.setThumbnail(track?.thumbnail);
 		}
 
-		if (track.queryType === "tts") {
+		if (track?.queryType === "tts") {
 			embed.setDescription(`* ${player.client.user.username}:\n${track?.raw?.["full context"]}`);
 			return { content: "", embeds: [embed], components: [] };
 		}

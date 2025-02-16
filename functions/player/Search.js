@@ -1,5 +1,5 @@
 const { EmbedBuilder, ActionRowBuilder, ButtonBuilder, BaseInteraction, AttachmentBuilder } = require("discord.js");
-const { useMainPlayer, useQueue } = require("discord-player");
+const { useMainPlayer, useQueue, GuildQueueEvent, Track } = require("discord-player");
 const { useDB, useConfig } = require("@zibot/zihooks");
 const { ButtonStyle, StringSelectMenuOptionBuilder, StringSelectMenuBuilder } = require("discord.js");
 const { Worker } = require("worker_threads");
@@ -93,12 +93,9 @@ module.exports.execute = async (interaction, query, lang, options = {}) => {
 
 	await interaction.deferReply({ withResponse: true }).catch((e) => {});
 	const queue = useQueue(guild.id);
-	if (validURL(query)) {
+	if (validURL(query) || options?.joinvoice) {
 		try {
 			if (!queue?.metadata) await interaction.editReply({ content: "<a:loading:1151184304676819085> Loading..." });
-			const res = await player.search(query, {
-				requestedBy: user,
-			});
 			const playerConfig = { ...DefaultPlayerConfig, ...config?.PlayerConfig };
 			if (options.assistant && config?.DevConfig?.VoiceExtractor) {
 				playerConfig.selfDeaf = false;
@@ -111,6 +108,58 @@ module.exports.execute = async (interaction, query, lang, options = {}) => {
 						((await DataBase.ZiUser.findOne({ userID: user.id }))?.volume ?? DefaultPlayerConfig.volume)
 					:	DefaultPlayerConfig.volume;
 			}
+			if (!!options?.joinvoice) {
+				let queues = player.nodes.create(interaction.guild, {
+					...playerConfig,
+					metadata: queue?.metadata ?? {
+						listeners: [user],
+						channel: interaction.channel,
+						requestedBy: user,
+						LockStatus: false,
+						voiceAssistance: options.assistant && config?.DevConfig?.VoiceExtractor,
+						ZiLyrics: { Active: false },
+						lang: lang || langdef,
+						focus: options?.focus,
+						mess: interaction?.customId !== "S_player_Search" ? await interaction.fetchReply() : interaction.message,
+					},
+				});
+
+				try {
+					if (!queues.connection) await queues.connect(interaction.member.voice.channelId, { deaf: true });
+				} catch {
+					return await interaction.editReply({ content: lang.msg55, ephemeral: true }).catch((e) => {});
+				}
+				// acquire task entry
+				const entry = queues.tasksQueue.acquire();
+				// wait for previous task to be released and our task to be resolved
+				await entry.getTask();
+				try {
+					player.events.emit(
+						GuildQueueEvent.PlayerStart,
+						queues,
+						new Track(player, {
+							title: "Join Voice",
+							url: config?.botConfig?.InviteBot,
+							thumbnail: config?.botConfig?.Banner,
+							duration: "0:00",
+							author: "EDM",
+							queryType: "ZiPlayer",
+							metadata: { channel: interaction.channel, requestedBy: user },
+							async requestMetadata() {
+								return { channel: interaction.channel, requestedBy: user };
+							},
+						}),
+					);
+					// if (!queues.isPlaying()) await queues.node.play();
+				} finally {
+					queues.tasksQueue.release();
+				}
+				return;
+			}
+
+			const res = await player.search(query, {
+				requestedBy: user,
+			});
 
 			await player.play(voiceChannel, res, {
 				nodeOptions: {

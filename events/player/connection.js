@@ -1,13 +1,13 @@
 const { GuildQueueEvent } = require("discord-player");
 const { useZiVoiceExtractor } = require("@zibot/ziextractor");
-const { entersState, getVoiceConnection, VoiceConnectionStatus } = require("@discordjs/voice");
+const { entersState, VoiceConnectionStatus } = require("@discordjs/voice");
 
 const config = require("@zibot/zihooks").useConfig();
 
 module.exports = {
 	name: GuildQueueEvent.Connection,
 	type: "Player",
-	enable: false, //v7 not support
+	enable: true, //v7 not support
 	/**
 	 *
 	 * @param { import('discord-player').GuildQueue } queue
@@ -22,11 +22,16 @@ module.exports = {
 			focusUser: queue?.metadata?.focus || "", //user id
 		};
 
-		let connection = getVoiceConnection(queue.guild.id);
-
-		await entersState(connection, VoiceConnectionStatus.Ready, 20_000);
+		try {
+			await entersState(queue.connection, VoiceConnectionStatus.Ready, 20_000);
+		} catch (error) {
+			console.error("Failed to enter ready state:", error);
+			connection.destroy();
+			return;
+		}
+		console.log(" ready state: OK");
 
 		const ziVoice = useZiVoiceExtractor();
-		ziVoice.handleSpeakingEvent(queue.player.client, connection, speechOptions);
+		ziVoice.handleSpeakingEvent(queue.player.client, queue.connection, speechOptions);
 	},
 };
