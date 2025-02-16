@@ -67,7 +67,7 @@ const DefaultPlayerConfig = {
  */
 module.exports.execute = async (interaction, query, lang, options = {}) => {
 	const { client, guild, user } = interaction;
-	const voiceChannel = interaction.member.voice.channel;
+	const voiceChannel = interaction.member.voice?.channel;
 	if (!voiceChannel) {
 		return interaction.reply({
 			content: lang?.music?.NOvoiceChannel ?? "Bạn chưa tham gia vào kênh thoại",
@@ -75,7 +75,7 @@ module.exports.execute = async (interaction, query, lang, options = {}) => {
 		});
 	}
 
-	const voiceMe = guild.members.cache.get(client.user.id).voice.channel;
+	const voiceMe = guild.members.me.voice?.channel;
 	if (voiceMe && voiceMe.id !== voiceChannel.id) {
 		return interaction.reply({
 			content: lang?.music?.NOvoiceMe ?? "Bot đã tham gia một kênh thoại khác",
@@ -157,9 +157,7 @@ module.exports.execute = async (interaction, query, lang, options = {}) => {
 				return;
 			}
 
-			const res = await player.search(query, {
-				requestedBy: user,
-			});
+			const res = await player.search(query, { requestedBy: user });
 
 			await player.play(voiceChannel, res, {
 				nodeOptions: {
