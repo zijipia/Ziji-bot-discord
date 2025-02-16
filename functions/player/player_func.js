@@ -1,4 +1,4 @@
-const { useMainPlayer, QueryType } = require("discord-player");
+const { useMainPlayer, QueryType, GuildQueue } = require("discord-player");
 const { useFunctions } = require("@zibot/zihooks");
 
 const player = useMainPlayer();
@@ -89,7 +89,7 @@ module.exports = {
 
 		const embed = new EmbedBuilder()
 			.setAuthor({
-				name: `${track?.title}`.slice(0, 256),
+				name: `${track?.author} - ${track?.title}`.slice(0, 256),
 				iconURL: `${queryTypeIcon}`,
 				url: track?.url,
 			})

@@ -51,7 +51,7 @@ const client = new Client({
 // Configure logger
 const logger = useLogger(
 	winston.createLogger({
-		level: "debug",
+		level: config.DevConfig?.logger || "info",
 		format: winston.format.combine(
 			winston.format.timestamp(),
 			winston.format.printf(
