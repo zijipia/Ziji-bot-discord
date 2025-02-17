@@ -407,12 +407,11 @@ async function sendSearchResults(interaction, query, tracks, lang) {
 		.setColor(lang?.color || "Random")
 		.addFields(
 			tracks.map((track, i) => ({
-				name: `${i + 1}: ${track.title.slice(0, 50)} \`[${track.duration}]\``.slice(0, 99),
+				name: `${i + 1}: ${track.author} - ${track.title.slice(0, 50 - track.author.length)} \`[${track.duration}]\``.slice(0, 99),
 				value: ` `,
 				inline: false,
 			})),
 		);
-
 	logger.debug("Search results sent");
 	return interaction.editReply({ embeds: [embed], components: [row] }).catch(() => {
 		logger.debug("Failed to edit reply with search results");
