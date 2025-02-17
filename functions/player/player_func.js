@@ -1,4 +1,4 @@
-const { useMainPlayer, QueryType } = require("discord-player");
+const { useMainPlayer, QueryType, GuildQueue } = require("discord-player");
 const { useFunctions } = require("@zibot/zihooks");
 const config = require("@zibot/zihooks").useConfig();
 const player = useMainPlayer();
@@ -49,6 +49,7 @@ const getQueryTypeIcon = (type, raw) => {
 		case QueryType.YOUTUBE_PLAYLIST:
 		case QueryType.YOUTUBE_SEARCH:
 		case QueryType.YOUTUBE_VIDEO:
+		case "ZiPlayer": //voice join
 			return ZiIcons.youtubeIconURL;
 		case QueryType.SPOTIFY_ALBUM:
 		case QueryType.SPOTIFY_PLAYLIST:
@@ -88,7 +89,7 @@ module.exports = {
 
 		const embed = new EmbedBuilder()
 			.setAuthor({
-				name: `${track?.title}`.slice(0, 256),
+				name: `${track?.author} - ${track?.title}`.slice(0, 256),
 				iconURL: `${queryTypeIcon}`,
 				url: track?.url,
 			})
@@ -109,7 +110,7 @@ module.exports = {
 			embed.setThumbnail(track?.thumbnail);
 		}
 
-		if (track.queryType === "tts") {
+		if (track?.queryType === "tts") {
 			embed.setDescription(`* ${player.client.user.username}:\n${track?.raw?.["full context"]}`);
 			return { content: "", embeds: [embed], components: [] };
 		}

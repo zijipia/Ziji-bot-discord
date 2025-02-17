@@ -202,5 +202,8 @@ module.exports = {
 		welcomer: true,
 		//enable AI
 		ai: true,
+		/** ============ Else ============ */
+		//enable logger (info | debug | warn | error)
+		logger: "info",
 	},
 };

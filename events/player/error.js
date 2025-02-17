@@ -2,7 +2,7 @@ const { useLogger } = require("@zibot/zihooks");
 const { GuildQueueEvent } = require("discord-player");
 
 module.exports = {
-	name: GuildQueueEvent.error,
+	name: GuildQueueEvent.Error,
 	type: "Player",
 	/**
 	 * @param { import('discord-player').GuildQueue } queue

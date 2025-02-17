@@ -1,7 +1,7 @@
 const { GuildQueueEvent } = require("discord-player");
 
 module.exports = {
-	name: GuildQueueEvent.playerError,
+	name: GuildQueueEvent.PlayerError,
 	type: "Player",
 
 	/**

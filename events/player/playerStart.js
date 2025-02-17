@@ -9,7 +9,7 @@ async function SendNewMessenger(queue, playerGui) {
 }
 
 module.exports = {
-	name: GuildQueueEvent.playerStart,
+	name: GuildQueueEvent.PlayerStart,
 	type: "Player",
 	/**
 	 *
@@ -21,7 +21,7 @@ module.exports = {
 		const player_func = Functions.get("player_func");
 		if (!player_func) return;
 
-		const playerGui = await player_func.execute({ queue, track });
+		const playerGui = await player_func.execute({ queue, tracks: track });
 
 		// send messenger
 		if (!queue.metadata.mess) {
