@@ -117,7 +117,7 @@ module.exports.autocomplete = async ({ interaction, lang }) => {
 
 		if (!tracks.length) return;
 
-		await interaction.respond(tracks.map((t) => ({ name: t.title, value: t.url }))).catch(() => {});
+		await interaction.respond(tracks.map((t) => ({ name: `${t.author} - ${t.title}`, value: t.url }))).catch(() => {});
 		return;
 	} catch (e) {
 		return;

@@ -40,7 +40,7 @@ async function checkStatus(interaction, client, lang) {
 		const expiredTimestamp = Math.round(expirationTime / 1_000);
 		await interaction
 			.reply({
-				content: lang.until.cooldown.replace("{command}", interaction.commandName).replace("{time}", `<t:${expiredTimestamp}:R>`),
+				content: lang.until.cooldown.replace("{command}", interaction.commandName || interaction.customId).replace("{time}", `<t:${expiredTimestamp}:R>`),
 				ephemeral: true,
 			})
 			.catch(() => {});
@@ -92,15 +92,13 @@ module.exports.execute = async (interaction) => {
 		if (interaction.isAutocomplete()) {
 			await command.autocomplete({ interaction, lang });
 		} else {
+			useLogger().debug(`Interaction reveived: ${interaction.commandName || interaction.customId} >> User: ${interaction.user.username} >> Guild: ${interaction.guild.name} (${interaction.guildId})`);
+
 			const status = await checkStatus(interaction, client, lang);
 			if (status) return;
 
 			await command.execute({ interaction, lang });
-			if (config?.botConfig?.cmdLog) {
-				useLogger().debug(
-					`${interaction.user.username} issused a command in ${interaction.guild.name} (${interaction.guildId}): ${interaction.commandName} (${interaction.isMessageContextMenuCommand() ? "context" : "slash command"})`,
-				);
-			}
+			
 		}
 	} catch (error) {
 		client.errorLog(`**${error.message}**`);

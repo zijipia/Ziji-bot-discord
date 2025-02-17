@@ -7,7 +7,7 @@ module.exports = {
 	execute: async (queue, track) => {
 		if (track?.queryType === "tts") return;
 		const embed = new EmbedBuilder()
-			.setDescription(`Đã thêm bài hát: [${track?.title}](${track?.url}) \`[${track?.duration}]\``)
+			.setDescription(`Đã thêm bài hát: [${track.author} - ${track?.title}](${track?.url}) \`[${track?.duration}]\``)
 			.setThumbnail(track?.thumbnail)
 			.setColor("Random")
 			.setTimestamp()
