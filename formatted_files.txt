@@ -1,4 +1,1 @@
-events/client/interactionCreate.js
-events/player/audioTracksAdd.js
 formatted_files.txt
-functions/player/Search.js
