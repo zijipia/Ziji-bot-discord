@@ -1,33 +1,40 @@
+const { CommandInteraction, ChatInputCommandInteraction, Message, GuildMember } = require('discord.js')
 module.exports.data = {
 	name: "getVariable",
 	type: "other",
 };
 
 /**
- * Hàm để thay thế các biến trong chuỗi bằng giá trị thực tế.
- * @param {string} template - Chuỗi chứa các biến cần thay thế.
- * @param {object} message - Đối tượng message từ Discord.js.
- * @returns {string} - Chuỗi đã được xử lý với các biến thay thế.
+ * @param {string} template
+ * @param {CommandInteraction | ChatInputCommandInteraction | Message | GuildMember} instance
+ * @returns {string}
  */
-module.exports.execute = (template, message) => {
-	if (!message || !message.guild || !message.author) return template;
-
-	// Lấy thông tin về người dùng và máy chủ
-	const user = message.author;
-	const server = message.guild;
-
-	// Tính số lượng thành viên (trừ bot nếu cần)
+module.exports.execute = (template, instance) => {
+	if (!instance) return template;
+	let user = null;
+	let server = null;
+	if (instance.isCommand?.() || instance.isModalSubmit?.() || instance.isMessageComponent?.()) {
+		user = instance.user;
+		server = instance.guild;
+	} 
+	else if (instance instanceof Message) {
+		user = instance.author;
+		server = instance.guild;
+	} 
+	else if (instance instanceof GuildMember) {
+		user = instance.user;
+		server = instance.guild;
+	}
+	if (!user || !server) return template;
 	const memberCountNoBots = server.members.cache.filter((member) => !member.user.bot).size;
-
-	// Thay thế các biến
 	return template
-		.replace(/{user}/g, `<@${user.id}>`) // Mention người dùng
-		.replace(/{user_tag}/g, `${user.tag}`) // Tag của người dùng (username#discriminator)
-		.replace(/{user_name}/g, `${user.username}`) // Tên người dùng
-		.replace(/{user_id}/g, `${user.id}`) // Tên người dùng
-		.replace(/{user_avatar}/g, `${user.displayAvatarURL()}`) // Tên người dùng
-		.replace(/{server_name}/g, `${server.name}`) // Tên máy chủ
-		.replace(/{server_id}/g, `${server.id}`) // Tên máy chủ
-		.replace(/{server_membercount}/g, `${server.memberCount}`) // Số lượng thành viên
-		.replace(/{server_membercount_nobots}/g, `${memberCountNoBots}`); // Số lượng thành viên (trừ bot)
+		.replace(/{user}/g, `<@${user.id}>`)
+		.replace(/{user_tag}/g, `${user.tag}`)
+		.replace(/{user_name}/g, `${user.username}`)
+		.replace(/{user_id}/g, `${user.id}`)
+		.replace(/{user_avatar}/g, `${user.displayAvatarURL()}`)
+		.replace(/{server_name}/g, `${server.name}`)
+		.replace(/{server_id}/g, `${server.id}`)
+		.replace(/{server_membercount}/g, `${server.memberCount}`)
+		.replace(/{server_membercount_nobots}/g, `${memberCountNoBots}`);
 };

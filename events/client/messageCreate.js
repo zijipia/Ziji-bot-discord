@@ -45,6 +45,7 @@ module.exports.execute = async (message) => {
 		}
 	}
 	if (message.mentions.has(message.client.user) && !message.author.bot) {
+		if (message.content.includes('<@everyone>')) return;
 		const prompt = message.content.replace(`<@${message.client.user.id}>`, "").trim();
 		if (!prompt) return message.reply(`Xin chào ${message.author.username}! Sử dụng \`/help\` để bắt đầu`);
 		await message.channel.sendTyping();

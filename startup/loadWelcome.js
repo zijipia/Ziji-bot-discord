@@ -12,8 +12,8 @@ module.exports = async () => {
 			Res.get(r.guildId).push({
 				channel: r.channel,
 				content: r.content,
-				Bchannel: r.channel,
-				Bcontent: r.content,
+				Bchannel: r.Bchannel,
+				Bcontent: r.Bcontent,
 			});
 			indexs++;
 		});

@@ -1,7 +1,7 @@
-const { PermissionsBitField } = require("discord.js");
-const { useDB, useWelcome, useConfig } = require("@zibot/zihooks");
+const { PermissionsBitField, EmbedBuilder } = require("discord.js");
+const { useDB, useWelcome, useConfig, useFunctions } = require("@zibot/zihooks");
 const config = useConfig();
-
+const parseVar = useFunctions().get("getVariable");
 module.exports.data = {
 	name: "welcomer",
 	description: "Quản lý chào mừng / tạm biệt thanh viên",
@@ -114,7 +114,7 @@ module.exports.execute = async ({ interaction, lang }) => {
  * @param { import('../../lang/vi.js') } command.lang - language
  */
 module.exports.setupWelcome = async ({ interaction, lang, options }) => {
-	await interaction.deferReply({ ephemeral: true });
+	await interaction.deferReply({ flags: 'Ephemeral' });
 	try {
 		await options.db.ZiWelcome.updateOne(
 			{ guildId: interaction.guild.id },
@@ -140,8 +140,14 @@ module.exports.setupWelcome = async ({ interaction, lang, options }) => {
 			Bchannel: options.byechannel?.id,
 			Bcontent: options.byecontent,
 		});
-
-		await interaction.editReply(`ok`).then(async (m) => await interaction.deleteReply(m));
+		const sucessEm = new EmbedBuilder()
+			.setTitle(`Sucess`)
+			.setDescription(`Welcome & Goodbye system has been setup in ${interaction.guild.name}`)
+			.setFooter({ text: interaction.guild.name, iconURL: interaction.guild.iconURL({ size: 1024 } )})
+			.setColor('Green')
+			.setTimestamp()
+			.setThumbnail(interaction.user.displayAvatarURL());
+		await interaction.editReply({ embeds: [sucessEm] });
 		interaction.client.emit("guildMemberAdd", interaction.member);
 		interaction.client.emit("guildMemberRemove", interaction.member);
 
