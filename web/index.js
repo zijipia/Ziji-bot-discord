@@ -31,7 +31,7 @@ async function startServer() {
 			});
 
 		res.json({
-			status: "healthy",
+			status: "OK",
 			content: "Welcome to API!",
 			clientName: client?.user?.displayName,
 			clientId: client?.user?.id,
