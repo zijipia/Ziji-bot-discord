@@ -95,7 +95,7 @@ module.exports.execute = async (interaction) => {
 			await command.autocomplete({ interaction, lang });
 		} else {
 			useLogger().debug(
-				`Interaction reveived: ${interaction.commandName || interaction.customId} >> User: ${interaction.user.username} >> Guild: ${interaction.guild.name} (${interaction.guildId})`,
+				`Interaction reveived: ${interaction?.commandName || interaction?.customId} >> User: ${interaction?.user?.username} >> Guild: ${interaction?.guild?.name} (${interaction?.guildId})`,
 			);
 
 			const status = await checkStatus(interaction, client, lang);
