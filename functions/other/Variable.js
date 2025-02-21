@@ -1,4 +1,4 @@
-const { CommandInteraction, ChatInputCommandInteraction, Message, GuildMember } = require('discord.js')
+const { CommandInteraction, ChatInputCommandInteraction, Message, GuildMember } = require("discord.js");
 module.exports.data = {
 	name: "getVariable",
 	type: "other",
@@ -16,12 +16,10 @@ module.exports.execute = (template, instance) => {
 	if (instance.isCommand?.() || instance.isModalSubmit?.() || instance.isMessageComponent?.()) {
 		user = instance.user;
 		server = instance.guild;
-	} 
-	else if (instance instanceof Message) {
+	} else if (instance instanceof Message) {
 		user = instance.author;
 		server = instance.guild;
-	} 
-	else if (instance instanceof GuildMember) {
+	} else if (instance instanceof GuildMember) {
 		user = instance.user;
 		server = instance.guild;
 	}

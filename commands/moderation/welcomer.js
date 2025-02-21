@@ -114,7 +114,7 @@ module.exports.execute = async ({ interaction, lang }) => {
  * @param { import('../../lang/vi.js') } command.lang - language
  */
 module.exports.setupWelcome = async ({ interaction, lang, options }) => {
-	await interaction.deferReply({ flags: 'Ephemeral' });
+	await interaction.deferReply({ flags: "Ephemeral" });
 	try {
 		await options.db.ZiWelcome.updateOne(
 			{ guildId: interaction.guild.id },
@@ -143,8 +143,8 @@ module.exports.setupWelcome = async ({ interaction, lang, options }) => {
 		const sucessEm = new EmbedBuilder()
 			.setTitle(`Sucess`)
 			.setDescription(`Welcome & Goodbye system has been setup in ${interaction.guild.name}`)
-			.setFooter({ text: interaction.guild.name, iconURL: interaction.guild.iconURL({ size: 1024 } )})
-			.setColor('Green')
+			.setFooter({ text: interaction.guild.name, iconURL: interaction.guild.iconURL({ size: 1024 }) })
+			.setColor("Green")
 			.setTimestamp()
 			.setThumbnail(interaction.user.displayAvatarURL());
 		await interaction.editReply({ embeds: [sucessEm] });

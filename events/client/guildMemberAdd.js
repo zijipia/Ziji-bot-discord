@@ -54,7 +54,16 @@ module.exports = {
 				ZMessage: `to ${member.guild.name}.`,
 			});
 			const channel = await member.client.channels.fetch(welcome.channel);
-			await channel.send({ files: [{ attachment, description: parseVar.execute(welcome.content, member) || `Xin chào **${member.user.name}**! Server hiện nay đã tăng thành ${member.guild.memberCount} người.` }] });
+			await channel.send({
+				files: [
+					{
+						attachment,
+						description:
+							parseVar.execute(welcome.content, member) ||
+							`Xin chào **${member.user.name}**! Server hiện nay đã tăng thành ${member.guild.memberCount} người.`,
+					},
+				],
+			});
 		} catch (error) {
 			console.error("Error building image:", error);
 		}
