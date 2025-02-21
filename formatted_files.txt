@@ -1,5 +1,1 @@
-commands/moderation/welcomer.js
-events/client/guildMemberAdd.js
-events/client/guildMemberRemove.js
 formatted_files.txt
-functions/other/Variable.js
