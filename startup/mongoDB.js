@@ -30,6 +30,7 @@ const ZiWelcome = Schema(
 		guildId: { type: String, required: true },
 		channel: { type: String, required: true },
 		content: { type: String, required: true },
+		Bchannel: { type: String, required: true },
 		Bcontent: { type: String }, // Corrected duplicate
 	},
 	{

@@ -1,6 +1,11 @@
 const { Events, Message } = require("discord.js");
-const { useResponder, useConfig, useFunctions, useLogger } = require("@zibot/zihooks");
+const { useResponder, useConfig, useFunctions, useCommands, useLogger, modinteraction, useAI } = require("@zibot/zihooks");
 const config = useConfig();
+const mentionRegex = /@(everyone|here|ping)/;
+
+const Commands = useCommands();
+const Functions = useFunctions();
+
 module.exports = {
 	name: Events.MessageCreate,
 	type: "events",
@@ -12,53 +17,82 @@ module.exports = {
  */
 module.exports.execute = async (message) => {
 	if (!message.client.isReady()) return;
+	if (message.author.bot) return;
+	// Get the user's language preference
+	const langfunc = Functions.get("ZiRank");
+	const lang = await langfunc.execute({ user: message.author, XpADD: 0 });
+	if (config?.DevConfig?.AutoResponder && message?.guild && (await reqreponser(message))) return; // Auto Responder
 
-	if (message.author.bot || !message.guild) return;
-	if (config?.DevConfig?.AutoResponder) {
-		const parseVar = useFunctions().get("getVariable");
-		const guildResponders = useResponder().get(message.guild.id) ?? [];
+	// DM channel auto reply = AI
+	if (message?.guild && !message.mentions.has(message.client.user)) return;
+	await reqai(message, lang);
+};
 
-		const trigger = guildResponders.find((responder) => {
-			const msgContent = message.content.toLowerCase();
-			const triggerContent = responder.trigger.toLowerCase();
+/**
+ * @param { Message } message
+ */
 
-			switch (responder.matchMode) {
-				case "exactly":
-					return msgContent === triggerContent;
-				case "startswith":
-					return msgContent.startsWith(triggerContent);
-				case "endswith":
-					return msgContent.endsWith(triggerContent);
-				case "includes":
-					return msgContent.includes(triggerContent);
-				default:
-					return msgContent === triggerContent;
-			}
-		});
-
-		if (trigger) {
-			try {
-				await message.reply(parseVar.execute(trigger.response, message));
-			} catch (error) {
-				console.error(`Failed to send response: ${error.message}`);
-			}
+const reqai = async (message, lang) => {
+	if (mentionRegex.test(message.content?.toLowerCase())) return;
+	const prompt = message.content.replace(`<@${message.client.user.id}>`, "").trim();
+	if (!prompt) {
+		const commsnd = Commands.get("help");
+		if (commsnd) {
+			modinteraction(message);
+			await commsnd.execute({ interaction: message, lang });
 		}
+		return;
 	}
-	if (message.mentions.has(message.client.user) && !message.author.bot) {
-		const prompt = message.content.replace(`<@${message.client.user.id}>`, "").trim();
-		if (!prompt) return message.reply(`Xin chào ${message.author.username}! Sử dụng \`/help\` để bắt đầu`);
-		await message.channel.sendTyping();
+	await message.channel.sendTyping().catch(() => {
+		return; // khong the gui message nen bo qua
+	});
+
+	try {
+		const result = await useAI().run(`Answer lower than 1500 characters\nTrả lời dưới 1500 ký tự hoặc ít hơn\nPrompt: ${prompt}`);
+		await message.reply(result);
+	} catch (err) {
+		useLogger().error(`Error in generating content: ${err}`);
+		const replies = await message.reply("❌ | Không thể tạo nội dung! Xin hãy chờ ít phút");
+		setTimeout(() => {
+			replies.delete();
+		}, 5000);
+	}
+};
+
+/**
+ * @param { Message } message
+ */
+
+const reqreponser = async (message) => {
+	const parseVar = useFunctions().get("getVariable");
+	const guildResponders = useResponder().get(message.guild.id) ?? [];
+
+	const trigger = guildResponders.find((responder) => {
+		const msgContent = message.content.toLowerCase();
+		const triggerContent = responder.trigger.toLowerCase();
+
+		switch (responder.matchMode) {
+			case "exactly":
+				return msgContent === triggerContent;
+			case "startswith":
+				return msgContent.startsWith(triggerContent);
+			case "endswith":
+				return msgContent.endsWith(triggerContent);
+			case "includes":
+				return msgContent.includes(triggerContent);
+			default:
+				return msgContent === triggerContent;
+		}
+	});
+
+	if (trigger) {
 		try {
-			const result = await message.client.run(
-				`Answer lower than 1500 characters\nTrả lời dưới 1500 ký tự hoặc ít hơn\nPrompt: ${prompt}`,
-			);
-			await message.reply(result);
-		} catch (err) {
-			useLogger().error(`Error in generating content: ${err}`);
-			const replies = await message.reply("❌ | Không thể tạo nội dung! Xin hãy chờ ít phút");
-			setTimeout(() => {
-				replies.delete();
-			}, 5000);
+			await message.reply(parseVar.execute(trigger.response, message));
+			return true;
+		} catch (error) {
+			console.error(`Failed to send response: ${error.message}`);
+			return false;
 		}
 	}
+	return false;
 };

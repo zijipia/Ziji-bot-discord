@@ -1,7 +1,8 @@
-const { useConfig, useWelcome } = require("@zibot/zihooks");
+const { useConfig, useWelcome, useFunctions } = require("@zibot/zihooks");
 const { Events, GuildMember, AttachmentBuilder } = require("discord.js");
 const config = useConfig();
 const { Worker } = require("worker_threads");
+const parseVar = useFunctions().get("getVariable");
 
 async function buildImageInWorker(workerData) {
 	return new Promise((resolve, reject) => {
@@ -50,10 +51,10 @@ module.exports = {
 				ZDisplayName: member.user.username,
 				ZType: "welcome",
 				ZAvatar: member.user.displayAvatarURL({ size: 1024, forceStatic: true, extension: "png" }),
-				ZMessage: welcome.content ?? "To the server!",
+				ZMessage: `to ${member.guild.name}.`,
 			});
 			const channel = await member.client.channels.fetch(welcome.channel);
-			await channel.send({ files: [attachment] });
+			await channel.send({ files: [{ attachment, description: parseVar.execute(welcome.content, member) || `Xin chào **${member.user.name}**! Server hiện nay đã tăng thành ${member.guild.memberCount} người.` }] });
 		} catch (error) {
 			console.error("Error building image:", error);
 		}

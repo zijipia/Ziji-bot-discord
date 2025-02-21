@@ -1,6 +1,7 @@
 require("dotenv").config();
 const { startServer } = require("./web");
 const {
+	useAI,
 	useClient,
 	useCooldowns,
 	useCommands,
@@ -19,7 +20,7 @@ const config = useConfig(require("./config"));
 const { GiveawaysManager } = require("discord-giveaways");
 const { YoutubeiExtractor } = require("discord-player-youtubei");
 const { loadFiles, loadEvents } = require("./startup/loader.js");
-const { Client, Collection, GatewayIntentBits } = require("discord.js");
+const { Client, Collection, GatewayIntentBits, Partials } = require("discord.js");
 const { ZiExtractor, useZiVoiceExtractor, TextToSpeech } = require("@zibot/ziextractor");
 const { DefaultExtractors } = require("@discord-player/extractor");
 
@@ -42,6 +43,7 @@ const client = new Client({
 		// GatewayIntentBits.DirectMessageTyping, // for dm message typinh
 		GatewayIntentBits.MessageContent, // enable if you need message content things
 	],
+	partials: [Partials.User, Partials.GuildMember, Partials.Message, Partials.Channel],
 	allowedMentions: {
 		parse: ["users"],
 		repliedUser: false,
@@ -74,19 +76,23 @@ const logger = useLogger(
 if (config.DevConfig.ai && process.env?.GEMINI_API_KEY?.length) {
 	const { GoogleGenerativeAI } = require("@google/generative-ai");
 	const genAI = new GoogleGenerativeAI(process.env.GEMINI_API_KEY);
-	client.run = async (prompt) => {
-		const generationConfig = {
-			stopSequences: ["red"],
-			temperature: 0.9,
-			topP: 0.1,
-			topK: 16,
-		};
-		const model = genAI.getGenerativeModel({ model: "gemini-1.5-flash", generationConfig });
-		const result = await model.generateContent(prompt, {});
-		const response = await result.response;
-		const text = response.text();
-		return text;
-	};
+	useAI({
+		client,
+		genAI,
+		run: async (prompt) => {
+			const generationConfig = {
+				stopSequences: ["red"],
+				temperature: 0.9,
+				topP: 0.1,
+				topK: 16,
+			};
+			const model = genAI.getGenerativeModel({ model: "gemini-1.5-flash", generationConfig });
+			const result = await model.generateContent(prompt, {});
+			const response = await result.response;
+			const text = response.text();
+			return text;
+		},
+	});
 }
 
 const player = new Player(client, {
