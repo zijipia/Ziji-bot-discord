@@ -105,8 +105,7 @@ if (config.DevConfig.YoutubeiExtractor) {
 	require("youtubei.js").Log.setLevel(0);
 }
 
-// ko ổn định + lười phát triển nên tạm thời tắt
-// if (config.DevConfig.ZiExtractor) player.extractors.register(ZiExtractor, {});
+if (config.DevConfig.ZiExtractor) player.extractors.register(ZiExtractor, {});
 
 player.extractors.register(TextToSpeech, {});
 player.extractors.loadMulti(DefaultExtractors);
