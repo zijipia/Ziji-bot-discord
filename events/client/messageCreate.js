@@ -24,8 +24,9 @@ module.exports.execute = async (message) => {
 	if (config?.DevConfig?.AutoResponder && message?.guild && (await reqreponser(message))) return; // Auto Responder
 
 	// DM channel auto reply = AI
-	if (message?.guild && !message.mentions.has(message.client.user)) return;
-	await reqai(message, lang);
+	if (!message.guild || message.mentions.has(message.client.user)) {
+		await reqai(message, lang);
+	}
 };
 
 /**
