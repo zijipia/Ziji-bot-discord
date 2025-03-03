@@ -1,1 +1,2 @@
+events/client/voiceStateUpdate.js
 formatted_files.txt
