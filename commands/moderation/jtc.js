@@ -1,3 +1,4 @@
+const { PermissionsBitField } = require("discord.js");
 const { useDB } = require("@zibot/zihooks");
 
 module.exports.data = {
@@ -56,6 +57,17 @@ module.exports.execute = async ({ interaction, lang }) => {
 	try {
 		switch (command) {
 			case "setup": {
+				if (!interaction.member.permissions.has(PermissionsBitField.Flags.ManageChannels)) {
+					return interaction.reply({ content: lang.until.noPermission, ephemeral: true });
+				}
+
+				if (!interaction.guild.members.me.permissions.has(PermissionsBitField.Flags.ManageChannels)) {
+					return interaction.reply({
+						content: lang.until.botNOPermission.replace("{Permission}", "Manage Channels"),
+						ephemeral: true,
+					});
+				}
+
 				const channel = interaction.options.getChannel("channel");
 				const category = interaction.options.getChannel("category");
 				const guildId = interaction.guild.id;

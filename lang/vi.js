@@ -11,6 +11,7 @@ module.exports = {
 		noDB: "❌ | Database chưa được bật, vui lòng liên hệ với dev bot",
 		success: "Đã thực hiện lệnh này thành công!",
 		notHavePremission: "Bạn không có quyền để thực hiện lệnh này!",
+		botNOPermission: "❌ | Bot không có quyền: {Permission} để thực hiện lệnh này!",
 		NOPermission: "❌ | Bot không có quyền gửi tin nhắn và thực hiện lệnh trong kênh này",
 		noPermission: "❌ | Bạn không có quyền để thực hiện lệnh này!",
 		cooldown: "Vui lòng đợi, bạn đang trong thời gian cooldown cho `{command}`! Bạn có thể sử dụng nó lại {time}.",

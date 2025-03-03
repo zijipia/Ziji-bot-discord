@@ -55,6 +55,12 @@ module.exports = {
 		ErrorLog: "",
 
 		/**
+		 * ID của channel feedback
+		 * Bot's feedback channel ID
+		 */
+		FeedBack: "",
+
+		/**
 		 * ID của server hỗ trợ
 		 * Support server ID
 		 */

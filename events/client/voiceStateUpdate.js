@@ -22,6 +22,7 @@ module.exports = {
 			const jtcFunc = await useFunctions().get("joinToCreate");
 			jtcFunc.execute(oldState, newState, guildSetting);
 		}
+		
 		await Voicelogmode(oldState, newState, guildSetting);
 		await playerQueue(oldState);
 	},
