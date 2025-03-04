@@ -4,7 +4,8 @@
 
 | Phiên bản / Version | Được hỗ trợ / Supported |
 | ------------------- | ----------------------- |
-| 1.0.1               | :white_check_mark:      |
+| > 7.3.0             |          ✔             |
+| 2.2.8               | :white_check_mark:      |
 | < 1.0.0             | :x:                     |
 
 ## Báo cáo Lỗ hổng / Reporting a Vulnerability
