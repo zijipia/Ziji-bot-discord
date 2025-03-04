@@ -49,7 +49,7 @@ module.exports.execute = async ({ interaction, lang }) => {
 	const { client, guild, options, member } = interaction;
 	const subcommand = options.getSubcommand();
 	const prompt = options.getString("prompt") || "Hello";
-	const queue = useQueue(guild?.id);
+	const queue = guild?.id ? useQueue(guild.id) : null;
 
 	/**
 	 * Nếu có voice, ưu tiên vào voice trả lời.

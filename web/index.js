@@ -1,7 +1,7 @@
 const express = require("express");
 const cors = require("cors");
 const WebSocket = require("ws");
-const { useClient, useLogger, useConfig } = require("@zibot/zihooks");
+const { useClient, useLogger, useConfig, useFunctions } = require("@zibot/zihooks");
 const { useMainPlayer } = require("discord-player");
 const http = require("http");
 const ngrok = require("ngrok");
@@ -66,6 +66,12 @@ async function startServer() {
 			logger.error("Search error:", error);
 			res.status(500).json({ error: "An error occurred during search" });
 		}
+	});
+
+	app.get("/api/lyrics", async (req, res) => {
+		const LyricsFunc = useFunctions().get("Lyrics");
+		const lyrics = await LyricsFunc.search({ query: req.query?.query || req.query?.q });
+		res.json(lyrics);
 	});
 
 	const wss = new WebSocket.Server({ server });

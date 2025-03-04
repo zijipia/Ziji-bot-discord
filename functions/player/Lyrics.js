@@ -16,16 +16,6 @@ module.exports.execute = async (interaction, options) => {
 	const queue = options?.queue || interaction?.guild?.id ? useQueue(interaction?.guild?.id) : null;
 	const lang = options?.lang || queue?.metadata?.lang;
 
-	const query = (
-		options?.query ||
-		queue?.currentTrack?.cleanTitle ||
-		queue?.currentTrack?.title ||
-		"891275176409460746891275176409460746891275176409460746"
-	)
-		.toLowerCase()
-		.replace(/lyrics|MV|Full/g, "")
-		.replace("ft", "feat");
-
 	const row = new ActionRowBuilder().addComponents(
 		new ButtonBuilder()
 			.setCustomId("B_Lyrics_input")
@@ -45,7 +35,7 @@ module.exports.execute = async (interaction, options) => {
 		.setColor(lang?.color || "Random")
 		.setThumbnail(queue?.currentTrack?.thumbnail || null);
 
-	const lyrics = await player.lyrics.search({ q: query });
+	const lyrics = await this.search({ query, queue });
 
 	try {
 		const trimmedLyrics = lyrics?.at(0)?.plainLyrics.substring(0, 1997);
@@ -110,4 +100,21 @@ module.exports.execute = async (interaction, options) => {
 module.exports.data = {
 	name: "Lyrics",
 	type: "player",
+};
+
+module.exports.search = async ({ query, queue }) => {
+	const genQuery = (q) =>
+		q
+			?.toLowerCase()
+			.replace(/lyrics|MV|Full/g, "")
+			.replace("ft", "feat");
+
+	const queries = [query, queue?.currentTrack?.cleanTitle, queue?.currentTrack?.title].filter(Boolean).map(genQuery);
+
+	for (const q of queries) {
+		const lyrics = await player.lyrics.search({ q });
+		if (lyrics) return lyrics;
+	}
+
+	return null;
 };
