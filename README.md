@@ -3,7 +3,7 @@
     <a href="https://discord.gg/zaskhD7PTW"><img src="https://img.shields.io/discord/1007597270704869387?style=for-the-badge&color=%237289DA" alt="Ziji Discord support server"></a>
 </p>
 
-# [<img src="https://raw.githubusercontent.com/zijipia/zijipia/main/Assets/ZijiAvt.gif" width="15"/>](./) Zibot V2
+# [<img src="https://raw.githubusercontent.com/zijipia/zijipia/main/Assets/ZijiAvt.gif" width="15"/>](./) Zibot V7
 
 Zibot is a Discord bot developed by [zijipia](https://github.com/zijipia) to enhance your Discord server with various
 functionalities, using [discord.js](https://discord.js.org/) and [discord-player](https://discord-player.js.org/)
@@ -32,7 +32,7 @@ functionalities, using [discord.js](https://discord.js.org/) and [discord-player
   - syncedLyrics
   - plainLyrics
 
-- **Voice command**:
+- **Voice command**: not implemented -- available in v2
   - Voice control for music: play, pause, skip, adjust volume, and more.
   - Multi-language support: Recognizes and responds in Vietnamese.
   - Integrated AI assistant: Interact with AI assistant using voice in voice channels.
