@@ -103,11 +103,7 @@ module.exports.data = {
 };
 
 module.exports.search = async ({ query, queue }) => {
-	const genQuery = (q) =>
-		q
-			?.toLowerCase()
-			.replace(/lyrics|MV|Full/g, "")
-			.replace("ft", "feat");
+	const genQuery = (q) => q?.replace(/lyrics|mv|full|official|music|video/gi, "").replace(/ft/gi, "feat");
 
 	const queries = [query, queue?.currentTrack?.cleanTitle, queue?.currentTrack?.title].filter(Boolean).map(genQuery);
 
