@@ -38,3 +38,4 @@ config.js
 package-lock.json
 giveaways.json
 bot.log
+Dockerfile
