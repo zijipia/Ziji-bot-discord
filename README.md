@@ -1,112 +1,231 @@
+
 <p align="center">
-    <a href="https://discord.com/oauth2/authorize?client_id=1005716197259612193"><img src="https://img.shields.io/badge/ADD_Bot-Ziji_Bot?style=for-the-badge&label=Ziji%20Bot&color=%237289DA" alt="Add Ziji bot"></a>
-    <a href="https://discord.gg/zaskhD7PTW"><img src="https://img.shields.io/discord/1007597270704869387?style=for-the-badge&color=%237289DA" alt="Ziji Discord support server"></a>
+
+<a  href="https://discord.com/oauth2/authorize?client_id=1005716197259612193"><img  src="https://img.shields.io/badge/ADD_Bot-Ziji_Bot?style=for-the-badge&label=Ziji%20Bot&color=%237289DA"  alt="Add Ziji bot"></a>
+
+<a  href="https://discord.gg/zaskhD7PTW"><img  src="https://img.shields.io/discord/1007597270704869387?style=for-the-badge&color=%237289DA"  alt="Ziji Discord support server"></a>
+
 </p>
+
+  
 
 # [<img src="https://raw.githubusercontent.com/zijipia/zijipia/main/Assets/ZijiAvt.gif" width="15"/>](./) Zibot V7
 
+  
+
 Zibot is a Discord bot developed by [zijipia](https://github.com/zijipia) to enhance your Discord server with various
+
 functionalities, using [discord.js](https://discord.js.org/) and [discord-player](https://discord-player.js.org/)
+
+  
 
 # Join [Zi bot Playground:](https://discord.gg/32GkbyXtbA) to get icon of bot.
 
+  
+
 ## Features
 
-- **Event Handling**: Respond to various Discord events.
-- **Music Player**:
+  
+
+-  **Event Handling**: Respond to various Discord events.
+
+-  **Music Player**:
+
 <p>
-  <div class="image">
-    <a href="./" data-sub-html="Description">
-      <img alt="Player" src="https://raw.githubusercontent.com/zijipia/zijipia/Ziji-Discord-Bot-Image/Assets/Player.png" />
-      <img alt="Search" src="https://github.com/zijipia/zijipia/blob/Ziji-Discord-Bot-Image/Assets/search.png" />
-    </a>
-  </div>
+
+<div  class="image">
+
+<a  href="./"  data-sub-html="Description">
+
+<img  alt="Player"  src="https://raw.githubusercontent.com/zijipia/zijipia/Ziji-Discord-Bot-Image/Assets/Player.png"  />
+
+<img  alt="Search"  src="https://github.com/zijipia/zijipia/blob/Ziji-Discord-Bot-Image/Assets/search.png"  />
+
+</a>
+
+</div>
+
 </p>
 
-- **Web Control**: See [Ziji-bot-web](https://github.com/zijipia/Ziji-bot-web)
+  
+
+-  **Web Control**: See [Ziji-bot-web](https://github.com/zijipia/Ziji-bot-web)
+
+  
 
 ![image](https://github.com/user-attachments/assets/b2ee308e-2f46-4c20-86a6-c7f95108a86b)
 
-- **Lyrics**: Using Lrclib
+  
 
-  - syncedLyrics
-  - plainLyrics
+-  **Lyrics**: Using Lrclib
 
-- **Voice command**: not implemented -- available in v2
-  - Voice control for music: play, pause, skip, adjust volume, and more.
-  - Multi-language support: Recognizes and responds in Vietnamese.
-  - Integrated AI assistant: Interact with AI assistant using voice in voice channels.
+  
+
+- syncedLyrics
+
+- plainLyrics
+
+  
+
+-  **Voice command**: not implemented -- available in v2
+
+- Voice control for music: play, pause, skip, adjust volume, and more.
+
+- Multi-language support: Recognizes and responds in Vietnamese.
+
+- Integrated AI assistant: Interact with AI assistant using voice in voice channels.
+
+  
 
 ## Installation
 
+  
+
 1. Clone the repository or download project:
 
+  
+
 ```bash
-git clone https://github.com/zijipia/Zibot.git
-cd Zibot
+
+git  clone  https://github.com/zijipia/Zibot.git
+
+cd  Zibot
+
 ```
+
+  
 
 2. Install dependencies:
 
+  
+
 ```bash
-npm install
+
+npm  install
+
 ```
+
+  
 
 3. Set up your environment variables (e.g., TOKEN, MONGO), config:
 
+  
+
 - Rename file .env.example to .env:
 
+  
+
 ```bash
-TOKEN = "Your Bot Token" # required
-MONGO = "Your Bot Mongo URI" # optional
+
+TOKEN  =  "Your Bot Token"  # required
+
+MONGO  =  "Your Bot Mongo URI"  # optional
+
 ...
+
 ```
+
+  
 
 - Rename file config.js.example to config.js
 
+  
+
 ```js
-module.exports = {
 
-	deploy: true,
+module.exports  =  {
 
-	defaultCooldownDuration: 5000,
+  
 
-	ImageSearch: true,
+deploy:  true,
+
+  
+
+defaultCooldownDuration:  5000,
+
+  
+
+ImageSearch:  true,
+
+  
 
 }
+
 ...
+
 ```
+
+  
 
 4. Start the bot:
 
+  
+
 ```bash
-node .
+
+node  .
+
 #or
-npm run start
+
+npm  run  start
+
 #or for dev ( using nodemon)
-npm run dev
+
+npm  run  dev
+
 ```
+
+  
+## Using ngrok
+1. Visit [ngrok's dashboard](https://dashboard.ngrok.com) and log in with your account or create it if you don't have.
+2. Go to [Your Authtoken](https://dashboard.ngrok.com/get-started/your-authtoken) in the sidebar, copy the token and paste into `.env` -> `NGROK_AUTHTOKEN`
+3. Go to [Edges managment](https://dashboard.ngrok.com/edges), create a new edge and configure basic setting
+4. Copy the edge ID and paste it into `.env` -> `NGROK_EDGE_ID` *(The edge ID is look like `edge=edghts_2uxxxxxx`)*
+
+<img  alt="ngrok"  src="https://files.catbox.moe/fv6o1z.png"  />
 
 ## Contributing
 
+  
+
 Contributions are welcome!
+
+  
 
 If you made some changes that you think should make it into the project, send a Pull Request on GitHub
 
+  
+
 ## License
+
+  
 
 This project is licensed under the MIT License. See the [LICENSE](./blob/main/LICENSE) file for details.
 
+  
+
 ## Contact
 
+  
+
 For more information, visit the [project page](https://github.com/zijipia/Ziji-bot-discord)
+
 [Support sever](https://discord.gg/GQyJkZDtdX).
+
+  
 
 ## Testing
 
+  
+
 Ziji is testing ZiExtractor, if anything doesn't work properly try turning it off
+
 [in config.js file line 164.](https://github.com/zijipia/Ziji-bot-discord/blob/main/config.js.example#L164)
 
+  
+
 ```js
-  ZiExtractor: false,
+
+ZiExtractor:  false,
+
 ```
