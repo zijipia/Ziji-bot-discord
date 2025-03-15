@@ -17,6 +17,7 @@ module.exports = {
 		cooldown: "Please wait, you are on a cooldown for `{command}`! You can use it again {time}.",
 		goodbye: "Goodbye",
 		noresult: "❌ | No result",
+		banned: "❌ | You are banned from using the bot. Please contact developers for more details",
 	},
 	BotStats: {
 		Description: "Bot stats",
