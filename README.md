@@ -179,10 +179,10 @@ npm  run  dev
 ## Using ngrok
 1. Visit [ngrok's dashboard](https://dashboard.ngrok.com) and log in with your account or create it if you don't have.
 2. Go to [Your Authtoken](https://dashboard.ngrok.com/get-started/your-authtoken) in the sidebar, copy the token and paste into `.env` -> `NGROK_AUTHTOKEN`
-3. Go to [Edges managment](https://dashboard.ngrok.com/edges), create a new edge and configure basic setting
-4. Copy the edge ID and paste it into `.env` -> `NGROK_EDGE_ID` *(The edge ID is look like `edge=edghts_2uxxxxxx`)*
+3. Go to [Domain](https://dashboard.ngrok.com/domains), generate a domain if you don't have and copy it
+4. Copy the domain and paste it into `.env` -> `NGROK_DOMAIN` *(The domain is look like `something.ngrok-free.app`)*
 
-<img  alt="ngrok"  src="https://files.catbox.moe/fv6o1z.png"  />
+<img  alt="ngrok"  src="https://files.catbox.moe/dqc3z6.png"  />
 
 ## Contributing
 

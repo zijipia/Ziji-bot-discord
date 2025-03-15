@@ -5,7 +5,6 @@ const { useClient, useLogger, useConfig, useFunctions } = require("@zibot/zihook
 const { useMainPlayer } = require("discord-player");
 const http = require("http");
 const ngrok = require("ngrok");
-const { spawn, exec } = require('child_process')
 
 async function startServer() {
 	const logger = useLogger();
@@ -26,16 +25,12 @@ async function startServer() {
 	});
 
 	if (process.env.NGROK_AUTHTOKEN && process.env.NGROK_AUTHTOKEN !== "") {
-		logger.info('Starting ngrok...');
-		exec(`npx ngrok config add-authtoken ${process.env.NGROK_AUTHTOKEN}`, (err, stdout, stderr) => {
-			logger.info(stdout);
-			if (stderr) logger.error(stderr);
+		const url = await ngrok.connect({
+			addr: process.env.SERVER_PORT || 2003,
+			hostname: process.env.NGROK_DOMAIN,
+			authtoken: process.env.NGROK_AUTHTOKEN,
 		});
-		exec(`npx ngrok tunnel --label ${process.env.NGROK_EDGE_ID} http://localhost:${process.env.SERVER_PORT}`, (err, stdout, stderr) => {
-			logger.info(stdout);
-			logger.info(`Ngrok is running in edge ID ${process.env.NGROK_EDGE_ID}`)
-			if (stderr) logger.error(stderr);
-		});
+		logger.info(`Server running on ${url}`);
 	}
 
 	app.get("/", (req, res) => {

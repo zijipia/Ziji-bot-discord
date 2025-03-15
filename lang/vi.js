@@ -17,6 +17,7 @@ module.exports = {
 		cooldown: "Vui lòng đợi, bạn đang trong thời gian cooldown cho `{command}`! Bạn có thể sử dụng nó lại {time}.",
 		goodbye: "Tạm biệt",
 		noresult: "❌ | Không tìm thấy kết quả",
+		banned: "❌ | Bạn đã bị cấm sử dụng bot. Vui lòng liên hệ nhà phát triển để biết thêm thông tin",
 	},
 	Help: {
 		Placeholder: "> | Chọn một danh mục để xem các lệnh",
