@@ -1,7 +1,1 @@
-README.md
-commands/owner/dev-ban.js
-commands/owner/dev-unban.js
-events/client/interactionCreate.js
 formatted_files.txt
-index.js
-web/index.js
