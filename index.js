@@ -23,7 +23,7 @@ const { loadFiles, loadEvents } = require("./startup/loader.js");
 const { Client, Collection, GatewayIntentBits, Partials } = require("discord.js");
 const { ZiExtractor, useZiVoiceExtractor, TextToSpeech } = require("@zibot/ziextractor");
 const { DefaultExtractors } = require("@discord-player/extractor");
-const readline = require('readline');
+const readline = require("readline");
 const client = new Client({
 	rest: [{ timeout: 60_000 }],
 	intents: [
@@ -118,33 +118,35 @@ if (config.DevConfig.DP_DEBUG) {
 	player.on("debug", (m) => logger.debug(m));
 }
 const rl = readline.createInterface({
-    input: process.stdin,
-    output: process.stdout
+	input: process.stdin,
+	output: process.stdout,
 });
 
 // Xử lý các lệnh nhập từ console
-rl.on('line', (input) => {
-    const args = input.trim().split(/ +/);
-    const command = args.shift().toLowerCase();
+rl.on("line", (input) => {
+	const args = input.trim().split(/ +/);
+	const command = args.shift().toLowerCase();
 
-    switch (command) {
-        case 'status':
-            logger.info(`Bot đang ${client.isReady() ? 'hoạt động' : 'tắt'}`);
-            break;
-        case 'stop':
-            logger.info('Đang tắt bot...');
-            client.destroy();
-            process.exit(0);
-            break;
-		case 'ping':
+	switch (command) {
+		case "status":
+			logger.info(`Bot đang ${client.isReady() ? "hoạt động" : "tắt"}`);
+			break;
+		case "stop":
+			logger.info("Đang tắt bot...");
+			client.destroy();
+			process.exit(0);
+			break;
+		case "ping":
 			logger.info(`Pong! Độ trễ của bot là ${client.ws.ping}ms`);
 			break;
-		case 'help':
-			logger.info(`Danh sách các lệnh:\n- help: Hiển thị trợ giúp\n- ping: Hiển thị độ trễ bot\n- stop: Tắt bot\n- status: Trả về trạng thái bot`);
+		case "help":
+			logger.info(
+				`Danh sách các lệnh:\n- help: Hiển thị trợ giúp\n- ping: Hiển thị độ trễ bot\n- stop: Tắt bot\n- status: Trả về trạng thái bot`,
+			);
 			break;
-        default:
-            logger.error(`Lệnh không hợp lệ: ${command}`);
-    }
+		default:
+			logger.error(`Lệnh không hợp lệ: ${command}`);
+	}
 });
 useGiveaways(
 	config.DevConfig.Giveaway ?

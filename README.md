@@ -1,4 +1,3 @@
-
 <p align="center">
 
 <a  href="https://discord.com/oauth2/authorize?client_id=1005716197259612193"><img  src="https://img.shields.io/badge/ADD_Bot-Ziji_Bot?style=for-the-badge&label=Ziji%20Bot&color=%237289DA"  alt="Add Ziji bot"></a>
@@ -7,29 +6,19 @@
 
 </p>
 
-  
-
 # [<img src="https://raw.githubusercontent.com/zijipia/zijipia/main/Assets/ZijiAvt.gif" width="15"/>](./) Zibot V7
-
-  
 
 Zibot is a Discord bot developed by [zijipia](https://github.com/zijipia) to enhance your Discord server with various
 
 functionalities, using [discord.js](https://discord.js.org/) and [discord-player](https://discord-player.js.org/)
 
-  
-
 # Join [Zi bot Playground:](https://discord.gg/32GkbyXtbA) to get icon of bot.
-
-  
 
 ## Features
 
-  
+- **Event Handling**: Respond to various Discord events.
 
--  **Event Handling**: Respond to various Discord events.
-
--  **Music Player**:
+- **Music Player**:
 
 <p>
 
@@ -47,27 +36,17 @@ functionalities, using [discord.js](https://discord.js.org/) and [discord-player
 
 </p>
 
-  
-
--  **Web Control**: See [Ziji-bot-web](https://github.com/zijipia/Ziji-bot-web)
-
-  
+- **Web Control**: See [Ziji-bot-web](https://github.com/zijipia/Ziji-bot-web)
 
 ![image](https://github.com/user-attachments/assets/b2ee308e-2f46-4c20-86a6-c7f95108a86b)
 
-  
-
--  **Lyrics**: Using Lrclib
-
-  
+- **Lyrics**: Using Lrclib
 
 - syncedLyrics
 
 - plainLyrics
 
-  
-
--  **Voice command**: not implemented -- available in v2
+- **Voice command**: not implemented -- available in v2
 
 - Voice control for music: play, pause, skip, adjust volume, and more.
 
@@ -75,15 +54,9 @@ functionalities, using [discord.js](https://discord.js.org/) and [discord-player
 
 - Integrated AI assistant: Interact with AI assistant using voice in voice channels.
 
-  
-
 ## Installation
 
-  
-
 1. Clone the repository or download project:
-
-  
 
 ```bash
 
@@ -93,11 +66,7 @@ cd  Zibot
 
 ```
 
-  
-
 2. Install dependencies:
-
-  
 
 ```bash
 
@@ -105,15 +74,9 @@ npm  install
 
 ```
 
-  
-
 3. Set up your environment variables (e.g., TOKEN, MONGO), config:
 
-  
-
 - Rename file .env.example to .env:
-
-  
 
 ```bash
 
@@ -125,29 +88,25 @@ MONGO  =  "Your Bot Mongo URI"  # optional
 
 ```
 
-  
-
 - Rename file config.js.example to config.js
-
-  
 
 ```js
 
 module.exports  =  {
 
-  
+
 
 deploy:  true,
 
-  
+
 
 defaultCooldownDuration:  5000,
 
-  
+
 
 ImageSearch:  true,
 
-  
+
 
 }
 
@@ -155,11 +114,7 @@ ImageSearch:  true,
 
 ```
 
-  
-
 4. Start the bot:
-
-  
 
 ```bash
 
@@ -175,54 +130,37 @@ npm  run  dev
 
 ```
 
-  
 ## Using ngrok
+
 1. Visit [ngrok's dashboard](https://dashboard.ngrok.com) and log in with your account or create it if you don't have.
-2. Go to [Your Authtoken](https://dashboard.ngrok.com/get-started/your-authtoken) in the sidebar, copy the token and paste into `.env` -> `NGROK_AUTHTOKEN`
+2. Go to [Your Authtoken](https://dashboard.ngrok.com/get-started/your-authtoken) in the sidebar, copy the token and paste into
+   `.env` -> `NGROK_AUTHTOKEN`
 3. Go to [Domain](https://dashboard.ngrok.com/domains), generate a domain if you don't have and copy it
-4. Copy the domain and paste it into `.env` -> `NGROK_DOMAIN` *(The domain is look like `something.ngrok-free.app`)*
+4. Copy the domain and paste it into `.env` -> `NGROK_DOMAIN` _(The domain is look like `something.ngrok-free.app`)_
 
 <img  alt="ngrok"  src="https://files.catbox.moe/dqc3z6.png"  />
 
 ## Contributing
 
-  
-
 Contributions are welcome!
-
-  
 
 If you made some changes that you think should make it into the project, send a Pull Request on GitHub
 
-  
-
 ## License
-
-  
 
 This project is licensed under the MIT License. See the [LICENSE](./blob/main/LICENSE) file for details.
 
-  
-
 ## Contact
-
-  
 
 For more information, visit the [project page](https://github.com/zijipia/Ziji-bot-discord)
 
 [Support sever](https://discord.gg/GQyJkZDtdX).
 
-  
-
 ## Testing
-
-  
 
 Ziji is testing ZiExtractor, if anything doesn't work properly try turning it off
 
 [in config.js file line 164.](https://github.com/zijipia/Ziji-bot-discord/blob/main/config.js.example#L164)
-
-  
 
 ```js
 
