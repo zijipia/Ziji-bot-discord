@@ -44,6 +44,13 @@ module.exports = {
 		Attention: "Attention:",
 		Note: "Note:",
 	},
+	TicTacToe: {
+		turnMessage: '{emoji} | Its turn of player **{player}**.',
+        winMessage: '{emoji} | **{player}** won the TicTacToe Game.',
+        tieMessage: 'The Game tied! No one won the Game!',
+        timeoutMessage: 'The Game went unfinished! No one won the Game!',
+        playerOnlyMessage: 'Only {player} and {opponent} can use these buttons.'
+	},
 	Ping: {
 		Description: "Hey ##username##! Here's my **latency** and **ping** status:",
 		Roundtrip: "🔄 Round-trip Latency",

@@ -1,5 +1,6 @@
 require("dotenv").config();
 const { startServer } = require("./web");
+const { exec } = require('child_process')
 const {
 	useAI,
 	useClient,
@@ -122,11 +123,13 @@ const rl = readline.createInterface({
 	output: process.stdout,
 });
 
+const blockedCommands = ['rm', 'chmod', 'sudo', 'su', 'reboot', 'shutdown', 'poweroff', 'halt', 'dd', 'mkfs', 'mount', 'umount'];
+
 // Xử lý các lệnh nhập từ console
 rl.on("line", (input) => {
 	const args = input.trim().split(/ +/);
 	const command = args.shift().toLowerCase();
-
+	logger.info(`CONSOLE issused bot command: ${command}`)
 	switch (command) {
 		case "status":
 			logger.info(`Bot đang ${client.isReady() ? "hoạt động" : "tắt"}`);
@@ -139,6 +142,22 @@ rl.on("line", (input) => {
 		case "ping":
 			logger.info(`Pong! Độ trễ của bot là ${client.ws.ping}ms`);
 			break;
+		case 'sh': // Chạy lệnh hệ thống
+            const cmd = args.join(' ');
+
+            if (!cmd) return console.log("❌ Vui lòng nhập lệnh hệ thống!");
+            
+            // Kiểm tra nếu lệnh chứa từ khóa bị cấm
+            if (blockedCommands.some(blocked => cmd.includes(blocked))) {
+                return console.log(`🚫 Lệnh "${cmd}" bị cấm vì lý do bảo mật!`);
+            }
+
+            exec(cmd, (error, stdout, stderr) => {
+                if (error) return console.error(`❌ Lỗi: ${error.message}`);
+                if (stderr) return console.error(`⚠️ Cảnh báo: ${stderr}`);
+                console.log(`✅ Kết quả:\n${stdout}`);
+            });
+            break;
 		case "help":
 			logger.info(
 				`Danh sách các lệnh:\n- help: Hiển thị trợ giúp\n- ping: Hiển thị độ trễ bot\n- stop: Tắt bot\n- status: Trả về trạng thái bot`,
