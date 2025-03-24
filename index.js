@@ -19,11 +19,13 @@ const { Player } = require("discord-player");
 const config = useConfig(require("./config"));
 const { GiveawaysManager } = require("discord-giveaways");
 const { YoutubeiExtractor } = require("discord-player-youtubei");
-const { loadFiles, loadEvents } = require("./startup/loader.js");
+const { loadFiles, loadEvents, createfile } = require("./startup/loader.js");
 const { Client, Collection, GatewayIntentBits, Partials } = require("discord.js");
 const { ZiExtractor, useZiVoiceExtractor, TextToSpeech } = require("@zibot/ziextractor");
 const { DefaultExtractors } = require("@discord-player/extractor");
+const ytdl = require("@distube/ytdl-core");
 const readline = require("readline");
+
 const client = new Client({
 	rest: [{ timeout: 60_000 }],
 	intents: [
@@ -50,6 +52,8 @@ const client = new Client({
 	},
 });
 
+createfile("./jsons");
+
 // Configure logger
 const logger = useLogger(
 	winston.createLogger({
@@ -68,7 +72,7 @@ const logger = useLogger(
 						`[${level.toUpperCase()}]:` + util.inspect(message, { showHidden: false, depth: 2, colors: true }),
 				),
 			}),
-			new winston.transports.File({ filename: "bot.log" }),
+			new winston.transports.File({ filename: "./jsons/bot.log", level: "error" }),
 		],
 	}),
 );
@@ -105,7 +109,10 @@ if (config.DevConfig.YoutubeiExtractor) {
 	require("youtubei.js").Log.setLevel(0);
 }
 
-if (config.DevConfig.ZiExtractor) player.extractors.register(ZiExtractor, {});
+if (config.DevConfig.ZiExtractor)
+	player.extractors.register(ZiExtractor, {
+		ytdl: ytdl,
+	});
 
 player.extractors.register(TextToSpeech, {});
 player.extractors.loadMulti(DefaultExtractors);
@@ -122,32 +129,6 @@ const rl = readline.createInterface({
 	output: process.stdout,
 });
 
-// Xử lý các lệnh nhập từ console
-rl.on("line", (input) => {
-	const args = input.trim().split(/ +/);
-	const command = args.shift().toLowerCase();
-
-	switch (command) {
-		case "status":
-			logger.info(`Bot đang ${client.isReady() ? "hoạt động" : "tắt"}`);
-			break;
-		case "stop":
-			logger.info("Đang tắt bot...");
-			client.destroy();
-			process.exit(0);
-			break;
-		case "ping":
-			logger.info(`Pong! Độ trễ của bot là ${client.ws.ping}ms`);
-			break;
-		case "help":
-			logger.info(
-				`Danh sách các lệnh:\n- help: Hiển thị trợ giúp\n- ping: Hiển thị độ trễ bot\n- stop: Tắt bot\n- status: Trả về trạng thái bot`,
-			);
-			break;
-		default:
-			logger.error(`Lệnh không hợp lệ: ${command}`);
-	}
-});
 useGiveaways(
 	config.DevConfig.Giveaway ?
 		new GiveawaysManager(client, {
@@ -177,6 +158,7 @@ const initialize = async () => {
 		loadEvents(path.join(__dirname, "events/client"), client),
 		loadEvents(path.join(__dirname, "events/voice"), ziVoice),
 		loadEvents(path.join(__dirname, "events/process"), process),
+		loadEvents(path.join(__dirname, "events/console"), rl),
 		loadEvents(path.join(__dirname, "events/player"), player.events),
 		loadFiles(path.join(__dirname, "commands"), useCommands(new Collection())),
 		loadFiles(path.join(__dirname, "functions"), useFunctions(new Collection())),

@@ -29,6 +29,7 @@
 	"dependencies": {
 		"@discord-player/extractor": "^7.1.0",
 		"@discordjs/voice": "^0.18.0",
+		"@distube/ytdl-core": "^4.16.5",
 		"@google/generative-ai": "^0.24.0",
 		"@iamtraction/google-translate": "^2.0.1",
 		"@zibot/ziencryptor": "^0.0.1",

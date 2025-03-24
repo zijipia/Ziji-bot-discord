@@ -125,7 +125,16 @@ const loadEvents = async (directory, target) => {
 	);
 };
 
+function createfile(dir) {
+	const fs = require("fs");
+
+	if (!fs.existsSync(dir)) {
+		fs.mkdirSync(dir);
+	}
+}
+
 module.exports = {
 	loadFiles,
 	loadEvents,
+	createfile,
 };
