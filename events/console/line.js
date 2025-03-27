@@ -2,7 +2,8 @@ const { useFunctions, useClient, useLogger } = require("@zibot/zihooks");
 const Functions = useFunctions();
 const client = useClient();
 const logger = useLogger();
-
+const { exec } = require("child_process");
+const blockedCommands = ["rm", "chmod", "sudo", "su", "reboot", "shutdown", "poweroff", "halt", "dd", "mkfs", "mount", "umount"];
 module.exports = {
 	name: "line",
 	type: "console",
@@ -14,9 +15,10 @@ module.exports = {
 	execute: async (input) => {
 		const args = input.trim().split(/ +/);
 		const command = args.shift().toLowerCase();
-
+		logger.info(`CONSOLE issused bot command: ${command}`);
 		switch (command) {
 			case "status":
+			case "stat":
 				logger.info(`Bot đang ${client.isReady() ? "hoạt động" : "tắt"}`);
 				break;
 			case "stop":
@@ -27,7 +29,21 @@ module.exports = {
 			case "ping":
 				logger.info(`Pong! Độ trễ của bot là ${client.ws.ping}ms`);
 				break;
+			case "sh":
+				const cmd = args.join(" ");
+
+				if (!cmd) return console.log("❌ Vui lòng nhập lệnh hệ thống!");
+				if (blockedCommands.some((blocked) => cmd.includes(blocked)))
+					return console.log(`🚫 Lệnh "${cmd}" bị cấm vì lý do bảo mật!`);
+
+				exec(cmd, (error, stdout, stderr) => {
+					if (error) return console.error(`❌ Lỗi: ${error.message}`);
+					if (stderr) return console.error(`⚠️ Cảnh báo: ${stderr}`);
+					console.log(`✅ Kết quả:\n${stdout}`);
+				});
+				break;
 			case "help":
+			case "h":
 				logger.info(
 					`Danh sách các lệnh:\n- help: Hiển thị trợ giúp\n- ping: Hiển thị độ trễ bot\n- stop: Tắt bot\n- status: Trả về trạng thái bot`,
 				);
