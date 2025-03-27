@@ -23,7 +23,6 @@ const { loadFiles, loadEvents, createfile } = require("./startup/loader.js");
 const { Client, Collection, GatewayIntentBits, Partials } = require("discord.js");
 const { ZiExtractor, useZiVoiceExtractor, TextToSpeech } = require("@zibot/ziextractor");
 const { DefaultExtractors } = require("@discord-player/extractor");
-const ytdl = require("@distube/ytdl-core");
 const readline = require("readline");
 
 const client = new Client({
@@ -109,10 +108,7 @@ if (config.DevConfig.YoutubeiExtractor) {
 	require("youtubei.js").Log.setLevel(0);
 }
 
-if (config.DevConfig.ZiExtractor)
-	player.extractors.register(ZiExtractor, {
-		ytdl: ytdl,
-	});
+if (config.DevConfig.ZiExtractor) player.extractors.register(ZiExtractor, {});
 
 player.extractors.register(TextToSpeech, {});
 player.extractors.loadMulti(DefaultExtractors);

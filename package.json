@@ -29,11 +29,10 @@
 	"dependencies": {
 		"@discord-player/extractor": "^7.1.0",
 		"@discordjs/voice": "^0.18.0",
-		"@distube/ytdl-core": "^4.16.5",
 		"@google/generative-ai": "^0.24.0",
 		"@iamtraction/google-translate": "^2.0.1",
 		"@zibot/ziencryptor": "^0.0.1",
-		"@zibot/ziextractor": "^2.3.2",
+		"@zibot/ziextractor": "^2.3.3",
 		"@zibot/zihooks": "^1.0.9",
 		"axios": "^1.7.7",
 		"canvacord": "^6.0.2",
@@ -59,7 +58,8 @@
 		"sharp": "^0.33.4",
 		"table": "^6.8.2",
 		"winston": "^3.17.0",
-		"ws": "^8.18.0"
+		"ws": "^8.18.0",
+		"youtube-dl-exec": "^3.0.19"
 	},
 	"devDependencies": {
 		"nodemon": "^3.1.9",
