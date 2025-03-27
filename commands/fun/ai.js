@@ -52,7 +52,6 @@ module.exports.execute = async ({ interaction, lang }) => {
 	const prompt = options.getString("prompt") || "Hello";
 	const queue = guild?.id ? useQueue(guild.id) : null;
 
-
 	//discord-player v7 chua ho tro voice rec
 	return this.ask(interaction, prompt);
 	/**

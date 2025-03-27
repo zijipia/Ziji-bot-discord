@@ -1,1 +1,2 @@
+commands/fun/ai.js
 formatted_files.txt
