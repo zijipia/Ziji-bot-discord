@@ -39,6 +39,7 @@
 		"canvacord": "^6.0.2",
 		"chalk": "^4.1.2",
 		"cors": "^2.8.5",
+		"discord-gamecord": "^4.4.2",
 		"discord-giveaways": "^6.0.1",
 		"discord-player": "^7.1.0",
 		"discord-player-youtubei": "^1.4.2",
@@ -61,7 +62,7 @@
 		"ws": "^8.18.0"
 	},
 	"devDependencies": {
-		"nodemon": "^3.1.0",
+		"nodemon": "^3.1.9",
 		"prettier": "^3.3.2"
 	},
 	"overrides": {
