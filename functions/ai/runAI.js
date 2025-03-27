@@ -1,3 +1,4 @@
+const { useAI } = require("@zibot/zihooks");
 const { ButtonStyle, ComponentType, EmbedBuilder, ActionRowBuilder, ButtonBuilder } = require("discord.js");
 
 module.exports.data = {
@@ -6,7 +7,7 @@ module.exports.data = {
 };
 
 module.exports.execute = async (interaction, msg) => {
-	const result = await interaction.client.run(msg);
+	const result = await useAI().run(msg);
 
 	// Chia kết quả thành các trang
 	const chunks = splitIntoChunks(result, 4090); // Chia nhỏ kết quả thành các đoạn
