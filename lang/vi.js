@@ -45,11 +45,11 @@ module.exports = {
 		Operation: "Thời gian chạy",
 	},
 	TicTacToe: {
-		turnMessage: '{emoji} | Đến lượt của người chơi **{player}**.',
-        winMessage: '{emoji} | **{player}** đã thắng trò chơi TicTacToe.',
-        tieMessage: 'Trò chơi hòa! Không ai thắng!',
-        timeoutMessage: 'Trò chơi bị bỏ dở! Không ai thắng!',
-        playerOnlyMessage: 'Chỉ {player} và {opponent} mới có thể sử dụng các nút này.'
+		turnMessage: "{emoji} | Đến lượt của người chơi **{player}**.",
+		winMessage: "{emoji} | **{player}** đã thắng trò chơi TicTacToe.",
+		tieMessage: "Trò chơi hòa! Không ai thắng!",
+		timeoutMessage: "Trò chơi bị bỏ dở! Không ai thắng!",
+		playerOnlyMessage: "Chỉ {player} và {opponent} mới có thể sử dụng các nút này.",
 	},
 	Ping: {
 		Description: "Chào ##username##! Đây là **độ trễ** và trạng thái **ping** của tôi:",
