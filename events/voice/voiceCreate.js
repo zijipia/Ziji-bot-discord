@@ -32,7 +32,7 @@ const promptBuilder = (content, player, user, queue) => {
 module.exports = {
 	name: "voiceCreate",
 	type: "voiceExtractor",
-	enable: true, //v7 not support
+	enable: false, //v7 not support
 
 	/**
 	 *

@@ -16,7 +16,7 @@ module.exports.execute = async (interaction, lang, options = { query: null }) =>
 
 		const voiceChannel = interaction.member?.voice.channel;
 		if (!voiceChannel) {
-			return interaction.reply({
+			return interaction.editReply({
 				content: lang?.music?.NOvoiceChannel ?? "Bạn chưa tham gia vào kênh thoại",
 				ephemeral: true,
 			});
@@ -24,7 +24,7 @@ module.exports.execute = async (interaction, lang, options = { query: null }) =>
 
 		const voiceMe = guild.members.cache.get(client.user.id).voice.channel;
 		if (voiceMe && voiceMe.id !== voiceChannel.id) {
-			return interaction.reply({
+			return interaction.editReply({
 				content: lang?.music?.NOvoiceMe ?? "Bot đã tham gia một kênh thoại khác",
 				ephemeral: true,
 			});
