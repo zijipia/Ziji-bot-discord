@@ -1,5 +1,1 @@
-commands/fun/tic-tac-toe.js
-events/player/audioTracksAdd.js
 formatted_files.txt
-lang/en.js
-lang/vi.js
