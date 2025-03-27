@@ -63,7 +63,7 @@ module.exports.execute = async ({ interaction, lang }) => {
 
 	if (queue) return this.ask(interaction, prompt);
 
-	const voiceChannel = member?.voice.channel;
+	const voiceChannel = member?.voice?.channel;
 	if (!voiceChannel) {
 		return this.ask(interaction, prompt);
 	}

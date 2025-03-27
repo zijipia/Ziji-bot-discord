@@ -1,9 +1,8 @@
-const { GuildQueue, Track, GuildQueueEvent, useMainPlayer } = require("discord-player");
-const { useFunctions } = require("@zibot/zihooks");
-const { default: axios } = require('axios')
+const { GuildQueue, Track, GuildQueueEvent } = require("discord-player");
+const { useFunctions, useConfig } = require("@zibot/zihooks");
 
 const Functions = useFunctions();
-
+const config = useConfig();
 async function SendNewMessenger(queue, playerGui) {
 	queue.metadata.mess = await queue.metadata.channel.send(playerGui);
 	return;
@@ -33,19 +32,14 @@ module.exports = {
 		await queue.metadata.mess.edit(playerGui).catch(async () => await SendNewMessenger(queue, playerGui));
 
 		// Status of voice channel
-		const channelId = queue.channel.id;
-		const status = `💿 Now playing: ${track.cleanTitle}`;
-		try {
-			await axios.put(`https://discord.com/api/v10/channels/${channelId}/voice-status`,
-				{ status: status },
-				{ headers: { Authorization: `Bot ${process.env.TOKEN}` }}
-			)
-		} catch (err) {
-			console.error(err);
+		if (config) {
+			const status = `💿 Now playing: ${track.cleanTitle}`;
+			const { rest } = queue.player.client;
+			rest.put(`/channels/${queue?.channel?.id}/voice-status`, { body: { status } }).catch((e) => {
+				console.log(e);
+			});
 		}
-
 		// lyrics
-
 		const ZiLyrics = queue.metadata.ZiLyrics;
 		if (ZiLyrics?.Active) {
 			const Lyrics = Functions.get("Lyrics");
