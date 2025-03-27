@@ -126,6 +126,12 @@ module.exports = {
 		 * Cooldown before bot leaves after song ends (ms)
 		 */
 		leaveOnEndCooldown: 50_0000,
+
+		/**
+		 * Đổi trạng thái của kênh thoại thành tên bài hát (true | false)
+		 * Change voice channel status to song title (true | false)
+		 */
+		changeStatus: true,
 	},
 
 

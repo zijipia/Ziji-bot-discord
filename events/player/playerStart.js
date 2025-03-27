@@ -32,7 +32,7 @@ module.exports = {
 		await queue.metadata.mess.edit(playerGui).catch(async () => await SendNewMessenger(queue, playerGui));
 
 		// Status of voice channel
-		if (config) {
+		if (config.PlayerConfig?.changeStatus) {
 			const status = `💿 Now playing: ${track.cleanTitle}`;
 			const { rest } = queue.player.client;
 			rest.put(`/channels/${queue?.channel?.id}/voice-status`, { body: { status } }).catch((e) => {
