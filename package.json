@@ -32,7 +32,7 @@
 		"@google/generative-ai": "^0.24.0",
 		"@iamtraction/google-translate": "^2.0.1",
 		"@zibot/ziencryptor": "^0.0.1",
-		"@zibot/ziextractor": "^2.3.5",
+		"@zibot/ziextractor": "^2.3.6",
 		"@zibot/zihooks": "^1.0.9",
 		"axios": "^1.7.7",
 		"canvacord": "^6.0.2",
@@ -48,17 +48,16 @@
 		"ffmpeg-static": "^5.2.0",
 		"http": "^0.0.1-security",
 		"makeitaquote": "^8.1.1",
+		"mediaplex": "^1.0.0",
 		"mongoose": "^8.8.3",
 		"ngrok": "^5.0.0-beta.2",
 		"node-fetch": "^2.7.0",
-		"opusscript": "^0.0.8",
 		"prism-media": "^1.3.5",
 		"readline": "^1.3.0",
 		"sharp": "^0.33.4",
 		"table": "^6.8.2",
 		"winston": "^3.17.0",
-		"ws": "^8.18.0",
-		"youtube-dl-exec": "^3.0.19"
+		"ws": "^8.18.0"
 	},
 	"devDependencies": {
 		"nodemon": "^3.1.9",
