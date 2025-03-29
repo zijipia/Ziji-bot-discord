@@ -31,7 +31,7 @@ module.exports.execute = async ({ interaction, lang }) => {
 	//channel:
 	const voiceChannel = interaction.member.voice.channel;
 	if (!voiceChannel) {
-		return interaction.reply({
+		return interaction.editReply({
 			content: lang?.music?.NOvoiceChannel ?? "Bạn chưa tham gia vào kênh thoại",
 			ephemeral: true,
 		});
@@ -39,7 +39,7 @@ module.exports.execute = async ({ interaction, lang }) => {
 
 	const voiceMe = guild.members.cache.get(client.user.id).voice.channel;
 	if (voiceMe && voiceMe.id !== voiceChannel.id) {
-		return interaction.reply({
+		return interaction.editReply({
 			content: lang?.music?.NOvoiceMe ?? "Bot đã tham gia một kênh thoại khác",
 			ephemeral: true,
 		});
@@ -47,7 +47,7 @@ module.exports.execute = async ({ interaction, lang }) => {
 
 	const permissions = voiceChannel.permissionsFor(client.user);
 	if (!permissions.has("Connect") || !permissions.has("Speak")) {
-		return interaction.reply({
+		return interaction.editReply({
 			content: lang?.music?.NoPermission ?? "Bot không có quyền tham gia hoặc nói trong kênh thoại này",
 			ephemeral: true,
 		});
