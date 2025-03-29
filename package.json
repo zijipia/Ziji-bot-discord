@@ -35,6 +35,7 @@
 		"@zibot/ziextractor": "^2.3.6",
 		"@zibot/zihooks": "^1.0.9",
 		"axios": "^1.7.7",
+		"bgutils-js": "^3.2.0",
 		"canvacord": "^6.0.2",
 		"chalk": "^4.1.2",
 		"cors": "^2.8.5",
