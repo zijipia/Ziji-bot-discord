@@ -13,9 +13,9 @@ module.exports = {
 	 * @param { String } input - console input
 	 */
 	execute: async (input) => {
+		logger.debug(`CONSOLE issused bot command: ${input}`);
 		const args = input.trim().split(/ +/);
 		const command = args.shift().toLowerCase();
-		logger.info(`CONSOLE issused bot command: ${command}`);
 		switch (command) {
 			case "status":
 			case "stat":

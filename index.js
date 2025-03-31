@@ -56,7 +56,7 @@ createfile("./jsons");
 // Configure logger
 const logger = useLogger(
 	winston.createLogger({
-		level: config.DevConfig?.logger || "info",
+		level: config.DevConfig?.logger || "", // leave blank to enable all
 		format: winston.format.combine(
 			winston.format.timestamp(),
 			winston.format.printf(
