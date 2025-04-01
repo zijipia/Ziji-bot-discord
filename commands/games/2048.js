@@ -1,4 +1,5 @@
 const { TwoZeroFourEight } = require("discord-gamecord");
+const icons = require("../../utility/icon");
 
 module.exports.data = {
 	name: "2048",
@@ -21,13 +22,13 @@ module.exports.execute = async ({ interaction, lang }) => {
 			color: "#5865F2",
 		},
 		emojis: {
-			up: "⬆️",
-			down: "⬇️",
-			left: "⬅️",
-			right: "➡️",
+			up: `${icons.up}`,
+			down: `${icons.down}`,
+			left: `${icons.left}`,
+			right: `${icons.right}`,
 		},
 		timeoutTime: 60000,
-		buttonStyle: "PRIMARY",
+		buttonStyle: "SECONDARY",
 		playerOnlyMessage: "Only {player} can use these buttons.",
 	});
 
