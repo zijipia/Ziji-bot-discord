@@ -1,4 +1,4 @@
-const { TwoZeroFourEight } = require('discord-gamecord');
+const { TwoZeroFourEight } = require("discord-gamecord");
 
 module.exports.data = {
 	name: "2048",
@@ -12,30 +12,27 @@ module.exports.data = {
  * @param { import ("discord.js").CommandInteraction } command.interaction - interaction
  * @param { import('../../lang/vi.js') } command.lang - language
  */
-module.exports.execute = async ({
-	interaction,
-	lang
-}) => {
+module.exports.execute = async ({ interaction, lang }) => {
 	const Game = new TwoZeroFourEight({
 		message: interaction,
 		isSlashGame: true,
 		embed: {
-			title: '2048',
-			color: '#5865F2'
+			title: "2048",
+			color: "#5865F2",
 		},
 		emojis: {
-			up: '⬆️',
-			down: '⬇️',
-			left: '⬅️',
-			right: '➡️',
+			up: "⬆️",
+			down: "⬇️",
+			left: "⬅️",
+			right: "➡️",
 		},
 		timeoutTime: 60000,
-		buttonStyle: 'PRIMARY',
-		playerOnlyMessage: 'Only {player} can use these buttons.'
+		buttonStyle: "PRIMARY",
+		playerOnlyMessage: "Only {player} can use these buttons.",
 	});
 
 	Game.startGame();
-	Game.on('gameOver', result => {
+	Game.on("gameOver", (result) => {
 		return;
 	});
-}
+};

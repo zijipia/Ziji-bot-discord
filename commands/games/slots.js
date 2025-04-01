@@ -1,6 +1,4 @@
-const {
-	Slots
-} = require('discord-gamecord');
+const { Slots } = require("discord-gamecord");
 
 module.exports.data = {
 	name: "slots",
@@ -14,24 +12,19 @@ module.exports.data = {
  * @param { import ("discord.js").CommandInteraction } command.interaction - interaction
  * @param { import('../../lang/vi.js') } command.lang - language
  */
-module.exports.execute = async ({
-	interaction,
-	lang
-}) => {
-
-
+module.exports.execute = async ({ interaction, lang }) => {
 	const Game = new Slots({
 		message: interaction,
 		isSlashGame: true,
 		embed: {
-			title: 'Slot Machine',
-			color: '#5865F2'
+			title: "Slot Machine",
+			color: "#5865F2",
 		},
-		slots: ['🍇', '🍊', '🍋', '🍌']
+		slots: ["🍇", "🍊", "🍋", "🍌"],
 	});
 
 	Game.startGame();
-	Game.on('gameOver', result => {
+	Game.on("gameOver", (result) => {
 		return;
 	});
-}
+};

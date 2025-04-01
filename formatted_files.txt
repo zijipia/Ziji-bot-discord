@@ -1,1 +1,6 @@
+commands/games/2048.js
+commands/games/fasttype.js
+commands/games/slots.js
+commands/games/snake.js
+commands/utility/mc-server.js
 formatted_files.txt
