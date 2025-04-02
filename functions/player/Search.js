@@ -85,8 +85,8 @@ module.exports.execute = async (interaction, query, lang, options = {}) => {
 		logger.warn("Failed to defer reply");
 	});
 	const queue = useQueue(guild.id);
-	logger.debug(`Queue retrieved:`);
-	logger.debug(queue);
+	logger.debug(`Queue retrieved: ${queue?.tracks?.length || 0} tracks`);
+
 	if (validURL(query) || options?.joinvoice) {
 		logger.debug("Handling play request");
 		return handlePlayRequest(interaction, query, lang, options, queue);
@@ -139,7 +139,6 @@ function hasVoiceChannelPermissions(voiceChannel, client, interaction, lang) {
 
 //#region Play Request
 async function handlePlayRequest(interaction, query, lang, options, queue) {
-	logger.debug("Inside handlePlayRequest");
 	try {
 		if (!queue?.metadata) await interaction.editReply({ content: "<a:loading:1151184304676819085> Loading..." });
 		const playerConfig = await getPlayerConfig(options, interaction);
@@ -322,13 +321,12 @@ async function handleError(interaction, lang) {
 //#endregion Play Request
 //#region Search Track
 async function handleSearchRequest(interaction, query, lang) {
-	logger.debug("Inside handleSearchRequest");
 	const results = await player.search(query, { searchEngine: config.PlayerConfig.QueryType });
-	logger.debug(`Search results:  ${results.tracks.length}`);
-	const tracks = filterTracks(results.tracks);
-	logger.debug(`Filtered tracks:  ${tracks.length}`);
+	logger.debug(`Search results:  ${results?.tracks?.length}`);
+	const tracks = filterTracks(results?.tracks);
+	logger.debug(`Filtered tracks:  ${tracks?.length}`);
 
-	if (!tracks.length) {
+	if (!tracks?.length) {
 		logger.debug("No tracks found");
 		return interaction
 			.editReply({
@@ -350,9 +348,9 @@ function filterTracks(tracks) {
 	const uniqueTracks = [];
 	const seenUrls = new Set();
 	for (const track of tracks) {
-		if (track.url.length < 100 && !seenUrls.has(track.url)) {
+		if (track?.url?.length < 100 && !seenUrls.has(track?.url)) {
 			uniqueTracks.push(track);
-			seenUrls.add(track.url);
+			seenUrls.add(track?.url);
 			if (uniqueTracks.length >= 20) break;
 		}
 	}

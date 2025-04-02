@@ -3,6 +3,7 @@ const config = require("../../config");
 const deploy = require("../../startup/deploy");
 const mongoose = require("mongoose");
 const { useDB, useLogger } = require("@zibot/zihooks");
+const { Database, createModel } = require("@zibot/db");
 
 module.exports = {
 	name: Events.ClientReady,
@@ -44,7 +45,13 @@ module.exports = {
 			client.errorLog("Connected to MongoDB!");
 		} else {
 			useLogger().error("Failed to connect to MongoDB!");
-			client.errorLog("Failed to connect to MongoDB!");
+			const db = new Database("./jsons/ziDB.json");
+			useDB({
+				ZiUser: createModel(db, "ZiUser"),
+				ZiAutoresponder: createModel(db, "ZiAutoresponder"),
+				ZiWelcome: createModel(db, "ZiWelcome"),
+				ZiGuild: createModel(db, "ZiGuild"),
+			});
 		}
 
 		// Set Activity status
