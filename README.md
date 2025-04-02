@@ -55,20 +55,22 @@ functionalities, using [discord.js](https://discord.js.org/) and [discord-player
 - Integrated AI assistant: Interact with AI assistant using voice in voice channels.
 
 # Installation
+
 ## Setup bot
+
 Go to [discord.dev](https://discord.dev/) create your applications
 
-![image](https://github.com/user-attachments/assets/6f846a76-eb0c-4bdd-bda2-b23e0390f782) ↗ ![image](https://github.com/user-attachments/assets/c1498103-e22e-43d2-b4d0-bf19de872a5d)
+![image](https://github.com/user-attachments/assets/6f846a76-eb0c-4bdd-bda2-b23e0390f782) ↗
+![image](https://github.com/user-attachments/assets/c1498103-e22e-43d2-b4d0-bf19de872a5d)
 
-
-Enable Privileged Gateway Intents:
-![image](https://github.com/user-attachments/assets/e4212b5d-6932-4160-831e-e30b212db3da) ↴
+Enable Privileged Gateway Intents: ![image](https://github.com/user-attachments/assets/e4212b5d-6932-4160-831e-e30b212db3da) ↴
 
 ![image](https://github.com/user-attachments/assets/17cf92bf-76d4-43e0-8cb0-ff901f9e8f78)
 
 Reset token and add this to setp 3 below.
 
 ## Setup project
+
 1. Clone the repository or download project:
 
 ```bash
@@ -151,8 +153,7 @@ npm  run  dev
 3. Go to [Domain](https://dashboard.ngrok.com/domains), generate a domain if you don't have and copy it
 4. Copy the domain and paste it into `.env` -> `NGROK_DOMAIN` _(The domain is look like `something.ngrok-free.app`)_
 
-> [!IMPORTANT]
-> Don't create Edges or it won't work, you can delete it after creating
+> [!IMPORTANT] Don't create Edges or it won't work, you can delete it after creating
 
 <img  alt="ngrok"  src="https://files.catbox.moe/dqc3z6.png"  />
 
