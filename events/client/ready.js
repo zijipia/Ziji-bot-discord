@@ -41,6 +41,8 @@ module.exports = {
 			useDB(require("../../startup/mongoDB"));
 			await require("../../startup/loadResponder")();
 			await require("../../startup/loadWelcome")();
+			await require("../../startup/initAI")();
+
 			useLogger().info("Connected to MongoDB!");
 			client.errorLog("Connected to MongoDB!");
 		} else {
@@ -52,6 +54,11 @@ module.exports = {
 				ZiWelcome: createModel(db, "ZiWelcome"),
 				ZiGuild: createModel(db, "ZiGuild"),
 			});
+			await require("../../startup/loadResponder")();
+			await require("../../startup/loadWelcome")();
+			await require("../../startup/initAI")();
+			useLogger().info("Connected to LocalDB!");
+			client.errorLog("Connected to LocalDB!");
 		}
 
 		// Set Activity status

@@ -49,7 +49,7 @@ const reqai = async (message, lang) => {
 	});
 
 	try {
-		const result = await useAI().run(`Answer lower than 1500 characters\nTrả lời dưới 1500 ký tự hoặc ít hơn\nPrompt: ${prompt}`);
+		const result = await useAI().run(prompt, message.author, lang);
 		await message.reply(result);
 	} catch (err) {
 		useLogger().error(`Error in generating content: ${err}`);

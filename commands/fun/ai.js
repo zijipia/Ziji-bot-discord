@@ -53,7 +53,7 @@ module.exports.execute = async ({ interaction, lang }) => {
 	const queue = guild?.id ? useQueue(guild.id) : null;
 
 	//discord-player v7 chua ho tro voice rec
-	return this.ask(interaction, prompt);
+	return this.ask(interaction, prompt, lang);
 	/**
 	 * Nếu có voice, ưu tiên vào voice trả lời.
 	 * Nếu Không có thì trả lời messenger
@@ -64,32 +64,32 @@ module.exports.execute = async ({ interaction, lang }) => {
 		return this.assistant(interaction, lang, { query: prompt });
 	}
 
-	if (!queue) return this.ask(interaction, prompt);
+	if (!queue) return this.ask(interaction, prompt, lang);
 
 	const voiceChannel = member?.voice?.channel;
 	if (!voiceChannel) {
-		return this.ask(interaction, prompt);
+		return this.ask(interaction, prompt, lang);
 	}
 
 	// Check if bot is in the same voice channel
 	const botVoiceChannel = guild.members.cache.get(client.user.id)?.voice.channel;
 	if (botVoiceChannel && botVoiceChannel.id !== voiceChannel.id) {
-		return this.ask(interaction, prompt);
+		return this.ask(interaction, prompt, lang);
 	}
 
 	// Check permissions in the voice channel
 	const permissions = voiceChannel.permissionsFor(client.user);
 	if (!permissions?.has("Connect") || !permissions.has("Speak")) {
-		return this.ask(interaction, prompt);
+		return this.ask(interaction, prompt, lang);
 	}
 
 	// Handle assistant functionality
 	return this.assistant(interaction, lang, { query: prompt });
 };
 
-module.exports.ask = async (interaction, prompt) => {
+module.exports.ask = async (interaction, prompt, lang) => {
 	const runAI = useFunctions().get("runAI");
-	await runAI.execute(interaction, prompt);
+	await runAI.execute(interaction, prompt, lang);
 };
 
 module.exports.assistant = async (interaction, lang, { query: prompt }) => {

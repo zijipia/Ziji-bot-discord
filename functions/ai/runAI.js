@@ -6,8 +6,8 @@ module.exports.data = {
 	type: "ai",
 };
 
-module.exports.execute = async (interaction, msg) => {
-	const result = await useAI().run(msg);
+module.exports.execute = async (interaction, msg, lang) => {
+	const result = await useAI().run(msg, interaction.user, lang);
 
 	// Chia kết quả thành các trang
 	const chunks = splitIntoChunks(result, 4090); // Chia nhỏ kết quả thành các đoạn
