@@ -4,8 +4,8 @@ module.exports.data = {
 	name: "Quote Image Generation",
 	type: 3, // context
 	options: [],
-	integration_types: [0],
-	contexts: [0],
+	integration_types: [0, 1],
+	contexts: [0, 1],
 };
 /**
  * @param { object } context - object command

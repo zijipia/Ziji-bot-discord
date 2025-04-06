@@ -35,7 +35,7 @@ module.exports.data = {
 		// },
 	],
 	integration_types: [0, 1],
-	contexts: [0, 1, 2],
+	contexts: [0, 1],
 	enable: config.DevConfig.ai,
 };
 

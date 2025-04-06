@@ -6,7 +6,7 @@ module.exports.data = {
 	description: "Trò chơi giải đố",
 	type: 1, // slash command
 	integration_types: [0, 1],
-	contexts: [0, 1, 2],
+	contexts: [0, 1],
 };
 /**
  * @param { object } command - object command

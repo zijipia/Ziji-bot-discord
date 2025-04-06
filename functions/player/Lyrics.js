@@ -15,6 +15,7 @@ const ZiIcons = require("../../utility/icon");
 module.exports.execute = async (interaction, options) => {
 	const queue = options?.queue || interaction?.guild?.id ? useQueue(interaction?.guild?.id) : null;
 	const lang = options?.lang || queue?.metadata?.lang;
+	const query = options?.query || interaction?.values?.[0] || interaction?.options?.getString("query") || null;
 
 	const row = new ActionRowBuilder().addComponents(
 		new ButtonBuilder()

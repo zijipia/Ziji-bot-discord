@@ -5,7 +5,7 @@ module.exports.data = {
 	description: "Kiểm tra trình độ gõ của bạn",
 	type: 1, // slash command
 	integration_types: [0, 1],
-	contexts: [0, 1, 2],
+	contexts: [0, 1],
 };
 /**
  * @param { object } command - object command

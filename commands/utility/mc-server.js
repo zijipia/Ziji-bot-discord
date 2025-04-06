@@ -68,5 +68,5 @@ module.exports.execute = async ({ interaction, lang }) => {
 		.setImage(`https://api.loohpjames.com/serverbanner.png?ip=${ip}&name=${encodeURIComponent(name)}`)
 		.setTimestamp()
 		.setFooter({ text: `${interaction.client.user.username} • ${ip}`, iconURL: interaction.client.user.displayAvatarURL() });
-	await interaction.editReply({ embeds: [res.online ? onlineEmbed : offlineEmbed] });
+	await interaction.editReply({ embeds: [res?.online ? onlineEmbed : offlineEmbed] });
 };
