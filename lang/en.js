@@ -180,4 +180,10 @@ module.exports = {
 		input_name: "Input Lyrics Name",
 		disable_slrc: "Disable syncedLyrics",
 	},
+	RankSystem: {
+		hexCOLOR: "HEX color code (e.g. #FF0000)",
+		canLv2: "❌ | You need to reach level 2 to use this command",
+		editOK: "✅ | Successfully updated",
+		editNG: "❌ | Cannot update user information",
+	},
 };

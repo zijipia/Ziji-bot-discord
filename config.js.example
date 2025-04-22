@@ -77,6 +77,13 @@ module.exports = {
 		 * Banner image link
 		 */
 		Banner: "https://media.discordapp.net/attachments/1064851388221358153/1209448467077005332/image.png",
+
+		/**
+		 * Link ảnh Background - Không sử dụng discordapp cdn
+		 * Background image link - Do not use discordapp cdn
+		 * L
+		 */
+		rankBackground: "https://i.imgur.com/sVzFJ8W.jpeg",
 	},
 
 	/**

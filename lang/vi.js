@@ -180,4 +180,10 @@ module.exports = {
 		input_name: "Nhập tên bài hát",
 		disable_slrc: "Tắt syncedLyrics",
 	},
+	RankSystem: {
+		hexCOLOR: "Mã màu HEX (VD: #FF0000)",
+		canLv2: "❌ | Bạn cần đạt cấp độ 2 để sử dụng lệnh này",
+		editOK: "✅ | Đã cập nhật thành công",
+		editNG: "❌ | Không thể cập nhật thông tin người dùng",
+	},
 };
