@@ -5,7 +5,7 @@ module.exports.data = {
 	type: 3, // context
 	options: [],
 	integration_types: [0, 1],
-	contexts: [0, 1],
+	contexts: [0, 1, 2],
 };
 /**
  * @param { object } context - object command
