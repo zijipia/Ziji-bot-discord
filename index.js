@@ -1,5 +1,6 @@
 require("dotenv").config();
 const { startServer } = require("./web");
+const { checkUpdate } = require('./startup/checkForUpdate')
 const {
 	useAI,
 	useClient,
@@ -52,7 +53,6 @@ const client = new Client({
 });
 
 createfile("./jsons");
-
 // Configure logger
 const logger = useLogger(
 	winston.createLogger({
@@ -116,7 +116,7 @@ useGiveaways(
 		})
 	:	() => false,
 );
-
+checkUpdate();
 const ziVoice = useZiVoiceExtractor({
 	ignoreBots: true,
 	minimalVoiceMessageDuration: 1,
