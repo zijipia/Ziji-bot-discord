@@ -1,3 +1,1 @@
 formatted_files.txt
-functions/utils/errorEmbed.js
-functions/utils/successEmbed.js
