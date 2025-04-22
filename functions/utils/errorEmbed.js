@@ -6,11 +6,11 @@ module.exports.data = {
 };
 
 module.exports.execute = async (message) => {
-    const embed = new EmbedBuilder()
-        .setTitle(`❌ | Đã xảy ra lỗi`)
-        .setDescription(message)
-        .setColor('Red')
-        .setTimestamp()
-        .setThumbnail(require('@zibot/zihooks').useClient().user.displayAvatarURL({ size: 1024 }));
-    return embed;
-}
+	const embed = new EmbedBuilder()
+		.setTitle(`❌ | Đã xảy ra lỗi`)
+		.setDescription(message)
+		.setColor("Red")
+		.setTimestamp()
+		.setThumbnail(require("@zibot/zihooks").useClient().user.displayAvatarURL({ size: 1024 }));
+	return embed;
+};
