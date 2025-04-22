@@ -1,6 +1,6 @@
 require("dotenv").config();
 const { startServer } = require("./web");
-const { checkUpdate } = require('./startup/checkForUpdate')
+const { checkUpdate } = require("./startup/checkForUpdate");
 const {
 	useAI,
 	useClient,
