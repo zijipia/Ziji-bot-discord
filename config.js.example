@@ -151,7 +151,7 @@ module.exports = {
 		 * Tùy chọn tắt, mở
 		 * Toggle on/off
 		 */
-		enabled: true,
+		enabled: false,
 		/**
 		 * Link điều khiển nhạc
 		 * Music controller link
