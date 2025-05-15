@@ -80,6 +80,10 @@ async function startServer() {
 		logger.debug("[WebSocket] Client connected.");
 
 		let user = null;
+		/**
+		 * @type {import("discord-player").GuildQueue}
+		 * @description The queue of the user
+		 */
 		let queue = null;
 
 		ws.on("message", async (message) => {
@@ -140,7 +144,7 @@ async function startServer() {
 						queue.removeTrack(data.TrackPosition - 1);
 						break;
 					case "seek":
-						if (queue.isEmpty() || !data.position) break;
+						if (!queue.isPlaying() || !data.position) break;
 						await queue.node.seek(data.position);
 						break;
 				}
