@@ -139,6 +139,10 @@ async function startServer() {
 						if (queue.isEmpty() || !data.TrackPosition) break;
 						queue.removeTrack(data.TrackPosition - 1);
 						break;
+					case "seek":
+						if (queue.isEmpty() || !data.position) break;
+						await queue.node.seek(data.position);
+						break;
 				}
 			} catch (error) {
 				logger.error("WebSocket message error:", error);
