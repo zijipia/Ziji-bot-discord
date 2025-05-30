@@ -55,7 +55,7 @@ module.exports.execute = async ({ interaction, lang }) => {
 	}
 
 	const embed = new EmbedBuilder()
-		.setTitle(`Confession #${confessionData.currentId + 1}`)
+		.setTitle(`Confession #${confessionData.currentId}`)
 		.setDescription(currentConfession.content || "Không có nội dung")
 		.setColor("Random")
 		.setFooter({
