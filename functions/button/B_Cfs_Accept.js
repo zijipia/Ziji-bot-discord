@@ -68,7 +68,10 @@ module.exports.execute = async ({ interaction, lang }) => {
 	}
 
 	const sentMessage = await cfsChannel.send({ embeds: [embed] });
-
+	const thread = await sentMessage.startThread({
+			name: `Thảo luận Confession #${confession.currentId}`,
+			autoArchiveDuration: 10080,
+	});
 	// Cập nhật lại DB
 	await database.ZiConfess.updateOne(
 		{ guildId: interaction.guildId, "confessions.reviewMessageId": interaction.message.id },
@@ -76,10 +79,8 @@ module.exports.execute = async ({ interaction, lang }) => {
 			$set: {
 				"confessions.$.status": "approved",
 				"confessions.$.messageId": sentMessage.id,
-			},
-			$inc: {
-				currentId: 1,
-			},
+				"confessions.$.threadId": thread.id,
+			}
 		},
 	);
 
