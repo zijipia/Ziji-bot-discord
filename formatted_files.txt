@@ -1,2 +1,1 @@
 formatted_files.txt
-functions/button/B_Cfs_Accept.js
