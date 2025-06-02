@@ -59,9 +59,31 @@ const ZiGuild = Schema({
 	},
 });
 
+const ZiConfess = Schema({
+	enabled: { type: Boolean, default: false },
+	guildId: { type: String, required: true },
+	channelId: { type: String, required: true },
+	reviewSystem: { type: Boolean, default: false },
+	reviewChannelId: { type: String, required: false, default: null },
+	currentId: { type: Number, default: 0 },
+	confessions: [
+		{
+			id: { type: Number },
+			content: { type: String },
+			author: { type: Object },
+			type: { type: String, enum: ["anonymous", "public"] },
+			status: { type: String, enum: ["pending", "rejected", "approved"], default: "approved" },
+			messageId: { type: String, default: null },
+			threadId: { type: String, default: null },
+			reviewMessageId: { type: String, default: null },
+		},
+	],
+});
+
 module.exports = {
 	ZiUser: model("ZiUser", ZiUser),
 	ZiAutoresponder: model("ZiAutoresponder", ZiAutoresponder),
 	ZiWelcome: model("ZiWelcome", ZiWelcome),
 	ZiGuild: model("ZiGuild", ZiGuild),
+	ZiConfess: model("ZiConfess", ZiConfess),
 };
