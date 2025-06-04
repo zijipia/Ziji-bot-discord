@@ -1,6 +1,7 @@
 require("dotenv").config();
 const { startServer } = require("./web");
 const { checkUpdate } = require("./startup/checkForUpdate");
+const cron = require("node-cron");
 const {
 	useAI,
 	useClient,
@@ -116,7 +117,14 @@ useGiveaways(
 		})
 	:	() => false,
 );
-checkUpdate();
+if (process.env.NODE_ENV == "development") {
+	logger.info("You are in development mode, skipping update check.");
+} else {
+	checkUpdate();
+	cron.schedule("0 0,12 * * *", () => {
+		checkUpdate();
+	});
+}
 const ziVoice = useZiVoiceExtractor({
 	ignoreBots: true,
 	minimalVoiceMessageDuration: 1,
