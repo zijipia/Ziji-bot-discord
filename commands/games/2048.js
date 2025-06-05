@@ -5,7 +5,7 @@ module.exports.data = {
 	name: "2048",
 	description: "Trò chơi giải đố",
 	type: 1, // slash command
-	integration_types: [0, 1],
+	integration_types: [0],
 	contexts: [0, 1],
 };
 /**

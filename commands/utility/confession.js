@@ -101,8 +101,8 @@ module.exports.data = {
 			],
 		},
 	],
-	integration_types: [0, 1],
-	contexts: [0, 1, 2],
+	integration_types: [0],
+	contexts: [0],
 };
 /**
  * @param { object } command - object command
@@ -111,6 +111,12 @@ module.exports.data = {
  */
 
 module.exports.execute = async ({ interaction, lang }) => {
+	if (!interaction.guild) {
+		return interaction.reply({
+			content: "Lệnh này chỉ có thể sử dụng trong máy chủ (server)!",
+			flags: MessageFlags.Ephemeral,
+		});
+	}
 	const successEmbed = useFunctions().get("createSuccessEmbed");
 	const errorEmbed = useFunctions().get("createErrorEmbed");
 	const database = useDB();

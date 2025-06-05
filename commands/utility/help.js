@@ -7,8 +7,8 @@ module.exports.data = {
 	description: "Help",
 	type: 1, // slash command
 	options: [],
-	integration_types: [0, 1],
-	contexts: [0, 1, 2],
+	integration_types: [0],
+	contexts: [0, 1],
 };
 
 /**

@@ -12,7 +12,7 @@ module.exports.data = {
 			required: true,
 		},
 	],
-	integration_types: [0, 1],
+	integration_types: [0],
 	contexts: [0, 1],
 };
 

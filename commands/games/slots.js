@@ -4,7 +4,7 @@ module.exports.data = {
 	name: "slots",
 	description: "Trò chơi slots",
 	type: 1, // slash command
-	integration_types: [0, 1],
+	integration_types: [0],
 	contexts: [0, 1],
 };
 /**
