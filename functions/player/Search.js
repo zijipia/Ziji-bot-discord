@@ -165,7 +165,7 @@ async function handlePlayRequest(interaction, query, lang, options, queue) {
 
 const DefaultPlayerConfig = {
 	selfDeaf: true,
-	volume: 100,
+	volume: 50,
 	leaveOnEmpty: true,
 	leaveOnEmptyCooldown: 50_000,
 	leaveOnEnd: true,

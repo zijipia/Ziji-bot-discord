@@ -2,7 +2,6 @@ const { useConfig, useWelcome, useFunctions } = require("@zibot/zihooks");
 const { Events, GuildMember, AttachmentBuilder } = require("discord.js");
 const config = useConfig();
 const { Worker } = require("worker_threads");
-const parseVar = useFunctions().get("getVariable");
 
 async function buildImageInWorker(workerData) {
 	return new Promise((resolve, reject) => {
@@ -54,12 +53,13 @@ module.exports = {
 				ZMessage: `See you again in ${member.guild.name}!`,
 			});
 			const channel = await member.client.channels.fetch(welcome.Bchannel);
+			const parseVar = useFunctions().get("getVariable");
 			await channel.send({
 				files: [
 					{
 						attachment,
 						description:
-							parseVar.execute(welcome.Bcontent, member) ||
+							parseVar?.execute(welcome.Bcontent, member) ||
 							`Tạm biệt ${member.user.name}! Server hiện nay chỉ còn ${member.guild.memberCount} người.`,
 					},
 				],
