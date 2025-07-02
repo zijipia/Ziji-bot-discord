@@ -10,6 +10,7 @@ module.exports.data = {
  * @returns {string}
  */
 module.exports.execute = (template, instance) => {
+	if (typeof template !== "string") return template;
 	if (!instance) return template;
 	let user = null;
 	let server = null;
