@@ -1,5 +1,4 @@
-const { useFunctions, useClient, useLogger } = require("@zibot/zihooks");
-const Functions = useFunctions();
+const { useClient, useLogger } = require("@zibot/zihooks");
 const client = useClient();
 const logger = useLogger();
 const { exec } = require("child_process");
