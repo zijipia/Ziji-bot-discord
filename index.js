@@ -132,6 +132,7 @@ const ziVoice = useZiVoiceExtractor({
 });
 
 const initialize = async () => {
+	logger.info("Initializing Ziji Bot...");
 	useClient(client);
 	useWelcome(new Collection());
 	useCooldowns(new Collection());
