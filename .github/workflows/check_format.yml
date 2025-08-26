@@ -28,7 +28,7 @@ jobs:
 
       - name: Install dependencies
         run: |
-          npm install --no-package-lock
+          npm install --force --no-package-lock
           npm list --depth=0
 
       - name: Check formatting
