@@ -45,7 +45,7 @@ module.exports.execute = async (interaction, context, lang, options = { "enable 
 			lang: lang.local_names || "vi",
 			slow: false,
 			host: "https://translate.google.com",
-			context: context.replace(/[^a-zA-Z0-9À-ỹ\s]/g, ""),
+			context: context,
 			"full context": context,
 			old_Prompt: options?.old_Prompt,
 		};
@@ -83,7 +83,7 @@ module.exports.execute = async (interaction, context, lang, options = { "enable 
 					ZiLyrics: { Active: false },
 					lang: lang || langdef,
 					focus: options?.focus,
-					mess: interaction?.customId !== "S_player_Search" ? await interaction.fetchReply() : interaction.message,
+					mess: interaction?.message,
 				},
 			},
 			requestedBy: interaction.user,

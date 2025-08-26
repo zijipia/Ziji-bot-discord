@@ -1,7 +1,9 @@
 const { Events, Message } = require("discord.js");
 const { useResponder, useConfig, useFunctions, useCommands, useLogger, modinteraction, useAI } = require("@zibot/zihooks");
 const config = useConfig();
+const { useQueue } = require("discord-player");
 const mentionRegex = /@(everyone|here|ping)/;
+const ziicon = require("./../../utility/icon");
 
 const Commands = useCommands();
 const Functions = useFunctions();
@@ -21,6 +23,11 @@ module.exports.execute = async (message) => {
 	// Get the user's language preference
 	const langfunc = Functions.get("ZiRank");
 	const lang = await langfunc.execute({ user: message.author, XpADD: 0 });
+	//tts
+	if (message.channel.isThread() && message.channel.name.startsWith("TTS |")) {
+		return await reqTTS(message, lang);
+	}
+	// Auto Responder
 	if (config?.DevConfig?.AutoResponder && message?.guild && (await reqreponser(message))) return; // Auto Responder
 
 	// DM channel auto reply = AI
@@ -96,4 +103,18 @@ const reqreponser = async (message) => {
 		}
 	}
 	return false;
+};
+
+/**
+ * @param { Message } message
+ */
+
+const reqTTS = async (message, lang) => {
+	const queue = useQueue(message.guild.id);
+	modinteraction(message);
+	const tts = await Functions.get("TextToSpeech");
+	if (queue?.metadata) await message.react(ziicon.yess);
+	const context = message.content.replace(`<@${message.client.user.id}>`, "").trim();
+
+	await tts.execute(message, context, lang, { queue });
 };

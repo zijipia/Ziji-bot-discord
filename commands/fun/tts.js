@@ -6,14 +6,7 @@ module.exports.data = {
 	name: "tts",
 	description: "Thay mặt bạn nói điều gì đó",
 	type: 1, // slash command
-	options: [
-		{
-			name: "context",
-			description: "Điều bạn muốn nói",
-			type: 3,
-			required: true,
-		},
-	],
+	options: [],
 	integration_types: [0],
 	contexts: [0],
 };
@@ -27,7 +20,7 @@ module.exports.data = {
 module.exports.execute = async ({ interaction, lang }) => {
 	const { client, guild, user, options } = interaction;
 
-	await interaction.deferReply({ fetchReply: true }).catch((e) => {});
+	await interaction.deferReply({ withResponse: true }).catch((e) => {});
 	//channel:
 	const voiceChannel = interaction.member.voice.channel;
 	if (!voiceChannel) {
@@ -53,12 +46,25 @@ module.exports.execute = async ({ interaction, lang }) => {
 		});
 	}
 
-	await interaction.deferReply({ fetchReply: true }).catch((e) => {});
-	const queue = useQueue(guild.id);
-	if (!queue?.metadata) await interaction.editReply({ content: "<a:loading:1151184304676819085> Loading..." });
 	const context = options.getString("context");
-	const tts = await Functions.get("TextToSpeech");
-	await tts.execute(interaction, context, lang, { queue });
 
+	const oldthread = interaction.channel.threads.cache.find((x) => x.name === `TTS | ${user.username}`);
+	await oldthread?.setArchived(true);
+	const thread = await interaction.channel.threads.create({
+		name: `TTS | ${user.username}`,
+		autoArchiveDuration: 60,
+		reason: `TTS command by ${user.tag}`,
+	});
+
+	Msg = await thread.send({
+		content: `🎤 **TTS Started**  
+		🔊 Voice Channel: ${voiceChannel.name}  
+		👤 User: ${user.tag}  
+		💬 Context: ${context}`,
+	});
+
+	await interaction.editReply({ content: "<a:loading:1151184304676819085> Loading..." });
+
+	await thread.members.add(user.id).catch(() => {});
 	return;
 };
