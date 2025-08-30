@@ -125,7 +125,7 @@ module.exports.execute = async ({ interaction, lang }) => {
 	switch (command) {
 		case "setup":
 			await interaction.deferReply({ withResponse: true, flags: MessageFlags.Ephemeral });
-			if (user.permissions.has(PermissionsBitField.Flags.ManageGuild))
+			if (!user.permissions.has(PermissionsBitField.Flags.ManageGuild))
 				return interaction.editReply({ embeds: [errorEmbed.execute(lang.until.notHavePremission)] });
 			const channel = interaction.options.getChannel("channel");
 			const reviewChannel = interaction?.options?.getChannel("review-channel") || null;
@@ -147,6 +147,7 @@ module.exports.execute = async ({ interaction, lang }) => {
 			);
 			const sembed = successEmbed.execute(`Đã thiết lập confession trong channel <#${channel.id}>`);
 			await interaction.editReply({ embeds: [sembed] });
+			break;
 		case "write": {
 			await interaction.deferReply({ ephemeral: true });
 
@@ -277,13 +278,22 @@ module.exports.execute = async ({ interaction, lang }) => {
 
 		case "enable":
 			await interaction.deferReply({ withResponse: true, flags: MessageFlags.Ephemeral });
-			const state = interaction.options.getBoolean("state") || true;
-			if (user.permissions.has(PermissionsBitField.Flags.ManageGuild))
+			const state = interaction.options.getBoolean("state");
+			if (!user.permissions.has(PermissionsBitField.Flags.ManageGuild))
 				return interaction.editReply({ embeds: [errorEmbed.execute(lang.until.notHavePremission)] });
 			if (!database)
 				return interaction.editReply({
 					content: lang?.until?.noDB || "Database hiện không được bật, xin vui lòng liên hệ dev bot",
 				});
+
+			// Kiểm tra xem confession đã được setup chưa
+			const existingConfession = await database.ZiConfess.findOne({ guildId: interaction.guildId });
+			if (!existingConfession) {
+				return interaction.editReply({
+					embeds: [errorEmbed.execute("Bạn cần setup confession trước khi bật/tắt! Sử dụng `/confession setup` trước.")],
+				});
+			}
+
 			await database.ZiConfess.updateOne(
 				{ guildId: interaction.guildId },
 				{
@@ -291,12 +301,12 @@ module.exports.execute = async ({ interaction, lang }) => {
 						enabled: state,
 					},
 				},
-				{ upsert: true },
 			);
 			await interaction.editReply({
 				content: `✅ Confession đã được ${state ? "bật" : "tắt"} trong server.`,
 				flags: MessageFlags.Ephemeral,
 			});
+			break;
 		default:
 			await interaction.reply({ content: "Lệnh không hợp lệ hoặc chưa được cài đặt!", flags: MessageFlags.Ephemeral });
 	}
