@@ -15,7 +15,7 @@ module.exports.data = {
 
 module.exports.execute = async ({ interaction, lang }) => {
 	const member = await interaction.guild.members.fetch(interaction.user);
-	if (member.permissions.has(PermissionsBitField.Flags.ManageGuild)) {
+	if (!member.permissions.has(PermissionsBitField.Flags.ManageGuild)) {
 		return interaction.reply({
 			content: lang.until.noPermission,
 			flags: MessageFlags.Ephemeral,
