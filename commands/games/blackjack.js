@@ -85,6 +85,7 @@ module.exports.execute = async ({ interaction, lang }) => {
 	);
 	let currentPlayerIndex = 0;
 
+
 	const renderDescription = (revealDealer = false) => {
 		const lines = players.map((p) => {
 			const label = players.length === 1 ? "bạn" : p.toString();
@@ -97,11 +98,13 @@ module.exports.execute = async ({ interaction, lang }) => {
 		if (!revealDealer && players.length > 1) {
 			lines.push(`**Lượt hiện tại**: ${players[currentPlayerIndex]}`);
 		}
+
 		return lines.join("\n");
 	};
 
 	let embed = new EmbedBuilder().setTitle("Blackjack").setColor("#5865F2").setDescription(renderDescription());
 	const replyPayload = { embeds: [embed], components: [buttons] };
+
 	if (opponent) replyPayload.content = `${opponent}, bạn được mời chơi Blackjack!`;
 	await interaction.reply(replyPayload);
 	const message = await interaction.fetchReply();
@@ -113,6 +116,7 @@ module.exports.execute = async ({ interaction, lang }) => {
 
 	const endGame = async (fields) => {
 		buttons.components.forEach((btn) => btn.setDisabled(true));
+
 		embed = new EmbedBuilder()
 			.setTitle("Blackjack")
 			.setColor("#5865F2")
@@ -130,6 +134,7 @@ module.exports.execute = async ({ interaction, lang }) => {
 			await interaction.editReply({ embeds: [embed], components: [buttons] });
 		}
 	};
+
 	const dealerTurn = async () => {
 		while (handValue(dealerHand) < 17) dealerHand.push(deck.pop());
 		const dealerTotal = handValue(dealerHand);
@@ -171,6 +176,7 @@ module.exports.execute = async ({ interaction, lang }) => {
 		} else if (i.customId === "stand") {
 			playerStates[player.id].stand = true;
 			await nextPlayer();
+
 		}
 	});
 
@@ -179,6 +185,7 @@ module.exports.execute = async ({ interaction, lang }) => {
 			buttons.components.forEach((btn) => btn.setDisabled(true));
 			const finalEmbed = EmbedBuilder.from(embed).setFooter({ text: "Trò chơi đã hết thời gian!" });
 			await interaction.editReply({ embeds: [finalEmbed], components: [buttons] });
+
 		}
 	});
 };
