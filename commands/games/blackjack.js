@@ -1,4 +1,5 @@
 const { ActionRowBuilder, ButtonBuilder, ButtonStyle, EmbedBuilder, ComponentType } = require("discord.js");
+const { useFunctions } = require("@zibot/zihooks");
 
 module.exports.data = {
 	name: "blackjack",
@@ -22,6 +23,7 @@ module.exports.data = {
  * @param { import("../../lang/vi.js") } command.lang - language
  */
 module.exports.execute = async ({ interaction, lang }) => {
+	const ZiRank = useFunctions().get("ZiRank");
 	const opponent = interaction.options.getUser("opponent");
 	if (opponent && (opponent.bot || opponent.id === interaction.user.id))
 		return interaction.reply({ content: "Bạn không thể thách đấu người này.", ephemeral: true });
@@ -72,11 +74,26 @@ module.exports.execute = async ({ interaction, lang }) => {
 
 	const deck = shuffle(createDeck());
 	const dealerHand = [deck.pop(), deck.pop()];
+	const dealerState = { blackjack: false, natural21: false };
+	if (dealerHand[0].rank === "A" && dealerHand[1].rank === "A") {
+		dealerState.blackjack = true;
+	} else if (handValue(dealerHand) === 21) {
+		dealerState.natural21 = true;
+	}
 	const playerHands = {};
 	const playerStates = {};
 	players.forEach((p) => {
-		playerHands[p.id] = [deck.pop(), deck.pop()];
-		playerStates[p.id] = { stand: false, bust: false };
+		const hand = [deck.pop(), deck.pop()];
+		playerHands[p.id] = hand;
+		const state = { stand: false, bust: false, blackjack: false, natural21: false };
+		if (hand[0].rank === "A" && hand[1].rank === "A") {
+			state.blackjack = true;
+			state.stand = true;
+		} else if (handValue(hand) === 21) {
+			state.natural21 = true;
+			state.stand = true;
+		}
+		playerStates[p.id] = state;
 	});
 
 	const buttons = new ActionRowBuilder().addComponents(
@@ -84,18 +101,25 @@ module.exports.execute = async ({ interaction, lang }) => {
 		new ButtonBuilder().setCustomId("stand").setLabel("Dừng").setStyle(ButtonStyle.Danger),
 	);
 	let currentPlayerIndex = 0;
-
+	const advanceToNextPlayer = () => {
+		while (currentPlayerIndex < players.length && playerStates[players[currentPlayerIndex].id].stand) {
+			currentPlayerIndex++;
+		}
+	};
+	advanceToNextPlayer();
 
 	const renderDescription = (revealDealer = false) => {
 		const lines = players.map((p) => {
 			const label = players.length === 1 ? "bạn" : p.toString();
 			const hand = playerHands[p.id];
-			return `**Bài của ${label}**: ${formatHand(hand)} (Tổng: ${handValue(hand)})`;
+			const state = playerStates[p.id];
+			const total = state.blackjack ? "Xì bàn" : handValue(hand);
+			return `**Bài của ${label}**: ${formatHand(hand)} (Tổng: ${total})`;
 		});
-		const dealerTotal = handValue(dealerHand);
+		const dealerTotal = dealerState.blackjack ? "Xì bàn" : handValue(dealerHand);
 		const dealerShown = revealDealer ? `${formatHand(dealerHand)} (Tổng: ${dealerTotal})` : `${formatHand([dealerHand[0]])} ??`;
 		lines.push(`**Bài của nhà cái**: ${dealerShown}`);
-		if (!revealDealer && players.length > 1) {
+		if (!revealDealer && players.length > 1 && currentPlayerIndex < players.length) {
 			lines.push(`**Lượt hiện tại**: ${players[currentPlayerIndex]}`);
 		}
 
@@ -127,6 +151,7 @@ module.exports.execute = async ({ interaction, lang }) => {
 	};
 	const nextPlayer = async () => {
 		currentPlayerIndex++;
+		advanceToNextPlayer();
 		if (currentPlayerIndex >= players.length) {
 			await dealerTurn();
 		} else {
@@ -136,23 +161,51 @@ module.exports.execute = async ({ interaction, lang }) => {
 	};
 
 	const dealerTurn = async () => {
-		while (handValue(dealerHand) < 17) dealerHand.push(deck.pop());
+		while (!dealerState.blackjack && !dealerState.natural21 && handValue(dealerHand) < 17) dealerHand.push(deck.pop());
 		const dealerTotal = handValue(dealerHand);
-		const resultFields = players.map((p) => {
+		const results = players.map((p) => {
 			const hand = playerHands[p.id];
 			const total = handValue(hand);
+			const state = playerStates[p.id];
 			let result;
-			if (playerStates[p.id].bust) {
-				result = "Thua";
+			if (state.blackjack) {
+				result = dealerState.blackjack ? "tie" : "blackjack";
+			} else if (dealerState.blackjack) {
+				result = "lose";
+			} else if (state.bust) {
+				result = "lose";
+			} else if (dealerState.natural21) {
+				result = state.natural21 ? "tie" : "lose";
+			} else if (state.natural21) {
+				result = dealerTotal === 21 ? "tie" : "win";
 			} else if (dealerTotal > 21 || total > dealerTotal) {
-				result = "Thắng";
+				result = "win";
 			} else if (total === dealerTotal) {
-				result = "Hòa";
+				result = "tie";
 			} else {
-				result = "Thua";
+				result = "lose";
 			}
-			return { name: p.username, value: result, inline: true };
+			return { user: p, result };
 		});
+		const resultFields = results.map((r) => ({
+			name: r.user.username,
+			value:
+				r.result === "blackjack" ? "Xì bàn"
+				: r.result === "win" ? "Thắng"
+				: r.result === "tie" ? "Hòa"
+				: "Thua",
+			inline: true,
+		}));
+		await Promise.all(
+			results.map(({ user, result }) => {
+				const CoinADD =
+					result === "blackjack" ? 150
+					: result === "win" ? 100
+					: result === "lose" ? -100
+					: 0;
+				return ZiRank.execute({ user, XpADD: 0, CoinADD });
+			}),
+		);
 		await endGame(resultFields);
 	};
 
@@ -176,7 +229,6 @@ module.exports.execute = async ({ interaction, lang }) => {
 		} else if (i.customId === "stand") {
 			playerStates[player.id].stand = true;
 			await nextPlayer();
-
 		}
 	});
 
@@ -185,7 +237,10 @@ module.exports.execute = async ({ interaction, lang }) => {
 			buttons.components.forEach((btn) => btn.setDisabled(true));
 			const finalEmbed = EmbedBuilder.from(embed).setFooter({ text: "Trò chơi đã hết thời gian!" });
 			await interaction.editReply({ embeds: [finalEmbed], components: [buttons] });
-
 		}
 	});
+
+	if (currentPlayerIndex >= players.length) {
+		await dealerTurn();
+	}
 };
