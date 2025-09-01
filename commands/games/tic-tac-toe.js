@@ -1,4 +1,5 @@
 const { TicTacToe } = require("discord-gamecord");
+const { useFunctions } = require("@zibot/zihooks");
 
 module.exports.data = {
 	name: "tic-tac-toe",
@@ -22,6 +23,7 @@ module.exports.data = {
  * @param { import('../../lang/vi.js') } command.lang - language
  */
 module.exports.execute = async ({ interaction, lang }) => {
+	const ZiRank = useFunctions().get("ZiRank");
 	const Game = new TicTacToe({
 		message: interaction,
 		isSlashGame: true,
@@ -53,7 +55,17 @@ module.exports.execute = async ({ interaction, lang }) => {
 	});
 
 	Game.startGame();
-	Game.on("gameOver", (result) => {
-		return;
+	Game.on("gameOver", async (result) => {
+		const players = [result.player, result.opponent].filter(Boolean);
+		if (result.result === "win" && result.winner) {
+			const winner = players.find((u) => u.id === result.winner);
+			const loser = players.find((u) => u.id !== result.winner);
+			await Promise.all([
+				ZiRank.execute({ user: winner, XpADD: 0, CoinADD: 100 }),
+				ZiRank.execute({ user: loser, XpADD: 0, CoinADD: -100 }),
+			]);
+		} else if (result.result === "tie") {
+			await Promise.all(players.map((u) => ZiRank.execute({ user: u, XpADD: 0, CoinADD: 0 })));
+		}
 	});
 };

@@ -1,5 +1,6 @@
 const { TwoZeroFourEight } = require("discord-gamecord");
 const icons = require("../../utility/icon");
+const { useFunctions } = require("@zibot/zihooks");
 
 module.exports.data = {
 	name: "2048",
@@ -14,6 +15,7 @@ module.exports.data = {
  * @param { import('../../lang/vi.js') } command.lang - language
  */
 module.exports.execute = async ({ interaction, lang }) => {
+	const ZiRank = useFunctions().get("ZiRank");
 	const Game = new TwoZeroFourEight({
 		message: interaction,
 		isSlashGame: true,
@@ -33,7 +35,8 @@ module.exports.execute = async ({ interaction, lang }) => {
 	});
 
 	Game.startGame();
-	Game.on("gameOver", (result) => {
-		return;
+	Game.on("gameOver", async (result) => {
+		const CoinADD = result.result === "win" ? 100 : -100;
+		await ZiRank.execute({ user: interaction.user, XpADD: 0, CoinADD });
 	});
 };

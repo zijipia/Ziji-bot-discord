@@ -51,6 +51,14 @@ module.exports = {
 		timeoutMessage: "The Game went unfinished! No one won the Game!",
 		playerOnlyMessage: "Only {player} and {opponent} can use these buttons.",
 	},
+	Coinflip: {
+		chosen: "You chose",
+		result: "Result",
+		head: "Heads",
+		tail: "Tails",
+		win: "You guessed correctly!",
+		lose: "You guessed wrong!",
+	},
 	Ping: {
 		Description: "Hey ##username##! Here's my **latency** and **ping** status:",
 		Roundtrip: "🔄 Round-trip Latency",
