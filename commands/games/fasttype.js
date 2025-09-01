@@ -1,5 +1,6 @@
 const { FastType } = require("discord-gamecord");
 const { sentence } = require("txtgen/dist/cjs/txtgen.js");
+const { useFunctions } = require("@zibot/zihooks");
 module.exports.data = {
 	name: "fast-type",
 	description: "Kiểm tra trình độ gõ của bạn",
@@ -13,6 +14,7 @@ module.exports.data = {
  * @param { import('../../lang/vi.js') } command.lang - language
  */
 module.exports.execute = async ({ interaction, lang }) => {
+	const ZiRank = useFunctions().get("ZiRank");
 	const sent = sentence();
 	const Game = new FastType({
 		message: interaction,
@@ -29,7 +31,8 @@ module.exports.execute = async ({ interaction, lang }) => {
 	});
 
 	Game.startGame();
-	Game.on("gameOver", (result) => {
-		return;
+	Game.on("gameOver", async (result) => {
+		const CoinADD = result.result === "win" ? 100 : -100;
+		await ZiRank.execute({ user: interaction.user, XpADD: 0, CoinADD });
 	});
 };

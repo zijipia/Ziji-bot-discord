@@ -3,10 +3,12 @@ const { RankCardBuilder, Font } = require("canvacord");
 
 async function buildImage(rankCard_data) {
 	const { member, userDB, sss, strimg, status, colorr, avtaURL } = rankCard_data;
+	const coinValue = userDB._doc?.coin || 0;
+	const coinText = coinValue < 0 ? `bạn nợ ngân hàng ${Math.abs(coinValue)} xu` : `${coinValue} xu`;
 	Font.loadDefault();
 	const rankCard = new RankCardBuilder()
 		.setAvatar(avtaURL)
-		.setUsername(`${userDB._doc?.coin || 0} xu`)
+		.setUsername(coinText)
 		.setCurrentXP(userDB._doc?.xp || 0)
 		.setLevel(userDB._doc?.level || 1)
 		.setRequiredXP((userDB._doc?.level || 1) * 50 + 1)

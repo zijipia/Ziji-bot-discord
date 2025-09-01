@@ -9,9 +9,10 @@ module.exports.data = {
 /**
  * @param { import ("discord.js").User } user
  * @param { Number } XpADD
+ * @param { Number } CoinADD
  */
 
-module.exports.execute = async ({ user, XpADD = 1 }) => {
+module.exports.execute = async ({ user, XpADD = 1, CoinADD = 0 }) => {
 	const DataBase = useDB();
 	if (DataBase && user) {
 		// Destructure userDB to extract values with default assignments
@@ -20,7 +21,7 @@ module.exports.execute = async ({ user, XpADD = 1 }) => {
 		// Calculate new xp
 		let newXp = xp + XpADD;
 		let newLevel = level;
-		let newCoin = coin;
+		let newCoin = coin + CoinADD;
 
 		// Level up if the new xp exceeds the threshold
 		const xpThreshold = newLevel * 50 + 1;
