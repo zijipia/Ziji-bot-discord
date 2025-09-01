@@ -51,6 +51,14 @@ module.exports = {
 		timeoutMessage: "Trò chơi bị bỏ dở! Không ai thắng!",
 		playerOnlyMessage: "Chỉ {player} và {opponent} mới có thể sử dụng các nút này.",
 	},
+	Coinflip: {
+		chosen: "Bạn chọn",
+		result: "Kết quả",
+		head: "Ngửa",
+		tail: "Sấp",
+		win: "Bạn đã đoán đúng!",
+		lose: "Bạn đã đoán sai!",
+	},
 	Ping: {
 		Description: "Chào ##username##! Đây là **độ trễ** và trạng thái **ping** của tôi:",
 		Roundtrip: "🔄 Độ trễ vòng lặp",
