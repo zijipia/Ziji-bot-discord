@@ -79,15 +79,12 @@ module.exports.execute = async ({ interaction, lang }) => {
 		playerStates[p.id] = { stand: false, bust: false };
 	});
 
-	const rows = [];
-	const rowMap = {};
-	players.forEach((p) => {
-		const hitButton = new ButtonBuilder().setCustomId(`hit_${p.id}`).setLabel("Rút").setStyle(ButtonStyle.Primary);
-		const standButton = new ButtonBuilder().setCustomId(`stand_${p.id}`).setLabel("Dừng").setStyle(ButtonStyle.Danger);
-		const row = new ActionRowBuilder().addComponents(hitButton, standButton);
-		rows.push(row);
-		rowMap[p.id] = row;
-	});
+	const buttons = new ActionRowBuilder().addComponents(
+		new ButtonBuilder().setCustomId("hit").setLabel("Rút").setStyle(ButtonStyle.Primary),
+		new ButtonBuilder().setCustomId("stand").setLabel("Dừng").setStyle(ButtonStyle.Danger),
+	);
+	let currentPlayerIndex = 0;
+
 
 	const renderDescription = (revealDealer = false) => {
 		const lines = players.map((p) => {
@@ -98,11 +95,16 @@ module.exports.execute = async ({ interaction, lang }) => {
 		const dealerTotal = handValue(dealerHand);
 		const dealerShown = revealDealer ? `${formatHand(dealerHand)} (Tổng: ${dealerTotal})` : `${formatHand([dealerHand[0]])} ??`;
 		lines.push(`**Bài của nhà cái**: ${dealerShown}`);
+		if (!revealDealer && players.length > 1) {
+			lines.push(`**Lượt hiện tại**: ${players[currentPlayerIndex]}`);
+		}
+
 		return lines.join("\n");
 	};
 
 	let embed = new EmbedBuilder().setTitle("Blackjack").setColor("#5865F2").setDescription(renderDescription());
-	const replyPayload = { embeds: [embed], components: rows };
+	const replyPayload = { embeds: [embed], components: [buttons] };
+
 	if (opponent) replyPayload.content = `${opponent}, bạn được mời chơi Blackjack!`;
 	await interaction.reply(replyPayload);
 	const message = await interaction.fetchReply();
@@ -112,23 +114,25 @@ module.exports.execute = async ({ interaction, lang }) => {
 		time: 60000,
 	});
 
-	const disablePlayerButtons = (playerId) => {
-		rowMap[playerId].components.forEach((btn) => btn.setDisabled(true));
-	};
-
 	const endGame = async (fields) => {
-		rows.forEach((r) => r.components.forEach((btn) => btn.setDisabled(true)));
+		buttons.components.forEach((btn) => btn.setDisabled(true));
+
 		embed = new EmbedBuilder()
 			.setTitle("Blackjack")
 			.setColor("#5865F2")
 			.setDescription(renderDescription(true))
 			.addFields(fields);
-		await interaction.editReply({ embeds: [embed], components: rows });
+		await interaction.editReply({ embeds: [embed], components: [buttons] });
 		collector.stop("finished");
 	};
-
-	const checkEnd = async () => {
-		if (Object.values(playerStates).every((s) => s.stand || s.bust)) await dealerTurn();
+	const nextPlayer = async () => {
+		currentPlayerIndex++;
+		if (currentPlayerIndex >= players.length) {
+			await dealerTurn();
+		} else {
+			embed = EmbedBuilder.from(embed).setDescription(renderDescription());
+			await interaction.editReply({ embeds: [embed], components: [buttons] });
+		}
 	};
 
 	const dealerTurn = async () => {
@@ -153,38 +157,35 @@ module.exports.execute = async ({ interaction, lang }) => {
 	};
 
 	collector.on("collect", async (i) => {
-		const [action, playerId] = i.customId.split("_");
-		if (!playerHands[playerId]) return i.reply({ content: "Nút không hợp lệ.", ephemeral: true });
-		if (i.user.id !== playerId) {
-			const allowed = players.map((p) => p.toString()).join(" và ");
-			return i.reply({ content: `Chỉ ${allowed} mới có thể sử dụng các nút này.`, ephemeral: true });
+		const player = players[currentPlayerIndex];
+		if (i.user.id !== player.id) {
+			return i.reply({ content: `Chỉ ${player} mới có thể sử dụng các nút này.`, ephemeral: true });
 		}
 		await i.deferUpdate();
-		const hand = playerHands[playerId];
-		if (action === "hit") {
+		const hand = playerHands[player.id];
+		if (i.customId === "hit") {
 			hand.push(deck.pop());
 			const total = handValue(hand);
 			if (total > 21) {
-				playerStates[playerId].bust = true;
-				disablePlayerButtons(playerId);
+				playerStates[player.id].bust = true;
+				await nextPlayer();
+			} else {
+				embed = EmbedBuilder.from(embed).setDescription(renderDescription());
+				await interaction.editReply({ embeds: [embed], components: [buttons] });
 			}
-			embed = EmbedBuilder.from(embed).setDescription(renderDescription());
-			await interaction.editReply({ embeds: [embed], components: rows });
-			await checkEnd();
-		} else if (action === "stand") {
-			playerStates[playerId].stand = true;
-			disablePlayerButtons(playerId);
-			embed = EmbedBuilder.from(embed).setDescription(renderDescription());
-			await interaction.editReply({ embeds: [embed], components: rows });
-			await checkEnd();
+		} else if (i.customId === "stand") {
+			playerStates[player.id].stand = true;
+			await nextPlayer();
+
 		}
 	});
 
 	collector.on("end", async (_, reason) => {
 		if (reason === "time") {
-			rows.forEach((r) => r.components.forEach((btn) => btn.setDisabled(true)));
+			buttons.components.forEach((btn) => btn.setDisabled(true));
 			const finalEmbed = EmbedBuilder.from(embed).setFooter({ text: "Trò chơi đã hết thời gian!" });
-			await interaction.editReply({ embeds: [finalEmbed], components: rows });
+			await interaction.editReply({ embeds: [finalEmbed], components: [buttons] });
+
 		}
 	});
 };
