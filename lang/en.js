@@ -194,4 +194,5 @@ module.exports = {
 		editOK: "✅ | Successfully updated",
 		editNG: "❌ | Cannot update user information",
 	},
+	ttscreate: "✅ | Created TTS voice channel: {thread}",
 };

@@ -48,10 +48,10 @@ module.exports.execute = async ({ interaction, lang }) => {
 
 	const context = options.getString("context");
 
-	const oldthread = interaction.channel.threads.cache.find((x) => x.name === `TTS | ${user.username}`);
+	const oldthread = interaction.channel.threads.cache.find((x) => x.name === `${client.user.username} TTS | ${user.username}`);
 	await oldthread?.setArchived(true);
 	const thread = await interaction.channel.threads.create({
-		name: `TTS | ${user.username}`,
+		name: `${client.user.username} TTS | ${user.username}`,
 		autoArchiveDuration: 60,
 		reason: `TTS command by ${user.tag}`,
 	});
@@ -63,7 +63,9 @@ module.exports.execute = async ({ interaction, lang }) => {
 		💬 Context: ${context}`,
 	});
 
-	await interaction.editReply({ content: "<a:loading:1151184304676819085> Loading..." });
+	await interaction.editReply({
+		content: lang?.ttscreate.replace("{thread}", `${thread}`) ?? `✅ | Đã tạo kênh thoại TTS: ${thread}`,
+	});
 
 	await thread.members.add(user.id).catch(() => {});
 	return;
