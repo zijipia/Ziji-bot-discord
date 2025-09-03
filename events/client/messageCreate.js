@@ -24,7 +24,7 @@ module.exports.execute = async (message) => {
 	const langfunc = Functions.get("ZiRank");
 	const lang = await langfunc.execute({ user: message.author, XpADD: 0 });
 	//tts
-	if (message.channel.isThread() && message.channel.name.startsWith("TTS |")) {
+	if (message.channel.isThread() && message.channel.name.startsWith(`${message?.client?.user?.username} TTS |`)) {
 		return await reqTTS(message, lang);
 	}
 	// Auto Responder
