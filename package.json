@@ -34,7 +34,7 @@
 		"@snazzah/davey": "^0.1.6",
 		"@zibot/db": "^0.0.2",
 		"@zibot/ziencryptor": "^0.0.1",
-		"@zibot/ziextractor": "^2.3.9",
+		"@zibot/ziextractor": "^2.3.10",
 		"@zibot/zihooks": "^1.0.9",
 		"axios": "^1.7.7",
 		"bgutils-js": "^3.2.0",
