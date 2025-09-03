@@ -203,7 +203,7 @@ module.exports = {
 
 		/** ============ Extractor ============ */
 		//enable YoutubeiExtractor (sometime err terminated)
-		YoutubeiExtractor: false,
+		YoutubeiExtractor: true,
 		//enable Ziext (beta)
 		ZiExtractor: true,
 
