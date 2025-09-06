@@ -1,8 +1,4 @@
 # @format
-
-# This workflow will do a clean installation of node dependencies, cache/restore them, build the source code and run tests across different versions of node
-# For more information see: https://docs.github.com/en/actions/automating-builds-and-tests/building-and-testing-nodejs
-
 name: Node.js CI
 permissions:
   contents: write
@@ -26,29 +22,11 @@ jobs:
         with:
           node-version: "20.x"
 
-      - name: Install dependencies
+      - name: Run Prettier
+        run: npx prettier --ignore-path .gitignore --write .
+
+      - name: Commit changes
         run: |
-          npm install --force --no-package-lock
-          npm list --depth=0
-
-      - name: Check formatting
-        run: npm run check
-        continue-on-error: true
-
-      - name: Run format
-        run: npm run format
-
-      - name: Get formatting changes
-        id: get-changes
-        run: |
-          git diff --name-only > formatted_files.txt
-          echo "CHANGES<<EOF" >> $GITHUB_OUTPUT
-          git diff >> $GITHUB_OUTPUT
-          echo "EOF" >> $GITHUB_OUTPUT
-
-      - name: Run format and save changes
-        run: |
-          npm run format
           git config --local user.email "41898282+github-actions[bot]@users.noreply.github.com"
           git config --local user.name "github-actions[bot]"
           git add .
