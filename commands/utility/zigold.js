@@ -32,17 +32,33 @@ module.exports.execute = async ({ interaction, lang }) => {
         let level = 1;
         let xp = 1;
 
-        if (DataBase) {
-                const userDB = await DataBase.ZiUser.findOne({ userID: targetUser.id });
-                if (userDB) {
-                        coin = userDB.coin || 0;
-                        level = userDB.level || 1;
-                        xp = userDB.xp || 1;
+        try {
+                if (DataBase) {
+                        const userDB = await DataBase.ZiUser.findOne({ userID: targetUser.id });
+                        if (userDB) {
+                                coin = userDB.coin || 0;
+                                level = userDB.level || 1;
+                                xp = userDB.xp || 1;
+                        }
+                } else {
+                        const errorEmbed = new EmbedBuilder()
+                                .setTitle("❌ Lỗi Database")
+                                .setColor("#FF0000")
+                                .setDescription("Không thể kết nối đến database. Vui lòng thử lại sau!");
+                        return await interaction.reply({ embeds: [errorEmbed], ephemeral: true });
                 }
+        } catch (error) {
+                console.error("ZiGold command error:", error);
+                const errorEmbed = new EmbedBuilder()
+                        .setTitle("❌ Lỗi")
+                        .setColor("#FF0000")
+                        .setDescription("Có lỗi xảy ra khi truy xuất thông tin. Vui lòng thử lại!");
+                return await interaction.reply({ embeds: [errorEmbed], ephemeral: true });
         }
 
-        const displayName = targetUser.id === interaction.user.id ? "bạn" : targetUser.displayName;
-        const possessive = targetUser.id === interaction.user.id ? "của bạn" : `của ${targetUser.displayName}`;
+        const targetUserName = targetUser.member?.displayName ?? targetUser.globalName ?? targetUser.username;
+        const displayName = targetUser.id === interaction.user.id ? "bạn" : targetUserName;
+        const possessive = targetUser.id === interaction.user.id ? "của bạn" : `của ${targetUserName}`;
 
         const embed = new EmbedBuilder()
                 .setTitle(`${zigoldEmoji} ZiGold Balance`)

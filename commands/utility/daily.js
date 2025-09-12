@@ -59,29 +59,39 @@ module.exports.execute = async ({ interaction, lang }) => {
         const userLevel = userDB?.level || 1;
         const levelBonus = userLevel * 50;
         const totalReward = BASE_DAILY_REWARD + levelBonus;
+        const userName = interaction.member?.displayName ?? interaction.user.globalName ?? interaction.user.username;
 
-        // Update user's last daily claim time
-        await DataBase.ZiUser.updateOne(
-                { userID: interaction.user.id },
-                {
-                        $set: {
-                                lastDaily: now,
-                        },
+        // Atomically claim daily reward with condition check
+        const dailyResult = await DataBase.ZiUser.findOneAndUpdate(
+                { 
+                        userID: interaction.user.id,
+                        $or: [
+                                { lastDaily: { $exists: false } },
+                                { lastDaily: { $lte: new Date(now.getTime() - DAILY_COOLDOWN) } }
+                        ]
                 },
-                { upsert: true }
+                {
+                        $set: { lastDaily: now },
+                        $inc: { coin: totalReward, xp: 10 }
+                },
+                { new: true, upsert: true }
         );
 
-        // Give the reward
-        await ZiRank.execute({ user: interaction.user, XpADD: 10, CoinADD: totalReward });
+        if (!dailyResult) {
+                // This means someone already claimed or there was a race condition
+                const errorEmbed = new EmbedBuilder()
+                        .setTitle("❌ Daily Already Claimed")
+                        .setColor("#FFA500")
+                        .setDescription("Bạn đã nhận phần thưởng daily hoặc thời gian cooldown chưa hết!");
+                return await interaction.reply({ embeds: [errorEmbed], ephemeral: true });
+        }
 
-        // Get updated balance
-        const updatedUserDB = await DataBase.ZiUser.findOne({ userID: interaction.user.id });
-        const newBalance = updatedUserDB?.coin || 0;
+        const newBalance = dailyResult.coin;
 
         const successEmbed = new EmbedBuilder()
                 .setTitle(`${zigoldEmoji} Daily Reward Claimed!`)
                 .setColor("#00FF00")
-                .setDescription(`**${interaction.user.displayName}** đã nhận được phần thưởng daily!`)
+                .setDescription(`**${userName}** đã nhận được phần thưởng daily!`)
                 .addFields(
                         {
                                 name: "💰 ZiGold nhận được",

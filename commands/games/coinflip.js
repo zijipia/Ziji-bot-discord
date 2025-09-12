@@ -1,5 +1,5 @@
 const { EmbedBuilder } = require("discord.js");
-const { useFunctions } = require("@zibot/zihooks");
+const { useFunctions, useDB } = require("@zibot/zihooks");
 
 const maxBet = 250000;
 const zigold = '🪙'; // ZiGold emoji
@@ -41,10 +41,11 @@ module.exports.data = {
  * @param { import("../../lang/vi.js") } command.lang - language
  */
 module.exports.execute = async ({ interaction, lang }) => {
-        const ZiRank = useFunctions().get("ZiRank");
+        const DataBase = useDB();
         const choice = interaction.options.getString("side");
         let bet = interaction.options.getInteger("bet") || 100;
         const words = lang?.Coinflip ?? {};
+        const userName = interaction.member?.displayName ?? interaction.user.globalName ?? interaction.user.username;
 
         // Validate bet amount
         if (bet <= 0) {
@@ -59,78 +60,113 @@ module.exports.execute = async ({ interaction, lang }) => {
                 bet = maxBet;
         }
 
-        // Check if user has enough ZiGold
-        const { useDB } = require("@zibot/zihooks");
-        const DataBase = useDB();
-        let userBalance = 0;
-        
-        if (DataBase) {
-                const userDB = await DataBase.ZiUser.findOne({ userID: interaction.user.id });
-                userBalance = userDB?.coin || 0;
-        }
-
-        if (userBalance < bet) {
+        // Check database availability
+        if (!DataBase) {
                 const errorEmbed = new EmbedBuilder()
-                        .setTitle("❌ Không đủ ZiGold")
+                        .setTitle("❌ Lỗi Database")
                         .setColor("#FF0000")
-                        .setDescription(`Bạn không có đủ ZiGold để cược! Bạn có **${userBalance.toLocaleString()} ZiGold** nhưng cần **${bet.toLocaleString()} ZiGold**.`)
-                        .addFields({
-                                name: "💡 Gợi ý",
-                                value: "Sử dụng `/zigold` để kiểm tra số dư hoặc chơi các trò chơi khác để kiếm ZiGold!"
-                        });
+                        .setDescription("Không thể kết nối đến database. Vui lòng thử lại sau!");
                 return await interaction.reply({ embeds: [errorEmbed], ephemeral: true });
         }
 
-        const displayChoice = choice === "heads" ? (words.head ?? "Ngửa") : (words.tail ?? "Sấp");
-        
-        // Initial embed with spinning animation
-        const spinningEmbed = new EmbedBuilder()
-                .setTitle(`${zigold} ZiGold Coinflip`)
-                .setColor("#FFD700")
-                .setDescription(
-                        `**${interaction.user.displayName}** đã cược **${zigold} ${bet.toLocaleString()} ZiGold** và chọn **${displayChoice}**\n\n${spin} Đồng xu đang quay...`
-                )
-                .setThumbnail(interaction.user.displayAvatarURL({ dynamic: true }));
+        try {
+                // Check if user has enough ZiGold
+                const userDB = await DataBase.ZiUser.findOne({ userID: interaction.user.id });
+                const userBalance = userDB?.coin || 0;
 
-        const message = await interaction.reply({ embeds: [spinningEmbed] });
-
-        // Simulate coin flip delay
-        setTimeout(async () => {
-                const result = Math.random() < 0.5 ? "heads" : "tails";
-                const win = choice === result;
-                const displayResult = result === "heads" ? (words.head ?? "Ngửa") : (words.tail ?? "Sấp");
-                const resultEmoji = result === "heads" ? heads : tails;
-                
-                let resultText = "";
-                let embedColor = "";
-                let coinChange = 0;
-
-                if (win) {
-                        resultText = `${resultEmoji} **${displayResult}** - Bạn thắng **${zigold} ${bet.toLocaleString()} ZiGold**!`;
-                        embedColor = "#00FF00";
-                        coinChange = bet;
-                } else {
-                        resultText = `${resultEmoji} **${displayResult}** - Bạn thua **${zigold} ${bet.toLocaleString()} ZiGold**... 😢`;
-                        embedColor = "#FF0000";
-                        coinChange = -bet;
+                if (userBalance < bet) {
+                        const errorEmbed = new EmbedBuilder()
+                                .setTitle("❌ Không đủ ZiGold")
+                                .setColor("#FF0000")
+                                .setDescription(`Bạn không có đủ ZiGold để cược! Bạn có **${userBalance.toLocaleString()} ZiGold** nhưng cần **${bet.toLocaleString()} ZiGold**.`)
+                                .addFields({
+                                        name: "💡 Gợi ý",
+                                        value: "Sử dụng `/zigold` để kiểm tra số dư hoặc chơi các trò chơi khác để kiếm ZiGold!"
+                                });
+                        return await interaction.reply({ embeds: [errorEmbed], ephemeral: true });
                 }
 
-                // Calculate new balance
-                const newBalance = userBalance + coinChange;
-
-                const finalEmbed = new EmbedBuilder()
-                        .setTitle(`${zigold} ZiGold Coinflip - Kết quả`)
-                        .setColor(embedColor)
+                const displayChoice = choice === "heads" ? (words.head ?? "Ngửa") : (words.tail ?? "Sấp");
+                
+                // Initial embed with spinning animation
+                const spinningEmbed = new EmbedBuilder()
+                        .setTitle(`${zigold} ZiGold Coinflip`)
+                        .setColor("#FFD700")
                         .setDescription(
-                                `**${interaction.user.displayName}** đã cược **${zigold} ${bet.toLocaleString()} ZiGold** và chọn **${displayChoice}**\n\n` +
-                                `🎯 ${words.result ?? "Kết quả"}: ${resultText}\n\n` +
-                                `💰 Số dư mới: **${newBalance.toLocaleString()} ZiGold**`
+                                `**${userName}** đã cược **${zigold} ${bet.toLocaleString()} ZiGold** và chọn **${displayChoice}**\n\n${spin} Đồng xu đang quay...`
                         )
                         .setThumbnail(interaction.user.displayAvatarURL({ dynamic: true }));
 
-                await message.edit({ embeds: [finalEmbed] });
+                const message = await interaction.reply({ embeds: [spinningEmbed], fetchReply: true });
 
-                // Update user's coins and give 1 XP for playing
-                await ZiRank.execute({ user: interaction.user, XpADD: 1, CoinADD: coinChange });
-        }, 2000); // 2 second delay for suspense
+                // Simulate coin flip delay for suspense
+                setTimeout(async () => {
+                        try {
+                                // First, atomically deduct the bet amount
+                                const deductResult = await DataBase.ZiUser.findOneAndUpdate(
+                                        { userID: interaction.user.id, coin: { $gte: bet } },
+                                        { $inc: { coin: -bet, xp: 1 } },
+                                        { new: true, upsert: false }
+                                );
+
+                                if (!deductResult) {
+                                        const errorEmbed = new EmbedBuilder()
+                                                .setTitle("❌ Không đủ ZiGold")
+                                                .setColor("#FF0000")
+                                                .setDescription("Bạn không còn đủ ZiGold để thực hiện cược này!");
+                                        return await message.edit({ embeds: [errorEmbed] });
+                                }
+
+                                const result = Math.random() < 0.5 ? "heads" : "tails";
+                                const win = choice === result;
+                                const displayResult = result === "heads" ? (words.head ?? "Ngửa") : (words.tail ?? "Sấp");
+                                const resultEmoji = result === "heads" ? heads : tails;
+                                
+                                let resultText = "";
+                                let embedColor = "";
+                                let newBalance = deductResult.coin;
+
+                                if (win) {
+                                        // Give back the bet + winnings atomically
+                                        const winResult = await DataBase.ZiUser.findOneAndUpdate(
+                                                { userID: interaction.user.id },
+                                                { $inc: { coin: bet * 2 } },
+                                                { new: true }
+                                        );
+                                        newBalance = winResult.coin;
+                                        resultText = `${resultEmoji} **${displayResult}** - Bạn thắng **${zigold} ${bet.toLocaleString()} ZiGold**!`;
+                                        embedColor = "#00FF00";
+                                } else {
+                                        resultText = `${resultEmoji} **${displayResult}** - Bạn thua **${zigold} ${bet.toLocaleString()} ZiGold**... 😢`;
+                                        embedColor = "#FF0000";
+                                }
+
+                                const finalEmbed = new EmbedBuilder()
+                                        .setTitle(`${zigold} ZiGold Coinflip - Kết quả`)
+                                        .setColor(embedColor)
+                                        .setDescription(
+                                                `**${userName}** đã cược **${zigold} ${bet.toLocaleString()} ZiGold** và chọn **${displayChoice}**\n\n` +
+                                                `🎯 ${words.result ?? "Kết quả"}: ${resultText}\n\n` +
+                                                `💰 Số dư mới: **${newBalance.toLocaleString()} ZiGold**`
+                                        )
+                                        .setThumbnail(interaction.user.displayAvatarURL({ dynamic: true }));
+
+                                await message.edit({ embeds: [finalEmbed] });
+                        } catch (error) {
+                                console.error("Coinflip error:", error);
+                                const errorEmbed = new EmbedBuilder()
+                                        .setTitle("❌ Lỗi")
+                                        .setColor("#FF0000")
+                                        .setDescription("Có lỗi xảy ra khi thực hiện lệnh. Vui lòng thử lại!");
+                                await message.edit({ embeds: [errorEmbed] });
+                        }
+                }, 2500); // 2.5 second delay for suspense
+        } catch (error) {
+                console.error("Coinflip error:", error);
+                const errorEmbed = new EmbedBuilder()
+                        .setTitle("❌ Lỗi")
+                        .setColor("#FF0000")
+                        .setDescription("Có lỗi xảy ra khi thực hiện lệnh. Vui lòng thử lại!");
+                return await interaction.reply({ embeds: [errorEmbed], ephemeral: true });
+        }
 };
