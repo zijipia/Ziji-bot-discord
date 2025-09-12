@@ -128,15 +128,21 @@ module.exports.execute = async ({ interaction, lang }) => {
                                         // Triple match - biggest win
                                         winType = "triple";
                                         multiplier = winningCombos.triple.multiplier;
+                                        // Total payout = bet * multiplier (already deducted bet, so add full payout)
                                         winAmount = bet * multiplier;
-                                        resultText = `🎉 ${winningCombos.triple.description} Bạn thắng **${zigoldEmoji} ${winAmount.toLocaleString()} ZiGold**!`;
+                                        const totalPayout = winAmount;
+                                        const profit = winAmount - bet;
+                                        resultText = `🎉 ${winningCombos.triple.description} Bạn thắng **${zigoldEmoji} ${profit.toLocaleString()} ZiGold** (${multiplier}x)!`;
                                         embedColor = "#00FF00";
                                 } else if (slot1 === slot2 || slot2 === slot3 || slot1 === slot3) {
                                         // Double match - medium win  
                                         winType = "double";
                                         multiplier = winningCombos.double.multiplier;
+                                        // Total payout = bet * multiplier (already deducted bet, so add full payout)
                                         winAmount = bet * multiplier;
-                                        resultText = `🎊 ${winningCombos.double.description} Bạn thắng **${zigoldEmoji} ${winAmount.toLocaleString()} ZiGold**!`;
+                                        const totalPayout = winAmount;
+                                        const profit = winAmount - bet;
+                                        resultText = `🎊 ${winningCombos.double.description} Bạn thắng **${zigoldEmoji} ${profit.toLocaleString()} ZiGold** (${multiplier}x)!`;
                                         embedColor = "#FFA500";
                                 } else {
                                         // No match - lose
