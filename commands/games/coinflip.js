@@ -90,7 +90,7 @@ module.exports.execute = async ({ interaction, lang }) => {
                         embedColor = "#00FF00";
                         coinChange = bet;
                 } else {
-                        resultText = `${resultEmoji} và bạn **thua hết**... 😢`;
+                        resultText = `${resultEmoji} và bạn đã **mất trắng**... 😢`;
                         embedColor = "#FF0000";
                         coinChange = -bet;
                 }
