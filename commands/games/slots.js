@@ -163,6 +163,22 @@ module.exports.execute = async ({ interaction, lang }) => {
                                         newBalance = winResult.coin;
                                 }
 
+                                // Create detailed calculation text
+                                let calculationText = "";
+                                if (winAmount > 0) {
+                                        const profit = winAmount - bet;
+                                        calculationText = 
+                                                `📊 **Cách tính tiền:**\n` +
+                                                `• Tiền cược: -${bet.toLocaleString()} ZiGold\n` +
+                                                `• Payout (${multiplier}x): +${winAmount.toLocaleString()} ZiGold\n` +
+                                                `• Lợi nhuận: +${profit.toLocaleString()} ZiGold\n\n`;
+                                } else {
+                                        calculationText = 
+                                                `📊 **Cách tính tiền:**\n` +
+                                                `• Tiền cược: -${bet.toLocaleString()} ZiGold\n` +
+                                                `• Không có combo nào → Thua toàn bộ\n\n`;
+                                }
+
                                 // Create result embed
                                 const resultEmbed = new EmbedBuilder()
                                         .setTitle(`${spinEmoji} ZiGold Slots - Kết quả`)
@@ -171,7 +187,20 @@ module.exports.execute = async ({ interaction, lang }) => {
                                                 `**${userName}** đã cược **${zigoldEmoji} ${bet.toLocaleString()} ZiGold**\n\n` +
                                                 `${slot1} ${slot2} ${slot3}\n\n` +
                                                 `🎯 ${resultText}\n\n` +
-                                                `💰 Số dư mới: **${newBalance.toLocaleString()} ZiGold**`
+                                                `${calculationText}` +
+                                                `💰 **Số dư mới: ${newBalance.toLocaleString()} ZiGold**`
+                                        )
+                                        .addFields(
+                                                {
+                                                        name: "🎰 Tỷ lệ thắng",
+                                                        value: "🍇🍇🍇 = 5x cược\n🍊🍊🍋 = 2x cược\n🍇🍊🍋 = Thua",
+                                                        inline: true
+                                                },
+                                                {
+                                                        name: "🎮 Thống kê",
+                                                        value: `Cược: ${bet.toLocaleString()}\nKết quả: ${winAmount > 0 ? `+${(winAmount - bet).toLocaleString()}` : `-${bet.toLocaleString()}`}`,
+                                                        inline: true
+                                                }
                                         )
                                         .setThumbnail(interaction.user.displayAvatarURL({ dynamic: true }));
 
