@@ -10,13 +10,33 @@ localPort = 2003
 externalPort = 80
 
 [workflows]
-runButton = "Start Bot"
+runButton = "Project"
 
 [[workflows.workflow]]
-name = "Start Bot"
-author = 47514967
+name = "GH"
 mode = "sequential"
+author = 47514967
 
 [[workflows.workflow.tasks]]
 task = "shell.exec"
-args = "node index.js"
+args = "nodemon index.js "
+
+[[workflows.workflow]]
+name = "Project"
+mode = "parallel"
+author = "agent"
+
+[[workflows.workflow.tasks]]
+task = "workflow.run"
+args = "Discord Bot"
+
+[[workflows.workflow]]
+name = "Discord Bot"
+author = "agent"
+
+[[workflows.workflow.tasks]]
+task = "shell.exec"
+args = "npm run dev"
+
+[workflows.workflow.metadata]
+outputType = "console"
