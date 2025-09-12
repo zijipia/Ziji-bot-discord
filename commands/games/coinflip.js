@@ -2,10 +2,10 @@ const { EmbedBuilder } = require("discord.js");
 const { useFunctions } = require("@zibot/zihooks");
 
 const maxBet = 250000;
-const cowoncy = '💰'; // Using money emoji instead of custom cowoncy
-const spin = '🪙'; // Coin emoji for spinning effect
-const heads = '🔵'; // Blue circle for heads
-const tails = '🔴'; // Red circle for tails
+const zigold = '🪙'; // ZiGold emoji
+const spin = '🔄'; // Spinning emoji for animation
+const heads = '🟦'; // Blue square for heads
+const tails = '🟥'; // Red square for tails
 
 module.exports.data = {
         name: "coinflip",
@@ -59,18 +59,38 @@ module.exports.execute = async ({ interaction, lang }) => {
                 bet = maxBet;
         }
 
-        // Check if user has enough money (simplified - in real implementation you'd check database)
-        // For now, we'll proceed with the game
+        // Check if user has enough ZiGold
+        const { useDB } = require("@zibot/zihooks");
+        const DataBase = useDB();
+        let userBalance = 0;
+        
+        if (DataBase) {
+                const userDB = await DataBase.ZiUser.findOne({ userID: interaction.user.id });
+                userBalance = userDB?.coin || 0;
+        }
+
+        if (userBalance < bet) {
+                const errorEmbed = new EmbedBuilder()
+                        .setTitle("❌ Không đủ ZiGold")
+                        .setColor("#FF0000")
+                        .setDescription(`Bạn không có đủ ZiGold để cược! Bạn có **${userBalance.toLocaleString()} ZiGold** nhưng cần **${bet.toLocaleString()} ZiGold**.`)
+                        .addFields({
+                                name: "💡 Gợi ý",
+                                value: "Sử dụng `/zigold` để kiểm tra số dư hoặc chơi các trò chơi khác để kiếm ZiGold!"
+                        });
+                return await interaction.reply({ embeds: [errorEmbed], ephemeral: true });
+        }
 
         const displayChoice = choice === "heads" ? (words.head ?? "Ngửa") : (words.tail ?? "Sấp");
         
         // Initial embed with spinning animation
         const spinningEmbed = new EmbedBuilder()
-                .setTitle("🪙 Coinflip")
+                .setTitle(`${zigold} ZiGold Coinflip`)
                 .setColor("#FFD700")
                 .setDescription(
-                        `**${interaction.user.displayName}** đã cược **${cowoncy} ${bet.toLocaleString()}** và chọn **${displayChoice}**\n\nĐồng xu đang quay... ${spin}`
-                );
+                        `**${interaction.user.displayName}** đã cược **${zigold} ${bet.toLocaleString()} ZiGold** và chọn **${displayChoice}**\n\n${spin} Đồng xu đang quay...`
+                )
+                .setThumbnail(interaction.user.displayAvatarURL({ dynamic: true }));
 
         const message = await interaction.reply({ embeds: [spinningEmbed] });
 
@@ -86,26 +106,31 @@ module.exports.execute = async ({ interaction, lang }) => {
                 let coinChange = 0;
 
                 if (win) {
-                        resultText = `${resultEmoji} và bạn **thắng ${cowoncy} ${(bet * 2).toLocaleString()}**!!`;
+                        resultText = `${resultEmoji} **${displayResult}** - Bạn thắng **${zigold} ${bet.toLocaleString()} ZiGold**!`;
                         embedColor = "#00FF00";
                         coinChange = bet;
                 } else {
-                        resultText = `${resultEmoji} và bạn đã **mất trắng**... 😢`;
+                        resultText = `${resultEmoji} **${displayResult}** - Bạn thua **${zigold} ${bet.toLocaleString()} ZiGold**... 😢`;
                         embedColor = "#FF0000";
                         coinChange = -bet;
                 }
 
+                // Calculate new balance
+                const newBalance = userBalance + coinChange;
+
                 const finalEmbed = new EmbedBuilder()
-                        .setTitle("🪙 Coinflip")
+                        .setTitle(`${zigold} ZiGold Coinflip - Kết quả`)
                         .setColor(embedColor)
                         .setDescription(
-                                `**${interaction.user.displayName}** đã cược **${cowoncy} ${bet.toLocaleString()}** và chọn **${displayChoice}**\n\n` +
-                                `${words.result ?? "Kết quả"}: ${resultText}`
-                        );
+                                `**${interaction.user.displayName}** đã cược **${zigold} ${bet.toLocaleString()} ZiGold** và chọn **${displayChoice}**\n\n` +
+                                `🎯 ${words.result ?? "Kết quả"}: ${resultText}\n\n` +
+                                `💰 Số dư mới: **${newBalance.toLocaleString()} ZiGold**`
+                        )
+                        .setThumbnail(interaction.user.displayAvatarURL({ dynamic: true }));
 
                 await message.edit({ embeds: [finalEmbed] });
 
-                // Update user's coins
-                await ZiRank.execute({ user: interaction.user, XpADD: 0, CoinADD: coinChange });
+                // Update user's coins and give 1 XP for playing
+                await ZiRank.execute({ user: interaction.user, XpADD: 1, CoinADD: coinChange });
         }, 2000); // 2 second delay for suspense
 };
