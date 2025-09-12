@@ -9,6 +9,7 @@ const ZiUser = Schema({
 	lang: { type: String },
 	volume: { type: Number, default: 100 },
 	color: { type: String, default: "Random" },
+	lastDaily: { type: Date },
 });
 
 const ZiAutoresponder = Schema(
