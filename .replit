@@ -4,3 +4,7 @@ expertMode = true
 
 [nix]
 channel = "stable-25_05"
+
+[[ports]]
+localPort = 2003
+externalPort = 80
