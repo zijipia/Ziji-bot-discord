@@ -8,3 +8,15 @@ channel = "stable-25_05"
 [[ports]]
 localPort = 2003
 externalPort = 80
+
+[workflows]
+runButton = "Start Bot"
+
+[[workflows.workflow]]
+name = "Start Bot"
+author = 47514967
+mode = "sequential"
+
+[[workflows.workflow.tasks]]
+task = "shell.exec"
+args = "node index.js"
